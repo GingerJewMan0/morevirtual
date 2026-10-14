@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function() {
+        // Prevent Vite HMR WebSocket connection errors in sandbox iframe environment
+        var OrigWS = window.WebSocket;
+        if (OrigWS) {
+          window.WebSocket = function(url, protocols) {
+            var urlStr = String(url || '');
+            var isHmr = protocols === 'vite-hmr' || urlStr.indexOf('vite-hmr') !== -1 || urlStr.indexOf('token=') !== -1;
+            if (isHmr) {
+              var listeners = {};
+              var dummyWs = {
+                readyState: 1, // WebSocket.OPEN
+                OPEN: 1,
+                CONNECTING: 0,
+                CLOSING: 2,
+                CLOSED: 3,
+                binaryType: 'blob',
+                bufferedAmount: 0,
+                extensions: '',
+                protocol: 'vite-hmr',
+                url: urlStr,
+                onopen: null,
+                onclose: null,
+                onerror: null,
+                onmessage: null,
+                addEventListener: function(evt, handler) {
+                  if (!listeners[evt]) listeners[evt] = [];
+                  listeners[evt].push(handler);
+                  if (evt === 'open') {
+                    setTimeout(function() {
+                      if (typeof dummyWs.onopen === 'function') dummyWs.onopen({ type: 'open' });
+                      handler({ type: 'open' });
+                    }, 0);
+                  }
+                },
+                removeEventListener: function(evt, handler) {
+                  if (listeners[evt]) {
+                    listeners[evt] = listeners[evt].filter(function(h) { return h !== handler; });
+                  }
+                },
+                dispatchEvent: function() { return true; },
+                send: function() {},
+                close: function() {
+                  dummyWs.readyState = 3;
+                }
+              };
+              return dummyWs;
+            }
+            return new OrigWS(url, protocols);
+          };
+          window.WebSocket.prototype = OrigWS.prototype;
+          window.WebSocket.OPEN = 1;
+          window.WebSocket.CONNECTING = 0;
+          window.WebSocket.CLOSING = 2;
+          window.WebSocket.CLOSED = 3;
+        }
+
+        window.addEventListener('unhandledrejection', function(event) {
+          var reasonStr = String(event.reason || '');
+          if (reasonStr.indexOf('WebSocket') !== -1 || reasonStr.indexOf('vite-hmr') !== -1) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+          }
+        }, true);
+      })();
+    </script>
+    <title>Rabino Virtual - Educador y Guía Rabínico</title>
+    <meta name="description" content="Educador y guía rabínico cálido y pedagógico para responder dudas sobre judaísmo, Torá, halajá y diversidad comunitaria (Sefaradí, Ashkenazí, Maguen David, Monte Sinai, Jabad)." />
+    <meta property="og:title" content="Rabino Virtual - Educador y Guía Rabínico" />
+    <meta property="og:description" content="Educador y guía rabínico cálido y pedagógico para responder dudas sobre judaísmo, Torá, halajá y diversidad comunitaria." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Frank+Ruhl+Libre:wght@400;500;700&family=Heebo:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

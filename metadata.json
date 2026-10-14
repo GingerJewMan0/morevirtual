@@ -1,0 +1,10 @@
+{
+  "name": "Rabino Virtual",
+  "description": "Educador y guía rabínico cálido y pedagógico para responder dudas sobre judaísmo, Torá, halajá y diversidad comunitaria (Sefaradí, Ashkenazí, Maguen David, Monte Sinai, Jabad).",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
