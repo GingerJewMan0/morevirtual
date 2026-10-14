@@ -8,11 +8,20 @@ interface ParashaTabProps {
 }
 
 export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [selectedParashaId, setSelectedParashaId] = useState<string>('noaj');
   const [activeSubTab, setActiveSubTab] = useState<'resumen' | 'aliyot' | 'rashi' | 'chabad' | 'maqam'>('resumen');
 
   const parasha = PARASHOT_DATA.find((p) => p.id === selectedParashaId) || PARASHOT_DATA[0];
+
+  // Obtener el código de idioma actual (ej. 'es', 'en', 'he', 'fr', 'pt')
+  const currentLang = i18n.language?.substring(0, 2) || 'es';
+
+  // Funciones auxiliares para obtener textos multi-idioma de forma segura
+  const getLocalized = (field: any) => {
+    if (!field) return '';
+    return field[currentLang] || field['es'] || '';
+  };
 
   return (
     <div className="max-w-4xl mx-auto py-4 px-3 sm:px-4 space-y-6 animate-fadeIn">
@@ -21,11 +30,11 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
         <div>
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-400 mb-1">
             <Scroll className="w-4 h-4" />
-            <span>Limud Torá Semanal • Sefer {parasha.bookSpanish}</span>
+            <span>Limud Torá Semanal • Sefer {getLocalized(parasha.bookSpanish)}</span>
           </div>
           <div className="flex items-baseline gap-4 mt-1">
             <h2 className="text-3xl sm:text-4xl font-serif font-bold text-amber-200">
-              Parashat {parasha.name}
+              Parashat {getLocalized(parasha.name)}
             </h2>
             <span className="text-3xl sm:text-4xl font-serif font-bold text-amber-400" dir="rtl">
               {parasha.hebrewName}
@@ -48,7 +57,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
           >
             {PARASHOT_DATA.map((p) => (
               <option key={p.id} value={p.id}>
-                {p.name} ({p.hebrewName}) — {p.bookSpanish}
+                {getLocalized(p.name)} ({p.hebrewName}) — {getLocalized(p.bookSpanish)}
               </option>
             ))}
           </select>
@@ -119,10 +128,10 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
           <div className="space-y-5">
             <div>
               <h3 className="text-xl font-serif font-bold text-slate-900 dark:text-white mb-2">
-                {t('summaryOf', 'Resumen de Parashat')} {parasha.name}
+                {t('summaryOf', 'Resumen de Parashat')} {getLocalized(parasha.name)}
               </h3>
               <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
-                {parasha.summary}
+                {getLocalized(parasha.summary)}
               </p>
             </div>
 
@@ -131,7 +140,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
                 {t('halachaCentralPoint', 'Punto Central de Halajá y Vida Judía:')}
               </span>
               <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-medium">
-                {parasha.halachaFocus}
+                {getLocalized(parasha.halachaFocus)}
               </p>
             </div>
           </div>
@@ -161,7 +170,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
                       </span>
                     </div>
                     <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">
-                      {aliya.description}
+                      {getLocalized(aliya.description)}
                     </p>
                   </div>
                 </div>
@@ -180,7 +189,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
             </div>
             <div className="p-5 rounded-2xl bg-amber-50/80 dark:bg-slate-800/80 border border-amber-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm leading-relaxed space-y-3">
               <p className="font-serif italic text-base text-amber-900 dark:text-amber-300">
-                "{parasha.rashiInsight}"
+                "{getLocalized(parasha.rashiInsight)}"
               </p>
             </div>
           </div>
@@ -196,7 +205,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
             </div>
             <div className="p-5 rounded-2xl bg-rose-50/70 dark:bg-slate-800/80 border border-rose-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm leading-relaxed space-y-3">
               <p className="font-serif text-base text-rose-950 dark:text-rose-200">
-                {parasha.chabadInsight}
+                {getLocalized(parasha.chabadInsight)}
               </p>
             </div>
           </div>
@@ -227,13 +236,13 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
           <button
             onClick={() => {
               onAskAboutParasha(
-                `Rabino, me gustaría profundizar en las enseñanzas y halajot principales de Parashat ${parasha.name}.`
+                `Rabino, me gustaría profundizar en las enseñanzas y halajot principales de Parashat ${getLocalized(parasha.name)}.`
               );
             }}
             className="w-full sm:w-auto px-5 py-2.5 rounded-xl font-semibold text-xs sm:text-sm bg-amber-600 hover:bg-amber-700 text-white shadow-sm transition flex items-center justify-center gap-2 cursor-pointer"
           >
             <MessageCircle className="w-4 h-4" />
-            <span>{t('consultRabbiParasha', 'Consultar al Rabino sobre')} {parasha.name}</span>
+            <span>{t('consultRabbiParasha', 'Consultar al Rabino sobre')} {getLocalized(parasha.name)}</span>
           </button>
         </div>
       </div>
