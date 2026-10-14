@@ -18,10 +18,12 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
   const currentLang = i18n.language?.substring(0, 2) || 'es';
 
   // Funciones auxiliares para obtener textos multi-idioma de forma segura
-  const getLocalized = (field: any) => {
-    if (!field) return '';
-    return field[currentLang] || field['es'] || '';
-  };
+  // Función auxiliar robusta para soportar texto plano u objetos multilingües
+const getLocalized = (field: any) => {
+  if (!field) return '';
+  if (typeof field === 'string') return field; // Si el dato es texto plano en parashot.ts, lo devuelve tal cual
+  return field[currentLang] || field['es'] || Object.values(field)[0] || '';
+};
 
   return (
     <div className="max-w-4xl mx-auto py-4 px-3 sm:px-4 space-y-6 animate-fadeIn">
