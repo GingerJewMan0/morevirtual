@@ -240,6 +240,7 @@ app.post('/api/chat', async (req, res) => {
 });
 
 // Text-to-Speech API using gemini-3.8-flash-lite-tts
+// Text-to-Speech API using gemini-3.8-flash-lite-tts
 app.post('/api/tts', async (req, res) => {
   try {
     const { text, voiceName = 'Charon' } = req.body;
@@ -252,15 +253,13 @@ app.post('/api/tts', async (req, res) => {
       return res.status(500).json({ error: 'GEMINI_API_KEY no configurada' });
     }
 
-    // Limpieza de símbolos molestos
+    // Limpieza de símbolos y corte natural optimizado (hasta 350 caracteres)
     const cleanText = text
       .replace(/[#*`_~()-]/g, ' ')
       .replace(/🔴|🟡|🟢|🔹/g, '')
       .replace(/\s+/g, ' ')
       .trim();
 
-    // Tomamos una porción generosa pero segura del inicio (hasta 350 caracteres)
-    // Buscamos el último espacio dentro de ese límite para no cortar palabras a la mitad
     let safeSliceLength = 350;
     if (cleanText.length > safeSliceLength) {
       const lastSpace = cleanText.lastIndexOf(' ', safeSliceLength);
@@ -268,9 +267,7 @@ app.post('/api/tts', async (req, res) => {
     }
 
     const firstChunk = cleanText.slice(0, safeSliceLength);
-
-    // Unimos el párrafo inicial con el mensaje de invitación a leer en pantalla
-    const finalText = firstChunk + "... Te invito a leer el resto de la respuesta en la pantalla.";
+    const finalText = firstChunk + ". Te invito a leer el resto de la respuesta en la pantalla.";
 
     const ttsResponse = await ai.models.generateContent({
       model: 'gemini-3.8-flash-lite-tts',
