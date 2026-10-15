@@ -258,7 +258,7 @@ app.post('/api/tts', async (req, res) => {
       .replace(/🔴|🟡|🟢|🔹/g, '')
       .replace(/\s+/g, ' ')
       .trim()
-      .slice(0, 900);
+      .slice(0, 900) + "... Te invito a leer el resto de la respuesta en la pantalla.";
 
     const ttsResponse = await ai.models.generateContent({
       model: 'gemini-3.8-flash-lite-tts',
