@@ -60,7 +60,7 @@ const TEXT_MODELS = [
   'gemini-flash-latest',
 ];
 
-// Endpoint para traducir/generar el contenido de la Parashá al idioma solicitado con IA
+// Endpoint para traducir/generar el contenido de la Parashá con reintentos y respaldo de modelos
 app.post('/api/translate-parasha', async (req, res) => {
   try {
     const { parasha, targetLanguage: tLang, language, parashaName, reference, originalSummary, aliyot } = req.body;
@@ -102,15 +102,32 @@ app.post('/api/translate-parasha', async (req, res) => {
       ]
     }`;
 
-    const response = await ai.models.generateContent({
-      model: 'gemini-3.8-flash',
-      contents: [{ role: 'user', parts: [{ text: prompt }] }],
-      config: { temperature: 0.3 },
-    });
+    let translatedData = null;
+    let lastError = null;
 
-    const responseText = response.text?.trim() || '';
-    const cleanedJson = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
-    const translatedData = JSON.parse(cleanedJson);
+    // Intentamos con los modelos disponibles en TEXT_MODELS
+    for (const modelName of TEXT_MODELS) {
+      try {
+        const response = await ai.models.generateContent({
+          model: modelName,
+          contents: [{ role: 'user', parts: [{ text: prompt }] }],
+          config: { temperature: 0.3 },
+        });
+
+        const responseText = response.text?.trim() || '';
+        const cleanedJson = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
+        translatedData = JSON.parse(cleanedJson);
+        break; // Si tuvo éxito, salimos del ciclo
+      } catch (err: any) {
+        lastError = err;
+        console.warn(`[Translate] Modelo ${modelName} falló o está ocupado. Probando siguiente...`);
+        await new Promise((resolve) => setTimeout(resolve, 500));
+      }
+    }
+
+    if (!translatedData) {
+      throw lastError || new Error('No se pudo traducir con ningún modelo disponible.');
+    }
 
     res.json({ success: true, data: translatedData });
   } catch (error: any) {
