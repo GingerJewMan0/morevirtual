@@ -251,13 +251,20 @@ app.post('/api/tts', async (req, res) => {
       return res.status(500).json({ error: 'Falta configurar la variable ELEVENLABS_API_KEY en el servidor' });
     }
 
-    // Limpiamos los símbolos y etiquetas para una lectura fluida
+   // Limpieza y corrección fonética para que ElevenLabs lea con acentos y fonética perfecta en español
     const cleanText = text
       .replace(/[#*`_~()-]/g, ' ')
       .replace(/🔴|🟡|🟢|🔹/g, '')
+      // Correcciones fonéticas específicas para partículas y términos en hebreo/español
+      .replace(/\bja\b/gi, 'ja') 
+      .replace(/Halajá/gi, 'Jala-já')
+      .replace(/Halajot/gi, 'Jala-jot')
+      .replace(/Shabat/gi, 'Shabat')
+      .replace(/Mitzvá/gi, 'Mitz-vá')
+      .replace(/Mitzvot/gi, 'Mitz-vot')
       .replace(/\s+/g, ' ')
       .trim()
-      .slice(0, 800); // Límite por bloque para optimizar consumo
+      .slice(0, 800);
 
     // ID de voz masculina profesional en ElevenLabs (ej. Daniel / voces profundas estándar)
     const voiceId = 'onwK4e9ZLuTAKqWW03F9'; 
@@ -273,11 +280,11 @@ app.post('/api/tts', async (req, res) => {
         text: cleanText,
         model_id: 'eleven_multilingual_v2', // Excelente soporte y expresividad en español
         voice_settings: {
-          stability: 0.70,        // Estabilidad alta para un tono solemne y calmado
-          similarity_boost: 0.75, // Fidelidad y claridad de la voz
-          style: 0.15,            // Toque sutil de expresividad humana natural
-          use_speaker_boost: true
-        }
+        stability: 0.75,        // Un punto más de estabilidad para una lectura más solemne y pausada
+        similarity_boost: 0.80, // Mayor fidelidad a la voz profunda
+        style: 0.20,            // Ligeramente más expresivo para marcar bien los acentos
+        use_speaker_boost: true
+      }
       }),
     });
 
