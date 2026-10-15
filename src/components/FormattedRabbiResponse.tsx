@@ -52,8 +52,9 @@ export function FormattedRabbiResponse({
 
   const handleToggleAudio = async () => {
     if (isPlayingAudio) {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
       }
       setIsPlayingAudio(false);
       return;
@@ -61,54 +62,48 @@ export function FormattedRabbiResponse({
 
     setIsLoadingAudio(true);
     try {
-      const response = await fetch('/api/tts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: content }),
-      });
+      // Limpiamos el texto para la locución
+      const cleanText = content
+        .replace(/[#*`_~()-]/g, ' ')
+        .replace(/🔴|🟡|🟢|🔹/g, '')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .slice(0, 500); // Límite seguro para URLs de audio
 
-      const data = await response.json();
-      const textToSpeak = data.spokenText || content;
-
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(textToSpeak);
-        
-        const currentLang = 
-          (typeof window !== 'undefined' && document.documentElement.lang) || 
-          (navigator.language ? navigator.language.substring(0, 2) : 'es');
-
-        const langMap: Record<string, string> = {
-          es: 'es-ES',
-          en: 'en-US',
-          he: 'he-IL',
-          pt: 'pt-BR',
-          fr: 'fr-FR',
-        };
-        const fullLang = langMap[currentLang] || 'es-ES';
-        utterance.lang = fullLang;
-
-        let availableVoices: any[] = window.speechSynthesis.getVoices() || [];
-        
-        // Filtro estricto para buscar cualquier voz que contenga indicadores masculinos o nombres latinos/españoles de hombre
-        const voice =
-          availableVoices.find((v) => v.lang.startsWith(currentLang) && (v.name.toLowerCase().includes('male') || v.name.toLowerCase().includes('man') || v.name.includes('pablo') || v.name.includes('raul') || v.name.includes('alvaro') || v.name.includes('jorge') || v.name.includes('carlos') || v.name.includes('diego') || v.name.includes('mateo'))) ||
-          availableVoices.find((v) => v.name.toLowerCase().includes('male') || v.name.toLowerCase().includes('hombre')) ||
-          availableVoices.find((v) => v.lang.startsWith(currentLang)) ||
-          availableVoices[0];
-
-        if (voice) utterance.voice = voice;
-        utterance.rate = 0.90; // Ritmo muy pausado
-        utterance.pitch = 0.65; // Tono notablemente más grave para transformar cualquier timbre agudo en una voz profunda y ceremoniosa
-
-        utterance.onend = () => setIsPlayingAudio(false);
-        utterance.onerror = () => setIsPlayingAudio(false);
-
-        window.speechSynthesis.speak(utterance);
-        setIsPlayingAudio(true);
+      if (!cleanText) {
+        setIsLoadingAudio(false);
+        return;
       }
+
+      // Detectamos el idioma actual de la interfaz
+      const currentLang = 
+        (typeof window !== 'undefined' && document.documentElement.lang) || 
+        (navigator.language ? navigator.language.substring(0, 2) : 'es');
+
+      // Usamos un servicio web estándar y gratuito de locución compatible con todos los navegadores y Android/iOS
+      const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(
+        cleanText
+      )}&tl=${currentLang}&client=tw-ob`;
+
+      const audio = new Audio(ttsUrl);
+      audioRef.current = audio;
+
+      audio.onended = () => {
+        setIsPlayingAudio(false);
+        audioRef.current = null;
+      };
+
+      audio.onerror = () => {
+        console.error('Error al reproducir audio externo');
+        setIsPlayingAudio(false);
+        audioRef.current = null;
+      };
+
+      await audio.play();
+      setIsPlayingAudio(true);
     } catch (e) {
-      console.error('Error:', e);
+      console.error('Error general de audio:', e);
+      setIsPlayingAudio(false);
     } finally {
       setIsLoadingAudio(false);
     }
