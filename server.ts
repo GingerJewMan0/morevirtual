@@ -252,13 +252,13 @@ app.post('/api/tts', async (req, res) => {
       return res.status(500).json({ error: 'GEMINI_API_KEY no configurada' });
     }
 
-    // Limpieza de símbolos para una lectura fluida
+   // Limpieza de símbolos y corte seguro para evitar que el audio se corte
     const cleanText = text
       .replace(/[#*`_~()-]/g, ' ')
       .replace(/🔴|🟡|🟢|🔹/g, '')
       .replace(/\s+/g, ' ')
       .trim()
-      .slice(0, 900) + "... Te invito a leer el resto de la respuesta en la pantalla.";
+      .slice(0, 450) + "... Te invito a leer el resto de la respuesta en la pantalla.";
 
     const ttsResponse = await ai.models.generateContent({
       model: 'gemini-3.8-flash-lite-tts',
