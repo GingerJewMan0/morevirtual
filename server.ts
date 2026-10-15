@@ -346,7 +346,5 @@ async function setupViteOrStatic() {
 
   app.listen(port, '0.0.0.0', () => {
     console.log(`Rabino Virtual server listening on http://0.0.0.0:${port}`);
-  });
-}
-
-setupViteOrStatic();
+    setupViteOrStatic();
+});
