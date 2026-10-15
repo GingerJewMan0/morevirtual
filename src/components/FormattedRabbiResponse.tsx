@@ -90,17 +90,16 @@ export function FormattedRabbiResponse({
 
         let availableVoices: any[] = window.speechSynthesis.getVoices() || [];
         
-        // Buscamos una voz masculina o con tono natural
+        // Filtro estricto para buscar cualquier voz que contenga indicadores masculinos o nombres latinos/españoles de hombre
         const voice =
-          availableVoices.find((v) => v.lang.startsWith(currentLang) && (v.name.toLowerCase().includes('male') || v.name.includes('Pablo') || v.name.includes('Raul') || v.name.includes('Alvaro') || v.name.includes('Jorge') || v.name.includes('Carlos'))) ||
-          availableVoices.find((v) => v.lang === fullLang && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Microsoft'))) ||
-          availableVoices.find((v) => v.lang === fullLang) ||
+          availableVoices.find((v) => v.lang.startsWith(currentLang) && (v.name.toLowerCase().includes('male') || v.name.toLowerCase().includes('man') || v.name.includes('pablo') || v.name.includes('raul') || v.name.includes('alvaro') || v.name.includes('jorge') || v.name.includes('carlos') || v.name.includes('diego') || v.name.includes('mateo'))) ||
+          availableVoices.find((v) => v.name.toLowerCase().includes('male') || v.name.toLowerCase().includes('hombre')) ||
           availableVoices.find((v) => v.lang.startsWith(currentLang)) ||
           availableVoices[0];
 
         if (voice) utterance.voice = voice;
-        utterance.rate = 0.92; // Ritmo pausado y solemne
-        utterance.pitch = 0.82; // Tono grave y profundo para evitar por completo el timbre agudo robótico
+        utterance.rate = 0.90; // Ritmo muy pausado
+        utterance.pitch = 0.65; // Tono notablemente más grave para transformar cualquier timbre agudo en una voz profunda y ceremoniosa
 
         utterance.onend = () => setIsPlayingAudio(false);
         utterance.onerror = () => setIsPlayingAudio(false);
