@@ -141,10 +141,53 @@ export function App() {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  // Helper para cambiar idioma sincronizando i18n
-  const handleLanguageChange = (langCode: string) => {
+  // Helper para cambiar idioma sincronizando i18n y traduciendo mensajes existentes en caché
+  const handleLanguageChange = async (langCode: string) => {
     setSelectedLanguage(langCode);
     i18n.changeLanguage(langCode);
+
+    // Traducir dinámicamente el historial de mensajes del asistente si ya existen
+    const updatedMessages = await Promise.all(
+      messages.map(async (msg) => {
+        if (msg.role === 'assistant' && !msg.isError) {
+          const translations = msg.translations || { es: msg.content };
+
+          // Si ya tenemos la traducción guardada en caché local, la usamos de inmediato
+          if (translations[langCode]) {
+            return { ...msg, content: translations[langCode] };
+          }
+
+          // Si no la tenemos, la solicitamos al backend
+          try {
+            const res = await fetch('/api/translate-content', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                textToTranslate: translations['es'] || msg.content,
+                targetLanguage: langCode,
+              }),
+            });
+            const data = await res.json();
+            if (data.translatedText) {
+              const newTranslations = {
+                ...translations,
+                [langCode]: data.translatedText,
+              };
+              return {
+                ...msg,
+                content: data.translatedText,
+                translations: newTranslations,
+              };
+            }
+          } catch (e) {
+            console.error('Error al traducir mensaje al cambiar de idioma:', e);
+          }
+        }
+        return msg;
+      })
+    );
+
+    setMessages(updatedMessages);
   };
 
   // Synchronize Dark / Light Theme
@@ -454,6 +497,8 @@ export function App() {
     }
 
     const assistantMessageId = `assistant-${Date.now()}`;
+    const activeLang = i18n.language?.substring(0, 2) || selectedLanguage;
+
     const assistantMessage: ChatMessage = {
       id: assistantMessageId,
       role: 'assistant',
@@ -461,6 +506,7 @@ export function App() {
       timestamp: Date.now(),
       isStreaming: true,
       traditionFocus: selectedTradition,
+      translations: { [activeLang]: '' },
     };
 
     setMessages([...newMessages, assistantMessage]);
@@ -476,7 +522,7 @@ export function App() {
             content: m.content,
           })),
           traditionFocus: 'all',
-          language: i18n.language?.substring(0, 2) || selectedLanguage,
+          language: activeLang,
         }),
       });
 
@@ -509,7 +555,18 @@ export function App() {
                 setMessages((prev) =>
                   prev.map((m) =>
                     m.id === assistantMessageId
-                      ? { ...m, content: accumulatedContent, isStreaming: true, isError: false }
+                      ? {
+                          ...m,
+                          content: accumulatedContent,
+                          translations: {
+                            ...(m.translations || {}),
+                            [activeLang]: accumulatedContent,
+                            // Guardamos también en 'es' como base si el idioma actual es es
+                            ...(activeLang === 'es' ? { es: accumulatedContent } : {}),
+                          },
+                          isStreaming: true,
+                          isError: false,
+                        }
                       : m
                   )
                 );
@@ -527,7 +584,17 @@ export function App() {
 
       setMessages((prev) =>
         prev.map((m) =>
-          m.id === assistantMessageId ? { ...m, isStreaming: false, isError: false } : m
+          m.id === assistantMessageId
+            ? {
+                ...m,
+                isStreaming: false,
+                isError: false,
+                translations: {
+                  ...(m.translations || {}),
+                  [activeLang]: m.content,
+                },
+              }
+            : m
         )
       );
     } catch (err: any) {

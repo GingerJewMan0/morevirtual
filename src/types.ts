@@ -22,6 +22,7 @@ export interface ChatMessage {
   id: string;
   role: Role;
   content: string;
+  translations?: Record<string, string>; // <- Añade esta línea
   timestamp: number;
   traditionFocus?: TraditionId;
   isStreaming?: boolean;
