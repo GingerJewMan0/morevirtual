@@ -94,11 +94,13 @@ app.post('/api/translate-parasha', async (req, res) => {
       model: TEXT_MODELS[0], // 'gemini-flash-lite-latest'
       contents: prompt,
     });
-
     let rawText = response.text || '';
-    // Limpiar bloques de código markdown de forma segura sin comillas invertidas en regex
-    rawText = rawText.split('```json').join('');
-    rawText = rawText.split('```').join('');
+    // Extraer estrictamente el contenido JSON entre la primera llave y la última
+    const firstBrace = rawText.indexOf('{');
+    const lastBrace = rawText.lastIndexOf('}');
+    if (firstBrace !== -1 && lastBrace !== -1) {
+    rawText = rawText.substring(firstBrace, lastBrace + 1);
+    }
     rawText = rawText.trim();
 
     const translatedData = JSON.parse(rawText);
