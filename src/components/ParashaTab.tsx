@@ -37,6 +37,9 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
             reference: parasha.reference,
             targetLanguage: currentLang,
             originalSummary: parasha.summary,
+            halachaFocus: parasha.halachaFocus,
+            rashiInsight: parasha.rashiInsight,
+            chabadInsight: parasha.chabadInsight,
             aliyot: parasha.aliyot
           })
         });

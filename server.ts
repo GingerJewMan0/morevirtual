@@ -64,15 +64,15 @@ app.post('/api/translate-parasha', async (req, res) => {
   try {
     const { parashaName, reference, targetLanguage, originalSummary, aliyot, halachaFocus, rashiInsight, chabadInsight } = req.body;
 
-    const prompt = `Act as an expert Jewish Torah translator and AI assistant. Translate the following Parashah content into the target language: ${targetLanguage}. 
+    const prompt = `Act as an expert Jewish Torah translator and AI assistant. Translate the following Parashah content into the target language code: ${targetLanguage}. 
     Parashah: ${parashaName} (${reference})
-    Original Summary: "${originalSummary}"
+    Original Summary: "${originalSummary || ''}"
     Original Halacha Focus: "${halachaFocus || ''}"
     Original Rashi Insight: "${rashiInsight || ''}"
     Original Chabad Insight: "${chabadInsight || ''}"
-    Original Aliyot: ${JSON.stringify(aliyot)}
+    Original Aliyot: ${JSON.stringify(aliyot || [])}
 
-    You MUST respond strictly with a valid JSON object (no markdown formatting blocks, just the raw JSON) with the following structure:
+    You MUST respond strictly with a valid JSON object (no markdown formatting blocks, just raw JSON) with the following structure, translated to ${targetLanguage}:
     {
       "summary": "Translated summary here",
       "halachaFocus": "Translated central halachic point here",
