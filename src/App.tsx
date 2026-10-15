@@ -674,39 +674,47 @@ export function App() {
     const translateAllSampleQuestions = async () => {
       setIsTranslatingQuestions(true);
       try {
+        console.log(`Iniciando traducción de preguntas sugeridas para el idioma: ${activeLangCode}`);
+        
         const translatedList = await Promise.all(
           spanishQuestions.map(async (q) => {
-            const [catRes, quesRes, highRes] = await Promise.all([
-              fetch('/api/translate-content', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ textToTranslate: q.category, targetLanguage: activeLangCode }),
-              }).then((r) => r.json()),
-              fetch('/api/translate-content', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ textToTranslate: q.question, targetLanguage: activeLangCode }),
-              }).then((r) => r.json()),
-              fetch('/api/translate-content', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ textToTranslate: q.highlight, targetLanguage: activeLangCode }),
-              }).then((r) => r.json()),
-            ]);
+            try {
+              const [catRes, quesRes, highRes] = await Promise.all([
+                fetch('/api/translate-content', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ textToTranslate: q.category, targetLanguage: activeLangCode }),
+                }).then((r) => r.json()),
+                fetch('/api/translate-content', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ textToTranslate: q.question, targetLanguage: activeLangCode }),
+                }).then((r) => r.json()),
+                fetch('/api/translate-content', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ textToTranslate: q.highlight, targetLanguage: activeLangCode }),
+                }).then((r) => r.json()),
+              ]);
 
-            return {
-              ...q,
-              category: cleanTranslatedText(catRes.translatedText, q.category),
-              question: cleanTranslatedText(quesRes.translatedText, q.question),
-              highlight: cleanTranslatedText(highRes.translatedText, q.highlight),
-              language: activeLangCode,
-            };
+              return {
+                ...q,
+                category: cleanTranslatedText(catRes.translatedText, q.category),
+                question: cleanTranslatedText(quesRes.translatedText, q.question),
+                highlight: cleanTranslatedText(highRes.translatedText, q.highlight),
+                language: activeLangCode,
+              };
+            } catch (err) {
+              console.error('FLError traduciendo una pregunta individual:', err);
+              return q; // Devuelve la original si falla una específica
+            }
           })
         );
 
         setTranslatedQuestionsCache((prev) => ({ ...prev, [activeLangCode]: translatedList }));
+        console.log(`Traducción completada para ${activeLangCode}`);
       } catch (e) {
-        console.error('Error al traducir preguntas sugeridas:', e);
+        console.error('Error general al traducir lote de preguntas sugeridas:', e);
       } finally {
         setIsTranslatingQuestions(false);
       }
