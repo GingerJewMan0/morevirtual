@@ -79,15 +79,15 @@ app.post('/api/translate-parasha', async (req, res) => {
       "rashiInsight": "Translated Rashi insight here",
       "chabadInsight": "Translated Chabad insight here",
       "aliyot": [
-        { "number": 1, "description": "Translated description for aliyah 1" },
-        { "number": 2, "description": "Translated description for aliyah 2" },
-        { "number": 3, "description": "Translated description for aliyah 3" },
-        { "number": 4, "description": "Translated description for aliyah 4" },
-        { "number": 5, "description": "Translated description for aliyah 5" },
-        { "number": 6, "description": "Translated description for aliyah 6" },
-        { "number": 7, "description": "Translated description for aliyah 7" }
+        { "number": 1, "title": "Translated title for aliyah 1 (e.g. 1st Aliyah - Kohen)", "description": "Translated description for aliyah 1" },
+        { "number": 2, "title": "Translated title for aliyah 2", "description": "Translated description for aliyah 2" },
+        { "number": 3, "title": "Translated title for aliyah 3", "description": "Translated description for aliyah 3" },
+        { "number": 4, "title": "Translated title for aliyah 4", "description": "Translated description for aliyah 4" },
+        { "number": 5, "title": "Translated title for aliyah 5", "description": "Translated description for aliyah 5" },
+        { "number": 6, "title": "Translated title for aliyah 6", "description": "Translated description for aliyah 6" },
+        { "number": 7, "title": "Translated title for aliyah 7", "description": "Translated description for aliyah 7" }
       ]
-    }`;
+    }
 
     // Llamada al modelo Gemini usando el modelo prioritario correcto
     const response = await ai.models.generateContent({

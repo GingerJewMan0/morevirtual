@@ -211,7 +211,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
                         <h4 className="text-sm font-bold text-slate-900 dark:text-white">
-                          {aliya.number}ª Aliyá ({aliya.number === 1 ? 'Kohén' : aliya.number === 2 ? 'Leví' : 'Israel'})
+                        {targetAliya?.title || `${aliya.number}ª Aliyá (${aliya.number === 1 ? 'Kohén' : aliya.number === 2 ? 'Leví' : 'Israel'})`}
                         </h4>
                         <span className="text-xs font-mono text-amber-700 dark:text-amber-400 font-semibold">
                           {aliya.reference}
