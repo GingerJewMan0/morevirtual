@@ -209,11 +209,10 @@ if (traditionFocus && traditionFocus !== 'all') {
     if (!res.headersSent) {
       res.status(500).json({ error: friendlyError });
     } else {
-      res.write(`data: ${JSON.stringify({ error: friendlyError })}\n\n`);
-      res.end();
-    }
-  }
-});
+    const fallbackPayload = "data: " + JSON.stringify({ error: friendlyError }) + "\n\n";
+    res.write(fallbackPayload);
+    res.end();
+}
 
 // Text-to-Speech API using gemini-3.8-flash-lite-tts
 app.post('/api/tts', async (req, res) => {
