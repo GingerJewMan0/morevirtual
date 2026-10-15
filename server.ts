@@ -243,13 +243,8 @@ app.post('/api/chat', async (req, res) => {
 app.post('/api/tts', async (req, res) => {
   try {
     const { text } = req.body;
-
     if (!text) {
-      return res.status(400).json({ error: 'Texto requerido para audio' });
-    }
-
-    if (!process.env.GEMINI_API_KEY) {
-      return res.status(500).json({ error: 'GEMINI_API_KEY no configurada' });
+      return res.status(400).json({ error: 'Texto requerido' });
     }
 
     // Limpiamos los símbolos para lectura fluida
@@ -258,24 +253,13 @@ app.post('/api/tts', async (req, res) => {
       .replace(/🔴|🟡|🟢|🔹/g, '')
       .replace(/\s+/g, ' ')
       .trim()
-      .slice(0, 600);
+      .slice(0, 800);
 
-    // Usamos el modelo de chat estándar que no agota la cuota estricta de TTS
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
-      contents: `Lee el siguiente texto de forma clara, cálida y natural en voz alta, sin agregar comentarios adicionales: "${cleanText}"`,
-    });
-
-    const spokenText = response.text || cleanText;
-
-    // Como el modelo estándar nos devuelve texto procesado y limpio, 
-    // lo enviamos de vuelta para que el frontend lo reproduzca con la voz natural optimizada del navegador 
-    // (o si prefieres usar el sintetizador inteligente del cliente sin agotar cuotas de servidor).
-    res.json({ spokenText, useBrowserTTS: true });
-
+    // Devolvemos el texto limpio directamente sin consumir cuota de Gemini
+    res.json({ spokenText: cleanText });
   } catch (error: any) {
-    console.error('Error detallado en /api/tts:', error);
-    res.status(500).json({ error: error.message || 'Error al generar síntesis de voz' });
+    console.error('Error en /api/tts:', error);
+    res.status(500).json({ error: error.message });
   }
 });
 

@@ -64,57 +64,52 @@ export function FormattedRabbiResponse({
       const response = await fetch('/api/tts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          text: content.slice(0, 800),
-        }),
+        body: JSON.stringify({ text: content }),
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        // Usamos el texto procesado por la IA del servidor con la síntesis optimizada del cliente
-        const textToSpeak = data.spokenText || content;
+      const data = await response.json();
+      const textToSpeak = data.spokenText || content;
+
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(textToSpeak);
         
-        if ('speechSynthesis' in window) {
-          window.speechSynthesis.cancel();
-          const utterance = new SpeechSynthesisUtterance(textToSpeak);
-          
-          const currentLang = 
-            (typeof window !== 'undefined' && document.documentElement.lang) || 
-            (navigator.language ? navigator.language.substring(0, 2) : 'es');
+        const currentLang = 
+          (typeof window !== 'undefined' && document.documentElement.lang) || 
+          (navigator.language ? navigator.language.substring(0, 2) : 'es');
 
-          const langMap: Record<string, string> = {
-            es: 'es-ES',
-            en: 'en-US',
-            he: 'he-IL',
-            pt: 'pt-BR',
-            fr: 'fr-FR',
-          };
-          const fullLang = langMap[currentLang] || 'es-ES';
-          utterance.lang = fullLang;
+        const langMap: Record<string, string> = {
+          es: 'es-ES',
+          en: 'en-US',
+          he: 'he-IL',
+          pt: 'pt-BR',
+          fr: 'fr-FR',
+        };
+        const fullLang = langMap[currentLang] || 'es-ES';
+        utterance.lang = fullLang;
 
-          let availableVoices: any[] = window.speechSynthesis.getVoices() || [];
-          const voice =
-            availableVoices.find((v) => v.lang === fullLang && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Microsoft'))) ||
-            availableVoices.find((v) => v.lang === fullLang) ||
-            availableVoices.find((v) => v.lang.startsWith(currentLang)) ||
-            availableVoices[0];
+        let availableVoices: any[] = window.speechSynthesis.getVoices() || [];
+        
+        // Buscamos una voz masculina o con tono natural
+        const voice =
+          availableVoices.find((v) => v.lang.startsWith(currentLang) && (v.name.toLowerCase().includes('male') || v.name.includes('Pablo') || v.name.includes('Raul') || v.name.includes('Alvaro') || v.name.includes('Jorge') || v.name.includes('Carlos'))) ||
+          availableVoices.find((v) => v.lang === fullLang && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Microsoft'))) ||
+          availableVoices.find((v) => v.lang === fullLang) ||
+          availableVoices.find((v) => v.lang.startsWith(currentLang)) ||
+          availableVoices[0];
 
-          if (voice) utterance.voice = voice;
-          utterance.rate = 0.94; // Ritmo pausado y agradable
+        if (voice) utterance.voice = voice;
+        utterance.rate = 0.92; // Ritmo pausado y solemne
+        utterance.pitch = 0.82; // Tono grave y profundo para evitar por completo el timbre agudo robótico
 
-          utterance.onend = () => setIsPlayingAudio(false);
-          utterance.onerror = () => setIsPlayingAudio(false);
+        utterance.onend = () => setIsPlayingAudio(false);
+        utterance.onerror = () => setIsPlayingAudio(false);
 
-          window.speechSynthesis.speak(utterance);
-          setIsPlayingAudio(true);
-          setIsLoadingAudio(false);
-          return;
-        }
+        window.speechSynthesis.speak(utterance);
+        setIsPlayingAudio(true);
       }
-      fallbackSpeechSynthesis();
     } catch (e) {
       console.error('Error:', e);
-      fallbackSpeechSynthesis();
     } finally {
       setIsLoadingAudio(false);
     }
