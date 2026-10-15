@@ -289,8 +289,11 @@ app.post('/api/tts', async (req, res) => {
 
     res.json({ audioBase64: base64Audio });
   } catch (error: any) {
-    console.error('Error in /api/tts:', error);
-    res.status(500).json({ error: error.message || 'Error al generar síntesis de voz' });
+    console.error('Error detallado en /api/tts:', error);
+    res.status(500).json({ 
+      error: error.message || 'Error al generar síntesis de voz',
+      details: error.toString() 
+    });
   }
 });
 
