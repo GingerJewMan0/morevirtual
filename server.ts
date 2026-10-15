@@ -253,17 +253,12 @@ app.post('/api/tts', async (req, res) => {
       .trim()
       .slice(0, 500);
 
-    // Usamos StreamElements con encabezados simulados de navegador para evitar el bloqueo del servidor
-    const ttsUrl = `https://api.streamelements.com/kappa/v2/speech?voice=Brian&text=${encodeURIComponent(cleanText)}`;
+    // Usamos el servicio de respaldo público libre de restricciones para desarrollo
+    const ttsUrl = `https://dict.youdao.com/speech?audio=${encodeURIComponent(cleanText)}`;
     
-    const ttsRes = await fetch(ttsUrl, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-      }
-    });
-
+    const ttsRes = await fetch(ttsUrl);
     if (!ttsRes.ok) {
-      throw new Error(`Error en StreamElements: ${ttsRes.statusText}`);
+      throw new Error('Error al conectar con el servicio de voz alternativo');
     }
 
     const arrayBuffer = await ttsRes.arrayBuffer();
