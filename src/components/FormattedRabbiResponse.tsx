@@ -70,7 +70,7 @@ export function FormattedRabbiResponse({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           text: content.slice(0, 800),
-          voiceName: 'Puck',
+          voiceName: 'Fenrir',
         }),
       });
 
