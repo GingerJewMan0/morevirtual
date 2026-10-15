@@ -252,11 +252,13 @@ app.post('/api/tts', async (req, res) => {
       return res.status(500).json({ error: 'GEMINI_API_KEY no configurada' });
     }
 
-    // Clean text: strip markdown symbols for clearer speech
+    // Limpiamos caracteres especiales y limitamos a un tramo óptimo para evitar cortes de audio
     const cleanText = text
-      .replace(/[#*`_~]/g, '')
+      .replace(/[#*`_~()-]/g, ' ')
       .replace(/🔴|🟡|🟢|🔹/g, '')
-      .slice(0, 10000); // Limit length for prompt efficiency
+      .replace(/\s+/g, ' ')
+      .trim()
+      .slice(0, 900); // Límite seguro para que la síntesis de voz no se corte
 
     const ttsResponse = await ai.models.generateContent({
       model: 'gemini-3.8-flash-lite-tts',
@@ -267,7 +269,7 @@ app.post('/api/tts', async (req, res) => {
             {
               text: cleanText,
               speechMetadata: {
-                style: 'Warm, wise, pedagogical rabbinic guide and educator',
+                style: 'Warm, wise, pedagogical rabbinic guide and educator speaking clearly in Spanish',
               },
             },
           ],
