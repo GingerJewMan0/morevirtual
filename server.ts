@@ -158,19 +158,17 @@ app.post('/api/chat', async (req, res) => {
 
     // 2. Partimos de tu SYSTEM_PROMPT base
     let dynamicSystemInstruction = SYSTEM_PROMPT;
-
-    // 3. Añadimos de forma dinámica la regla estricta de idioma según el botón seleccionado en el frontend
     if (language === 'he') {
-      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: Translate and respond ENTIRELY in Hebrew. Ignore any previous language patterns in the conversation history and start fresh in Hebrew.`;
-    } else if (language === 'en') {
-      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: Translate and respond ENTIRELY in English. Ignore any previous language patterns in the conversation history and start fresh in English.`;
-    } else if (language === 'fr') {
-      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: Translate and respond ENTIRELY in French. Ignore any previous language patterns in the conversation history and start fresh in French.`;
-    } else if (language === 'pt') {
-      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: Translate and respond ENTIRELY in Portuguese. Ignore any previous language patterns in the conversation history and start fresh in Portuguese.`;
-    } else {
-      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: Translate and respond ENTIRELY in Spanish. Ignore any previous language patterns in the conversation history and start fresh in Spanish.`;
-    }
+    dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: You MUST respond ENTIRELY in Hebrew (עברית). Do not write any explanations or sentences in Spanish or English. Translate all content to Hebrew.`;
+  } else if (language === 'fr') {
+    dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: You MUST respond ENTIRELY in French (Français). Translate all content to French.`;
+  } else if (language === 'en') {
+    dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: You MUST respond ENTIRELY in English. Translate all content to English.`;
+  } else if (language === 'pt') {
+    dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: You MUST respond ENTIRELY in Portuguese (Português). Translate all content to Portuguese.`;
+  } else {
+    dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: You MUST respond ENTIRELY in Spanish (Español). Translate all content to Spanish.`;
+  }
 
     // 4. Mantenemos tu lógica de enfoque tradicional si existe
     if (traditionFocus && traditionFocus !== 'all') {

@@ -523,7 +523,7 @@ export function App() {
             content: m.content,
           })),
           traditionFocus: 'all',
-          language: activeLang,
+          language: activeLang, // <--- Usa directamente la variable activeLang que ya existe arriba
         }),
       });
 
