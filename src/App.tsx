@@ -656,6 +656,20 @@ export function App() {
     if (activeLangCode === 'es') return;
     if (translatedQuestionsCache[activeLangCode]) return;
 
+    const cleanTranslatedText = (rawText: string, fallback: string): string => {
+      if (!rawText) return fallback;
+      let cleaned = rawText
+        .replace(/^(Como erudito|Como experto|Aquí tienes|La traducción|Traducción).*?[:：]\s*/i, '')
+        .replace(/["«»]/g, '')
+        .trim();
+      
+      if (cleaned.length > fallback.length * 3 && cleaned.includes('?')) {
+        const match = cleaned.match(/([^.?!]*\?)/);
+        if (match) cleaned = match[1].trim();
+      }
+      return cleaned || fallback;
+    };
+
     const translateAllSampleQuestions = async () => {
       try {
         const translatedList = await Promise.all(
@@ -680,9 +694,9 @@ export function App() {
 
             return {
               ...q,
-              category: catRes.translatedText || q.category,
-              question: quesRes.translatedText || q.question,
-              highlight: highRes.translatedText || q.highlight,
+              category: cleanTranslatedText(catRes.translatedText, q.category),
+              question: cleanTranslatedText(quesRes.translatedText, q.question),
+              highlight: cleanTranslatedText(highRes.translatedText, q.highlight),
               language: activeLangCode,
             };
           })
