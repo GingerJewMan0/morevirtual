@@ -252,11 +252,16 @@ app.post('/api/tts', async (req, res) => {
     }
 
    // Limpieza y corrección fonética para que ElevenLabs lea con acentos y fonética perfecta en español
+    // Limpieza y corrección fonética para que ElevenLabs lea con acentos y fonética perfecta en español
     const cleanText = text
       .replace(/[#*`_~()-]/g, ' ')
       .replace(/🔴|🟡|🟢|🔹/g, '')
-      // Correcciones fonéticas específicas para partículas y términos en hebreo/español
+      // Correcciones fonéticas específicas para términos hebreos y partículas
       .replace(/\bja\b/gi, 'ja') 
+      .replace(/jametz/gi, 'jaméts')  // Forzamos la tilde y fonética fuerte
+      .replace(/Jametz/gi, 'Jaméts')
+      .replace(/pesaj/gi, 'pésaj')
+      .replace(/Pesaj/gi, 'Pésaj')
       .replace(/Halajá/gi, 'Jala-já')
       .replace(/Halajot/gi, 'Jala-jot')
       .replace(/Shabat/gi, 'Shabat')
