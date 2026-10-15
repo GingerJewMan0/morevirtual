@@ -259,16 +259,18 @@ app.post('/api/tts', async (req, res) => {
       .replace(/\s+/g, ' ')
       .trim();
 
-    // Aislamos el primer párrafo u oración completa hasta el primer punto
-    const firstPeriodIndex = cleanText.indexOf('.');
-    let firstParagraph = firstPeriodIndex !== -1 ? cleanText.substring(0, firstPeriodIndex + 1) : cleanText;
-    
-    if (firstParagraph.length > 300) {
-      firstParagraph = firstParagraph.slice(0, 300) + ".";
+    // Tomamos una porción generosa pero segura del inicio (hasta 350 caracteres)
+    // Buscamos el último espacio dentro de ese límite para no cortar palabras a la mitad
+    let safeSliceLength = 350;
+    if (cleanText.length > safeSliceLength) {
+      const lastSpace = cleanText.lastIndexOf(' ', safeSliceLength);
+      safeSliceLength = lastSpace !== -1 ? lastSpace : safeSliceLength;
     }
 
-    // Unimos el primer párrafo con el mensaje de invitación a leer en pantalla
-    const finalText = firstParagraph + " Te invito a leer el resto de la respuesta en la pantalla.";
+    const firstChunk = cleanText.slice(0, safeSliceLength);
+
+    // Unimos el párrafo inicial con el mensaje de invitación a leer en pantalla
+    const finalText = firstChunk + "... Te invito a leer el resto de la respuesta en la pantalla.";
 
     const ttsResponse = await ai.models.generateContent({
       model: 'gemini-3.8-flash-lite-tts',
