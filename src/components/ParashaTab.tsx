@@ -41,7 +41,8 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
           })
         });
         const json = await res.json();
-        if (json.success) {
+        console.log("Respuesta de traducción de Parashá:", json);
+        if (json.success && json.data) {
           setTranslatedContent(json.data);
         }
       } catch (e) {
@@ -190,10 +191,11 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
             </h3>
             <div className="space-y-3">
               {parasha.aliyot.map((aliya, index) => {
-                const translatedAliyaItem = translatedContent?.aliyot?.[index];
-                const translatedDesc = typeof translatedAliyaItem === 'string'
-                  ? translatedAliyaItem
-                  : translatedAliyaItem?.description;
+                // Buscamos la descripción traducida de forma flexible
+                const targetAliya = translatedContent?.aliyot?.[index];
+                const translatedDesc = typeof targetAliya === 'string' 
+                  ? targetAliya 
+                  : (targetAliya?.description || targetAliya?.text);
 
                 return (
                   <div
@@ -213,7 +215,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
                         </span>
                       </div>
                       <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">
-                        {isTranslating ? '✨ Traduciendo...' : (translatedDesc || aliya.description)}
+                        {isTranslating ? '✨ Traduciendo Aliyot...' : (translatedDesc || aliya.description)}
                       </p>
                     </div>
                   </div>
