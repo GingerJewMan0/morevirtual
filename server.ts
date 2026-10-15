@@ -129,7 +129,10 @@ app.post('/api/chat', async (req, res) => {
 
     let dynamicSystemInstruction = SYSTEM_PROMPT;
     if (traditionFocus && traditionFocus !== 'all') {
-      dynamicSystemInstruction += `\n\nEl usuario tiene un interés especial en la tradición: "${traditionFocus}". Asegúrate de dar detalle prioritario y profundo a las usanzas de esta tradición, sin dejar de compararla con las demás 4 tradiciones según la Regla 2.`;
+      if (traditionFocus && traditionFocus !== 'all') {
+    if (traditionFocus && traditionFocus !== 'all') {
+    dynamicSystemInstruction += `\n\nEl usuario tiene un interés especial en la tradición: \"${traditionFocus}\". Asegúrate de dar detalle prioritario y profundo a las usanzas de esta tradición, sin dejar de compararla con las demás 4 tradiciones según la Regla 2.`;
+}
     }
 
     // Format chat history for Gemini
