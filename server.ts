@@ -143,7 +143,8 @@ app.post('/api/translate-parasha', async (req, res) => {
 // Streaming Chat API with automatic model fallback
 app.post('/api/chat', async (req, res) => {
   try {
-    const { messages, traditionFocus } = req.body;
+    // 1. Extraemos 'language' junto con lo que ya tenías
+    const { messages, traditionFocus, language } = req.body;
 
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
       return res.status(400).json({ error: 'Mensajes requeridos' });
@@ -155,9 +156,25 @@ app.post('/api/chat', async (req, res) => {
       });
     }
 
+    // 2. Partimos de tu SYSTEM_PROMPT base
     let dynamicSystemInstruction = SYSTEM_PROMPT;
+
+    // 3. Añadimos de forma dinámica la regla estricta de idioma según el botón seleccionado en el frontend
+    if (language === 'he') {
+      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: You MUST respond strictly in Hebrew. Do not write in any other language.`;
+    } else if (language === 'en') {
+      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: You MUST respond strictly in English.`;
+    } else if (language === 'fr') {
+      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: You MUST respond strictly in French (Français).`;
+    } else if (language === 'pt') {
+      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: You MUST respond strictly in Portuguese (Português do Brasil).`;
+    } else {
+      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: You MUST respond strictly in Spanish (Español).`;
+    }
+
+    // 4. Mantenemos tu lógica de enfoque tradicional si existe
     if (traditionFocus && traditionFocus !== 'all') {
-      dynamicSystemInstruction += `\n\nEl usuario tiene un interés especial en la tradición: "${traditionFocus}". Asegúrate de dar detalle prioritario y profundo a las usanzas de esta tradición, sin dejar de compararla con las demás 4 tradiciones según la Regla 2.`;
+      dynamicSystemInstruction += `\n\nEl usuario tiene un interés especial en la tradición: "${traditionFocus}". Asegúrate de dar detalle prioritario y profundo a las usanzas de esta comunidad.`;
     }
 
     // Format chat history for Gemini
@@ -177,10 +194,12 @@ app.post('/api/chat', async (req, res) => {
           model: modelName,
           contents,
           config: {
-            systemInstruction: dynamicSystemInstruction,
+            systemInstruction: dynamicSystemInstruction, // Aquí se pasa la instrucción completa con el idioma forzado
             temperature: 0.7,
           },
         });
+        
+        // ... (el resto de tu lógica de streaming existente sigue igual abajo)
 
         // If we haven't sent SSE headers yet, send them now
         if (!res.headersSent) {
