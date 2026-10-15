@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Scroll, Music, MessageCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { PARASHOT_DATA } from '../data/parashot.ts';
@@ -14,16 +14,50 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
 
   const parasha = PARASHOT_DATA.find((p) => p.id === selectedParashaId) || PARASHOT_DATA[0];
 
-  // Obtener el código de idioma actual (ej. 'es', 'en', 'he', 'fr', 'pt')
   const currentLang = i18n.language?.substring(0, 2) || 'es';
 
-  // Funciones auxiliares para obtener textos multi-idioma de forma segura
-  // Función auxiliar robusta para soportar texto plano u objetos multilingües
-const getLocalized = (field: any) => {
-  if (!field) return '';
-  if (typeof field === 'string') return field; // Si el dato es texto plano en parashot.ts, lo devuelve tal cual
-  return field[currentLang] || field['es'] || Object.values(field)[0] || '';
-};
+  // Estados para la traducción dinámica con IA
+  const [translatedContent, setTranslatedContent] = useState<any>(null);
+  const [isTranslating, setIsTranslating] = useState(false);
+
+  useEffect(() => {
+    async function fetchParashaTranslation() {
+      if (currentLang === 'es') {
+        setTranslatedContent(null);
+        return;
+      }
+
+      setIsTranslating(true);
+      try {
+        const res = await fetch('/api/translate-parasha', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            parashaName: parasha.name,
+            reference: parasha.reference,
+            targetLanguage: currentLang,
+            originalSummary: parasha.summary
+          })
+        });
+        const json = await res.json();
+        if (json.success) {
+          setTranslatedContent(json.data);
+        }
+      } catch (e) {
+        console.error('Error traduciendo parashá con IA:', e);
+      } finally {
+        setIsTranslating(false);
+      }
+    }
+
+    fetchParashaTranslation();
+  }, [currentLang, selectedParashaId]);
+
+  const getLocalized = (field: any) => {
+    if (!field) return '';
+    if (typeof field === 'string') return field;
+    return field[currentLang] || field['es'] || Object.values(field)[0] || '';
+  };
 
   return (
     <div className="max-w-4xl mx-auto py-4 px-3 sm:px-4 space-y-6 animate-fadeIn">
@@ -133,7 +167,7 @@ const getLocalized = (field: any) => {
                 {t('summaryOf', 'Resumen de Parashat')} {getLocalized(parasha.name)}
               </h3>
               <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
-                {getLocalized(parasha.summary)}
+                {isTranslating ? '✨ Traduciendo contenido con IA...' : (translatedContent?.summary || parasha.summary)}
               </p>
             </div>
 
@@ -142,7 +176,7 @@ const getLocalized = (field: any) => {
                 {t('halachaCentralPoint', 'Punto Central de Halajá y Vida Judía:')}
               </span>
               <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-medium">
-                {getLocalized(parasha.halachaFocus)}
+                {isTranslating ? '...' : (translatedContent?.halachaFocus || parasha.halachaFocus)}
               </p>
             </div>
           </div>
@@ -191,7 +225,7 @@ const getLocalized = (field: any) => {
             </div>
             <div className="p-5 rounded-2xl bg-amber-50/80 dark:bg-slate-800/80 border border-amber-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm leading-relaxed space-y-3">
               <p className="font-serif italic text-base text-amber-900 dark:text-amber-300">
-                "{getLocalized(parasha.rashiInsight)}"
+                "{isTranslating ? '✨ Traduciendo...' : (translatedContent?.rashiInsight || parasha.rashiInsight)}"
               </p>
             </div>
           </div>
@@ -207,7 +241,7 @@ const getLocalized = (field: any) => {
             </div>
             <div className="p-5 rounded-2xl bg-rose-50/70 dark:bg-slate-800/80 border border-rose-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm leading-relaxed space-y-3">
               <p className="font-serif text-base text-rose-950 dark:text-rose-200">
-                {getLocalized(parasha.chabadInsight)}
+                {isTranslating ? '✨ Traduciendo...' : (translatedContent?.chabadInsight || parasha.chabadInsight)}
               </p>
             </div>
           </div>

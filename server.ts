@@ -60,6 +60,62 @@ const TEXT_MODELS = [
   'gemini-flash-latest',
 ];
 
+// Endpoint para traducir/generar el contenido de la Parashá al idioma solicitado con IA
+app.post('/api/translate-parasha', async (req, res) => {
+  try {
+    const { parashaName, reference, targetLanguage, originalSummary } = req.body;
+
+    if (!targetLanguage || targetLanguage === 'es') {
+      return res.json({ success: true, data: null });
+    }
+
+    const prompt = `Actúa como un erudito rabínico y experto en traducción multilingüe para una app de Torá. 
+    Traduce y adapta profesionalmente el siguiente contenido de la Parashá "${parashaName}" (${reference}) al idioma objetivo "${targetLanguage}" (puede ser en para inglés, he para hebreo, fr para francés o pt para portugués).
+    
+    Contenido original en español a traducir/adaptar:
+    "${originalSummary}"
+
+    Devuelve la respuesta estrictamente en formato JSON válido, sin bloques de código markdown adicionales, con la siguiente estructura exacta:
+    {
+      "summary": "...",
+      "halachaFocus": "...",
+      "rashiInsight": "...",
+      "chabadInsight": "..."
+    }`;
+
+    let translatedData = null;
+
+    // Usamos el mismo mecanismo robusto de modelos de tu servidor
+    for (const modelName of TEXT_MODELS) {
+      try {
+        const response = await ai.models.generateContent({
+          model: modelName,
+          contents: [{ role: 'user', parts: [{ text: prompt }] }],
+          config: {
+            temperature: 0.3,
+          },
+        });
+
+        const responseText = response.text?.trim() || '';
+        const cleanedJson = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
+        translatedData = JSON.parse(cleanedJson);
+        if (translatedData) break;
+      } catch (err) {
+        console.warn(`[Translate Parasha] Falló modelo ${modelName}, intentando siguiente...`);
+      }
+    }
+
+    if (!translatedData) {
+      return res.status(500).json({ success: false, error: 'No se pudo generar la traducción.' });
+    }
+
+    res.json({ success: true, data: translatedData });
+  } catch (error: any) {
+    console.error('Error en /api/translate-parasha:', error);
+    res.status(500).json({ success: false, error: error.message || 'Error al traducir parashá' });
+  }
+});
+
 // Streaming Chat API with automatic model fallback
 app.post('/api/chat', async (req, res) => {
   try {
