@@ -252,23 +252,21 @@ app.post('/api/tts', async (req, res) => {
       return res.status(500).json({ error: 'GEMINI_API_KEY no configurada' });
     }
 
-    // Limpieza de símbolos molestos
+    // Limpieza suave de símbolos para permitir una entonación orgánica
     const cleanText = text
       .replace(/[#*`_~()-]/g, ' ')
       .replace(/🔴|🟡|🟢|🔹/g, '')
       .replace(/\s+/g, ' ')
       .trim();
 
-    // Buscamos el primer punto seguido de un espacio o el final de la primera oración/párrafo completo
+    // Detección natural del primer párrafo completo
     let firstParagraph = '';
     const firstPeriod = cleanText.indexOf('.');
     
-    if (firstPeriod !== -1 && firstPeriod < 450) {
-      // Si hay un punto dentro de un rango razonable, cortamos exactamente ahí para respetar el párrafo completo
+    if (firstPeriod !== -1 && firstPeriod < 400) {
       firstParagraph = cleanText.substring(0, firstPeriod + 1);
     } else {
-      // Si no hay punto cercano, buscamos el espacio más cercano para no cortar a la mitad
-      let safeLength = 350;
+      let safeLength = 300;
       if (cleanText.length > safeLength) {
         const lastSpace = cleanText.lastIndexOf(' ', safeLength);
         safeLength = lastSpace !== -1 ? lastSpace : safeLength;
@@ -294,7 +292,9 @@ app.post('/api/tts', async (req, res) => {
         responseModalities: ['AUDIO'],
         speechConfig: {
           voiceConfig: {
-            prebuiltVoiceConfig: { voiceName: voiceName || 'Charon' },
+            prebuiltVoiceConfig: { 
+              voiceName: voiceName || 'Charon' 
+            },
           },
         },
       },
