@@ -252,21 +252,31 @@ app.post('/api/tts', async (req, res) => {
       return res.status(500).json({ error: 'GEMINI_API_KEY no configurada' });
     }
 
-    // Limpieza de símbolos y corte natural optimizado (hasta 350 caracteres)
+    // Limpieza de símbolos molestos
     const cleanText = text
       .replace(/[#*`_~()-]/g, ' ')
       .replace(/🔴|🟡|🟢|🔹/g, '')
       .replace(/\s+/g, ' ')
       .trim();
 
-    let safeSliceLength = 350;
-    if (cleanText.length > safeSliceLength) {
-      const lastSpace = cleanText.lastIndexOf(' ', safeSliceLength);
-      safeSliceLength = lastSpace !== -1 ? lastSpace : safeSliceLength;
+    // Buscamos el primer punto seguido de un espacio o el final de la primera oración/párrafo completo
+    let firstParagraph = '';
+    const firstPeriod = cleanText.indexOf('.');
+    
+    if (firstPeriod !== -1 && firstPeriod < 450) {
+      // Si hay un punto dentro de un rango razonable, cortamos exactamente ahí para respetar el párrafo completo
+      firstParagraph = cleanText.substring(0, firstPeriod + 1);
+    } else {
+      // Si no hay punto cercano, buscamos el espacio más cercano para no cortar a la mitad
+      let safeLength = 350;
+      if (cleanText.length > safeLength) {
+        const lastSpace = cleanText.lastIndexOf(' ', safeLength);
+        safeLength = lastSpace !== -1 ? lastSpace : safeLength;
+      }
+      firstParagraph = cleanText.slice(0, safeLength) + ".";
     }
 
-    const firstChunk = cleanText.slice(0, safeSliceLength);
-    const finalText = firstChunk + ". Te invito a leer el resto de la respuesta en la pantalla.";
+    const finalText = firstParagraph + " Te invito a leer el resto de la respuesta en la pantalla.";
 
     const ttsResponse = await ai.models.generateContent({
       model: 'gemini-3.8-flash-lite-tts',
