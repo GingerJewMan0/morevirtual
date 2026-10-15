@@ -38,9 +38,6 @@ export function FormattedRabbiResponse({
         audioRef.current.pause();
         audioRef.current = null;
       }
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
     };
   }, []);
 
@@ -51,105 +48,65 @@ export function FormattedRabbiResponse({
   };
 
   const handleToggleAudio = async () => {
-    if (isPlayingAudio) {
+    // Si ya hay un audio sonando, lo pausamos y detenemos de verdad
+    if (isPlayingAudio || audioRef.current) {
       if (audioRef.current) {
         audioRef.current.pause();
+        audioRef.current.currentTime = 0;
         audioRef.current = null;
       }
       setIsPlayingAudio(false);
+      setIsLoadingAudio(false);
       return;
     }
 
     setIsLoadingAudio(true);
     try {
-      const cleanText = content
-        .replace(/[#*`_~()-]/g, ' ')
-        .replace(/🔴|🟡|🟢|🔹/g, '')
-        .replace(/\s+/g, ' ')
-        .trim()
-        .slice(0, 600);
+      const response = await fetch('/api/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: content }),
+      });
 
-      // Usamos el servicio de StreamElements con voz masculina profesional en español ('Enrique')
-      const voice = 'Enrique';
-      const ttsUrl = `https://api.streamelements.com/kappa/v2/speech?voice=${voice}&text=${encodeURIComponent(cleanText)}`;
+      if (!response.ok) throw new Error('Error en el servidor');
 
-      const audio = new Audio(ttsUrl);
+      const data = await response.json();
+      if (!data.audioBase64) throw new Error('No se recibió audio');
+
+      const binaryString = atob(data.audioBase64);
+      const len = binaryString.length;
+      const bytes = new Uint8Array(len);
+      for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      const audioBlob = new Blob([bytes], { type: 'audio/mp3' });
+      const audioUrl = URL.createObjectURL(audioBlob);
+      
+      const audio = new Audio(audioUrl);
       audioRef.current = audio;
 
       audio.onended = () => {
         setIsPlayingAudio(false);
         audioRef.current = null;
+        URL.revokeObjectURL(audioUrl);
       };
 
       audio.onerror = () => {
         audioRef.current = null;
-        fallbackSpeechSynthesis();
+        URL.revokeObjectURL(audioUrl);
+        setIsPlayingAudio(false);
+        setIsLoadingAudio(false);
       };
 
       await audio.play();
       setIsPlayingAudio(true);
     } catch (e) {
       console.error('Error al reproducir audio:', e);
-      fallbackSpeechSynthesis();
+      setIsPlayingAudio(false);
     } finally {
       setIsLoadingAudio(false);
     }
-  };
-
-  const fallbackSpeechSynthesis = () => {
-    if (!('speechSynthesis' in window)) return;
-    window.speechSynthesis.cancel();
-
-    const clean = content
-      .replace(/[#*`_~]/g, '')
-      .replace(/🔴|🟡|🟢|🔹/g, '')
-      .slice(0, 1000);
-
-    const utterance = new SpeechSynthesisUtterance(clean);
-    const currentLang = 
-      (typeof window !== 'undefined' && document.documentElement.lang) || 
-      (navigator.language ? navigator.language.substring(0, 2) : 'es');
-
-    const langMap: Record<string, string> = {
-      es: 'es-ES',
-      en: 'en-US',
-      he: 'he-IL',
-      pt: 'pt-BR',
-      fr: 'fr-FR',
-    };
-    const fullLang = langMap[currentLang] || 'es-ES';
-    utterance.lang = fullLang;
-
-    let availableVoices: any[] = window.speechSynthesis.getVoices() || [];
-    
-    const selectBestVoice = (voiceList: any[]) => {
-      return (
-        voiceList.find((v) => v.lang === fullLang && (v.name.includes('Natural') || v.name.includes('Enhanced') || v.name.includes('Google') || v.name.includes('Microsoft'))) ||
-        voiceList.find((v) => v.lang === fullLang) ||
-        voiceList.find((v) => v.lang.startsWith(currentLang)) ||
-        voiceList.find((v) => v.lang.startsWith('es')) ||
-        voiceList[0]
-      );
-    };
-
-    let voice = selectBestVoice(availableVoices);
-    if (voice) {
-      utterance.voice = voice;
-    } else if (typeof window !== 'undefined' && window.speechSynthesis.onvoiceschanged !== undefined) {
-      window.speechSynthesis.onvoiceschanged = () => {
-        const updatedVoices = window.speechSynthesis.getVoices() || [];
-        const updatedVoice = selectBestVoice(updatedVoices);
-        if (updatedVoice) utterance.voice = updatedVoice;
-      };
-    }
-
-    utterance.rate = 0.95;
-
-    utterance.onend = () => setIsPlayingAudio(false);
-    utterance.onerror = () => setIsPlayingAudio(false);
-
-    window.speechSynthesis.speak(utterance);
-    setIsPlayingAudio(true);
   };
 
   const renderFormattedContent = () => {

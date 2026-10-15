@@ -255,7 +255,7 @@ app.post('/api/tts', async (req, res) => {
       .slice(0, 500);
 
     // Solicitamos el audio al servicio web estable desde el backend (sin bloqueos CORS)
-    const ttsUrl = `https://api.streamelements.com/kappa/v2/speech?voice=Enrique&text=${encodeURIComponent(cleanText)}`;
+    const ttsUrl = `https://api.streamelements.com/kappa/v2/speech?voice=Martin&text=${encodeURIComponent(cleanText)}`;
     
     const ttsRes = await fetch(ttsUrl);
     if (!ttsRes.ok) {
