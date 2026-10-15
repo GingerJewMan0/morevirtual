@@ -61,53 +61,51 @@ const TEXT_MODELS = [
 ];
 
 // Endpoint para traducir/generar el contenido de la Parashá al idioma solicitado con IA
+// Endpoint para traducir/generar el contenido de la Parashá al idioma solicitado con IA
 app.post('/api/translate-parasha', async (req, res) => {
   try {
-    const { parashaName, reference, targetLanguage, originalSummary } = req.body;
+    const { parashaName, reference, targetLanguage, originalSummary, aliyot } = req.body;
 
     if (!targetLanguage || targetLanguage === 'es') {
       return res.json({ success: true, data: null });
     }
 
     const prompt = `Actúa como un erudito rabínico y experto en traducción multilingüe para una app de Torá. 
-    Traduce y adapta profesionalmente el siguiente contenido de la Parashá "${parashaName}" (${reference}) al idioma objetivo "${targetLanguage}" (puede ser en para inglés, he para hebreo, fr para francés o pt para portugués).
+    Traduce y adapta profesionalmente el contenido de la Parashá "${parashaName}" (${reference}) al idioma objetivo "${targetLanguage}" (ej. en, he, fr, pt).
     
-    Contenido original en español a traducir/adaptar:
-    "${originalSummary}"
+    Traduce tanto el resumen general como cada una de las descripciones de las aliyot provistas.
 
-    Devuelve la respuesta estrictamente en formato JSON válido, sin bloques de código markdown adicionales, con la siguiente estructura exacta:
+    Contenido original en español:
+    Resumen: "${originalSummary}"
+    Aliyot: ${JSON.stringify(aliyot)}
+
+    Devuelve la respuesta estrictamente en formato JSON válido, sin bloques de código markdown adicionales, con esta estructura exacta:
     {
       "summary": "...",
       "halachaFocus": "...",
       "rashiInsight": "...",
-      "chabadInsight": "..."
+      "chabadInsight": "...",
+      "aliyot": [
+        { "number": 1, "description": "..." },
+        { "number": 2, "description": "..." },
+        { "number": 3, "description": "..." },
+        { "number": 4, "description": "..." },
+        { "number": 5, "description": "..." },
+        { "number": 6, "description": "..." },
+        { "number": 7, "description": "..." }
+      ]
     }`;
 
-    let translatedData = null;
+    // Usamos el formato nativo del SDK que ya maneja tu servidor
+    const response = await ai.models.generateContent({
+      model: 'gemini-1.5-flash',
+      contents: [{ role: 'user', parts: [{ text: prompt }] }],
+      config: { temperature: 0.3 },
+    });
 
-    // Usamos el mismo mecanismo robusto de modelos de tu servidor
-    for (const modelName of TEXT_MODELS) {
-      try {
-        const response = await ai.models.generateContent({
-          model: modelName,
-          contents: [{ role: 'user', parts: [{ text: prompt }] }],
-          config: {
-            temperature: 0.3,
-          },
-        });
-
-        const responseText = response.text?.trim() || '';
-        const cleanedJson = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
-        translatedData = JSON.parse(cleanedJson);
-        if (translatedData) break;
-      } catch (err) {
-        console.warn(`[Translate Parasha] Falló modelo ${modelName}, intentando siguiente...`);
-      }
-    }
-
-    if (!translatedData) {
-      return res.status(500).json({ success: false, error: 'No se pudo generar la traducción.' });
-    }
+    const responseText = response.text?.trim() || '';
+    const cleanedJson = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
+    const translatedData = JSON.parse(cleanedJson);
 
     res.json({ success: true, data: translatedData });
   } catch (error: any) {
