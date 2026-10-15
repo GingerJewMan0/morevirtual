@@ -47,67 +47,63 @@ export function FormattedRabbiResponse({
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleToggleAudio = async () => {
+  const handleToggleAudio = () => {
+    if (!('speechSynthesis' in window)) {
+      alert('Tu navegador no soporta síntesis de voz.');
+      return;
+    }
+
     if (isPlayingAudio) {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
+      window.speechSynthesis.cancel();
       setIsPlayingAudio(false);
+      setIsLoadingAudio(false);
       return;
     }
 
     setIsLoadingAudio(true);
-    try {
-      const response = await fetch('/api/tts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: content }),
-      });
+    window.speechSynthesis.cancel();
 
-      if (!response.ok) {
-        const errText = await response.text();
-        throw new Error(`Error en el servidor (${response.status}): ${errText}`);
-      }
+    const cleanText = content
+      .replace(/[#*`_~()-]/g, '')
+      .replace(/🔴|🟡|🟢|🔹/g, '')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .slice(0, 800);
 
-      const data = await response.json();
-      if (!data.audioBase64) throw new Error('No se recibió audio en base64');
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    utterance.lang = 'es-ES';
 
-      const binaryString = atob(data.audioBase64);
-      const len = binaryString.length;
-      const bytes = new Uint8Array(len);
-      for (let i = 0; i < len; i++) {
-        bytes[i] = binaryString.charCodeAt(i);
-      }
+    // Intentamos asignar una voz masculina o de alta calidad disponible en el equipo del usuario
+    const voices = window.speechSynthesis.getVoices();
+    const selectedVoice = 
+      voices.find(v => v.lang.startsWith('es') && (v.name.toLowerCase().includes('male') || v.name.includes('Pablo') || v.name.includes('Alvaro') || v.name.includes('Jorge') || v.name.includes('Raul'))) ||
+      voices.find(v => v.lang.startsWith('es') && (v.name.includes('Google') || v.name.includes('Natural'))) ||
+      voices.find(v => v.lang.startsWith('es')) ||
+      voices[0];
 
-      const audioBlob = new Blob([bytes], { type: 'audio/mp3' });
-      const audioUrl = URL.createObjectURL(audioBlob);
-      const audio = new Audio(audioUrl);
-      audioRef.current = audio;
-
-      audio.onended = () => {
-        setIsPlayingAudio(false);
-        audioRef.current = null;
-        URL.revokeObjectURL(audioUrl);
-      };
-
-      audio.onerror = (e) => {
-        console.error('Error en elemento Audio HTML5:', e);
-        audioRef.current = null;
-        URL.revokeObjectURL(audioUrl);
-        setIsPlayingAudio(false);
-        setIsLoadingAudio(false);
-      };
-
-      await audio.play();
-      setIsPlayingAudio(true);
-    } catch (e) {
-      console.error('Fallo completo en handleToggleAudio:', e);
-      alert('No se pudo reproducir el audio. Revisa la consola para más detalles.');
-      setIsPlayingAudio(false);
-    } finally {
-      setIsLoadingAudio(false);
+    if (selectedVoice) {
+      utterance.voice = selectedVoice;
     }
+
+    utterance.rate = 0.95; // Velocidad pausada y solemne
+    utterance.pitch = 0.8;  // Tono grave para darle cuerpo
+
+    utterance.onstart = () => {
+      setIsLoadingAudio(false);
+      setIsPlayingAudio(true);
+    };
+
+    utterance.onend = () => {
+      setIsPlayingAudio(false);
+      setIsLoadingAudio(false);
+    };
+
+    utterance.onerror = () => {
+      setIsLoadingAudio(false);
+      setIsPlayingAudio(false);
+    };
+
+    window.speechSynthesis.speak(utterance);
   };
 
   const renderFormattedContent = () => {
