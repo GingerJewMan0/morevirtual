@@ -709,12 +709,11 @@ export function App() {
   }, [activeLangCode]);
 
   const specificLangQuestions = SAMPLE_QUESTIONS.filter((q) => q.language === activeLangCode);
+  // Si es español mostramos las 6 base; para otros idiomas usamos el caché traducido o las de español mientras carga
   const filteredQuestions =
     activeLangCode === 'es'
       ? spanishQuestions
-      : specificLangQuestions.length > 1
-      ? specificLangQuestions
-      : translatedQuestionsCache[activeLangCode] || spanishQuestions;
+      : (translatedQuestionsCache[activeLangCode] || spanishQuestions);
 
   const currentLangObj =
     LANGUAGES.find((l) => l.code === activeLangCode) || LANGUAGES[0];
