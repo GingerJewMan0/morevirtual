@@ -143,7 +143,7 @@ if (traditionFocus && traditionFocus !== 'all') {
 
     for (const modelName of TEXT_MODELS) {
       try {
-        console.log(`[Rabino Virtual] Intentando generar respuesta con modelo: ${modelName}`);
+        console.log("[Rabino Virtual] Intentando generar respuesta con modelo: " + modelName);
         const responseStream = await ai.models.generateContentStream({
           model: modelName,
           contents,
