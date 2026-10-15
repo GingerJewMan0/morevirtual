@@ -107,7 +107,7 @@ app.post('/api/translate-parasha', async (req, res) => {
     console.error("Error en traducción de parashá:", error);
     res.status(500).json({ error: "Error al traducir el contenido de la Parashá" });
   }
-});
+
 
     // Llamada al modelo Gemini
     const response = await ai.models.generateContent({
