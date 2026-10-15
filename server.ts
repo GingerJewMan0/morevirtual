@@ -239,65 +239,29 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
-// Text-to-Speech API using gemini-3.8-flash-lite-tts
-// Text-to-Speech API using gemini-3.8-flash-lite-tts
-app.post('/api/tts', async (req, res) => {
-  try {
-    const { text, voiceName = 'Charon' } = req.body;
-
-    if (!text) {
-      return res.status(400).json({ error: 'Texto requerido para audio' });
-    }
-
-    if (!process.env.GEMINI_API_KEY) {
-      return res.status(500).json({ error: 'GEMINI_API_KEY no configurada' });
-    }
-
-    // Limpieza profunda de caracteres especiales para permitir que el modelo module con naturalidad
-    const cleanText = text
-      .replace(/[#*`_~()-]/g, '')
-      .replace(/🔴|🟡|🟢|🔹/g, '')
-      .replace(/\s+/g, ' ')
-      .trim();
-
-    // Tomamos los primeros 350 caracteres de forma limpia para que el audio no se sature ni se corte
-    const finalText = cleanText.slice(0, 350) + "... Te invito a leer el resto de la respuesta en la pantalla.";
-
-    const ttsResponse = await ai.models.generateContent({
-      model: 'gemini-3.8-flash-lite-tts',
-      contents: [
-        {
-          role: 'user',
-          parts: [
-            {
-              text: finalText,
-            },
-          ],
-        },
-      ],
-      config: {
-        responseModalities: ['AUDIO'],
-        speechConfig: {
-          voiceConfig: {
-            prebuiltVoiceConfig: { 
-              voiceName: voiceName || 'Charon' 
-            },
-          },
-        },
-      },
-    });
-
-    const base64Audio = ttsResponse.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
-    if (!base64Audio) {
-      return res.status(500).json({ error: 'No se generó audio' });
-    }
-
-    res.json({ audioBase64: base64Audio });
-  } catch (error: any) {
-    console.error('Error in /api/tts:', error);
-    res.status(500).json({ error: error.message || 'Error al generar síntesis de voz' });
+// Función de lectura con la voz nativa del navegador (sin cortes y completamente natural)
+const handlePlayAudio = (text: string) => {
+  if (!('speechSynthesis' in window)) {
+    alert('Tu navegador no soporta la reproducción de voz.');
+    return;
   }
-});
+
+  // Cancelar cualquier audio anterior que se esté reproduciendo
+  window.speechSynthesis.cancel();
+
+  // Limpiamos el texto de símbolos visuales para que no los lea en voz alta
+  const cleanText = text
+    .replace(/[#*`_~()-]/g, '')
+    .replace(/🔴|🟡|🟢|🔹/g, '')
+    .trim();
+
+  const utterance = new SpeechSynthesisUtterance(cleanText);
+  utterance.lang = 'es-ES'; // Idioma español
+  utterance.rate = 1.0; // Velocidad normal y natural
+  utterance.pitch = 1.0; // Tono natural
+
+  window.speechSynthesis.speak(utterance);
+};
 
 // Vite or Static file serving
 async function setupViteOrStatic() {
