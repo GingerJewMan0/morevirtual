@@ -239,7 +239,7 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
-// Text-to-Speech API utilizando gemini-2.5-flash (Compatible con cuota gratuita)
+// Text-to-Speech proxy seguro sin consumo de cuota de IA
 app.post('/api/tts', async (req, res) => {
   try {
     const { text } = req.body;
@@ -252,17 +252,14 @@ app.post('/api/tts', async (req, res) => {
       .replace(/🔴|🟡|🟢|🔹/g, '')
       .replace(/\s+/g, ' ')
       .trim()
-      .slice(0, 400);
+      .slice(0, 500);
 
-    const currentLang = req.body.lang || 'es';
-    const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(
-      cleanText
-    )}&tl=${currentLang}&client=tw-ob`;
-
-    // Hacemos la petición desde el servidor backend (evitando bloqueos de CORS del navegador)
+    // Solicitamos el audio al servicio web estable desde el backend (sin bloqueos CORS)
+    const ttsUrl = `https://api.streamelements.com/kappa/v2/speech?voice=Enrique&text=${encodeURIComponent(cleanText)}`;
+    
     const ttsRes = await fetch(ttsUrl);
     if (!ttsRes.ok) {
-      throw new Error('Error al obtener audio externo');
+      throw new Error('Error al conectar con el servicio de voz');
     }
 
     const arrayBuffer = await ttsRes.arrayBuffer();
@@ -271,7 +268,7 @@ app.post('/api/tts', async (req, res) => {
     res.json({ audioBase64: base64Audio });
   } catch (error: any) {
     console.error('Error en /api/tts:', error);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message || 'Error al generar audio' });
   }
 });
 
