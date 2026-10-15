@@ -242,7 +242,7 @@ app.post('/api/chat', async (req, res) => {
 // Text-to-Speech API using gemini-3.8-flash-lite-tts
 app.post('/api/tts', async (req, res) => {
   try {
-    const { text, voiceName = 'Charon' } = req.body;
+    const { text, voiceName = 'Puck' } = req.body;
 
     if (!text) {
       return res.status(400).json({ error: 'Texto requerido para audio' });
@@ -279,7 +279,7 @@ app.post('/api/tts', async (req, res) => {
         responseModalities: ['AUDIO'],
         speechConfig: {
           voiceConfig: {
-            prebuiltVoiceConfig: { voiceName: voiceName || 'Charon' },
+            prebuiltVoiceConfig: { voiceName: voiceName || 'Puck' },
           },
         },
       },
@@ -294,6 +294,64 @@ app.post('/api/tts', async (req, res) => {
   } catch (error: any) {
     console.error('Error in /api/tts:', error);
     res.status(500).json({ error: error.message || 'Error al generar síntesis de voz' });
+  }
+});
+
+// Audio Transcription API using gemini-3.5-transcribe and fallback
+app.post('/api/transcribe', async (req, res) => {
+  try {
+    const { audioBase64, mimeType = 'audio/webm' } = req.body;
+
+    if (!audioBase64) {
+      return res.status(400).json({ error: 'Audio base64 requerido' });
+    }
+
+    if (!process.env.GEMINI_API_KEY) {
+      return res.status(500).json({ error: 'GEMINI_API_KEY no configurada' });
+    }
+
+    const audioPart = {
+      inlineData: {
+        mimeType: mimeType || 'audio/webm',
+        data: audioBase64,
+      },
+    };
+
+    let transcribedText = '';
+
+    try {
+      const response = await ai.models.generateContent({
+        model: 'gemini-3.5-transcribe',
+        contents: {
+          parts: [
+            audioPart,
+            {
+              text: 'Transcribe verbatim the spoken question in this audio. Output ONLY the exact transcribed words in the spoken language. Do not add quotes, commentary, or greetings.',
+            },
+          ],
+        },
+      });
+      transcribedText = response.text?.trim() || '';
+    } catch (transcribeError) {
+      console.warn('gemini-3.5-transcribe failed, using fallback:', transcribeError);
+      const fallbackResponse = await ai.models.generateContent({
+        model: 'gemini-flash-lite-latest',
+        contents: {
+          parts: [
+            audioPart,
+            {
+              text: 'Transcribe verbatim the spoken question in this audio. Output ONLY the exact transcribed text.',
+            },
+          ],
+        },
+      });
+      transcribedText = fallbackResponse.text?.trim() || '';
+    }
+
+    res.json({ text: transcribedText });
+  } catch (error: any) {
+    console.error('Error general in /api/transcribe:', error);
+    res.status(500).json({ error: error.message || 'Error al transcribir el audio' });
   }
 });
 
