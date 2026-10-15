@@ -65,10 +65,13 @@ export function FormattedRabbiResponse({
         body: JSON.stringify({ text: content }),
       });
 
-      if (!response.ok) throw new Error('Error en el servidor');
+      if (!response.ok) {
+        const errText = await response.text();
+        throw new Error(`Error en el servidor (${response.status}): ${errText}`);
+      }
 
       const data = await response.json();
-      if (!data.audioBase64) throw new Error('No se recibió audio');
+      if (!data.audioBase64) throw new Error('No se recibió audio en base64');
 
       const binaryString = atob(data.audioBase64);
       const len = binaryString.length;
@@ -88,16 +91,19 @@ export function FormattedRabbiResponse({
         URL.revokeObjectURL(audioUrl);
       };
 
-      audio.onerror = () => {
+      audio.onerror = (e) => {
+        console.error('Error en elemento Audio HTML5:', e);
         audioRef.current = null;
         URL.revokeObjectURL(audioUrl);
         setIsPlayingAudio(false);
+        setIsLoadingAudio(false);
       };
 
       await audio.play();
       setIsPlayingAudio(true);
     } catch (e) {
-      console.error('Error al reproducir audio:', e);
+      console.error('Fallo completo en handleToggleAudio:', e);
+      alert('No se pudo reproducir el audio. Revisa la consola para más detalles.');
       setIsPlayingAudio(false);
     } finally {
       setIsLoadingAudio(false);

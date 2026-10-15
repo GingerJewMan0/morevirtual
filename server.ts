@@ -245,20 +245,18 @@ app.post('/api/tts', async (req, res) => {
   try {
     const { text } = req.body;
     if (!text) {
-      return res.status(400).json({ error: 'Texto requerido para audio' });
+      return res.status(400).json({ error: 'Texto requerido' });
     }
 
-    // Limpiamos los símbolos para una lectura fluida
     const cleanText = text
       .replace(/[#*`_~()-]/g, ' ')
       .replace(/🔴|🟡|🟢|🔹/g, '')
       .replace(/\s+/g, ' ')
       .trim()
-      .slice(0, 600);
+      .slice(0, 500);
 
-    // Usamos un servicio de voz profesional con timbre masculino claro y natural en español
     const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(cleanText)}&tl=es&client=tw-ob`;
-
+    
     const ttsRes = await fetch(ttsUrl);
     if (!ttsRes.ok) {
       throw new Error('Error al conectar con el servicio de voz');
