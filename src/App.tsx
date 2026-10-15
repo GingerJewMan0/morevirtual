@@ -657,59 +657,43 @@ export function App() {
     if (activeLangCode === 'es') return;
     if (translatedQuestionsCache[activeLangCode]) return;
 
-    const cleanTranslatedText = (rawText: string, fallback: string): string => {
-      if (!rawText) return fallback;
-      let cleaned = rawText
-        .replace(/^(Como erudito|Como experto|Aquí tienes|La traducción|Traducción).*?[:：]\s*/i, '')
-        .replace(/["«»]/g, '')
-        .trim();
-      
-      if (cleaned.length > fallback.length * 3 && cleaned.includes('?')) {
-        const match = cleaned.match(/([^.?!]*\?)/);
-        if (match) cleaned = match[1].trim();
-      }
-      return cleaned || fallback;
-    };
-
     const translateAllSampleQuestions = async () => {
       setIsTranslatingQuestions(true);
       try {
         console.log(`Iniciando traducción de preguntas sugeridas para el idioma: ${activeLangCode}`);
         
-        const translatedList = await Promise.all(
-          spanishQuestions.map(async (q) => {
-            try {
-              const [catRes, quesRes, highRes] = await Promise.all([
-                fetch('/api/translate-content', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ textToTranslate: q.category, targetLanguage: activeLangCode }),
-                }).then((r) => r.json()),
-                fetch('/api/translate-content', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ textToTranslate: q.question, targetLanguage: activeLangCode }),
-                }).then((r) => r.json()),
-                fetch('/api/translate-content', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ textToTranslate: q.highlight, targetLanguage: activeLangCode }),
-                }).then((r) => r.json()),
-              ]);
-
-              return {
+        // Traducimos las preguntas de forma secuencial o en bloques pequeños para evitar saturar el servidor
+        const translatedList: any[] = [];
+        for (const q of spanishQuestions) {
+          try {
+            const res = await fetch('/api/translate-content', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ 
+                textToTranslate: `Categoría: ${q.category} || Pregunta: ${q.question} || Detalle: ${q.highlight}`, 
+                targetLanguage: activeLangCode 
+              }),
+            });
+            const data = await res.json();
+            
+            if (data.translatedText) {
+              // Separamos el texto traducido por el separador
+              const parts = data.translatedText.split('||');
+              translatedList.push({
                 ...q,
-                category: cleanTranslatedText(catRes.translatedText, q.category),
-                question: cleanTranslatedText(quesRes.translatedText, q.question),
-                highlight: cleanTranslatedText(highRes.translatedText, q.highlight),
+                category: parts[0]?.replace(/Categoría:/i, '').trim() || q.category,
+                question: parts[1]?.replace(/Pregunta:/i, '').trim() || q.question,
+                highlight: parts[2]?.replace(/Detalle:/i, '').trim() || q.highlight,
                 language: activeLangCode,
-              };
-            } catch (err) {
-              console.error('FLError traduciendo una pregunta individual:', err);
-              return q; // Devuelve la original si falla una específica
+              });
+            } else {
+              translatedList.push(q);
             }
-          })
-        );
+          } catch (err) {
+            console.error('Error traduciendo pregunta individual:', err);
+            translatedList.push(q);
+          }
+        }
 
         setTranslatedQuestionsCache((prev) => ({ ...prev, [activeLangCode]: translatedList }));
         console.log(`Traducción completada para ${activeLangCode}`);
