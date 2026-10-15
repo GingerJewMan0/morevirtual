@@ -36,7 +36,8 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
             parashaName: parasha.name,
             reference: parasha.reference,
             targetLanguage: currentLang,
-            originalSummary: parasha.summary
+            originalSummary: parasha.summary,
+            aliyot: parasha.aliyot // <--- Enviamos las aliyot al servidor para que la IA las traduzca
           })
         });
         const json = await res.json();
@@ -188,7 +189,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
               {t('aliyotBreakdown', 'División de las 7 Aliyot en Shabat por la Mañana')}
             </h3>
             <div className="space-y-3">
-              {parasha.aliyot.map((aliya) => (
+              {(translatedContent?.aliyot || parasha.aliyot).map((aliya: any) => (
                 <div
                   key={aliya.number}
                   className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 flex items-start gap-3.5 hover:border-amber-400 dark:hover:border-amber-700 transition"
@@ -206,7 +207,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
                       </span>
                     </div>
                     <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">
-                      {getLocalized(aliya.description)}
+                      {isTranslating ? '✨ Traduciendo...' : aliya.description}
                     </p>
                   </div>
                 </div>
