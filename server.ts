@@ -240,9 +240,10 @@ app.post('/api/chat', async (req, res) => {
 });
 
 // Text-to-Speech API using gemini-3.8-flash-lite-tts
+// Text-to-Speech API using gemini-3.8-flash-lite-tts
 app.post('/api/tts', async (req, res) => {
   try {
-    const { text, voiceName = 'Charon' } = req.body;
+    const { text, voiceName = 'Puck' } = req.body;
 
     if (!text) {
       return res.status(400).json({ error: 'Texto requerido para audio' });
@@ -252,29 +253,15 @@ app.post('/api/tts', async (req, res) => {
       return res.status(500).json({ error: 'GEMINI_API_KEY no configurada' });
     }
 
-   // Limpieza de símbolos y división inteligente por párrafos
-    // Limpieza de símbolos y corte estricto y seguro para el TTS
+    // Limpieza de símbolos y corte estricto para evitar que el audio se corte
     const cleanText = text
       .replace(/[#*`_~()-]/g, ' ')
       .replace(/🔴|🟡|🟢|🔹/g, '')
       .replace(/\s+/g, ' ')
       .trim()
-      .slice(0, 250); // Cortamos el texto principal a 250 caracteres
+      .slice(0, 250);
 
-    // Unimos el texto corto con el aviso final para que siempre se reproduzca completo
     const finalText = cleanText + "... Te invito a leer el resto de la respuesta en la pantalla.";
-
-    // Dividimos el texto por puntos seguidos o saltos de línea para asegurar párrafos completos
-    const paragraphs = cleanText.split(/(?<=[.!?])\s+/);
-    
-    // Tomamos el primer o los primeros dos párrafos (asegurando que sumen menos de ~400-500 caracteres)
-    let selectedText = paragraphs[0] || '';
-    if (paragraphs.length > 1 && (selectedText.length + paragraphs[1].length) < 500) {
-      selectedText += " " + paragraphs[1];
-    }
-
-    // Añadimos la frase de aviso de forma natural
-    const finalText = selectedText + " Te invito a leer el resto de la respuesta en la pantalla.";
 
     const ttsResponse = await ai.models.generateContent({
       model: 'gemini-3.8-flash-lite-tts',
@@ -283,7 +270,7 @@ app.post('/api/tts', async (req, res) => {
           role: 'user',
           parts: [
             {
-              text: cleanText,
+              text: finalText,
             },
           ],
         },
@@ -292,7 +279,7 @@ app.post('/api/tts', async (req, res) => {
         responseModalities: ['AUDIO'],
         speechConfig: {
           voiceConfig: {
-            prebuiltVoiceConfig: { voiceName: voiceName || 'Charon' },
+            prebuiltVoiceConfig: { voiceName: voiceName || 'Puck' },
           },
         },
       },
