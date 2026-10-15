@@ -651,6 +651,7 @@ export function App() {
 
   const spanishQuestions = SAMPLE_QUESTIONS.filter((q) => q.language === 'es');
   const [translatedQuestionsCache, setTranslatedQuestionsCache] = useState<Record<string, any[]>>({});
+  const [isTranslatingQuestions, setIsTranslatingQuestions] = useState(false);
 
   useEffect(() => {
     if (activeLangCode === 'es') return;
@@ -671,6 +672,7 @@ export function App() {
     };
 
     const translateAllSampleQuestions = async () => {
+      setIsTranslatingQuestions(true);
       try {
         const translatedList = await Promise.all(
           spanishQuestions.map(async (q) => {
@@ -705,6 +707,8 @@ export function App() {
         setTranslatedQuestionsCache((prev) => ({ ...prev, [activeLangCode]: translatedList }));
       } catch (e) {
         console.error('Error al traducir preguntas sugeridas:', e);
+      } finally {
+        setIsTranslatingQuestions(false);
       }
     };
 
@@ -1243,6 +1247,7 @@ export function App() {
                     <span className="flex items-center gap-1.5">
                       <Sparkles className="w-3.5 h-3.5 text-amber-600" />
                       {t('suggestedQuestions', 'Preguntas Sugeridas')} ({currentLangObj.nativeLabel})
+                      {isTranslatingQuestions && <Loader2 className="w-3 h-3 animate-spin text-amber-600 ml-1" />}
                     </span>
                     <span>{filteredQuestions.length} {t('topics', 'temas')}</span>
                   </div>
@@ -1496,7 +1501,7 @@ export function App() {
                 </span>
               </button>
               <span className="hidden sm:inline italic">
-                {t('consultRabbiNotice', 'Para decisiones prácticas individuales, consulta al rabino de tu comunidad.')}
+                {t('consultRabbiNotice', 'Para decisiones prácticas individuales, consulta al rabino du tu comunidad.')}
               </span>
             </div>
           </div>
