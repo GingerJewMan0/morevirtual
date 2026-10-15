@@ -242,7 +242,7 @@ app.post('/api/chat', async (req, res) => {
 // Text-to-Speech API using gemini-3.8-flash-lite-tts
 app.post('/api/tts', async (req, res) => {
   try {
-    const { text, voiceName = 'Charon' } = req.body;
+    const { text, voiceName = 'Puck' } = req.body;
 
     if (!text) {
       return res.status(400).json({ error: 'Texto requerido para audio' });
@@ -279,7 +279,7 @@ app.post('/api/tts', async (req, res) => {
         responseModalities: ['AUDIO'],
         speechConfig: {
           voiceConfig: {
-            prebuiltVoiceConfig: { voiceName: voiceName || 'Charon' },
+            prebuiltVoiceConfig: { voiceName: voiceName || 'Puck' },
           },
         },
       },
