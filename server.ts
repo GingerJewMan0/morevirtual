@@ -247,16 +247,28 @@ app.post('/api/tts', async (req, res) => {
       return res.status(400).json({ error: 'Texto requerido' });
     }
 
-    // Limpiamos los símbolos para lectura fluida
     const cleanText = text
       .replace(/[#*`_~()-]/g, ' ')
       .replace(/🔴|🟡|🟢|🔹/g, '')
       .replace(/\s+/g, ' ')
       .trim()
-      .slice(0, 800);
+      .slice(0, 400);
 
-    // Devolvemos el texto limpio directamente sin consumir cuota de Gemini
-    res.json({ spokenText: cleanText });
+    const currentLang = req.body.lang || 'es';
+    const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(
+      cleanText
+    )}&tl=${currentLang}&client=tw-ob`;
+
+    // Hacemos la petición desde el servidor backend (evitando bloqueos de CORS del navegador)
+    const ttsRes = await fetch(ttsUrl);
+    if (!ttsRes.ok) {
+      throw new Error('Error al obtener audio externo');
+    }
+
+    const arrayBuffer = await ttsRes.arrayBuffer();
+    const base64Audio = Buffer.from(arrayBuffer).toString('base64');
+
+    res.json({ audioBase64: base64Audio });
   } catch (error: any) {
     console.error('Error en /api/tts:', error);
     res.status(500).json({ error: error.message });

@@ -56,54 +56,62 @@ export function FormattedRabbiResponse({
         audioRef.current.pause();
         audioRef.current = null;
       }
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
       setIsPlayingAudio(false);
       return;
     }
 
     setIsLoadingAudio(true);
     try {
-      // Limpiamos el texto para la locución
-      const cleanText = content
-        .replace(/[#*`_~()-]/g, ' ')
-        .replace(/🔴|🟡|🟢|🔹/g, '')
-        .replace(/\s+/g, ' ')
-        .trim()
-        .slice(0, 500); // Límite seguro para URLs de audio
-
-      if (!cleanText) {
-        setIsLoadingAudio(false);
-        return;
-      }
-
-      // Detectamos el idioma actual de la interfaz
       const currentLang = 
         (typeof window !== 'undefined' && document.documentElement.lang) || 
         (navigator.language ? navigator.language.substring(0, 2) : 'es');
 
-      // Usamos un servicio web estándar y gratuito de locución compatible con todos los navegadores y Android/iOS
-      const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(
-        cleanText
-      )}&tl=${currentLang}&client=tw-ob`;
+      const response = await fetch('/api/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          text: content,
+          lang: currentLang,
+        }),
+      });
 
-      const audio = new Audio(ttsUrl);
+      if (!response.ok) throw new Error('Error en el servidor');
+
+      const data = await response.json();
+      if (!data.audioBase64) throw new Error('No se recibió audio');
+
+      const binaryString = atob(data.audioBase64);
+      const len = binaryString.length;
+      const bytes = new Uint8Array(len);
+      for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      const audioBlob = new Blob([bytes], { type: 'audio/mp3' });
+      const audioUrl = URL.createObjectURL(audioBlob);
+      const audio = new Audio(audioUrl);
       audioRef.current = audio;
 
       audio.onended = () => {
         setIsPlayingAudio(false);
         audioRef.current = null;
+        URL.revokeObjectURL(audioUrl);
       };
 
       audio.onerror = () => {
-        console.error('Error al reproducir audio externo');
-        setIsPlayingAudio(false);
         audioRef.current = null;
+        URL.revokeObjectURL(audioUrl);
+        fallbackSpeechSynthesis();
       };
 
       await audio.play();
       setIsPlayingAudio(true);
     } catch (e) {
-      console.error('Error general de audio:', e);
-      setIsPlayingAudio(false);
+      console.error('Error al reproducir audio del servidor, usando respaldo:', e);
+      fallbackSpeechSynthesis();
     } finally {
       setIsLoadingAudio(false);
     }
@@ -449,4 +457,5 @@ export function FormattedRabbiResponse({
     </div>
   );
 }
+
 export default FormattedRabbiResponse;
