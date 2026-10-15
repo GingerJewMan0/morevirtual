@@ -141,10 +141,11 @@ export function App() {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  // Helper para cambiar idioma sincronizando i18n y traduciendo mensajes existentes en caché
+  // Helper para cambiar idioma sincronizando i18n, limpiando el historial y traduciendo mensajes si es necesario
   const handleLanguageChange = async (langCode: string) => {
     setSelectedLanguage(langCode);
     i18n.changeLanguage(langCode);
+    setMessages([]); // Limpia el chat actual para evitar que arrastre saludos o contexto del idioma anterior
 
     // Traducir dinámicamente el historial de mensajes del asistente si ya existen
     const updatedMessages = await Promise.all(

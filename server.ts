@@ -161,15 +161,15 @@ app.post('/api/chat', async (req, res) => {
 
     // 3. Añadimos de forma dinámica la regla estricta de idioma según el botón seleccionado en el frontend
     if (language === 'he') {
-      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: You MUST respond strictly in Hebrew. Do not write in any other language.`;
+      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: Translate and respond ENTIRELY in Hebrew. Ignore any previous language patterns in the conversation history and start fresh in Hebrew.`;
     } else if (language === 'en') {
-      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: You MUST respond strictly in English.`;
+      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: Translate and respond ENTIRELY in English. Ignore any previous language patterns in the conversation history and start fresh in English.`;
     } else if (language === 'fr') {
-      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: You MUST respond strictly in French (Français).`;
+      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: Translate and respond ENTIRELY in French. Ignore any previous language patterns in the conversation history and start fresh in French.`;
     } else if (language === 'pt') {
-      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: You MUST respond strictly in Portuguese (Português do Brasil).`;
+      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: Translate and respond ENTIRELY in Portuguese. Ignore any previous language patterns in the conversation history and start fresh in Portuguese.`;
     } else {
-      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: You MUST respond strictly in Spanish (Español).`;
+      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: Translate and respond ENTIRELY in Spanish. Ignore any previous language patterns in the conversation history and start fresh in Spanish.`;
     }
 
     // 4. Mantenemos tu lógica de enfoque tradicional si existe
