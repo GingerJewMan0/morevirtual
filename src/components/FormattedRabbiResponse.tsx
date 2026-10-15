@@ -56,9 +56,6 @@ export function FormattedRabbiResponse({
         audioRef.current.pause();
         audioRef.current = null;
       }
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
       setIsPlayingAudio(false);
       return;
     }
@@ -92,13 +89,29 @@ export function FormattedRabbiResponse({
 
       const audioBlob = new Blob([bytes], { type: 'audio/mp3' });
       const audioUrl = URL.createObjectURL(audioBlob);
+
+      // Usamos Web Audio API para manipular la velocidad y hacer la voz notablemente más grave y masculina
+      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
       const audio = new Audio(audioUrl);
+      const source = audioCtx.createMediaElementSource(audio);
+
+      // Creamos un nodo de ganancia y control de velocidad/frecuencia
+      const biquadFilter = audioCtx.createBiquadFilter();
+      biquadFilter.type = 'lowshelf';
+      biquadFilter.frequency.setValueAtTime(300, audioCtx.currentTime);
+      biquadFilter.gain.setValueAtTime(10, audioCtx.currentTime); // Realza los graves (warmth)
+
+      source.connect(biquadFilter);
+      biquadFilter.connect(audioCtx.destination);
+
       audioRef.current = audio;
+      audio.playbackRate = 0.88; // Velocidad pausada y solemne
 
       audio.onended = () => {
         setIsPlayingAudio(false);
         audioRef.current = null;
         URL.revokeObjectURL(audioUrl);
+        if (audioCtx.state !== 'closed') audioCtx.close();
       };
 
       audio.onerror = () => {
@@ -108,9 +121,12 @@ export function FormattedRabbiResponse({
       };
 
       await audio.play();
+      if (audioCtx.state === 'suspended') {
+        await audioCtx.resume();
+      }
       setIsPlayingAudio(true);
     } catch (e) {
-      console.error('Error al reproducir audio del servidor, usando respaldo:', e);
+      console.error('Error al reproducir audio:', e);
       fallbackSpeechSynthesis();
     } finally {
       setIsLoadingAudio(false);
