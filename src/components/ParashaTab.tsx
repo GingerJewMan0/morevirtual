@@ -37,7 +37,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
             reference: parasha.reference,
             targetLanguage: currentLang,
             originalSummary: parasha.summary,
-            aliyot: parasha.aliyot // <--- Enviamos las aliyot al servidor para que la IA las traduzca
+            aliyot: parasha.aliyot
           })
         });
         const json = await res.json();
@@ -216,6 +216,9 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
                   </div>
                 );
               })}
+            </div>
+          </div>
+        )}
 
         {activeSubTab === 'rashi' && (
           <div className="space-y-4">
