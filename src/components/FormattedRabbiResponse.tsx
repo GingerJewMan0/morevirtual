@@ -70,13 +70,14 @@ export function FormattedRabbiResponse({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           text: content.slice(0, 800),
+          voiceName: 'Puck',
         }),
       });
 
       if (response.ok) {
         const data = await response.json();
         if (data.audioBase64) {
-          const audio = new Audio(`data:audio/wav;base64,${data.audioBase64}`);
+          const audio = new Audio(`data:audio/mp3;base64,${data.audioBase64}`);
           audioRef.current = audio;
           audio.onended = () => {
             setIsPlayingAudio(false);
@@ -123,7 +124,6 @@ export function FormattedRabbiResponse({
     const fullLang = langMap[currentLang] || 'es-ES';
     utterance.lang = fullLang;
 
-    // Asegurar obtención asíncrona de voces del navegador si la lista viene vacía inicialmente
     let availableVoices: any[] = window.speechSynthesis.getVoices() || [];
     
     const selectBestVoice = (voiceList: any[]) => {
@@ -147,7 +147,7 @@ export function FormattedRabbiResponse({
       };
     }
 
-    utterance.rate = 0.95; // Velocidad ligeramente más natural y pausada
+    utterance.rate = 0.95;
 
     utterance.onend = () => setIsPlayingAudio(false);
     utterance.onerror = () => setIsPlayingAudio(false);
@@ -177,7 +177,6 @@ export function FormattedRabbiResponse({
           const trimmed = line.trim();
           if (!trimmed) return <div key={idx} className="h-2" />;
 
-          // Halachic level badge detections
           if (trimmed.includes('🔴 OBLIGATORIO') || trimmed.includes('🔴 Obligatorio')) {
             return (
               <div
@@ -313,7 +312,6 @@ export function FormattedRabbiResponse({
           );
         })}
 
-        {/* Highlighted Reflective Question Card */}
         {reflectionText && (
           <div className="mt-5 p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-amber-50 via-orange-50/50 to-amber-100/50 dark:from-amber-950/30 dark:via-slate-900 dark:to-amber-900/20 border-2 border-amber-300/80 dark:border-amber-700/60 shadow-sm animate-fadeIn">
             <div className="flex items-center gap-2 mb-2 text-amber-900 dark:text-amber-300 font-serif font-bold text-sm sm:text-base">
