@@ -71,7 +71,6 @@ app.post('/api/translate-parasha', async (req, res) => {
       return res.json({ success: true, data: null });
     }
 
-    // Compatibilidad con ambos formatos de envío desde el frontend
     const name = parashaName || parasha?.name || 'Parashá';
     const ref = reference || parasha?.reference || '';
     const summary = originalSummary || parasha?.summary || '';
@@ -80,7 +79,7 @@ app.post('/api/translate-parasha', async (req, res) => {
     const prompt = `Actúa como un erudito rabínico y experto en traducción multilingüe para una app de Torá. 
     Traduce y adapta profesionalmente el contenido de la Parashá "${name}" (${ref}) al idioma objetivo "${targetLanguage}".
     
-    Traduce tanto el resumen general como cada una de las descripciones de las aliyot provistas.
+    Traduce tanto el resumen general como cada uno de los TÍTULOS (title) y DESCRIPCIONES (description) de las aliyot provistas.
 
     Contenido original:
     Resumen: "${summary}"
@@ -93,13 +92,13 @@ app.post('/api/translate-parasha', async (req, res) => {
       "rashiInsight": "...",
       "chabadInsight": "...",
       "aliyot": [
-        { "number": 1, "description": "..." },
-        { "number": 2, "description": "..." },
-        { "number": 3, "description": "..." },
-        { "number": 4, "description": "..." },
-        { "number": 5, "description": "..." },
-        { "number": 6, "description": "..." },
-        { "number": 7, "description": "..." }
+        { "number": 1, "title": "...", "description": "..." },
+        { "number": 2, "title": "...", "description": "..." },
+        { "number": 3, "title": "...", "description": "..." },
+        { "number": 4, "title": "...", "description": "..." },
+        { "number": 5, "title": "...", "description": "..." },
+        { "number": 6, "title": "...", "description": "..." },
+        { "number": 7, "title": "...", "description": "..." }
       ]
     }`;
 
@@ -109,16 +108,6 @@ app.post('/api/translate-parasha', async (req, res) => {
       config: { temperature: 0.3 },
     });
 
-    const responseText = response.text?.trim() || '';
-    const cleanedJson = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
-    const translatedData = JSON.parse(cleanedJson);
-
-    res.json({ success: true, data: translatedData });
-  } catch (error: any) {
-    console.error('Error en /api/translate-parasha:', error);
-    res.status(500).json({ success: false, error: error.message || 'Error al traducir parashá' });
-  }
-});
     const responseText = response.text?.trim() || '';
     const cleanedJson = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
     const translatedData = JSON.parse(cleanedJson);
