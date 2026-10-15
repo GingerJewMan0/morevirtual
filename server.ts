@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import { GoogleGenAI } from '@google/genai';
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 dotenv.config();
 
@@ -52,13 +53,19 @@ REGLAS OBLIGATORIAS DE RESPUESTA:
    Mantén un tono empático, cercano, paciente y educativo. Trata a la persona con respeto y calidez fraternal.
    FINALIZA SIEMPRE tu respuesta con una pregunta reflexiva ("Pregunta para reflexionar" o equivalente en el idioma de la consulta) para invitar al usuario a profundizar o conectar la enseñanza con su vida diaria.`;
 
-// Models in priority order: gemini-flash-lite-latest is fastest and highly available, followed by flash models
+// Modelos de texto priorizados
 const TEXT_MODELS = [
   'gemini-flash-lite-latest',
   'gemini-3.1-flash-lite',
   'gemini-3.8-flash',
   'gemini-flash-latest',
 ];
+
+// Llamada al modelo Gemini
+const response = await ai.models.generateContent({
+  model: TEXT_MODELS[0],
+  contents: prompt,
+});
 
 // Endpoint para traducir/generar el contenido de la Parashá al idioma solicitado con IA// Asegúrate de que tu endpoint /api/translate-parasha luzca así en tu server.ts:
 app.post('/api/translate-parasha', async (req, res) => {
