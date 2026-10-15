@@ -60,56 +60,51 @@ const TEXT_MODELS = [
   'gemini-flash-latest',
 ];
 
-// Endpoint para traducir/generar el contenido de la Parashá al idioma solicitado con IA
-// Endpoint para traducir/generar el contenido de la Parashá al idioma solicitado con IA
+// Endpoint para traducir/generar el contenido de la Parashá al idioma solicitado con IA// Asegúrate de que tu endpoint /api/translate-parasha luzca así en tu server.ts:
 app.post('/api/translate-parasha', async (req, res) => {
   try {
     const { parashaName, reference, targetLanguage, originalSummary, aliyot } = req.body;
 
-    if (!targetLanguage || targetLanguage === 'es') {
-      return res.json({ success: true, data: null });
-    }
+    const prompt = `Act as an expert Jewish Torah translator and AI assistant. Translate the following Parashah content into the target language code: "${targetLanguage}" (e.g., 'en' for English, 'fr' for French, 'pt' for Portuguese, 'he' for Hebrew, etc.).
 
-    const prompt = `Actúa como un erudito rabínico y experto en traducción multilingüe para una app de Torá. 
-    Traduce y adapta profesionalmente el contenido de la Parashá "${parashaName}" (${reference}) al idioma objetivo "${targetLanguage}" (ej. en, he, fr, pt).
-    
-    Traduce tanto el resumen general como cada una de las descripciones de las aliyot provistas.
+Parashah: ${parashaName} (${reference})
+Original Summary: "${originalSummary}"
+Original Aliyot: ${JSON.stringify(aliyot)}
 
-    Contenido original en español:
-    Resumen: "${originalSummary}"
-    Aliyot: ${JSON.stringify(aliyot)}
+You MUST respond strictly with a valid JSON object (no markdown formatting blocks if possible, or standard JSON) with the exact following structure:
+{
+  "summary": "Translated summary here",
+  "halachaFocus": "Translated central halachic point here",
+  "rashiInsight": "Translated Rashi insight here",
+  "chabadInsight": "Translated Chabad insight here",
+  "aliyot": [
+    { "number": 1, "description": "Translated description for aliyah 1" },
+    { "number": 2, "description": "Translated description for aliyah 2" },
+    { "number": 3, "description": "Translated description for aliyah 3" },
+    { "number": 4, "description": "Translated description for aliyah 4" },
+    { "number": 5, "description": "Translated description for aliyah 5" },
+    { "number": 6, "description": "Translated description for aliyah 6" },
+    { "number": 7, "description": "Translated description for aliyah 7" }
+  ]
+}
+`;
 
-    Devuelve la respuesta estrictamente en formato JSON válido, sin bloques de código markdown adicionales, con esta estructura exacta:
-    {
-      "summary": "...",
-      "halachaFocus": "...",
-      "rashiInsight": "...",
-      "chabadInsight": "...",
-      "aliyot": [
-        { "number": 1, "description": "..." },
-        { "number": 2, "description": "..." },
-        { "number": 3, "description": "..." },
-        { "number": 4, "description": "..." },
-        { "number": 5, "description": "..." },
-        { "number": 6, "description": "..." },
-        { "number": 7, "description": "..." }
-      ]
-    }`;
-
+    // Llamada al modelo Gemini
     const response = await ai.models.generateContent({
-      model: 'gemini-1.5-flash',
-      contents: [{ role: 'user', parts: [{ text: prompt }] }],
-      config: { temperature: 0.2 },
+      model: 'gemini-2.5-flash', // o el modelo que estés usando en tu servidor
+      contents: prompt,
     });
 
-    const responseText = response.text?.trim() || '';
-    const cleanedJson = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
-    const translatedData = JSON.parse(cleanedJson);
+    let rawText = response.text || '';
+    // Limpiar bloques de código markdown si los trae la respuesta
+    rawText = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
+
+    const translatedData = JSON.parse(rawText);
 
     res.json({ success: true, data: translatedData });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error en /api/translate-parasha:', error);
-    res.status(500).json({ success: false, error: error.message || 'Error al traducir parashá' });
+    res.status(500).json({ success: false, error: 'Error al traducir con IA' });
   }
 });
 
