@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Volume2,
   VolumeX,
@@ -30,11 +30,13 @@ export function FormattedRabbiResponse({
   const [copied, setCopied] = useState(false);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [isLoadingAudio, setIsLoadingAudio] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     return () => {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
       }
     };
   }, []);
@@ -45,68 +47,61 @@ export function FormattedRabbiResponse({
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleToggleAudio = () => {
-    if (!('speechSynthesis' in window)) return;
-
+  const handleToggleAudio = async () => {
     if (isPlayingAudio) {
-      window.speechSynthesis.cancel();
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
       setIsPlayingAudio(false);
-      setIsLoadingAudio(false);
       return;
     }
 
     setIsLoadingAudio(true);
-    window.speechSynthesis.cancel();
+    try {
+      const response = await fetch('/api/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: content }),
+      });
 
-    const cleanText = content
-      .replace(/[#*`_~]/g, '')
-      .replace(/🔴|🟡|🟢|🔹/g, '')
-      .slice(0, 1000);
+      if (!response.ok) throw new Error('Error en el servidor');
 
-    const utterance = new SpeechSynthesisUtterance(cleanText);
-    
-    const currentLang = 
-      (typeof window !== 'undefined' && document.documentElement.lang) || 
-      (navigator.language ? navigator.language.substring(0, 2) : 'es');
+      const data = await response.json();
+      if (!data.audioBase64) throw new Error('No se recibió audio');
 
-    const langMap: Record<string, string> = {
-      es: 'es-ES',
-      en: 'en-US',
-      he: 'he-IL',
-      pt: 'pt-BR',
-      fr: 'fr-FR',
-    };
-    const fullLang = langMap[currentLang] || 'es-ES';
-    utterance.lang = fullLang;
+      const binaryString = atob(data.audioBase64);
+      const len = binaryString.length;
+      const bytes = new Uint8Array(len);
+      for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
 
-    let availableVoices: any[] = window.speechSynthesis.getVoices() || [];
-    const voice =
-      availableVoices.find((v) => v.lang.startsWith(currentLang) && (v.name.toLowerCase().includes('male') || v.name.includes('Pablo') || v.name.includes('Raul') || v.name.includes('Alvaro') || v.name.includes('Jorge') || v.name.includes('Carlos'))) ||
-      availableVoices.find((v) => v.lang === fullLang && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Microsoft'))) ||
-      availableVoices.find((v) => v.lang === fullLang) ||
-      availableVoices[0];
+      const audioBlob = new Blob([bytes], { type: 'audio/mp3' });
+      const audioUrl = URL.createObjectURL(audioBlob);
+      const audio = new Audio(audioUrl);
+      audioRef.current = audio;
 
-    if (voice) utterance.voice = voice;
-    
-    utterance.rate = 0.92;
-    utterance.pitch = 0.75;
+      audio.onended = () => {
+        setIsPlayingAudio(false);
+        audioRef.current = null;
+        URL.revokeObjectURL(audioUrl);
+      };
 
-    utterance.onstart = () => {
-      setIsLoadingAudio(false);
+      audio.onerror = () => {
+        audioRef.current = null;
+        URL.revokeObjectURL(audioUrl);
+        setIsPlayingAudio(false);
+      };
+
+      await audio.play();
       setIsPlayingAudio(true);
-    };
-
-    utterance.onend = () => {
+    } catch (e) {
+      console.error('Error al reproducir audio:', e);
       setIsPlayingAudio(false);
+    } finally {
       setIsLoadingAudio(false);
-    };
-
-    utterance.onerror = () => {
-      setIsPlayingAudio(false);
-      setIsLoadingAudio(false);
-    };
-
-    window.speechSynthesis.speak(utterance);
+    }
   };
 
   const renderFormattedContent = () => {
