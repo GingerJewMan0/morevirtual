@@ -650,59 +650,71 @@ export function App() {
 
   const activeLangCode = i18n.language?.substring(0, 2) || selectedLanguage;
 
-  // Tomamos las preguntas base en español
   const spanishQuestions = SAMPLE_QUESTIONS.filter((q) => q.language === 'es');
-  
-  // Estado local para almacenar las preguntas traducidas por idioma
   const [translatedQuestionsCache, setTranslatedQuestionsCache] = useState<Record<string, any[]>>({});
 
-  // Efecto para traducir las preguntas al idioma seleccionado si no están en caché
   useEffect(() => {
     if (activeLangCode === 'es') return;
     if (translatedQuestionsCache[activeLangCode]) return;
 
-    const translateSampleQuestions = async () => {
+    const translateAllSampleQuestions = async () => {
       try {
-        const translatedList = await Promise.all(
-          spanishQuestions.map(async (q) => {
-            const textToTranslate = `Cat: ${q.category}\nQ: ${q.question}\nHigh: ${q.highlight}`;
-            
-            const res = await fetch('/api/translate-content', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                textToTranslate,
-                targetLanguage: activeLangCode,
-              }),
+        // Preparamos un objeto con las 6 preguntas para traducirlas de un solo golpe con alta precisión
+        const payloadToTranslate = spanishQuestions.map((q) => ({
+          id: q.id,
+          category: q.category,
+          question: q.question,
+          highlight: q.highlight,
+        }));
+
+        const prompt = `Actúa como traductor profesional. Traduce cada uno de los textos del siguiente JSON al idioma objetivo "${activeLangCode}". Mantén exactamente las mismas claves ("id", "category", "question", "highlight") y el sentido halájico original. Devuelve la respuesta estrictamente en formato JSON válido (un arreglo de objetos), sin bloques markdown adicionales:\n\n${JSON.stringify(payloadToTranslate)}`;
+
+        const res = await fetch('/api/translate-content', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            textToTranslate: prompt,
+            targetLanguage: activeLangCode,
+          }),
+        });
+        const data = await res.json();
+
+        if (data.translatedText) {
+          const cleaned = data.translatedText.replace(/```json/g, '').replace(/```/g, '').trim();
+          const parsedTranslated = JSON.parse(cleaned);
+
+          if (Array.isArray(parsedTranslated)) {
+            const mergedList = spanishQuestions.map((orig) => {
+              const found = parsedTranslated.find((item: any) => item.id === orig.id);
+              return found
+                ? {
+                    ...orig,
+                    category: found.category || orig.category,
+                    question: found.question || orig.question,
+                    highlight: found.highlight || orig.highlight,
+                    language: activeLangCode,
+                  }
+                : orig;
             });
-            const data = await res.json();
-            
-            if (data.translatedText) {
-              const lines = data.translatedText.split('\n');
-              const cat = lines.find((l: string) => l.startsWith('Cat:'))?.replace('Cat:', '').trim() || q.category;
-              const ques = lines.find((l: string) => l.startsWith('Q:'))?.replace('Q:', '').trim() || q.question;
-              const high = lines.find((l: string) => l.startsWith('High:'))?.replace('High:', '').trim() || q.highlight;
 
-              return { ...q, category: cat, question: ques, highlight: high, language: activeLangCode };
-            }
-            return q;
-          })
-        );
-
-        setTranslatedQuestionsCache((prev) => ({ ...prev, [activeLangCode]: translatedList }));
+            setTranslatedQuestionsCache((prev) => ({ ...prev, [activeLangCode]: mergedList }));
+          }
+        }
       } catch (e) {
-        console.error('Error al traducir preguntas sugeridas:', e);
+        console.error('Error al traducir el bloque de preguntas sugeridas:', e);
       }
     };
 
-    translateSampleQuestions();
+    translateAllSampleQuestions();
   }, [activeLangCode]);
 
-  // Si es español mostramos las originales; si es otro idioma, mostramos las traducidas (o las específicas si existen)
   const specificLangQuestions = SAMPLE_QUESTIONS.filter((q) => q.language === activeLangCode);
-  const filteredQuestions = activeLangCode === 'es'
-    ? spanishQuestions
-    : (specificLangQuestions.length > 1 ? specificLangQuestions : (translatedQuestionsCache[activeLangCode] || spanishQuestions));
+  const filteredQuestions =
+    activeLangCode === 'es'
+      ? spanishQuestions
+      : specificLangQuestions.length > 1
+      ? specificLangQuestions
+      : translatedQuestionsCache[activeLangCode] || spanishQuestions;
 
   const currentLangObj =
     LANGUAGES.find((l) => l.code === activeLangCode) || LANGUAGES[0];
