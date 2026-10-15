@@ -238,9 +238,7 @@ app.post('/api/chat', async (req, res) => {
     }
   }
 });
-
-// Text-to-Speech proxy seguro sin consumo de cuota de IA
-// --- Endpoint de Text-to-Speech con voz masculina profesional en server.ts ---
+//text to spech 
 app.post('/api/tts', async (req, res) => {
   try {
     const { text } = req.body;
@@ -255,11 +253,17 @@ app.post('/api/tts', async (req, res) => {
       .trim()
       .slice(0, 500);
 
-    const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(cleanText)}&tl=es&client=tw-ob`;
+    // Usamos StreamElements con encabezados simulados de navegador para evitar el bloqueo del servidor
+    const ttsUrl = `https://api.streamelements.com/kappa/v2/speech?voice=Brian&text=${encodeURIComponent(cleanText)}`;
     
-    const ttsRes = await fetch(ttsUrl);
+    const ttsRes = await fetch(ttsUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+      }
+    });
+
     if (!ttsRes.ok) {
-      throw new Error('Error al conectar con el servicio de voz');
+      throw new Error(`Error en StreamElements: ${ttsRes.statusText}`);
     }
 
     const arrayBuffer = await ttsRes.arrayBuffer();
