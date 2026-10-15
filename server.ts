@@ -239,29 +239,60 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
-// Función de lectura con la voz nativa del navegador (sin cortes y completamente natural)
-const handlePlayAudio = (text: string) => {
-  if (!('speechSynthesis' in window)) {
-    alert('Tu navegador no soporta la reproducción de voz.');
-    return;
+// Text-to-Speech API using gemini-3.8-flash-lite-tts
+app.post('/api/tts', async (req, res) => {
+  try {
+    const { text, voiceName = 'Puck' } = req.body;
+
+    if (!text) {
+      return res.status(400).json({ error: 'Texto requerido para audio' });
+    }
+
+    if (!process.env.GEMINI_API_KEY) {
+      return res.status(500).json({ error: 'GEMINI_API_KEY no configurada' });
+    }
+
+    // Limpiamos los símbolos para que el motor de voz lea con fluidez
+    const cleanText = text
+      .replace(/[#*`_~()-]/g, ' ')
+      .replace(/🔴|🟡|🟢|🔹/g, '')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .slice(0, 600); // Un tamaño equilibrado para que la voz no se sature ni se corte
+
+    const ttsResponse = await ai.models.generateContent({
+      model: 'gemini-3.8-flash-lite-tts',
+      contents: [
+        {
+          role: 'user',
+          parts: [
+            {
+              text: cleanText,
+            },
+          ],
+        },
+      ],
+      config: {
+        responseModalities: ['AUDIO'],
+        speechConfig: {
+          voiceConfig: {
+            prebuiltVoiceConfig: { voiceName: voiceName || 'Puck' },
+          },
+        },
+      },
+    });
+
+    const base64Audio = ttsResponse.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+    if (!base64Audio) {
+      return res.status(500).json({ error: 'No se generó audio' });
+    }
+
+    res.json({ audioBase64: base64Audio });
+  } catch (error: any) {
+    console.error('Error in /api/tts:', error);
+    res.status(500).json({ error: error.message || 'Error al generar síntesis de voz' });
   }
-
-  // Cancelar cualquier audio anterior que se esté reproduciendo
-  window.speechSynthesis.cancel();
-
-  // Limpiamos el texto de símbolos visuales para que no los lea en voz alta
-  const cleanText = text
-    .replace(/[#*`_~()-]/g, '')
-    .replace(/🔴|🟡|🟢|🔹/g, '')
-    .trim();
-
-  const utterance = new SpeechSynthesisUtterance(cleanText);
-  utterance.lang = 'es-ES'; // Idioma español
-  utterance.rate = 1.0; // Velocidad normal y natural
-  utterance.pitch = 1.0; // Tono natural
-
-  window.speechSynthesis.speak(utterance);
-};
+});
 
 // Vite or Static file serving
 async function setupViteOrStatic() {
