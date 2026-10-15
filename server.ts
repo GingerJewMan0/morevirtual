@@ -96,11 +96,10 @@ app.post('/api/translate-parasha', async (req, res) => {
       ]
     }`;
 
-    // Usamos el formato nativo del SDK que ya maneja tu servidor
     const response = await ai.models.generateContent({
       model: 'gemini-1.5-flash',
       contents: [{ role: 'user', parts: [{ text: prompt }] }],
-      config: { temperature: 0.3 },
+      config: { temperature: 0.2 },
     });
 
     const responseText = response.text?.trim() || '';

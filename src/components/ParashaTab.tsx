@@ -189,32 +189,33 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
               {t('aliyotBreakdown', 'División de las 7 Aliyot en Shabat por la Mañana')}
             </h3>
             <div className="space-y-3">
-              {(translatedContent?.aliyot || parasha.aliyot).map((aliya: any) => (
-                <div
-                  key={aliya.number}
-                  className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 flex items-start gap-3.5 hover:border-amber-400 dark:hover:border-amber-700 transition"
-                >
-                  <div className="w-8 h-8 rounded-xl bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 font-bold text-sm flex items-center justify-center shrink-0 border border-amber-300 dark:border-amber-700">
-                    {aliya.number}
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between">
-                      <h4 className="text-sm font-bold text-slate-900 dark:text-white">
-                        {aliya.number}ª Aliyá ({aliya.number === 1 ? 'Kohén' : aliya.number === 2 ? 'Leví' : 'Israel'})
-                      </h4>
-                      <span className="text-xs font-mono text-amber-700 dark:text-amber-400 font-semibold">
-                        {aliya.reference}
-                      </span>
+              {parasha.aliyot.map((aliya, index) => {
+                const translatedDesc = translatedContent?.aliyot?.[index]?.description;
+
+                return (
+                  <div
+                    key={aliya.number}
+                    className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 flex items-start gap-3.5 hover:border-amber-400 dark:hover:border-amber-700 transition"
+                  >
+                    <div className="w-8 h-8 rounded-xl bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 font-bold text-sm flex items-center justify-center shrink-0 border border-amber-300 dark:border-amber-700">
+                      {aliya.number}
                     </div>
-                    <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">
-                      {isTranslating ? '✨ Traduciendo...' : aliya.description}
-                    </p>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between">
+                        <h4 className="text-sm font-bold text-slate-900 dark:text-white">
+                          {aliya.number}ª Aliyá ({aliya.number === 1 ? 'Kohén' : aliya.number === 2 ? 'Leví' : 'Israel'})
+                        </h4>
+                        <span className="text-xs font-mono text-amber-700 dark:text-amber-400 font-semibold">
+                          {aliya.reference}
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">
+                        {isTranslating ? '✨ Traduciendo...' : (translatedDesc || aliya.description)}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+                );
+              })}
 
         {activeSubTab === 'rashi' && (
           <div className="space-y-4">
