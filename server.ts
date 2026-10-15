@@ -96,8 +96,9 @@ app.post('/api/translate-parasha', async (req, res) => {
     });
 
     let rawText = response.text || '';
-    rawText = rawText.replace('```json', '');
-    rawText = rawText.replace('```', '');
+    // Limpiar bloques de código markdown de forma segura sin comillas invertidas en regex
+    rawText = rawText.split('```json').join('');
+    rawText = rawText.split('```').join('');
     rawText = rawText.trim();
 
     const translatedData = JSON.parse(rawText);
