@@ -91,7 +91,7 @@ You MUST respond strictly with a valid JSON object (no markdown formatting block
 
     // Llamada al modelo Gemini
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash', // o el modelo que estés usando en tu servidor
+      model: 'gemini-1.5-flash',
       contents: prompt,
     });
 
