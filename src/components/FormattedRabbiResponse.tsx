@@ -62,68 +62,31 @@ export function FormattedRabbiResponse({
 
     setIsLoadingAudio(true);
     try {
-      const currentLang = 
-        (typeof window !== 'undefined' && document.documentElement.lang) || 
-        (navigator.language ? navigator.language.substring(0, 2) : 'es');
+      const cleanText = content
+        .replace(/[#*`_~()-]/g, ' ')
+        .replace(/🔴|🟡|🟢|🔹/g, '')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .slice(0, 600);
 
-      const response = await fetch('/api/tts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          text: content,
-          lang: currentLang,
-        }),
-      });
+      // Usamos el servicio de StreamElements con voz masculina profesional en español ('Enrique')
+      const voice = 'Enrique';
+      const ttsUrl = `https://api.streamelements.com/kappa/v2/speech?voice=${voice}&text=${encodeURIComponent(cleanText)}`;
 
-      if (!response.ok) throw new Error('Error en el servidor');
-
-      const data = await response.json();
-      if (!data.audioBase64) throw new Error('No se recibió audio');
-
-      const binaryString = atob(data.audioBase64);
-      const len = binaryString.length;
-      const bytes = new Uint8Array(len);
-      for (let i = 0; i < len; i++) {
-        bytes[i] = binaryString.charCodeAt(i);
-      }
-
-      const audioBlob = new Blob([bytes], { type: 'audio/mp3' });
-      const audioUrl = URL.createObjectURL(audioBlob);
-
-      // Usamos Web Audio API para manipular la velocidad y hacer la voz notablemente más grave y masculina
-      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
-      const audio = new Audio(audioUrl);
-      const source = audioCtx.createMediaElementSource(audio);
-
-      // Creamos un nodo de ganancia y control de velocidad/frecuencia
-      const biquadFilter = audioCtx.createBiquadFilter();
-      biquadFilter.type = 'lowshelf';
-      biquadFilter.frequency.setValueAtTime(300, audioCtx.currentTime);
-      biquadFilter.gain.setValueAtTime(10, audioCtx.currentTime); // Realza los graves (warmth)
-
-      source.connect(biquadFilter);
-      biquadFilter.connect(audioCtx.destination);
-
+      const audio = new Audio(ttsUrl);
       audioRef.current = audio;
-      audio.playbackRate = 0.88; // Velocidad pausada y solemne
 
       audio.onended = () => {
         setIsPlayingAudio(false);
         audioRef.current = null;
-        URL.revokeObjectURL(audioUrl);
-        if (audioCtx.state !== 'closed') audioCtx.close();
       };
 
       audio.onerror = () => {
         audioRef.current = null;
-        URL.revokeObjectURL(audioUrl);
         fallbackSpeechSynthesis();
       };
 
       await audio.play();
-      if (audioCtx.state === 'suspended') {
-        await audioCtx.resume();
-      }
       setIsPlayingAudio(true);
     } catch (e) {
       console.error('Error al reproducir audio:', e);
