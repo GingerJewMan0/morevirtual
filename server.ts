@@ -59,40 +59,55 @@ const TEXT_MODELS = [
   'gemini-flash-latest',
 ];
 
-// Llamada al modelo Gemini
-const response = await ai.models.generateContent({
-  model: TEXT_MODELS[0],
-  contents: prompt,
-});
-
-// Endpoint para traducir/generar el contenido de la Parashá al idioma solicitado con IA// Asegúrate de que tu endpoint /api/translate-parasha luzca así en tu server.ts:
+// Endpoint para traducir/generar el contenido de la Parashá al idioma solicitado con IA
 app.post('/api/translate-parasha', async (req, res) => {
   try {
-    const { parashaName, reference, targetLanguage, originalSummary, aliyot } = req.body;
+    const { parashaName, reference, targetLanguage, originalSummary, aliyot, halachaFocus, rashiInsight, chabadInsight } = req.body;
 
-    const prompt = `Act as an expert Jewish Torah translator and AI assistant. Translate the following Parashah content into the target language code: "${targetLanguage}" (e.g., 'en' for English, 'fr' for French, 'pt' for Portuguese, 'he' for Hebrew, etc.).
+    const prompt = `Act as an expert Jewish Torah translator and AI assistant. Translate the following Parashah content into the target language: ${targetLanguage}. 
+    Parashah: ${parashaName} (${reference})
+    Original Summary: "${originalSummary}"
+    Original Halacha Focus: "${halachaFocus || ''}"
+    Original Rashi Insight: "${rashiInsight || ''}"
+    Original Chabad Insight: "${chabadInsight || ''}"
+    Original Aliyot: ${JSON.stringify(aliyot)}
 
-Parashah: ${parashaName} (${reference})
-Original Summary: "${originalSummary}"
-Original Aliyot: ${JSON.stringify(aliyot)}
+    You MUST respond strictly with a valid JSON object (no markdown formatting blocks, just the raw JSON) with the following structure:
+    {
+      "summary": "Translated summary here",
+      "halachaFocus": "Translated central halachic point here",
+      "rashiInsight": "Translated Rashi insight here",
+      "chabadInsight": "Translated Chabad insight here",
+      "aliyot": [
+        { "number": 1, "description": "Translated description for aliyah 1" },
+        { "number": 2, "description": "Translated description for aliyah 2" },
+        { "number": 3, "description": "Translated description for aliyah 3" },
+        { "number": 4, "description": "Translated description for aliyah 4" },
+        { "number": 5, "description": "Translated description for aliyah 5" },
+        { "number": 6, "description": "Translated description for aliyah 6" },
+        { "number": 7, "description": "Translated description for aliyah 7" }
+      ]
+    }`; // <-- ¡Aquí cierran las comillas invertidas del template literal!
 
-You MUST respond strictly with a valid JSON object (no markdown formatting blocks if possible, or standard JSON) with the exact following structure:
-{
-  "summary": "Translated summary here",
-  "halachaFocus": "Translated central halachic point here",
-  "rashiInsight": "Translated Rashi insight here",
-  "chabadInsight": "Translated Chabad insight here",
-  "aliyot": [
-    { "number": 1, "description": "Translated description for aliyah 1" },
-    { "number": 2, "description": "Translated description for aliyah 2" },
-    { "number": 3, "description": "Translated description for aliyah 3" },
-    { "number": 4, "description": "Translated description for aliyah 4" },
-    { "number": 5, "description": "Translated description for aliyah 5" },
-    { "number": 6, "description": "Translated description for aliyah 6" },
-    { "number": 7, "description": "Translated description for aliyah 7" }
-  ]
-}
-`;
+    // Llamada a la IA dentro del endpoint usando el prompt ya construido
+    const response = await ai.models.generateContent({
+      model: TEXT_MODELS[0],
+      contents: prompt,
+    });
+
+    // Parsear y devolver el resultado
+    const rawText = response.text ? response.text.trim() : '';
+    // Limpiar posibles bloques de markdown si la IA los llegara a incluir
+    const cleanedJSON = rawText.replace(/^```json\s*/i, '').replace(/^```\s*/, '').replace(/\s*```$/, '');
+    
+    const translatedData = JSON.parse(cleanedJSON);
+    res.json(translatedData);
+
+  } catch (error) {
+    console.error("Error en traducción de parashá:", error);
+    res.status(500).json({ error: "Error al traducir el contenido de la Parashá" });
+  }
+});
 
     // Llamada al modelo Gemini
     const response = await ai.models.generateContent({
