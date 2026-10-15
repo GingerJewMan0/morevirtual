@@ -190,11 +190,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
             </h3>
             <div className="space-y-3">
               {parasha.aliyot.map((aliya, index) => {
-                // Soportamos tanto si la IA devuelve un objeto { description: "..." } como un texto plano "..."
-                const translatedAliyaItem = translatedContent?.aliyot?.[index];
-                const translatedDesc = typeof translatedAliyaItem === 'string' 
-                  ? translatedAliyaItem 
-                  : translatedAliyaItem?.description;
+                const translatedDesc = translatedContent?.aliyot?.[index]?.description;
 
                 return (
                   <div
@@ -220,6 +216,9 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
                   </div>
                 );
               })}
+            </div>
+          </div>
+        )}
 
         {activeSubTab === 'rashi' && (
           <div className="space-y-4">
