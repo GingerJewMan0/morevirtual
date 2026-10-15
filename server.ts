@@ -240,10 +240,9 @@ app.post('/api/chat', async (req, res) => {
 });
 
 // Text-to-Speech API using gemini-3.8-flash-lite-tts
-// Text-to-Speech API using gemini-3.8-flash-lite-tts
 app.post('/api/tts', async (req, res) => {
   try {
-    const { text, voiceName = 'Puck' } = req.body;
+    const { text, voiceName = 'charon' } = req.body;
 
     if (!text) {
       return res.status(400).json({ error: 'Texto requerido para audio' });
@@ -259,7 +258,7 @@ app.post('/api/tts', async (req, res) => {
       .replace(/🔴|🟡|🟢|🔹/g, '')
       .replace(/\s+/g, ' ')
       .trim()
-      .slice(0, 250);
+      .slice(0, 400);
 
     const finalText = cleanText + "... Te invito a leer el resto de la respuesta en la pantalla.";
 
@@ -279,7 +278,7 @@ app.post('/api/tts', async (req, res) => {
         responseModalities: ['AUDIO'],
         speechConfig: {
           voiceConfig: {
-            prebuiltVoiceConfig: { voiceName: voiceName || 'Puck' },
+            prebuiltVoiceConfig: { voiceName: voiceName || 'charon' },
           },
         },
       },
