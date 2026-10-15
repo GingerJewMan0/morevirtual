@@ -89,9 +89,9 @@ app.post('/api/translate-parasha', async (req, res) => {
       ]
     }`;
 
-    // Llamada al modelo Gemini
+    // Llamada al modelo Gemini usando el modelo prioritario correcto
     const response = await ai.models.generateContent({
-      model: 'gemini-1.5-flash',
+      model: TEXT_MODELS[0], // 'gemini-flash-lite-latest'
       contents: prompt,
     });
 
