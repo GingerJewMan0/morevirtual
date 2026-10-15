@@ -670,20 +670,24 @@ export function App() {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ 
-                textToTranslate: `Categoría: ${q.category} || Pregunta: ${q.question} || Detalle: ${q.highlight}`, 
+                textToTranslate: `${q.category}||${q.question}||${q.highlight}`, 
                 targetLanguage: activeLangCode 
               }),
             });
             const data = await res.json();
             
             if (data.translatedText) {
-              // Separamos el texto traducido por el separador
-              const parts = data.translatedText.split('||');
+              // Limpiamos cualquier texto conversacional que la IA haya agregado al inicio
+              let rawCleaned = data.translatedText
+                .replace(/^(Aquí tienes|La traducción|Traducción|Here is|Translation).*?[:：]\s*/i, '')
+                .trim();
+
+              const parts = rawCleaned.split('||');
               translatedList.push({
                 ...q,
-                category: parts[0]?.replace(/Categoría:/i, '').trim() || q.category,
-                question: parts[1]?.replace(/Pregunta:/i, '').trim() || q.question,
-                highlight: parts[2]?.replace(/Detalle:/i, '').trim() || q.highlight,
+                category: parts[0]?.trim() || q.category,
+                question: parts[1]?.trim() || q.question,
+                highlight: parts[2]?.trim() || q.highlight,
                 language: activeLangCode,
               });
             } else {
