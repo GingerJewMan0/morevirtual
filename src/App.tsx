@@ -650,9 +650,59 @@ export function App() {
 
   const activeLangCode = i18n.language?.substring(0, 2) || selectedLanguage;
 
-  const filteredQuestions = SAMPLE_QUESTIONS.filter(
-    (q) => q.language === activeLangCode
-  );
+  // Tomamos las preguntas base en español
+  const spanishQuestions = SAMPLE_QUESTIONS.filter((q) => q.language === 'es');
+  
+  // Estado local para almacenar las preguntas traducidas por idioma
+  const [translatedQuestionsCache, setTranslatedQuestionsCache] = useState<Record<string, any[]>>({});
+
+  // Efecto para traducir las preguntas al idioma seleccionado si no están en caché
+  useEffect(() => {
+    if (activeLangCode === 'es') return;
+    if (translatedQuestionsCache[activeLangCode]) return;
+
+    const translateSampleQuestions = async () => {
+      try {
+        const translatedList = await Promise.all(
+          spanishQuestions.map(async (q) => {
+            const textToTranslate = `Cat: ${q.category}\nQ: ${q.question}\nHigh: ${q.highlight}`;
+            
+            const res = await fetch('/api/translate-content', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                textToTranslate,
+                targetLanguage: activeLangCode,
+              }),
+            });
+            const data = await res.json();
+            
+            if (data.translatedText) {
+              const lines = data.translatedText.split('\n');
+              const cat = lines.find((l: string) => l.startsWith('Cat:'))?.replace('Cat:', '').trim() || q.category;
+              const ques = lines.find((l: string) => l.startsWith('Q:'))?.replace('Q:', '').trim() || q.question;
+              const high = lines.find((l: string) => l.startsWith('High:'))?.replace('High:', '').trim() || q.highlight;
+
+              return { ...q, category: cat, question: ques, highlight: high, language: activeLangCode };
+            }
+            return q;
+          })
+        );
+
+        setTranslatedQuestionsCache((prev) => ({ ...prev, [activeLangCode]: translatedList }));
+      } catch (e) {
+        console.error('Error al traducir preguntas sugeridas:', e);
+      }
+    };
+
+    translateSampleQuestions();
+  }, [activeLangCode]);
+
+  // Si es español mostramos las originales; si es otro idioma, mostramos las traducidas (o las específicas si existen)
+  const specificLangQuestions = SAMPLE_QUESTIONS.filter((q) => q.language === activeLangCode);
+  const filteredQuestions = activeLangCode === 'es'
+    ? spanishQuestions
+    : (specificLangQuestions.length > 1 ? specificLangQuestions : (translatedQuestionsCache[activeLangCode] || spanishQuestions));
 
   const currentLangObj =
     LANGUAGES.find((l) => l.code === activeLangCode) || LANGUAGES[0];
