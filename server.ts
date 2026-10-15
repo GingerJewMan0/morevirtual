@@ -238,7 +238,7 @@ app.post('/api/chat', async (req, res) => {
     }
   }
 });
-//text to spech 
+// --- Endpoint de Text-to-Speech con ElevenLabs ---
 app.post('/api/tts', async (req, res) => {
   try {
     const { text } = req.body;
@@ -246,28 +246,53 @@ app.post('/api/tts', async (req, res) => {
       return res.status(400).json({ error: 'Texto requerido' });
     }
 
+    const apiKey = process.env.ELEVENLABS_API_KEY;
+    if (!apiKey) {
+      return res.status(500).json({ error: 'Falta configurar la variable ELEVENLABS_API_KEY en el servidor' });
+    }
+
+    // Limpiamos los símbolos y etiquetas para una lectura fluida
     const cleanText = text
       .replace(/[#*`_~()-]/g, ' ')
       .replace(/🔴|🟡|🟢|🔹/g, '')
       .replace(/\s+/g, ' ')
       .trim()
-      .slice(0, 500);
+      .slice(0, 800); // Límite por bloque para optimizar consumo
 
-    // Usamos el servicio de respaldo público libre de restricciones para desarrollo
-    const ttsUrl = `https://dict.youdao.com/speech?audio=${encodeURIComponent(cleanText)}`;
-    
-    const ttsRes = await fetch(ttsUrl);
-    if (!ttsRes.ok) {
-      throw new Error('Error al conectar con el servicio de voz alternativo');
+    // ID de voz masculina profesional en ElevenLabs (ej. Daniel / voces profundas estándar)
+    const voiceId = 'onwK4e9ZLuTAKqWW03F9'; 
+
+    const ttsResponse = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'audio/mpeg',
+        'Content-Type': 'application/json',
+        'xi-api-key': apiKey,
+      },
+      body: JSON.stringify({
+        text: cleanText,
+        model_id: 'eleven_multilingual_v2', // Excelente soporte y expresividad en español
+        voice_settings: {
+          stability: 0.70,        // Estabilidad alta para un tono solemne y calmado
+          similarity_boost: 0.75, // Fidelidad y claridad de la voz
+          style: 0.15,            // Toque sutil de expresividad humana natural
+          use_speaker_boost: true
+        }
+      }),
+    });
+
+    if (!ttsResponse.ok) {
+      const errData = await ttsResponse.text();
+      throw new Error(`Error en ElevenLabs: ${errData}`);
     }
 
-    const arrayBuffer = await ttsRes.arrayBuffer();
+    const arrayBuffer = await ttsResponse.arrayBuffer();
     const base64Audio = Buffer.from(arrayBuffer).toString('base64');
 
     res.json({ audioBase64: base64Audio });
   } catch (error: any) {
-    console.error('Error en /api/tts:', error);
-    res.status(500).json({ error: error.message || 'Error al generar audio' });
+    console.error('Error en /api/tts (ElevenLabs):', error);
+    res.status(500).json({ error: error.message || 'Error al generar audio neuronal' });
   }
 });
 
