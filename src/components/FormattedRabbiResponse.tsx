@@ -73,7 +73,6 @@ export function FormattedRabbiResponse({
     const utterance = new SpeechSynthesisUtterance(cleanText);
     utterance.lang = 'es-ES';
 
-    // Intentamos asignar una voz masculina o de alta calidad disponible en el equipo del usuario
     const voices = window.speechSynthesis.getVoices();
     const selectedVoice = 
       voices.find(v => v.lang.startsWith('es') && (v.name.toLowerCase().includes('male') || v.name.includes('Pablo') || v.name.includes('Alvaro') || v.name.includes('Jorge') || v.name.includes('Raul'))) ||
@@ -85,8 +84,8 @@ export function FormattedRabbiResponse({
       utterance.voice = selectedVoice;
     }
 
-    utterance.rate = 0.95; // Velocidad pausada y solemne
-    utterance.pitch = 0.8;  // Tono grave para darle cuerpo
+    utterance.rate = 0.90; // Ritmo pausado y solemne
+    utterance.pitch = 0.1;  // Llevamos el tono al mínimo para transformar el registro a una tesitura grave/masculina
 
     utterance.onstart = () => {
       setIsLoadingAudio(false);
