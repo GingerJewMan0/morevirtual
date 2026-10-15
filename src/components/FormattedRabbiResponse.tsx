@@ -47,62 +47,67 @@ export function FormattedRabbiResponse({
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleToggleAudio = () => {
-    if (!('speechSynthesis' in window)) {
-      alert('Tu navegador no soporta síntesis de voz.');
-      return;
-    }
-
+  const handleToggleAudio = async () => {
     if (isPlayingAudio) {
-      window.speechSynthesis.cancel();
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
       setIsPlayingAudio(false);
-      setIsLoadingAudio(false);
       return;
     }
 
     setIsLoadingAudio(true);
-    window.speechSynthesis.cancel();
+    try {
+      const response = await fetch('/api/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: content }),
+      });
 
-    const cleanText = content
-      .replace(/[#*`_~()-]/g, '')
-      .replace(/🔴|🟡|🟢|🔹/g, '')
-      .replace(/\s+/g, ' ')
-      .trim()
-      .slice(0, 800);
+      if (!response.ok) {
+        const errText = await response.text();
+        throw new Error(`Error en el servidor: ${errText}`);
+      }
 
-    const utterance = new SpeechSynthesisUtterance(cleanText);
-    utterance.lang = 'es-ES';
+      const data = await response.json();
+      if (!data.audioBase64) throw new Error('No se recibió audio de ElevenLabs');
 
-    const voices = window.speechSynthesis.getVoices();
-    const selectedVoice = 
-      voices.find(v => v.lang.startsWith('es') && (v.name.toLowerCase().includes('male') || v.name.includes('Pablo') || v.name.includes('Alvaro') || v.name.includes('Jorge') || v.name.includes('Raul'))) ||
-      voices.find(v => v.lang.startsWith('es') && (v.name.includes('Google') || v.name.includes('Natural'))) ||
-      voices.find(v => v.lang.startsWith('es')) ||
-      voices[0];
+      // Decodificamos el audio real enviado por ElevenLabs desde el backend
+      const binaryString = atob(data.audioBase64);
+      const len = binaryString.length;
+      const bytes = new Uint8Array(len);
+      for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
 
-    if (selectedVoice) {
-      utterance.voice = selectedVoice;
-    }
+      const audioBlob = new Blob([bytes], { type: 'audio/mp3' });
+      const audioUrl = URL.createObjectURL(audioBlob);
+      const audio = new Audio(audioUrl);
+      audioRef.current = audio;
 
-    utterance.rate = 0.90; // Ritmo pausado y solemne
-    utterance.pitch = 0.1;  // Llevamos el tono al mínimo para transformar el registro a una tesitura grave/masculina
+      audio.onended = () => {
+        setIsPlayingAudio(false);
+        audioRef.current = null;
+        URL.revokeObjectURL(audioUrl);
+      };
 
-    utterance.onstart = () => {
-      setIsLoadingAudio(false);
+      audio.onerror = (e) => {
+        console.error('Error al reproducir audio de ElevenLabs:', e);
+        audioRef.current = null;
+        URL.revokeObjectURL(audioUrl);
+        setIsPlayingAudio(false);
+      };
+
+      await audio.play();
       setIsPlayingAudio(true);
-    };
-
-    utterance.onend = () => {
+    } catch (e) {
+      console.error('Fallo al obtener la voz neuronal:', e);
+      alert('Hubo un error al conectar con ElevenLabs. Revisa la consola.');
       setIsPlayingAudio(false);
+    } finally {
       setIsLoadingAudio(false);
-    };
-
-    utterance.onerror = () => {
-      setIsLoadingAudio(false);
-      setIsPlayingAudio(false);
-    };
-
-    window.speechSynthesis.speak(utterance);
+    }
   };
 
   const renderFormattedContent = () => {
