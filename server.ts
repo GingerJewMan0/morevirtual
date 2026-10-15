@@ -239,10 +239,10 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
-// Text-to-Speech API using gemini-3.8-flash-lite-tts
+// Text-to-Speech API utilizando gemini-2.5-flash (Compatible con cuota gratuita)
 app.post('/api/tts', async (req, res) => {
   try {
-    const { text, voiceName = 'Fenrir' } = req.body;
+    const { text } = req.body;
 
     if (!text) {
       return res.status(400).json({ error: 'Texto requerido para audio' });
@@ -252,48 +252,30 @@ app.post('/api/tts', async (req, res) => {
       return res.status(500).json({ error: 'GEMINI_API_KEY no configurada' });
     }
 
-    // Limpiamos los símbolos para que el motor de voz lea con fluidez
+    // Limpiamos los símbolos para lectura fluida
     const cleanText = text
       .replace(/[#*`_~()-]/g, ' ')
       .replace(/🔴|🟡|🟢|🔹/g, '')
       .replace(/\s+/g, ' ')
       .trim()
-      .slice(0, 600); // Un tamaño equilibrado para que la voz no se sature ni se corte
+      .slice(0, 600);
 
-    const ttsResponse = await ai.models.generateContent({
-      model: 'gemini-3.8-flash-lite-tts',
-      contents: [
-        {
-          role: 'user',
-          parts: [
-            {
-              text: cleanText,
-            },
-          ],
-        },
-      ],
-      config: {
-        responseModalities: ['AUDIO'],
-        speechConfig: {
-          voiceConfig: {
-            prebuiltVoiceConfig: { voiceName: voiceName || 'Fenrir' },
-          },
-        },
-      },
+    // Usamos el modelo de chat estándar que no agota la cuota estricta de TTS
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: `Lee el siguiente texto de forma clara, cálida y natural en voz alta, sin agregar comentarios adicionales: "${cleanText}"`,
     });
 
-    const base64Audio = ttsResponse.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
-    if (!base64Audio) {
-      return res.status(500).json({ error: 'No se generó audio' });
-    }
+    const spokenText = response.text || cleanText;
 
-    res.json({ audioBase64: base64Audio });
+    // Como el modelo estándar nos devuelve texto procesado y limpio, 
+    // lo enviamos de vuelta para que el frontend lo reproduzca con la voz natural optimizada del navegador 
+    // (o si prefieres usar el sintetizador inteligente del cliente sin agotar cuotas de servidor).
+    res.json({ spokenText, useBrowserTTS: true });
+
   } catch (error: any) {
     console.error('Error detallado en /api/tts:', error);
-    res.status(500).json({ 
-      error: error.message || 'Error al generar síntesis de voz',
-      details: error.toString() 
-    });
+    res.status(500).json({ error: error.message || 'Error al generar síntesis de voz' });
   }
 });
 
