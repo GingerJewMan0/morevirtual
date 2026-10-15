@@ -109,11 +109,29 @@ export function FormattedRabbiResponse({
       .slice(0, 1000);
 
     const utterance = new SpeechSynthesisUtterance(clean);
-    const voices = window.speechSynthesis.getVoices();
+    const currentLang = 
+      (typeof window !== 'undefined' && document.documentElement.lang) || 
+      (navigator.language ? navigator.language.substring(0, 2) : 'es');
+
+    // Asignar el idioma correcto al utterance
+    const langMap: Record<string, string> = {
+      es: 'es-ES',
+      en: 'en-US',
+      he: 'he-IL',
+      pt: 'pt-BR',
+      fr: 'fr-FR',
+    };
+    const fullLang = langMap[currentLang] || 'es-ES';
+    utterance.lang = fullLang;
+
+    // Buscar la mejor voz disponible para el idioma actual (con respaldo flexible)
+    const availableVoices: any[] = window.speechSynthesis.getVoices() || [];
     const voice =
-      voices.find((v) => v.lang.startsWith('es')) ||
-      voices.find((v) => v.lang.startsWith('en')) ||
-      voices[0];
+      availableVoices.find((v) => v.lang === fullLang) ||
+      availableVoices.find((v) => v.lang.startsWith(currentLang)) ||
+      availableVoices.find((v) => v.lang.startsWith('es')) ||
+      availableVoices[0];
+
     if (voice) utterance.voice = voice;
     utterance.rate = 0.95;
 
