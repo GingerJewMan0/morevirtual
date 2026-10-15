@@ -126,14 +126,10 @@ app.post('/api/chat', async (req, res) => {
         error: 'GEMINI_API_KEY no está configurada en las variables de entorno.',
       });
     }
-
-    let dynamicSystemInstruction = SYSTEM_PROMPT;
-    if (traditionFocus && traditionFocus !== 'all') {
-      if (traditionFocus && traditionFocus !== 'all') {
-    if (traditionFocus && traditionFocus !== 'all') {
-    dynamicSystemInstruction += `\n\nEl usuario tiene un interés especial en la tradición: \"${traditionFocus}\". Asegúrate de dar detalle prioritario y profundo a las usanzas de esta tradición, sin dejar de compararla con las demás 4 tradiciones según la Regla 2.`;
+      let dynamicSystemInstruction = SYSTEM_PROMPT;
+if (traditionFocus && traditionFocus !== 'all') {
+    dynamicSystemInstruction += "\nEl usuario tiene un interés especial en la tradición: \"" + traditionFocus + "\". Asegúrate de dar detalle prioritario y profundo a las usanzas de esta tradición, sin dejar de compararla con las demás 4 tradiciones según la Regla 2.";
 }
-    }
 
     // Format chat history for Gemini
     const contents = messages.map((m: { role: string; content: string }) => ({
