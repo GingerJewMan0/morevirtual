@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import { GoogleGenAI } from '@google/genai';
 
 dotenv.config();
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -51,7 +52,7 @@ REGLAS OBLIGATORIAS DE RESPUESTA:
    Mantén un tono empático, cercano, paciente y educativo. Trata a la persona con respeto y calidez fraternal.
    FINALIZA SIEMPRE tu respuesta con una pregunta reflexiva ("Pregunta para reflexionar" o equivalente en el idioma de la consulta) para invitar al usuario a profundizar o conectar la enseñanza con su vida diaria.`;
 
-// Modelos de texto priorizados
+// Models in priority order: gemini-flash-lite-latest is fastest and highly available, followed by flash models
 const TEXT_MODELS = [
   'gemini-flash-lite-latest',
   'gemini-3.1-flash-lite',
@@ -60,55 +61,56 @@ const TEXT_MODELS = [
 ];
 
 // Endpoint para traducir/generar el contenido de la Parashá al idioma solicitado con IA
+// Endpoint para traducir/generar el contenido de la Parashá al idioma solicitado con IA
 app.post('/api/translate-parasha', async (req, res) => {
   try {
-    const { parashaName, reference, targetLanguage, originalSummary, aliyot, halachaFocus, rashiInsight, chabadInsight } = req.body;
+    const { parashaName, reference, targetLanguage, originalSummary, aliyot } = req.body;
 
-    const prompt = `Act as an expert Jewish Torah translator and AI assistant. Translate the following Parashah content into the target language code: ${targetLanguage}. 
-    Parashah: ${parashaName} (${reference})
-    Original Summary: "${originalSummary || ''}"
-    Original Halacha Focus: "${halachaFocus || ''}"
-    Original Rashi Insight: "${rashiInsight || ''}"
-    Original Chabad Insight: "${chabadInsight || ''}"
-    Original Aliyot: ${JSON.stringify(aliyot || [])}
+    if (!targetLanguage || targetLanguage === 'es') {
+      return res.json({ success: true, data: null });
+    }
 
-    You MUST respond strictly with a valid JSON object (no markdown formatting blocks, just raw JSON) with the following structure, translated to ${targetLanguage}:
+    const prompt = `Actúa como un erudito rabínico y experto en traducción multilingüe para una app de Torá. 
+    Traduce y adapta profesionalmente el contenido de la Parashá "${parashaName}" (${reference}) al idioma objetivo "${targetLanguage}" (ej. en, he, fr, pt).
+    
+    Traduce tanto el resumen general como cada una de las descripciones de las aliyot provistas.
+
+    Contenido original en español:
+    Resumen: "${originalSummary}"
+    Aliyot: ${JSON.stringify(aliyot)}
+
+    Devuelve la respuesta estrictamente en formato JSON válido, sin bloques de código markdown adicionales, con esta estructura exacta:
     {
-      "summary": "Translated summary here",
-      "halachaFocus": "Translated central halachic point here",
-      "rashiInsight": "Translated Rashi insight here",
-      "chabadInsight": "Translated Chabad insight here",
+      "summary": "...",
+      "halachaFocus": "...",
+      "rashiInsight": "...",
+      "chabadInsight": "...",
       "aliyot": [
-        { "number": 1, "title": "Translated title for aliyah 1 (e.g. 1st Aliyah - Kohen)", "description": "Translated description for aliyah 1" },
-        { "number": 2, "title": "Translated title for aliyah 2", "description": "Translated description for aliyah 2" },
-        { "number": 3, "title": "Translated title for aliyah 3", "description": "Translated description for aliyah 3" },
-        { "number": 4, "title": "Translated title for aliyah 4", "description": "Translated description for aliyah 4" },
-        { "number": 5, "title": "Translated title for aliyah 5", "description": "Translated description for aliyah 5" },
-        { "number": 6, "title": "Translated title for aliyah 6", "description": "Translated description for aliyah 6" },
-        { "number": 7, "title": "Translated title for aliyah 7", "description": "Translated description for aliyah 7" }
+        { "number": 1, "description": "..." },
+        { "number": 2, "description": "..." },
+        { "number": 3, "description": "..." },
+        { "number": 4, "description": "..." },
+        { "number": 5, "description": "..." },
+        { "number": 6, "description": "..." },
+        { "number": 7, "description": "..." }
       ]
-    }
+    }`;
 
-    // Llamada al modelo Gemini usando el modelo prioritario correcto
+    // Usamos el formato nativo del SDK que ya maneja tu servidor
     const response = await ai.models.generateContent({
-      model: TEXT_MODELS[0], // 'gemini-flash-lite-latest'
-      contents: prompt,
+      model: 'gemini-1.5-flash',
+      contents: [{ role: 'user', parts: [{ text: prompt }] }],
+      config: { temperature: 0.3 },
     });
-    let rawText = response.text || '';
-    // Extraer estrictamente el contenido JSON entre la primera llave y la última
-    const firstBrace = rawText.indexOf('{');
-    const lastBrace = rawText.lastIndexOf('}');
-    if (firstBrace !== -1 && lastBrace !== -1) {
-    rawText = rawText.substring(firstBrace, lastBrace + 1);
-    }
-    rawText = rawText.trim();
 
-    const translatedData = JSON.parse(rawText);
+    const responseText = response.text?.trim() || '';
+    const cleanedJson = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
+    const translatedData = JSON.parse(cleanedJson);
 
     res.json({ success: true, data: translatedData });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error en /api/translate-parasha:', error);
-    res.status(500).json({ success: false, error: 'Error al traducir con IA' });
+    res.status(500).json({ success: false, error: error.message || 'Error al traducir parashá' });
   }
 });
 
@@ -126,10 +128,11 @@ app.post('/api/chat', async (req, res) => {
         error: 'GEMINI_API_KEY no está configurada en las variables de entorno.',
       });
     }
-      let dynamicSystemInstruction = SYSTEM_PROMPT;
-if (traditionFocus && traditionFocus !== 'all') {
-    dynamicSystemInstruction += "\nEl usuario tiene un interés especial en la tradición: \"" + traditionFocus + "\". Asegúrate de dar detalle prioritario y profundo a las usanzas de esta tradición, sin dejar de compararla con las demás 4 tradiciones según la Regla 2.";
-}
+
+    let dynamicSystemInstruction = SYSTEM_PROMPT;
+    if (traditionFocus && traditionFocus !== 'all') {
+      dynamicSystemInstruction += `\n\nEl usuario tiene un interés especial en la tradición: "${traditionFocus}". Asegúrate de dar detalle prioritario y profundo a las usanzas de esta tradición, sin dejar de compararla con las demás 4 tradiciones según la Regla 2.`;
+    }
 
     // Format chat history for Gemini
     const contents = messages.map((m: { role: string; content: string }) => ({
@@ -143,7 +146,7 @@ if (traditionFocus && traditionFocus !== 'all') {
 
     for (const modelName of TEXT_MODELS) {
       try {
-        console.log("[Rabino Virtual] Intentando generar respuesta con modelo: " + modelName);
+        console.log(`[Rabino Virtual] Intentando generar respuesta con modelo: ${modelName}`);
         const responseStream = await ai.models.generateContentStream({
           model: modelName,
           contents,
@@ -162,12 +165,12 @@ if (traditionFocus && traditionFocus !== 'all') {
 
         let sentAnyChunk = false;
         for await (const chunk of responseStream) {
-        const text = chunk.text;
-        if (text) {
-        sentAnyChunk = true;
-        res.write("data: " + JSON.stringify({ text }) + "\n\n");
-    }
-}
+          const text = chunk.text;
+          if (text) {
+            sentAnyChunk = true;
+            res.write(`data: ${JSON.stringify({ text })}\n\n`);
+          }
+        }
 
         if (sentAnyChunk) {
           streamSuccess = true;
@@ -175,7 +178,7 @@ if (traditionFocus && traditionFocus !== 'all') {
         }
       } catch (err: any) {
         lastError = err;
-          console.warn("[Rabino Virtual] Modelo ${modelName} no disponible (${err.message || err.status || 'error'}). Probando siguiente modelo...");
+        console.warn(`[Rabino Virtual] Modelo ${modelName} no disponible (${err.message || err.status || 'error'}). Probando siguiente modelo...`);
         // If we already started writing data chunks to client, we cannot cleanly switch models mid-stream
         if (res.headersSent) {
           // If headers were sent but no text chunks or mid-stream failure, break out
@@ -198,9 +201,8 @@ if (traditionFocus && traditionFocus !== 'all') {
       if (!res.headersSent) {
         res.status(503).json({ error: errorMessage });
       } else {
-        const errorPayload = "data: " + JSON.stringify({ error: err.message }) + "\n\n";
-      res.write(errorPayload);
-      res.end();
+        res.write(`data: ${JSON.stringify({ error: errorMessage })}\n\n`);
+        res.end();
       }
     }
   } catch (error: any) {
@@ -209,10 +211,11 @@ if (traditionFocus && traditionFocus !== 'all') {
     if (!res.headersSent) {
       res.status(500).json({ error: friendlyError });
     } else {
-    const fallbackPayload = "data: " + JSON.stringify({ error: friendlyError }) + "\n\n";
-    res.write(fallbackPayload);
-    res.end();
-}
+      res.write(`data: ${JSON.stringify({ error: friendlyError })}\n\n`);
+      res.end();
+    }
+  }
+});
 
 // Text-to-Speech API using gemini-3.8-flash-lite-tts
 app.post('/api/tts', async (req, res) => {
@@ -228,7 +231,10 @@ app.post('/api/tts', async (req, res) => {
     }
 
     // Clean text: strip markdown symbols for clearer speech
-    const cleanText = text.replace(/[\#\*\_\~]/g, "").slice(0, 1000); // Limit length for prompt efficiency
+    const cleanText = text
+      .replace(/[#*`_~]/g, '')
+      .replace(/🔴|🟡|🟢|🔹/g, '')
+      .slice(0, 1000); // Limit length for prompt efficiency
 
     const ttsResponse = await ai.models.generateContent({
       model: 'gemini-3.8-flash-lite-tts',
@@ -345,6 +351,8 @@ async function setupViteOrStatic() {
   }
 
   app.listen(port, '0.0.0.0', () => {
-    console.log("Rabino Virtual server listening on http://0.0.0.0:" + port);
-    setupViteOrStatic();
-});
+    console.log(`Rabino Virtual server listening on http://0.0.0.0:${port}`);
+  });
+}
+
+setupViteOrStatic();
