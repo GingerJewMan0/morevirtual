@@ -175,7 +175,7 @@ if (traditionFocus && traditionFocus !== 'all') {
         }
       } catch (err: any) {
         lastError = err;
-        console.warn(`[Rabino Virtual] Modelo ${modelName} no disponible (${err.message || err.status || 'error'}). Probando siguiente modelo...`);
+          console.warn(`[Rabino Virtual] Modelo ${modelName} no disponible (${err.message || err.status || 'error'}). Probando siguiente modelo...`);
         // If we already started writing data chunks to client, we cannot cleanly switch models mid-stream
         if (res.headersSent) {
           // If headers were sent but no text chunks or mid-stream failure, break out
