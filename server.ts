@@ -87,27 +87,7 @@ app.post('/api/translate-parasha', async (req, res) => {
         { "number": 6, "description": "Translated description for aliyah 6" },
         { "number": 7, "description": "Translated description for aliyah 7" }
       ]
-    }`; // <-- ¡Aquí cierran las comillas invertidas del template literal!
-
-    // Llamada a la IA dentro del endpoint usando el prompt ya construido
-    const response = await ai.models.generateContent({
-      model: TEXT_MODELS[0],
-      contents: prompt,
-    });
-
-    // Parsear y devolver el resultado
-    const rawText = response.text ? response.text.trim() : '';
-    // Limpiar posibles bloques de markdown si la IA los llegara a incluir
-    const cleanedJSON = rawText.replace(/^```json\s*/i, '').replace(/^```\s*/, '').replace(/\s*```$/, '');
-    
-    const translatedData = JSON.parse(cleanedJSON);
-    res.json(translatedData);
-
-  } catch (error) {
-    console.error("Error en traducción de parashá:", error);
-    res.status(500).json({ error: "Error al traducir el contenido de la Parashá" });
-  }
-
+    }`;
 
     // Llamada al modelo Gemini
     const response = await ai.models.generateContent({
