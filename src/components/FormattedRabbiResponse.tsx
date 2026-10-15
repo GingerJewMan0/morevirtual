@@ -113,7 +113,6 @@ export function FormattedRabbiResponse({
       (typeof window !== 'undefined' && document.documentElement.lang) || 
       (navigator.language ? navigator.language.substring(0, 2) : 'es');
 
-    // Asignar el idioma correcto al utterance
     const langMap: Record<string, string> = {
       es: 'es-ES',
       en: 'en-US',
@@ -124,16 +123,31 @@ export function FormattedRabbiResponse({
     const fullLang = langMap[currentLang] || 'es-ES';
     utterance.lang = fullLang;
 
-    // Buscar la mejor voz disponible para el idioma actual (con respaldo flexible)
-    const availableVoices: any[] = window.speechSynthesis.getVoices() || [];
-    const voice =
-      availableVoices.find((v) => v.lang === fullLang) ||
-      availableVoices.find((v) => v.lang.startsWith(currentLang)) ||
-      availableVoices.find((v) => v.lang.startsWith('es')) ||
-      availableVoices[0];
+    // Asegurar obtención asíncrona de voces del navegador si la lista viene vacía inicialmente
+    let availableVoices: any[] = window.speechSynthesis.getVoices() || [];
+    
+    const selectBestVoice = (voiceList: any[]) => {
+      return (
+        voiceList.find((v) => v.lang === fullLang && (v.name.includes('Natural') || v.name.includes('Enhanced') || v.name.includes('Google') || v.name.includes('Microsoft'))) ||
+        voiceList.find((v) => v.lang === fullLang) ||
+        voiceList.find((v) => v.lang.startsWith(currentLang)) ||
+        voiceList.find((v) => v.lang.startsWith('es')) ||
+        voiceList[0]
+      );
+    };
 
-    if (voice) utterance.voice = voice;
-    utterance.rate = 0.95;
+    let voice = selectBestVoice(availableVoices);
+    if (voice) {
+      utterance.voice = voice;
+    } else if (typeof window !== 'undefined' && window.speechSynthesis.onvoiceschanged !== undefined) {
+      window.speechSynthesis.onvoiceschanged = () => {
+        const updatedVoices = window.speechSynthesis.getVoices() || [];
+        const updatedVoice = selectBestVoice(updatedVoices);
+        if (updatedVoice) utterance.voice = updatedVoice;
+      };
+    }
+
+    utterance.rate = 0.95; // Velocidad ligeramente más natural y pausada
 
     utterance.onend = () => setIsPlayingAudio(false);
     utterance.onerror = () => setIsPlayingAudio(false);
