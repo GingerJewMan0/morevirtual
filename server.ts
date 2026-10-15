@@ -228,10 +228,7 @@ app.post('/api/tts', async (req, res) => {
     }
 
     // Clean text: strip markdown symbols for clearer speech
-    const cleanText = text
-      .replace(/[#*`_~]/g, '')
-      .replace(/🔴|🟡|🟢|🔹/g, '')
-      .slice(0, 1000); // Limit length for prompt efficiency
+    const cleanText = text.replace(/[\#\*\_\~]/g, "").slice(0, 1000); // Limit length for prompt efficiency
 
     const ttsResponse = await ai.models.generateContent({
       model: 'gemini-3.8-flash-lite-tts',
