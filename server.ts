@@ -253,11 +253,16 @@ app.post('/api/tts', async (req, res) => {
     }
 
    // Limpieza de símbolos y división inteligente por párrafos
+    // Limpieza de símbolos y corte estricto y seguro para el TTS
     const cleanText = text
       .replace(/[#*`_~()-]/g, ' ')
       .replace(/🔴|🟡|🟢|🔹/g, '')
       .replace(/\s+/g, ' ')
-      .trim();
+      .trim()
+      .slice(0, 250); // Cortamos el texto principal a 250 caracteres
+
+    // Unimos el texto corto con el aviso final para que siempre se reproduzca completo
+    const finalText = cleanText + "... Te invito a leer el resto de la respuesta en la pantalla.";
 
     // Dividimos el texto por puntos seguidos o saltos de línea para asegurar párrafos completos
     const paragraphs = cleanText.split(/(?<=[.!?])\s+/);
