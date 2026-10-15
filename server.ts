@@ -198,7 +198,7 @@ if (traditionFocus && traditionFocus !== 'all') {
       if (!res.headersSent) {
         res.status(503).json({ error: errorMessage });
       } else {
-        res.write(`data: ${JSON.stringify({ error: errorMessage })}\n\n`);
+        res.write("data: " + JSON.stringify({ error: err.message }) + "\n\n");
         res.end();
       }
     }
