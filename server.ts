@@ -242,7 +242,7 @@ app.post('/api/chat', async (req, res) => {
 // Text-to-Speech API using gemini-3.8-flash-lite-tts
 app.post('/api/tts', async (req, res) => {
   try {
-    const { text, voiceName = 'charon' } = req.body;
+    const { text, voiceName = 'Charon' } = req.body;
 
     if (!text) {
       return res.status(400).json({ error: 'Texto requerido para audio' });
@@ -252,15 +252,23 @@ app.post('/api/tts', async (req, res) => {
       return res.status(500).json({ error: 'GEMINI_API_KEY no configurada' });
     }
 
-    // Limpieza de símbolos y corte estricto para evitar que el audio se corte
+    // Limpieza de símbolos molestos
     const cleanText = text
       .replace(/[#*`_~()-]/g, ' ')
       .replace(/🔴|🟡|🟢|🔹/g, '')
       .replace(/\s+/g, ' ')
-      .trim()
-      .slice(0, 400);
+      .trim();
 
-    const finalText = cleanText + "... Te invito a leer el resto de la respuesta en la pantalla.";
+    // Aislamos el primer párrafo u oración completa hasta el primer punto
+    const firstPeriodIndex = cleanText.indexOf('.');
+    let firstParagraph = firstPeriodIndex !== -1 ? cleanText.substring(0, firstPeriodIndex + 1) : cleanText;
+    
+    if (firstParagraph.length > 300) {
+      firstParagraph = firstParagraph.slice(0, 300) + ".";
+    }
+
+    // Unimos el primer párrafo con el mensaje de invitación a leer en pantalla
+    const finalText = firstParagraph + " Te invito a leer el resto de la respuesta en la pantalla.";
 
     const ttsResponse = await ai.models.generateContent({
       model: 'gemini-3.8-flash-lite-tts',
@@ -278,7 +286,7 @@ app.post('/api/tts', async (req, res) => {
         responseModalities: ['AUDIO'],
         speechConfig: {
           voiceConfig: {
-            prebuiltVoiceConfig: { voiceName: voiceName || 'charon' },
+            prebuiltVoiceConfig: { voiceName: voiceName || 'Charon' },
           },
         },
       },
