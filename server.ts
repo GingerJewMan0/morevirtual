@@ -281,15 +281,14 @@ app.post('/api/tts', async (req, res) => {
           ],
         },
       ],
-      config: {
-        responseModalities: ['AUDIO'],
-        speechConfig: {
-          voiceConfig: {
-            prebuiltVoiceConfig: { voiceName: voiceName || 'Charon' },
-          },
-        },
-      },
-    });
+      const response = await fetch('/api/tts', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ 
+    text: textToSpeak,
+    voiceName: 'Charon' // Forzamos explícitamente la voz de Charon
+  }),
+});
 
     const base64Audio = ttsResponse.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
     if (!base64Audio) {
