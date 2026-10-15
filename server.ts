@@ -162,12 +162,12 @@ if (traditionFocus && traditionFocus !== 'all') {
 
         let sentAnyChunk = false;
         for await (const chunk of responseStream) {
-          const text = chunk.text;
-          if (text) {
-            sentAnyChunk = true;
-            res.write(`data: ${JSON.stringify({ text })}\n\n`);
-          }
-        }
+        const text = chunk.text;
+        if (text) {
+        sentAnyChunk = true;
+        res.write("data: " + JSON.stringify({ text }) + "\n\n");
+    }
+}
 
         if (sentAnyChunk) {
           streamSuccess = true;
