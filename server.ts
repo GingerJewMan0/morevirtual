@@ -318,4 +318,50 @@ async function setupViteOrStatic() {
   });
 }
 
+// Endpoint para traducir el contenido del chat al cambiar de idioma
+app.post('/api/translate-content', async (req, res) => {
+  try {
+    const { textToTranslate, targetLanguage } = req.body;
+
+    if (!textToTranslate || !targetLanguage) {
+      return res.status(400).json({ error: 'Texto e idioma de destino requeridos' });
+    }
+
+    if (!process.env.GEMINI_API_KEY) {
+      return res.status(500).json({ error: 'GEMINI_API_KEY no configurada' });
+    }
+
+    const prompt = `Actúa como un erudito rabínico y experto en traducción multilingüe. Traduce el siguiente texto de respuesta al idioma objetivo "${targetLanguage}". Mantén estrictamente el mismo formato Markdown, etiquetas, títulos, tonos y significado original:\n\n${textToTranslate}`;
+
+    let translatedText = null;
+    let lastError = null;
+
+    // Usamos el mismo arreglo TEXT_MODELS que ya tienes en server.ts para garantizar disponibilidad
+    for (const modelName of TEXT_MODELS) {
+      try {
+        const response = await ai.models.generateContent({
+          model: modelName,
+          contents: [{ role: 'user', parts: [{ text: prompt }] }],
+          config: { temperature: 0.3 },
+        });
+
+        translatedText = response.text?.trim();
+        if (translatedText) break;
+      } catch (err: any) {
+        lastError = err;
+        console.warn(`[TranslateContent] Modelo ${modelName} falló. Probando siguiente...`);
+        await new Promise((resolve) => setTimeout(resolve, 500));
+      }
+    }
+
+    if (!translatedText) {
+      throw lastError || new Error('No se pudo traducir con ningún modelo disponible.');
+    }
+
+    res.json({ translatedText });
+  } catch (error: any) {
+    console.error('Error en /api/translate-content:', error);
+    res.status(500).json({ error: error.message || 'Error al traducir el contenido' });
+  }
+});
 setupViteOrStatic();
