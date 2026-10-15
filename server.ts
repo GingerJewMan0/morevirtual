@@ -240,7 +240,6 @@ app.post('/api/chat', async (req, res) => {
 });
 
 // Text-to-Speech API using gemini-3.8-flash-lite-tts
-// Text-to-Speech API using gemini-3.8-flash-lite-tts
 app.post('/api/tts', async (req, res) => {
   try {
     const { text, voiceName = 'Charon' } = req.body;
@@ -281,14 +280,15 @@ app.post('/api/tts', async (req, res) => {
           ],
         },
       ],
-      const response = await fetch('/api/tts', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ 
-    text: textToSpeak,
-    voiceName: 'Charon' // Forzamos explícitamente la voz de Charon
-  }),
-});
+      config: {
+        responseModalities: ['AUDIO'],
+        speechConfig: {
+          voiceConfig: {
+            prebuiltVoiceConfig: { voiceName: voiceName || 'Charon' },
+          },
+        },
+      },
+    });
 
     const base64Audio = ttsResponse.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
     if (!base64Audio) {
