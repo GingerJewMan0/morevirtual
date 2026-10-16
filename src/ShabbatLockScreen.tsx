@@ -8,7 +8,7 @@ export function ShabbatLockScreen() {
         <Moon className="w-12 h-12" />
       </div>
       <h1 className="text-2xl sm:text-3xl font-serif font-bold text-amber-200 mb-3">
-        שבת שלום — Shabat Shalom
+        שבת שלום — Shabat Shalom o Hag Sameaj
       </h1>
       <p className="max-w-md text-slate-400 text-sm sm:text-base leading-relaxed mb-6">
         El Rabino Virtual se encuentra en descanso sabático o por yom tov. Que tengas un Shabat o yom tov lleno de paz, luz y bendición. Nos reencontramos a la salida.
