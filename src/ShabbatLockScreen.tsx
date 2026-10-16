@@ -4,10 +4,21 @@ import { useTranslation } from 'react-i18next';
 
 export function ShabbatLockScreen() {
   const { i18n } = useTranslation();
-  const currentLang = i18n.language?.substring(0, 2) || 'es';
+
+  // Obtenemos el idioma limpio (ej. 'es', 'en', 'he', 'fr', 'pt')
+  const rawLang = i18n.language || localStorage.getItem('i18nextLng') || 'es';
+  const currentLang = rawLang.toLowerCase().includes('he')
+    ? 'he'
+    : rawLang.toLowerCase().includes('en')
+    ? 'en'
+    : rawLang.toLowerCase().includes('pt')
+    ? 'pt'
+    : rawLang.toLowerCase().includes('fr')
+    ? 'fr'
+    : 'es';
+
   const isHebrew = currentLang === 'he';
 
-  // Textos con el mensaje exacto solicitado
   const content = {
     he: {
       title: 'שבת שלום או חג שמח',
