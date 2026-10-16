@@ -199,32 +199,37 @@ export function FormattedRabbiResponse({
           }
 
           if (trimmed.startsWith('### ')) {
-            return (
-              <h4
-                key={idx}
-                className="text-base font-bold text-amber-900 dark:text-amber-400 font-serif pt-2 border-b border-amber-100 dark:border-slate-800 pb-1"
-              >
-                {formatInlineText(trimmed.replace('### ', ''))}
-              </h4>
-            );
-          }
+  const isHebrew = /[\u0590-\u05FF]/.test(trimmed);
+  return (
+    <h4
+      key={idx}
+      className={`text-base font-bold text-amber-900 dark:text-amber-400 font-serif pt-2 border-b border-amber-100 dark:border-slate-800 pb-1 ${isHebrew ? 'text-right' : ''}`}
+      dir={isHebrew ? 'rtl' : 'ltr'}
+    >
+      {formatInlineText(trimmed.replace('### ', ''))}
+    </h4>
+  );
+}
 
-          if (trimmed.startsWith('## ')) {
-            return (
-              <h3
-                key={idx}
-                className="text-lg font-bold text-slate-900 dark:text-slate-100 font-serif pt-3 pb-1"
-              >
-                {formatInlineText(trimmed.replace('## ', ''))}
-              </h3>
-            );
-          }
+if (trimmed.startsWith('## ')) {
+  const isHebrew = /[\u0590-\u05FF]/.test(trimmed);
+  return (
+    <h3
+      key={idx}
+      className={`text-lg font-bold text-slate-900 dark:text-slate-100 font-serif pt-3 pb-1 ${isHebrew ? 'text-right' : ''}`}
+      dir={isHebrew ? 'rtl' : 'ltr'}
+    >
+      {formatInlineText(trimmed.replace('## ', ''))}
+    </h3>
+  );
+}
 
           const isMaguenDavid = trimmed.match(/(\*\*|\b)(Maguen David|Jalabí|Alepo)(\*\*|\b)/i);
           const isMonteSinai = trimmed.match(/(\*\*|\b)(Monte Sinai|Shamí|Damasco)(\*\*|\b)/i);
           const isSefaradi = trimmed.match(/(\*\*|\b)(Sefaradí|Sefardí|Maran)(\*\*|\b)/i);
           const isAshkenazi = trimmed.match(/(\*\*|\b)(Ashkenazí|Asquenazí|Ramá)(\*\*|\b)/i);
           const isChabad = trimmed.match(/(\*\*|\b)(Jabad|Chabad|Lubavitch|Alter Rebe)(\*\*|\b)/i);
+          const isHebrew = /[\u0590-\u05FF]/.test(trimmed);
 
           if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
             return (
@@ -263,9 +268,6 @@ export function FormattedRabbiResponse({
               </div>
             );
           }
-
-          const isHebrew = /[\u0590-\u05FF]/.test(trimmed);
-
           return (
             <p
               key={idx}
