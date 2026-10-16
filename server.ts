@@ -289,15 +289,16 @@ app.post('/api/tts', async (req, res) => {
 
     let cleanText = '';
 
-    if (isHebrew) {
-      // Limpieza específica para hebreo: conservamos el texto hebreo pero limpiamos formato y añadimos pausas firmes
+if (isHebrew) {
+      // Forzamos separación estricta y pausas entre palabras hebreas para evitar que las devore
       cleanText = text
         .replace(/[#*`_~()-]/g, ' ')
         .replace(/🔴|🟡|🟢|🔹/g, '')
         .replace(/\n-/g, '. -')       
         .replace(/:\s*/g, ': ... ')   
         .replace(/\n/g, '. ')         
-        .replace(/([\u0590-\u05FF]{3,})/g, '$1 ') 
+        // Añade un punto o pausa corta entre cada palabra hebrea para que el motor respire
+        .replace(/([\u0590-\u05FF]+)/g, ' $1 . ') 
         .replace(/\s+/g, ' ')
         .trim()
         .slice(0, 800);
