@@ -44,6 +44,8 @@ import { ParashaTab } from './components/ParashaTab.tsx';
 import { GiluyDaatTab } from './components/GiluyDaatTab.tsx';
 import { DeveloperTab } from './components/DeveloperTab.tsx';
 import { useTranslation } from 'react-i18next';
+import { checkIsShabbatOrYomTov } from './shabbatGuard.ts';
+import { ShabbatLockScreen } from './ShabbatLockScreen.tsx';
 
 // --- Funciones y Constantes Auxiliares (Fuera del Componente) ---
 
@@ -83,6 +85,28 @@ const LANGUAGES = [
 
 export function App() {
   const { i18n, t } = useTranslation();
+
+  // --- Bloqueo Global de Shabat y Yom Tov ---
+  const [isRestDay, setIsRestDay] = useState(false);
+  const [isChecking, setIsChecking] = useState(true);
+
+  useEffect(() => {
+    const verifyShabbat = async (lat: number, lng: number) => {
+      const restricted = await checkIsShabbatOrYomTov(lat, lng);
+      setIsRestDay(restricted);
+      setIsChecking(false);
+    };
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => verifyShabbat(pos.coords.latitude, pos.coords.longitude),
+        () => verifyShabbat(19.4326, -99.1332), // Valor por defecto (CDMX) si no hay permisos
+        { timeout: 5000 }
+      );
+    } else {
+      verifyShabbat(19.4326, -99.1332);
+    }
+  }, []);
 
   // Navigation Tabs: chat | calendar | parasha | giluy_daat | developer
   const [activeMainTab, setActiveMainTab] = useState<
@@ -523,7 +547,7 @@ export function App() {
             content: m.content,
           })),
           traditionFocus: 'all',
-          language: activeLang, // <--- Usa directamente la variable activeLang que ya existe arriba
+          language: activeLang,
         }),
       });
 
@@ -650,17 +674,15 @@ export function App() {
 
   const activeLangCode = i18n.language?.substring(0, 2) || selectedLanguage || 'es';
 
-  // Obtenemos las preguntas al instante utilizando las traducciones estáticas
   const filteredQuestions = SAMPLE_QUESTIONS.map((q) => ({
     id: q.id,
     categoryIcon: q.categoryIcon,
-    // Extrae la traducción según el idioma activo, con respaldo a español si falta alguna
     category: q.category[activeLangCode as keyof typeof q.category] || q.category.es,
     question: q.question[activeLangCode as keyof typeof q.question] || q.question.es,
     highlight: q.highlight[activeLangCode as keyof typeof q.highlight] || q.highlight.es,
   }));
 
-  const isTranslatingQuestions = false; // Ya no hay traducción en segundo plano
+  const isTranslatingQuestions = false;
 
   const currentLangObj =
     LANGUAGES.find((l) => l.code === activeLangCode) || LANGUAGES[0];
@@ -705,6 +727,15 @@ export function App() {
 
   const currentTabLabel =
     NAV_ITEMS.find((item) => item.id === activeMainTab)?.label || t('tabAskRabbi', 'Diálogo Rabínico');
+
+  // --- Retornos condicionales para el bloqueo global de Shabat ---
+  if (isChecking) {
+    return null;
+  }
+
+  if (isRestDay) {
+    return <ShabbatLockScreen />;
+  }
 
   return (
     <div className={`flex flex-col min-h-screen ${isDarkMode ? 'dark bg-slate-950 text-slate-100' : 'bg-stone-50/70 text-slate-800'} font-sans transition-colors duration-200`}>
