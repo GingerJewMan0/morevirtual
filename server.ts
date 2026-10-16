@@ -284,44 +284,41 @@ app.post('/api/tts', async (req, res) => {
       return res.status(500).json({ error: 'Falta configurar la variable ELEVENLABS_API_KEY en el servidor' });
     }
 
-    // Función para limpiar y adaptar el texto según el idioma (Español o Hebreo)
-function prepareTextToClean(text: string): { cleanText: string; isHebrew: boolean } {
-  const isHebrew = /[\u0590-\u05FF]/.test(text);
+    // Detectamos si el texto contiene caracteres en hebreo
+    const isHebrew = /[\u0590-\u05FF]/.test(text);
 
-  if (isHebrew) {
-    const cleanText = text
-      .replace(/[#*`_~()-]/g, ' ')
-      .replace(/🔴|🟡|🟢|🔹/g, '')
-      .replace(/[\r\n]+/g, '. ')
-      .replace(/:\s*/g, ': ... ')
-      .replace(/\s+/g, ' ')
-      .trim()
-      .slice(0, 800);
-    return { cleanText, isHebrew: true };
-  } else {
-    const cleanText = text
-      .replace(/[#*`_~()-]/g, ' ')
-      .replace(/🔴|🟡|🟢|🔹/g, '')
-      .replace(/\bja\b/gi, 'ja') 
-      .replace(/jametz/gi, 'jah-méts') 
-      .replace(/Jametz/gi, 'Jah-méts')
-      .replace(/pesaj/gi, 'pésaj')
-      .replace(/Pesaj/gi, 'Pésaj')
-      .replace(/Halajá/gi, 'Jala-já')
-      .replace(/Halajot/gi, 'Jala-jot')
-      .replace(/Shabat/gi, 'Shabat')
-      .replace(/Mitzvá/gi, 'Mitz-vá')
-      .replace(/Mitzvot/gi, 'Mitz-vot')
-      .replace(/\s+/g, ' ')
-      .trim()
-      .slice(0, 800);
-    return { cleanText, isHebrew: false };
-  }
-}
+    let cleanText = '';
 
-    // ID de voz masculina profesional en ElevenLabs
-    // 1. Obtenemos el texto limpio y la bandera de hebreo
-    const { cleanText, isHebrew } = prepareTextToClean(text);
+    if (isHebrew) {
+      // Limpieza específica para hebreo: conservamos el texto hebreo pero limpiamos formato y añadimos pausas firmes
+      cleanText = text
+        .replace(/[#*`_~()-]/g, ' ')
+        .replace(/🔴|🟡|🟢|🔹/g, '')
+        .replace(/\n-/g, '. -')       // Pausa antes de viñetas
+        .replace(/:\s*/g, ': ... ')   // Pausa después de dos puntos
+        .replace(/\n/g, '. ')         // Pausa en saltos de línea
+        .replace(/\s+/g, ' ')
+        .trim()
+        .slice(0, 800);
+    } else {
+      // Tu limpieza original intacta para cuando el texto esté en español
+      cleanText = text
+        .replace(/[#*`_~()-]/g, ' ')
+        .replace(/🔴|🟡|🟢|🔹/g, '')
+        .replace(/\bja\b/gi, 'ja') 
+        .replace(/jametz/gi, 'jah-méts') 
+        .replace(/Jametz/gi, 'Jah-méts')
+        .replace(/pesaj/gi, 'pésaj')
+        .replace(/Pesaj/gi, 'Pésaj')
+        .replace(/Halajá/gi, 'Jala-já')
+        .replace(/Halajot/gi, 'Jala-jot')
+        .replace(/Shabat/gi, 'Shabat')
+        .replace(/Mitzvá/gi, 'Mitz-vá')
+        .replace(/Mitzvot/gi, 'Mitz-vot')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .slice(0, 800);
+    }
 
     // ID de voz masculina profesional en ElevenLabs
     const voiceId = 'onwK4e9ZLuTAKqWW03F9'; 
@@ -334,12 +331,12 @@ function prepareTextToClean(text: string): { cleanText: string; isHebrew: boolea
         'xi-api-key': apiKey,
       },
       body: JSON.stringify({
-        text: cleanText, // <--- Aquí ya toma la variable correcta sin errores
+        text: cleanText,
         model_id: 'eleven_multilingual_v2', 
         voice_settings: {
-          stability: isHebrew ? 0.88 : 0.75,          // Más estabilidad para frenar la lectura rápida en hebreo
+          stability: isHebrew ? 0.88 : 0.75,          // Mayor estabilidad (0.88) para frenar la lectura rápida en hebreo
           similarity_boost: 0.80, 
-          style: isHebrew ? 0.05 : 0.15,              // Estilo más neutro y solemne para el hebreo
+          style: isHebrew ? 0.05 : 0.15,              // Estilo más plano y solemne (0.05) para evitar entonaciones extrañas
           use_speaker_boost: true
         }
       }),
