@@ -32,6 +32,18 @@ export function FormattedRabbiResponse({
   const [isLoadingAudio, setIsLoadingAudio] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  // Definimos los títulos localizados y obtenemos el idioma actual de forma limpia
+  const reflectionTitles: Record<string, string> = {
+    he: 'שאלה להתבוננות ולהמשך הדיון',
+    en: 'Question for Reflection and Continuing the Dialogue',
+    fr: 'Question de Réflexion et Continuation du Dialogue',
+    pt: 'Pergunta para Refletir e Continuar o Diálogo',
+    es: 'Pregunta para Reflexionar y Continuar el Diálogo',
+  };
+
+  const currentLang = (localStorage.getItem('i18nextLng') || 'es').substring(0, 2);
+  const reflectionTitle = reflectionTitles[currentLang] || reflectionTitles.es;
+
   useEffect(() => {
     return () => {
       if (audioRef.current) {
@@ -73,7 +85,6 @@ export function FormattedRabbiResponse({
       const data = await response.json();
       if (!data.audioBase64) throw new Error('No se recibió audio de ElevenLabs');
 
-      // Decodificamos el audio real enviado por ElevenLabs desde el backend
       const binaryString = atob(data.audioBase64);
       const len = binaryString.length;
       const bytes = new Uint8Array(len);
@@ -270,20 +281,7 @@ export function FormattedRabbiResponse({
           <div className="mt-5 p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-amber-50 via-orange-50/50 to-amber-100/50 dark:from-amber-950/30 dark:via-slate-900 dark:to-amber-900/20 border-2 border-amber-300/80 dark:border-amber-700/60 shadow-sm animate-fadeIn">
             <div className="flex items-center gap-2 mb-2 text-amber-900 dark:text-amber-300 font-serif font-bold text-sm sm:text-base">
               <Sparkles className="w-4 h-4 text-amber-600 fill-amber-500 animate-pulse" />
-              <span>
-                {(() => {
-                  const { i18n } = useTranslation();
-                  const titles: Record<string, string> = {
-                    he: 'שאלה להתבוננות ולהמשך הדיון',
-                    en: 'Question for Reflection and Continuing the Dialogue',
-                    fr: 'Question de Réflexion et Continuation du Dialogue',
-                    pt: 'Pergunta para Refletir e Continuar o Diálogo',
-                    es: 'Pregunta para Reflexionar y Continuar el Diálogo'
-                  };
-                  const lang = i18n.language?.substring(0, 2) || 'es';
-                  return titles[lang] || titles.es;
-                  })()}
-                  </span>
+              <span>{reflectionTitle}</span>
             </div>
             <div className="text-sm italic text-slate-800 dark:text-slate-200 leading-relaxed pl-2 border-l-2 border-amber-400">
               {formatInlineText(
