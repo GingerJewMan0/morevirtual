@@ -64,6 +64,18 @@ const TEXT_MODELS = [
   'gemini-flash-latest',
 ];
 
+// Función para optimizar la lectura del hebreo en ElevenLabs añadiendo pausas naturales
+function prepareTextForHebrewTTS(text: string): string {
+  const isHebrew = /[\u0590-\u05FF]/.test(text);
+  if (!isHebrew) return text;
+
+  // Inserta puntos y pausas en los saltos de línea y dos puntos
+  return text
+    .replace(/\n-/g, '. -')
+    .replace(/:\s*/g, ': ... ')
+    .replace(/\n/g, '. ');
+}
+
 // Endpoint para traducir/generar el contenido de la Parashá con reintentos y respaldo de modelos
 app.post('/api/translate-parasha', async (req, res) => {
   try {
@@ -272,25 +284,43 @@ app.post('/api/tts', async (req, res) => {
       return res.status(500).json({ error: 'Falta configurar la variable ELEVENLABS_API_KEY en el servidor' });
     }
 
-   // Limpieza y corrección fonética para que ElevenLabs lea con acentos y fonética perfecta en español
-    const cleanText = text
-      .replace(/[#*`_~()-]/g, ' ')
-      .replace(/🔴|🟡|🟢|🔹/g, '')
-      .replace(/\bja\b/gi, 'ja') 
-      .replace(/jametz/gi, 'jah-méts')  // Forzamos separación fonética dura con 'h' intercalada
-      .replace(/Jametz/gi, 'Jah-méts')
-      .replace(/pesaj/gi, 'pésaj')
-      .replace(/Pesaj/gi, 'Pésaj')
-      .replace(/Halajá/gi, 'Jala-já')
-      .replace(/Halajot/gi, 'Jala-jot')
-      .replace(/Shabat/gi, 'Shabat')
-      .replace(/Mitzvá/gi, 'Mitz-vá')
-      .replace(/Mitzvot/gi, 'Mitz-vot')
-      .replace(/\s+/g, ' ')
-      .trim()
-      .slice(0, 800);
+    // Detectamos si el texto contiene caracteres en hebreo
+    const isHebrew = /[\u0590-\u05FF]/.test(text);
 
-    // ID de voz masculina profesional en ElevenLabs (ej. Daniel / voces profundas estándar)
+    let cleanText = '';
+
+    if (isHebrew) {
+      // Limpieza específica para hebreo: conservamos el texto hebreo pero limpiamos formato y añadimos pausas
+      cleanText = text
+        .replace(/[#*`_~()-]/g, ' ')
+        .replace(/🔴|🟡|🟢|🔹/g, '')
+        .replace(/\n-/g, '. -')       // Pausa antes de viñetas
+        .replace(/:\s*/g, ': ... ')   // Pausa después de dos puntos
+        .replace(/\n/g, '. ')         // Pausa en saltos de línea
+        .replace(/\s+/g, ' ')
+        .trim()
+        .slice(0, 800);
+    } else {
+      // Tu limpieza original intacta para cuando el texto esté en español
+      cleanText = text
+        .replace(/[#*`_~()-]/g, ' ')
+        .replace(/🔴|🟡|🟢|🔹/g, '')
+        .replace(/\bja\b/gi, 'ja') 
+        .replace(/jametz/gi, 'jah-méts') 
+        .replace(/Jametz/gi, 'Jah-méts')
+        .replace(/pesaj/gi, 'pésaj')
+        .replace(/Pesaj/gi, 'Pésaj')
+        .replace(/Halajá/gi, 'Jala-já')
+        .replace(/Halajot/gi, 'Jala-jot')
+        .replace(/Shabat/gi, 'Shabat')
+        .replace(/Mitzvá/gi, 'Mitz-vá')
+        .replace(/Mitzvot/gi, 'Mitz-vot')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .slice(0, 800);
+    }
+
+    // ID de voz masculina profesional en ElevenLabs
     const voiceId = 'onwK4e9ZLuTAKqWW03F9'; 
 
     const ttsResponse = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
@@ -302,13 +332,13 @@ app.post('/api/tts', async (req, res) => {
       },
       body: JSON.stringify({
         text: cleanText,
-        model_id: 'eleven_multilingual_v2', // Excelente soporte y expresividad en español
+        model_id: 'eleven_multilingual_v2', 
         voice_settings: {
-        stability: 0.75,        // Un punto más de estabilidad para una lectura más solemne y pausada
-        similarity_boost: 0.80, // Mayor fidelidad a la voz profunda
-        style: 0.20,            // Ligeramente más expresivo para marcar bien los acentos
-        use_speaker_boost: true
-      }
+          stability: 0.82,          // Subimos un poquito más (0.82) para dar mayor solidez al hebreo
+          similarity_boost: 0.80, 
+          style: 0.15,              // Ligeramente más neutro para evitar que force entonaciones extrañas
+          use_speaker_boost: true
+        }
       }),
     });
 
