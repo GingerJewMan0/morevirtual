@@ -26,7 +26,7 @@ export function FormattedRabbiResponse({
   isBookmarked,
   onToggleBookmark,
 }: FormattedRabbiResponseProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [copied, setCopied] = useState(false);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [isLoadingAudio, setIsLoadingAudio] = useState(false);
@@ -41,7 +41,7 @@ export function FormattedRabbiResponse({
     es: 'Pregunta para Reflexionar y Continuar el Diálogo',
   };
 
-  const currentLang = (localStorage.getItem('i18nextLng') || 'es').substring(0, 2);
+  const currentLang = (i18n?.language || localStorage.getItem('i18nextLng') || 'es').substring(0, 2);
   const reflectionTitle = reflectionTitles[currentLang] || reflectionTitles.es;
 
   useEffect(() => {
