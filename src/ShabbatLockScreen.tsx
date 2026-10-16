@@ -11,7 +11,7 @@ export function ShabbatLockScreen() {
         שבת שלום — Shabat Shalom
       </h1>
       <p className="max-w-md text-slate-400 text-sm sm:text-base leading-relaxed mb-6">
-        El Rabino Virtual se encuentra en descanso sabático. Que tengas un Shabat lleno de paz, luz y bendición. Nos reencontramos a la salida.
+        El Rabino Virtual se encuentra en descanso sabático o por yom tov. Que tengas un Shabat o yom tov lleno de paz, luz y bendición. Nos reencontramos a la salida.
       </p>
       <div className="text-xs font-mono text-slate-500 bg-slate-900 px-4 py-2 rounded-xl border border-slate-800">
         Modo Halájico Global Activo • Operaciones suspendidas
