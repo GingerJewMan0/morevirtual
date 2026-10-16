@@ -289,7 +289,7 @@ app.post('/api/tts', async (req, res) => {
 
     let cleanText = '';
 
-    if (isHebrew) {
+      if (isHebrew) {
       // Limpieza específica para hebreo: conservamos el texto hebreo pero limpiamos formato y añadimos pausas firmes
       cleanText = text
         .replace(/[#*`_~()-]/g, ' ')
@@ -297,6 +297,7 @@ app.post('/api/tts', async (req, res) => {
         .replace(/\n-/g, '. -')       // Pausa antes de viñetas
         .replace(/:\s*/g, ': ... ')   // Pausa después de dos puntos
         .replace(/\n/g, '. ')         // Pausa en saltos de línea
+        .replace(/([.?!])\s*/g, '$1 ') // Asegura espacio correcto tras puntuación
         .replace(/\s+/g, ' ')
         .trim()
         .slice(0, 800);
