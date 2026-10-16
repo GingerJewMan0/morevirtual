@@ -142,87 +142,93 @@ export function FormattedRabbiResponse({
           const trimmed = line.trim();
           if (!trimmed) return <div key={idx} className="h-2" />;
 
-          if (trimmed.includes('🔴 OBLIGATORIO') || trimmed.includes('🔴 Obligatorio')) {
+          // Bloque Obligatorio dinámico (Soporta español e hebreo)
+          if (trimmed.match(/🔴\s*(OBLIGATORIO|חובה)/i)) {
+            const isHebrewLine = /[\u0590-\u05FF]/.test(trimmed);
             return (
               <div
                 key={idx}
                 className="my-3 p-3.5 rounded-xl border-l-4 border-l-red-600 bg-red-50/80 dark:bg-red-950/30 border border-red-200/60 dark:border-red-900/40 shadow-xs"
+                dir={isHebrewLine ? 'rtl' : 'ltr'}
               >
-                <div className="flex items-center gap-2 text-red-900 dark:text-red-300 font-bold text-sm">
+                <div className={`flex items-center gap-2 text-red-900 dark:text-red-300 font-bold text-sm ${isHebrewLine ? 'flex-row-reverse text-right' : ''}`}>
                   <span>🔴</span>
-                  <span>{t('mandatoryTitle', 'OBLIGATORIO')} (Deoraita / Derabanan)</span>
+                  <span>{isHebrewLine ? 'חובה (OBLIGATORIO)' : `${t('mandatoryTitle', 'OBLIGATORIO')} (Deoraita / Derabanan)`}</span>
                 </div>
-                <div className="text-xs text-red-950 dark:text-red-200 mt-1 pl-6">
-                  {formatInlineText(trimmed.replace(/🔴\s*OBLIGATORIO:?/i, ''))}
+                <div className={`text-xs text-red-950 dark:text-red-200 mt-1 ${isHebrewLine ? 'text-right pr-6' : 'pl-6'}`}>
+                  {formatInlineText(trimmed.replace(/🔴\s*(OBLIGATORIO|חובה):?/i, ''))}
                 </div>
               </div>
             );
           }
 
-          if (trimmed.includes('🟡 COSTUMBRE') || trimmed.includes('🟡 Costumbre')) {
+          // Bloque Costumbre dinámico (Soporta español e hebreo)
+          if (trimmed.match(/🟡\s*(COSTUMBRE|מנהג)/i)) {
+            const isHebrewLine = /[\u0590-\u05FF]/.test(trimmed);
             return (
               <div
                 key={idx}
                 className="my-3 p-3.5 rounded-xl border-l-4 border-l-amber-500 bg-amber-50/80 dark:bg-amber-950/30 border border-amber-200/60 dark:border-amber-900/40 shadow-xs"
+                dir={isHebrewLine ? 'rtl' : 'ltr'}
               >
-                <div className="flex items-center gap-2 text-amber-900 dark:text-amber-300 font-bold text-sm">
+                <div className={`flex items-center gap-2 text-amber-900 dark:text-amber-300 font-bold text-sm ${isHebrewLine ? 'flex-row-reverse text-right' : ''}`}>
                   <span>🟡</span>
-                  <span>{t('customTitle', 'COSTUMBRE (MINHAG)')}</span>
+                  <span>{isHebrewLine ? 'מנהג (COSTUMBRE)' : `${t('customTitle', 'COSTUMBRE (MINHAG)')}`}</span>
                 </div>
-                <div className="text-xs text-amber-950 dark:text-amber-200 mt-1 pl-6">
-                  {formatInlineText(trimmed.replace(/🟡\s*COSTUMBRE(\s*\(MINHAG\))?:?/i, ''))}
+                <div className={`text-xs text-amber-950 dark:text-amber-200 mt-1 ${isHebrewLine ? 'text-right pr-6' : 'pl-6'}`}>
+                  {formatInlineText(trimmed.replace(/🟡\s*(COSTUMBRE(\s*\(MINHAG\))?|מנהג):?/i, ''))}
                 </div>
               </div>
             );
           }
 
+          // Bloque Opcional / Humrá dinámico (Soporta español e hebreo)
           if (
-            trimmed.includes('🟢 OPCIONAL') ||
-            trimmed.includes('🟢 Opcional') ||
-            trimmed.includes('🟢 HUMRA') ||
-            trimmed.includes('🟢 JUMRÁ')
+            trimmed.match(/🟢\s*(OPCIONAL|HUMRA|JUMRÁ|הידור|רשות)/i)
           ) {
+            const isHebrewLine = /[\u0590-\u05FF]/.test(trimmed);
             return (
               <div
                 key={idx}
                 className="my-3 p-3.5 rounded-xl border-l-4 border-l-emerald-500 bg-emerald-50/80 dark:bg-emerald-950/30 border border-emerald-200/60 dark:border-emerald-900/40 shadow-xs"
+                dir={isHebrewLine ? 'rtl' : 'ltr'}
               >
-                <div className="flex items-center gap-2 text-emerald-900 dark:text-emerald-300 font-bold text-sm">
+                <div className={`flex items-center gap-2 text-emerald-900 dark:text-emerald-300 font-bold text-sm ${isHebrewLine ? 'flex-row-reverse text-right' : ''}`}>
                   <span>🟢</span>
-                  <span>{t('optionalTitle', 'OPCIONAL / HUMRÁ')} (Midat Jasidut)</span>
+                  <span>{isHebrewLine ? 'הידור / רשות (OPCIONAL)' : `${t('optionalTitle', 'OPCIONAL / HUMRÁ')} (Midat Jasidut)`}</span>
                 </div>
-                <div className="text-xs text-emerald-950 dark:text-emerald-200 mt-1 pl-6">
-                  {formatInlineText(trimmed.replace(/🟢\s*(OPCIONAL\s*\/?\s*HUMRA|JUMRÁ):?/i, ''))}
+                <div className={`text-xs text-emerald-950 dark:text-emerald-200 mt-1 ${isHebrewLine ? 'text-right pr-6' : 'pl-6'}`}>
+                  {formatInlineText(trimmed.replace(/🟢\s*(OPCIONAL\s*\/?\s*HUMRA|JUMRÁ|הידור|רשות):?/i, ''))}
                 </div>
               </div>
             );
           }
 
           if (trimmed.startsWith('### ')) {
-  const isHebrew = /[\u0590-\u05FF]/.test(trimmed);
-  return (
-    <h4
-      key={idx}
-      className={`text-base font-bold text-amber-900 dark:text-amber-400 font-serif pt-2 border-b border-amber-100 dark:border-slate-800 pb-1 ${isHebrew ? 'text-right' : ''}`}
-      dir={isHebrew ? 'rtl' : 'ltr'}
-    >
-      {formatInlineText(trimmed.replace('### ', ''))}
-    </h4>
-  );
-}
+            const isHebrew = /[\u0590-\u05FF]/.test(trimmed);
+            return (
+              <h4
+                key={idx}
+                className={`text-base font-bold text-amber-900 dark:text-amber-400 font-serif pt-2 border-b border-amber-100 dark:border-slate-800 pb-1 ${isHebrew ? 'text-right' : ''}`}
+                dir={isHebrew ? 'rtl' : 'ltr'}
+              >
+                {formatInlineText(trimmed.replace('### ', ''))}
+              </h4>
+            );
+          }
 
-if (trimmed.startsWith('## ')) {
-  const isHebrew = /[\u0590-\u05FF]/.test(trimmed);
-  return (
-    <h3
-      key={idx}
-      className={`text-lg font-bold text-slate-900 dark:text-slate-100 font-serif pt-3 pb-1 ${isHebrew ? 'text-right' : ''}`}
-      dir={isHebrew ? 'rtl' : 'ltr'}
-    >
-      {formatInlineText(trimmed.replace('## ', ''))}
-    </h3>
-  );
-}
+          if (trimmed.startsWith('## ')) {
+            const isHebrew = /[\u0590-\u05FF]/.test(trimmed);
+            return (
+              <h3
+                key={idx}
+                className={`text-lg font-bold text-slate-900 dark:text-slate-100 font-serif pt-3 pb-1 ${isHebrew ? 'text-right' : ''}`}
+                dir={isHebrew ? 'rtl' : 'ltr'}
+              >
+                {formatInlineText(trimmed.replace('## ', ''))}
+              </h3>
+            );
+          }
 
           const isMaguenDavid = trimmed.match(/(\*\*|\b)(Maguen David|Jalabí|Alepo)(\*\*|\b)/i);
           const isMonteSinai = trimmed.match(/(\*\*|\b)(Monte Sinai|Shamí|Damasco)(\*\*|\b)/i);
@@ -233,33 +239,37 @@ if (trimmed.startsWith('## ')) {
 
           if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
             return (
-              <div key={idx} className="flex items-start gap-2.5 pl-2 my-1.5">
+              <div 
+                key={idx} 
+                className={`flex items-start gap-2.5 my-1.5 ${isHebrew ? 'flex-row-reverse text-right pr-2' : 'pl-2'}`}
+                dir={isHebrew ? 'rtl' : 'ltr'}
+              >
                 <span className="text-amber-600 dark:text-amber-400 font-bold text-sm leading-none mt-1">
                   •
                 </span>
                 <div className="flex-1">
                   {isMaguenDavid && (
-                    <span className="inline-block mr-1.5 px-2 py-0.5 text-[11px] font-semibold rounded-md bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700">
+                    <span className="inline-block mx-1.5 px-2 py-0.5 text-[11px] font-semibold rounded-md bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700">
                       🏛️ Maguen David (Jalabí)
                     </span>
                   )}
                   {isMonteSinai && (
-                    <span className="inline-block mr-1.5 px-2 py-0.5 text-[11px] font-semibold rounded-md bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-300 border border-indigo-300 dark:border-indigo-700">
+                    <span className="inline-block mx-1.5 px-2 py-0.5 text-[11px] font-semibold rounded-md bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-300 border border-indigo-300 dark:border-indigo-700">
                       🌄 Monte Sinai (Shamí)
                     </span>
                   )}
                   {isSefaradi && !isMaguenDavid && !isMonteSinai && (
-                    <span className="inline-block mr-1.5 px-2 py-0.5 text-[11px] font-semibold rounded-md bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 border border-amber-300 dark:border-amber-700">
+                    <span className="inline-block mx-1.5 px-2 py-0.5 text-[11px] font-semibold rounded-md bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 border border-amber-300 dark:border-amber-700">
                       📜 Sefaradí
                     </span>
                   )}
                   {isAshkenazi && (
-                    <span className="inline-block mr-1.5 px-2 py-0.5 text-[11px] font-semibold rounded-md bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300 border border-blue-300 dark:border-blue-700">
+                    <span className="inline-block mx-1.5 px-2 py-0.5 text-[11px] font-semibold rounded-md bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300 border border-blue-300 dark:border-blue-700">
                       🕯️ Ashkenazí
                     </span>
                   )}
                   {isChabad && (
-                    <span className="inline-block mr-1.5 px-2 py-0.5 text-[11px] font-semibold rounded-md bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300 border border-rose-300 dark:border-rose-700">
+                    <span className="inline-block mx-1.5 px-2 py-0.5 text-[11px] font-semibold rounded-md bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300 border border-rose-300 dark:border-rose-700">
                       🔥 Jabad Lubavitch
                     </span>
                   )}
