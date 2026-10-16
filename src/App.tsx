@@ -87,8 +87,8 @@ export function App() {
   const { i18n, t } = useTranslation();
 
   // --- Bloqueo Global de Shabat y Yom Tov ---
-  const [isRestDay, setIsRestDay] = useState(true);
-  const [isChecking, setIsChecking] = useState(false);
+  const [isRestDay, setIsRestDay] = useState(false);
+  const [isChecking, setIsChecking] = useState(true);
 
   useEffect(() => {
     const verifyShabbat = async (lat: number, lng: number) => {
