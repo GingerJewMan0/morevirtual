@@ -26,12 +26,12 @@ const ai = new GoogleGenAI({
 const SYSTEM_PROMPT = `Eres "Rabino Virtual", un educador y guía rabínico cálido, sabio, accesible y sumamente pedagógico.
 
 TU MISIÓN:
-Responder a dudas sobre judaísmo, Torá, festividades, halajá (ley judía), ética, historia, filosofía judía y vida cotidiana mediante un diálogo fluido, cercano y natural.
+Responder a dudas sobre judaísmo, Torá, festividades, halajá (ley judía), ética, historia, filosofía judía y vida cotidiana mediante un diálogo fluido, cercano y natural. Si el usuario sube una imagen (como un texto en hebreo, una página de Sidur, un objeto ritual o etiqueta), analízala con profundo respeto, explica su contenido y orienta al usuario según las fuentes.
 
 CONTEXTO DE LA COMUNIDAD DEL USUARIO:
 - El usuario tiene una tradición o comunidad preferida guardada en su perfil (ej. Sefaradí, Ashkenazí, Maguen David, Monte Sinai, o Jabad Lubavitch). 
 - Si conoces la comunidad del usuario, **prioriza y detalla primero la respuesta y costumbre correspondiente a su tradición**, indicándole claramente que esa es su usanza.
-- Si NO conoces la comunidad del usuario (por ejemplo, en la primera interacción), hazle una pregunta breve al inicio o al dar la respuesta para conocer su filiación (ej. *"Para darte una respuesta más precisa según tus raíces, ¿qué tradición o comunidad sueles seguir: Sefaradí, Ashkenazí, Maguen David, Monte Sinai, Jabad u otra?"*).
+- Si NO conoces la comunidad del usuario (por ejemplo, en la primera interacción), hazle una pregunta breve al inicio o al dar la respuesta para conocer su filiación (ej. *"Para darte una respuesta más precisa según tus raíces, qué tradición o comunidad sueles seguir: Sefaradí, Ashkenazí, Maguen David, Monte Sinai, Jabad u otra?"*).
 
 REGLAS OBLIGATORIAS DE RESPUESTA:
 1. IDIOMA ADAPTATIVO:
@@ -136,7 +136,6 @@ app.post('/api/translate-parasha', async (req, res) => {
     let translatedData = null;
     let lastError = null;
 
-    // Intentamos con los modelos disponibles en TEXT_MODELS
     for (const modelName of TEXT_MODELS) {
       try {
         const response = await ai.models.generateContent({
@@ -148,7 +147,7 @@ app.post('/api/translate-parasha', async (req, res) => {
         const responseText = response.text?.trim() || '';
         const cleanedJson = responseText.replace(/```json/g, '').replace(/```/g, '').trim();
         translatedData = JSON.parse(cleanedJson);
-        break; // Si tuvo éxito, salimos del ciclo
+        break;
       } catch (err: any) {
         lastError = err;
         console.warn(`[Translate] Modelo ${modelName} falló o está ocupado. Probando siguiente...`);
@@ -167,11 +166,11 @@ app.post('/api/translate-parasha', async (req, res) => {
   }
 });
 
-// Streaming Chat API with automatic model fallback
+// Streaming Chat API with automatic model fallback & Image Support
 app.post('/api/chat', async (req, res) => {
   try {
-    // 1. Extraemos todo correctamente del body de la petición
-    const { messages, traditionFocus, language, location, responseStyle } = req.body;
+    // 1. Extraemos todo correctamente incluyendo los parámetros de imagen
+    const { messages, traditionFocus, language, location, responseStyle, imageBase64, imageMimeType } = req.body;
 
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
       return res.status(400).json({ error: 'Mensajes requeridos' });
@@ -183,7 +182,7 @@ app.post('/api/chat', async (req, res) => {
       });
     }
 
-    // 1. DEFINIMOS PRIMERO EL IDIOMA DE FORMA ABSOLUTA
+    // 2. Definimos el idioma de forma absoluta para evitar mezclas
     const lang = (language || 'es').toLowerCase();
     
     let languageDirective = "";
@@ -199,31 +198,40 @@ app.post('/api/chat', async (req, res) => {
       languageDirective = `CRITICAL SYSTEM OVERRIDE: Debes responder enteramente en Español.`;
     }
 
-    // 2. CREAMOS LA INSTRUCCIÓN DINÁMICA CON EL IDIOMA MANDANDO AL INICIO
     let dynamicSystemInstruction = `${languageDirective}\n\n${SYSTEM_PROMPT}`;
 
-    // 3. Añadimos la lógica de enfoque tradicional si existe
     if (traditionFocus && traditionFocus !== 'all') {
       dynamicSystemInstruction += `\n\nEl usuario tiene un interés especial en la tradición: "${traditionFocus}". Asegúrate de dar detalle prioritario y profundo a las usanzas de esta comunidad.`;
     }
     
-    // 4. Inyección de Ubicación (Israel vs Diáspora)
     if (location) {
       dynamicSystemInstruction += `\n\nUBICACIÓN DEL USUARIO: El usuario se encuentra en "${location}".`;
     }
 
-    // 5. Estilo de extensión o longitud de respuesta
     if (responseStyle) {
       dynamicSystemInstruction += `\n\nESTILO DE RESPUESTA PREFERIDO: El usuario prefiere respuestas de estilo "${responseStyle}".`;
     }
 
-    // Format chat history for Gemini
-    const contents = messages.map((m: { role: string; content: string }) => ({
-      role: m.role === 'assistant' ? 'model' : 'user',
-      parts: [{ text: m.content }],
-    }));
+    // 3. Formateamos el historial de chat para Gemini integrando la imagen si existe en el último mensaje
+    const contents = messages.map((m: { role: string; content: string }, index: number) => {
+      const parts: any[] = [{ text: m.content }];
 
-    // Attempt streaming with fallback across models
+      // Si el último mensaje trae una imagen adjunta, la añadimos como parte multimodal de Gemini
+      if (index === messages.length - 1 && imageBase64) {
+        parts.push({
+          inlineData: {
+            data: imageBase64,
+            mimeType: imageMimeType || 'image/jpeg',
+          },
+        });
+      }
+
+      return {
+        role: m.role === 'assistant' ? 'model' : 'user',
+        parts,
+      };
+    });
+
     let streamSuccess = false;
     let lastError: any = null;
 
@@ -234,12 +242,11 @@ app.post('/api/chat', async (req, res) => {
           model: modelName,
           contents,
           config: {
-            systemInstruction: dynamicSystemInstruction, // Aquí se pasa la instrucción completa con el idioma forzado
+            systemInstruction: dynamicSystemInstruction,
             temperature: 0.7,
           },
         });
 
-        // If we haven't sent SSE headers yet, send them now
         if (!res.headersSent) {
           res.setHeader('Content-Type', 'text/event-stream; charset=utf-8');
           res.setHeader('Cache-Control', 'no-cache, no-transform');
@@ -257,17 +264,14 @@ app.post('/api/chat', async (req, res) => {
 
         if (sentAnyChunk) {
           streamSuccess = true;
-          break; // Successfully streamed!
+          break;
         }
       } catch (err: any) {
         lastError = err;
         console.warn(`[Rabino Virtual] Modelo ${modelName} no disponible (${err.message || err.status || 'error'}). Probando siguiente modelo...`);
-        // If we already started writing data chunks to client, we cannot cleanly switch models mid-stream
         if (res.headersSent) {
-          // If headers were sent but no text chunks or mid-stream failure, break out
           break;
         }
-        // Small delay before trying fallback model
         await new Promise((resolve) => setTimeout(resolve, 600));
       }
     }
@@ -299,7 +303,8 @@ app.post('/api/chat', async (req, res) => {
     }
   }
 });
-// --- Endpoint de Text-to-Speech con ElevenLabs ---
+
+// --- Endpoint de Text-to-Speech con ElevenLabs (Optimizado con modelo Turbo de alta velocidad) ---
 app.post('/api/tts', async (req, res) => {
   try {
     const { text } = req.body;
@@ -312,26 +317,21 @@ app.post('/api/tts', async (req, res) => {
       return res.status(500).json({ error: 'Falta configurar la variable ELEVENLABS_API_KEY en el servidor' });
     }
 
-    // Detectamos si el texto contiene caracteres en hebreo
     const isHebrew = /[\u0590-\u05FF]/.test(text);
-
     let cleanText = '';
 
     if (isHebrew) {
-      // Forzamos separación estricta y pausas entre palabras hebreas para evitar que las devore
       cleanText = text
         .replace(/[#*`_~()-]/g, ' ')
         .replace(/🔴|🟡|🟢|🔹/g, '')
         .replace(/\n-/g, '. -')      
         .replace(/:\s*/g, ': ... ')   
         .replace(/\n/g, '. ')        
-        // Añade un punto o pausa corta entre cada palabra hebrea para que el motor respire
         .replace(/([\u0590-\u05FF]+)/g, ' $1 . ') 
         .replace(/\s+/g, ' ')
         .trim()
-        .slice(0, 3500); // <-- Aumentado de 800 a 3500 caracteres para hebreo
+        .slice(0, 3500);
     } else {
-      // Tu limpieza original intacta para cuando el texto esté en español
       cleanText = text
         .replace(/[#*`_~()-]/g, ' ')
         .replace(/🔴|🟡|🟢|🔹/g, '')
@@ -347,10 +347,9 @@ app.post('/api/tts', async (req, res) => {
         .replace(/Mitzvot/gi, 'Mitz-vot')
         .replace(/\s+/g, ' ')
         .trim()
-        .slice(0, 4000); // <-- Aumentado de 800 a 4000 caracteres para español (cerca del límite máximo seguro de ElevenLabs por petición)
+        .slice(0, 4000);
     }
 
-    // ID de voz masculina profesional en ElevenLabs
     const voiceId = 'onwK4e9ZLuTAKqWW03F9'; 
 
     const ttsResponse = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
@@ -362,11 +361,11 @@ app.post('/api/tts', async (req, res) => {
       },
       body: JSON.stringify({
         text: cleanText,
-        model_id: 'eleven_multilingual_v2', 
+        model_id: 'eleven_turbo_v2_5', // <-- Cambiado al modelo Turbo para ultra velocidad y baja latencia
         voice_settings: {
-          stability: isHebrew ? 0.88 : 0.75,           // Mayor estabilidad (0.88) para frenar la lectura rápida en hebreo
+          stability: isHebrew ? 0.88 : 0.75,          
           similarity_boost: 0.80, 
-          style: isHebrew ? 0.05 : 0.15,               // Estilo más plano y solemne (0.05) para evitar entonaciones extrañas
+          style: isHebrew ? 0.05 : 0.15,               
           use_speaker_boost: true
         }
       }),
@@ -429,7 +428,6 @@ app.post('/api/translate-content', async (req, res) => {
     let translatedText = null;
     let lastError = null;
 
-    // Usamos el mismo arreglo TEXT_MODELS que ya tienes en server.ts para garantizar disponibilidad
     for (const modelName of TEXT_MODELS) {
       try {
         const response = await ai.models.generateContent({
@@ -457,4 +455,5 @@ app.post('/api/translate-content', async (req, res) => {
     res.status(500).json({ error: error.message || 'Error al traducir el contenido' });
   }
 });
+
 setupViteOrStatic();
