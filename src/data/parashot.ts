@@ -6,7 +6,7 @@ export interface Parasha {
   bookSpanish: string;
   reference: string;
   haftarah: string;
-  maqamHalabi: string; // Syrian/Halabi Maqam according to Aram Tzobá tradition
+  maqamHalabi: string;
   summary: string;
   aliyot: {
     number: number;

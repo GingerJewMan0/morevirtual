@@ -94,7 +94,7 @@ function prepareTextForHebrewTTS(text: string): string {
 // Endpoint para traducir/generar el contenido de la Parashá con reintentos y respaldo de modelos
 app.post('/api/translate-parasha', async (req, res) => {
   try {
-    const { parasha, targetLanguage: tLang, language, parashaName, reference, originalSummary, aliyot } = req.body;
+    const { parasha, targetLanguage: tLang, language, parashaName, reference, originalSummary, aliyot, halachaFocus, rashiInsight, chabadInsight, maqamHalabi } = req.body;
     
     const targetLanguage = tLang || language;
 
@@ -111,16 +111,19 @@ app.post('/api/translate-parasha', async (req, res) => {
     Traduce y adapta profesionalmente el contenido de la Parashá "${name}" (${ref}) al idioma objetivo "${targetLanguage}".
     
     Traduce tanto el resumen general como cada uno de los TÍTULOS (title) y DESCRIPCIONES (description) de las aliyot provistas.
+    Traduce también el campo "maqamHalabi" manteniendo el nombre del Maqam y adaptando su descripción musical/espiritual al idioma objetivo.
 
     Contenido original:
     Resumen: "${summary}"
     Aliyot: ${JSON.stringify(aliyotData)}
+    Maqam original: "${maqamHalabi || parasha?.maqamHalabi || ''}"
 
     Devuelve la respuesta estrictamente en formato JSON válido, sin bloques de código markdown adicionales, con esta estructura exacta:
     {
       "summary": "...",
       "halachaFocus": "...",
       "rashiInsight": "...",
+      "maqamHalabi": "...",
       "chabadInsight": "...",
       "aliyot": [
         { "number": 1, "title": "...", "description": "..." },
