@@ -183,55 +183,38 @@ app.post('/api/chat', async (req, res) => {
       });
     }
 
-    // 1. Partimos de tu SYSTEM_PROMPT base
-    let dynamicSystemInstruction = SYSTEM_PROMPT;
-
-    // 2. Mantenemos tu lógica de enfoque tradicional si existe
-    if (traditionFocus && traditionFocus !== 'all') {
-      dynamicSystemInstruction += `\n\nEl usuario tiene un interés especial en la tradición: "${traditionFocus}". Asegúrate de dar detalle prioritario y profundo a las usanzas de esta comunidad.`;
-    }
-    
-    // 3. NUEVO: Inyección de Ubicación (Israel vs Diáspora) sugerida por el rabino
-    if (location) {
-      dynamicSystemInstruction += `\n\nUBICACIÓN DEL USUARIO: El usuario se encuentra en "${location}". Ten esto muy en cuenta para leyes de festividades, días de Yom Tov o prácticas relativas a la tierra de Israel vs. la Diáspora.`;
-    }
-
-    // 4. NUEVO: Estilo de extensión o longitud de respuesta sugerido por el rabino
-    if (responseStyle) {
-      dynamicSystemInstruction += `\n\nESTILO DE RESPUESTA PREFERIDO: El usuario prefiere respuestas de estilo "${responseStyle}" (por ejemplo: cortas y directas, o detalladas y explicadas con fuentes). Adáptate a esta preferencia.`;
-    }
-
-    // 5. BLOQUE DE IDIOMA AL FINAL (CRÍTICO PARA QUE GEMINI LO OBEDEZCA SIEMPRE)
+    // 1. DEFINIMOS PRIMERO EL IDIOMA DE FORMA ABSOLUTA
     const lang = (language || 'es').toLowerCase();
-
+    
+    let languageDirective = "";
     if (lang === 'he' || lang === 'hebrew') {
-      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE & DIRECTION RULE FOR HEBREW: 
-      - You MUST write the ENTIRE response in Hebrew (עברית) from the very first to the last character.
-      - Do NOT include any Spanish, English, or Latin letters in your greeting or text. 
-      - Keep all punctuation clean so the text flow is completely in Hebrew.`;
+      languageDirective = `CRITICAL SYSTEM OVERRIDE: You MUST think, write, and respond 100% natively in HEBREW (עברית) for this entire session. Do not mix Spanish, English, or Latin letters.`;
     } else if (lang === 'fr' || lang === 'french') {
-      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE RULE: You must think and respond 100% in French (Français). No Spanish words allowed.`;
+      languageDirective = `CRITICAL SYSTEM OVERRIDE: You MUST think, write, and respond 100% in FRENCH (Français). No Spanish allowed.`;
     } else if (lang === 'en' || lang === 'english') {
-      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE RULE: You must think and respond 100% in English. No Spanish words allowed.`;
+      languageDirective = `CRITICAL SYSTEM OVERRIDE: You MUST think, write, and respond 100% in ENGLISH. No Spanish allowed.`;
     } else if (lang === 'pt' || lang === 'portuguese') {
-      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE RULE: You must think and respond 100% in Portuguese (Português). No Spanish words allowed.`;
+      languageDirective = `CRITICAL SYSTEM OVERRIDE: You MUST think, write, and respond 100% in PORTUGUESE (Português). No Spanish allowed.`;
     } else {
-      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE RULE: Debes responder enteramente en Español.`;
+      languageDirective = `CRITICAL SYSTEM OVERRIDE: Debes responder enteramente en Español.`;
     }
 
-    // 6. Mantenemos tu lógica de enfoque tradicional si existe
+    // 2. CREAMOS LA INSTRUCCIÓN DINÁMICA CON EL IDIOMA MANDANDO AL INICIO
+    let dynamicSystemInstruction = `${languageDirective}\n\n${SYSTEM_PROMPT}`;
+
+    // 3. Añadimos la lógica de enfoque tradicional si existe
     if (traditionFocus && traditionFocus !== 'all') {
       dynamicSystemInstruction += `\n\nEl usuario tiene un interés especial en la tradición: "${traditionFocus}". Asegúrate de dar detalle prioritario y profundo a las usanzas de esta comunidad.`;
     }
     
-    // 7. NUEVO: Inyección de Ubicación (Israel vs Diáspora) sugerida por el rabino
+    // 4. Inyección de Ubicación (Israel vs Diáspora)
     if (location) {
-      dynamicSystemInstruction += `\n\nUBICACIÓN DEL USUARIO: El usuario se encuentra en "${location}". Ten esto muy en cuenta para leyes de festividades, días de Yom Tov o prácticas relativas a la tierra de Israel vs. la Diáspora.`;
+      dynamicSystemInstruction += `\n\nUBICACIÓN DEL USUARIO: El usuario se encuentra en "${location}".`;
     }
 
-    // 8. NUEVO: Estilo de extensión o longitud de respuesta sugerido por el rabino
+    // 5. Estilo de extensión o longitud de respuesta
     if (responseStyle) {
-      dynamicSystemInstruction += `\n\nESTILO DE RESPUESTA PREFERIDO: El usuario prefiere respuestas de estilo "${responseStyle}" (por ejemplo: cortas y directas, o detalladas y explicadas con fuentes). Adáptate a esta preferencia.`;
+      dynamicSystemInstruction += `\n\nESTILO DE RESPUESTA PREFERIDO: El usuario prefiere respuestas de estilo "${responseStyle}".`;
     }
 
     // Format chat history for Gemini
