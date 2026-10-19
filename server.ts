@@ -216,8 +216,6 @@ app.post('/api/chat', async (req, res) => {
             temperature: 0.7,
           },
         });
-        
-        // ... (el resto de tu lógica de streaming existente sigue igual abajo)
 
         // If we haven't sent SSE headers yet, send them now
         if (!res.headersSent) {
@@ -297,19 +295,19 @@ app.post('/api/tts', async (req, res) => {
 
     let cleanText = '';
 
-if (isHebrew) {
+    if (isHebrew) {
       // Forzamos separación estricta y pausas entre palabras hebreas para evitar que las devore
       cleanText = text
         .replace(/[#*`_~()-]/g, ' ')
         .replace(/🔴|🟡|🟢|🔹/g, '')
-        .replace(/\n-/g, '. -')       
+        .replace(/\n-/g, '. -')      
         .replace(/:\s*/g, ': ... ')   
-        .replace(/\n/g, '. ')         
+        .replace(/\n/g, '. ')        
         // Añade un punto o pausa corta entre cada palabra hebrea para que el motor respire
         .replace(/([\u0590-\u05FF]+)/g, ' $1 . ') 
         .replace(/\s+/g, ' ')
         .trim()
-        .slice(0, 800);
+        .slice(0, 3500); // <-- Aumentado de 800 a 3500 caracteres para hebreo
     } else {
       // Tu limpieza original intacta para cuando el texto esté en español
       cleanText = text
@@ -327,7 +325,7 @@ if (isHebrew) {
         .replace(/Mitzvot/gi, 'Mitz-vot')
         .replace(/\s+/g, ' ')
         .trim()
-        .slice(0, 800);
+        .slice(0, 4000); // <-- Aumentado de 800 a 4000 caracteres para español (cerca del límite máximo seguro de ElevenLabs por petición)
     }
 
     // ID de voz masculina profesional en ElevenLabs
@@ -344,9 +342,9 @@ if (isHebrew) {
         text: cleanText,
         model_id: 'eleven_multilingual_v2', 
         voice_settings: {
-          stability: isHebrew ? 0.88 : 0.75,          // Mayor estabilidad (0.88) para frenar la lectura rápida en hebreo
+          stability: isHebrew ? 0.88 : 0.75,           // Mayor estabilidad (0.88) para frenar la lectura rápida en hebreo
           similarity_boost: 0.80, 
-          style: isHebrew ? 0.05 : 0.15,              // Estilo más plano y solemne (0.05) para evitar entonaciones extrañas
+          style: isHebrew ? 0.05 : 0.15,               // Estilo más plano y solemne (0.05) para evitar entonaciones extrañas
           use_speaker_boost: true
         }
       }),
