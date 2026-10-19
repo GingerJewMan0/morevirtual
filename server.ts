@@ -188,7 +188,7 @@ app.post('/api/chat', async (req, res) => {
     
     let languageDirective = "";
     if (lang === 'he' || lang === 'hebrew') {
-      languageDirective = `CRITICAL SYSTEM OVERRIDE: You MUST think, write, and respond 100% natively in HEBREW (עברית) for this entire session. Do not mix Spanish, English, or Latin letters.`;
+      languageDirective = `CRITICAL SYSTEM OVERRIDE: You MUST write the ENTIRE response natively in HEBREW (עברית) using only Hebrew alphabet characters. Do NOT use any Latin letters, do NOT write "Shalomi" or any transliterated words, and do NOT mix Spanish. Start your greeting natively in Hebrew (e.g., שלום רב!).`;
     } else if (lang === 'fr' || lang === 'french') {
       languageDirective = `CRITICAL SYSTEM OVERRIDE: You MUST think, write, and respond 100% in FRENCH (Français). No Spanish allowed.`;
     } else if (lang === 'en' || lang === 'english') {
