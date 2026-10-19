@@ -63,7 +63,12 @@ FINALIZA SIEMPRE tu respuesta con una pregunta reflexiva o de apertura hacia otr
 - NUNCA mezcles caracteres hebreos directos u otros alfabetos nativos extraños en medio de una oración en otro idioma, ya que rompen la dirección de lectura (LTL/RTL) y la estructura visual de los párrafos en la interfaz o en aplicaciones de mensajería (como WhatsApp). Si mencionas un término tradicional, escríbelo siempre transliterado en caracteres latinos limpios (ej. kitniyot, gezerá, mitzvá) y aclara su significado únicamente con texto estructurado.
 - Mantén párrafos limpios y bien estructurados, sin saltos de línea extraños ni guiones rotos al final.
 
-7. BREVEDAD Y CLARIDAD:
+7. DESLINDE HALÁJICO Y PROPÓSITO PEDAGÓGICO (CRÍTICO):
+- Ten siempre presente que tu propósito es estrictamente pedagógico y de estudio (Limud Torá). 
+- NUNCA emitas un Psak Halajá (resolución legal definitiva para la práctica personal) ni des órdenes directas sobre cómo debe actuar el usuario en su vida diaria.
+- Ante preguntas de aplicación práctica individual, explica las fuentes, las opiniones y las costumbres de las comunidades, pero **recuérdale sutilmente al usuario que para cualquier decisión práctica personal debe consultar siempre con su rabino o autoridad competente local**.
+
+8. BREVEDAD Y CLARIDAD:
 Sé directo y ve al grano en la explicación principal, evitando preámbulos innecesarios, enfocándote en la práctica del usuario sin volverte pesado o redundante.`;
 
 // Modelos en prioridad en orden: gemini-flash-lite-latest is fastest and highly available, followed by flash models
@@ -178,31 +183,49 @@ app.post('/api/chat', async (req, res) => {
       });
     }
 
-    // 2. Partimos de tu SYSTEM_PROMPT base
+    // 1. Partimos de tu SYSTEM_PROMPT base
     let dynamicSystemInstruction = SYSTEM_PROMPT;
-    if (language === 'he') {
-    dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: You MUST respond ENTIRELY in Hebrew (עברית). Do not write any explanations or sentences in Spanish or English. Translate all content to Hebrew.`;
-  } else if (language === 'fr') {
-    dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: You MUST respond ENTIRELY in French (Français). Translate all content to French.`;
-  } else if (language === 'en') {
-    dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: You MUST respond ENTIRELY in English. Translate all content to English.`;
-  } else if (language === 'pt') {
-    dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: You MUST respond ENTIRELY in Portuguese (Português). Translate all content to Portuguese.`;
-  } else {
-    dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: You MUST respond ENTIRELY in Spanish (Español). Translate all content to Spanish.`;
-  }
 
-    // 4. Mantenemos tu lógica de enfoque tradicional si existe
+    // 2. Mantenemos tu lógica de enfoque tradicional si existe
     if (traditionFocus && traditionFocus !== 'all') {
       dynamicSystemInstruction += `\n\nEl usuario tiene un interés especial en la tradición: "${traditionFocus}". Asegúrate de dar detalle prioritario y profundo a las usanzas de esta comunidad.`;
     }
     
-    // 5. NUEVO: Inyección de Ubicación (Israel vs Diáspora) sugerida por el rabino
+    // 3. NUEVO: Inyección de Ubicación (Israel vs Diáspora) sugerida por el rabino
     if (location) {
       dynamicSystemInstruction += `\n\nUBICACIÓN DEL USUARIO: El usuario se encuentra en "${location}". Ten esto muy en cuenta para leyes de festividades, días de Yom Tov o prácticas relativas a la tierra de Israel vs. la Diáspora.`;
     }
 
-    // 6. NUEVO: Estilo de extensión o longitud de respuesta sugerido por el rabino
+    // 4. NUEVO: Estilo de extensión o longitud de respuesta sugerido por el rabino
+    if (responseStyle) {
+      dynamicSystemInstruction += `\n\nESTILO DE RESPUESTA PREFERIDO: El usuario prefiere respuestas de estilo "${responseStyle}" (por ejemplo: cortas y directas, o detalladas y explicadas con fuentes). Adáptate a esta preferencia.`;
+    }
+
+    // 5. BLOQUE DE IDIOMA AL FINAL (CRÍTICO PARA QUE GEMINI LO OBEDEZCA SIEMPRE)
+    const lang = (language || 'es').toLowerCase();
+    if (lang === 'he' || lang === 'hebrew') {
+      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: You MUST respond ENTIRELY in Hebrew (עברית). Do not write any explanations, greetings, or sentences in Spanish or English. Translate everything to Hebrew.`;
+    } else if (lang === 'fr' || lang === 'french') {
+      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: You MUST respond ENTIRELY in French (Français). Do not write in Spanish. Translate everything to French.`;
+    } else if (lang === 'en' || lang === 'english') {
+      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: You MUST respond ENTIRELY in English. Do not write any explanations or sentences in Spanish. Translate everything to English.`;
+    } else if (lang === 'pt' || lang === 'portuguese') {
+      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: You MUST respond ENTIRELY in Portuguese (Português). Do not write in Spanish. Translate everything to Portuguese.`;
+    } else {
+      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE OVERRIDE: You MUST respond ENTIRELY in Spanish (Español).`;
+    }
+
+    // 6. Mantenemos tu lógica de enfoque tradicional si existe
+    if (traditionFocus && traditionFocus !== 'all') {
+      dynamicSystemInstruction += `\n\nEl usuario tiene un interés especial en la tradición: "${traditionFocus}". Asegúrate de dar detalle prioritario y profundo a las usanzas de esta comunidad.`;
+    }
+    
+    // 7. NUEVO: Inyección de Ubicación (Israel vs Diáspora) sugerida por el rabino
+    if (location) {
+      dynamicSystemInstruction += `\n\nUBICACIÓN DEL USUARIO: El usuario se encuentra en "${location}". Ten esto muy en cuenta para leyes de festividades, días de Yom Tov o prácticas relativas a la tierra de Israel vs. la Diáspora.`;
+    }
+
+    // 8. NUEVO: Estilo de extensión o longitud de respuesta sugerido por el rabino
     if (responseStyle) {
       dynamicSystemInstruction += `\n\nESTILO DE RESPUESTA PREFERIDO: El usuario prefiere respuestas de estilo "${responseStyle}" (por ejemplo: cortas y directas, o detalladas y explicadas con fuentes). Adáptate a esta preferencia.`;
     }
