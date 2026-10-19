@@ -163,8 +163,8 @@ app.post('/api/translate-parasha', async (req, res) => {
 // Streaming Chat API with automatic model fallback
 app.post('/api/chat', async (req, res) => {
   try {
-    // 1. Extraemos 'language' junto con lo que ya tenías
-    const { messages, traditionFocus, language } = req.body;
+    // 1. Extraemos todo correctamente del body de la petición
+    const { messages, traditionFocus, language, location, responseStyle } = req.body;
 
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
       return res.status(400).json({ error: 'Mensajes requeridos' });
@@ -193,6 +193,16 @@ app.post('/api/chat', async (req, res) => {
     // 4. Mantenemos tu lógica de enfoque tradicional si existe
     if (traditionFocus && traditionFocus !== 'all') {
       dynamicSystemInstruction += `\n\nEl usuario tiene un interés especial en la tradición: "${traditionFocus}". Asegúrate de dar detalle prioritario y profundo a las usanzas de esta comunidad.`;
+    }
+    
+    // 5. NUEVO: Inyección de Ubicación (Israel vs Diáspora) sugerida por el rabino
+    if (location) {
+      dynamicSystemInstruction += `\n\nUBICACIÓN DEL USUARIO: El usuario se encuentra en "${location}". Ten esto muy en cuenta para leyes de festividades, días de Yom Tov o prácticas relativas a la tierra de Israel vs. la Diáspora.`;
+    }
+
+    // 6. NUEVO: Estilo de extensión o longitud de respuesta sugerido por el rabino
+    if (responseStyle) {
+      dynamicSystemInstruction += `\n\nESTILO DE RESPUESTA PREFERIDO: El usuario prefiere respuestas de estilo "${responseStyle}" (por ejemplo: cortas y directas, o detalladas y explicadas con fuentes). Adáptate a esta preferencia.`;
     }
 
     // Format chat history for Gemini
