@@ -202,18 +202,21 @@ app.post('/api/chat', async (req, res) => {
     }
 
     // 5. BLOQUE DE IDIOMA AL FINAL (CRÍTICO PARA QUE GEMINI LO OBEDEZCA SIEMPRE)
-    // 3. MANEJO DE IDIOMA ESTRICTO (DIRECTO, SIN TRADUCCIONES)
     const lang = (language || 'es').toLowerCase();
+
     if (lang === 'he' || lang === 'hebrew') {
-      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE INSTRUCTION: You must think, write, and answer DIRECTLY in Hebrew (עברית). Do NOT act as a translator, do NOT say "here is the translation". Just output your rabbinical response natively in Hebrew.`;
+      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE & DIRECTION RULE FOR HEBREW: 
+      - You MUST write the ENTIRE response in Hebrew (עברית) from the very first to the last character.
+      - Do NOT include any Spanish, English, or Latin letters in your greeting or text. 
+      - Keep all punctuation clean so the text flow is completely in Hebrew.`;
     } else if (lang === 'fr' || lang === 'french') {
-      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE INSTRUCTION: You must think, write, and answer DIRECTLY in French (Français). Do NOT act as a translator, do NOT say "here is the translation". Just output your rabbinical response natively in French.`;
+      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE RULE: You must think and respond 100% in French (Français). No Spanish words allowed.`;
     } else if (lang === 'en' || lang === 'english') {
-      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE INSTRUCTION: You must think, write, and answer DIRECTLY in English. Do NOT act as a translator, do NOT say "here is the translation". Just output your rabbinical response natively in English.`;
+      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE RULE: You must think and respond 100% in English. No Spanish words allowed.`;
     } else if (lang === 'pt' || lang === 'portuguese') {
-      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE INSTRUCTION: You must think, write, and answer DIRECTLY in Portuguese (Português). Do NOT act as a translator, do NOT say "here is the translation". Just output your rabbinical response natively in Portuguese.`;
+      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE RULE: You must think and respond 100% in Portuguese (Português). No Spanish words allowed.`;
     } else {
-      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE INSTRUCTION: Debes redactar y responder directamente en Español. No actúes como traductor.`;
+      dynamicSystemInstruction += `\n\nCRITICAL LANGUAGE RULE: Debes responder enteramente en Español.`;
     }
 
     // 6. Mantenemos tu lógica de enfoque tradicional si existe
