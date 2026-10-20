@@ -138,6 +138,12 @@ export function App() {
   const [selectedTradition] = useState<TraditionId>('all');
   const [selectedLanguage, setSelectedLanguage] = useState<string>('es');
 
+  // Image Upload / Paste states
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const imageFileInputRef = useRef<HTMLInputElement | null>(null);
+  const cameraFileInputRef = useRef<HTMLInputElement | null>(null);
+
   // Voice Dictation state
   const [isListening, setIsListening] = useState(false);
   const [isTranscribing, setIsTranscribing] = useState(false);
@@ -164,6 +170,33 @@ export function App() {
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  // Manejar la selección de archivo (galería o cámara)
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file && file.type.startsWith('image/')) {
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
+  // Atrapar imágenes pegadas desde el portapapeles con Ctrl+V
+  const handlePaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    const items = e.clipboardData?.items;
+    if (!items) return;
+
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type.indexOf('image') !== -1) {
+        const file = items[i].getAsFile();
+        if (file) {
+          e.preventDefault();
+          setImageFile(file);
+          setImagePreview(URL.createObjectURL(file));
+          break;
+        }
+      }
+    }
+  };
 
   // Helper para cambiar idioma sincronizando i18n, limpiando el historial y traduciendo mensajes si es necesario
   const handleLanguageChange = async (langCode: string) => {
@@ -499,16 +532,33 @@ export function App() {
   // Send message
   const handleSendMessage = async (textToSend?: string) => {
     const query = (textToSend || inputText).trim();
-    if (!query || isStreaming) return;
+    if (!query && !imageFile) return;
+    if (isStreaming) return;
 
     if (activeMainTab !== 'chat') {
       setActiveMainTab('chat');
     }
 
+    // Convertir la imagen a Base64 si existe
+    let imageBase64 = null;
+    let imageMimeType = null;
+
+    if (imageFile) {
+      imageBase64 = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const base64String = (reader.result as string).split(',')[1];
+          resolve(base64String);
+        };
+        reader.readAsDataURL(imageFile);
+      });
+      imageMimeType = imageFile.type;
+    }
+
     const userMessage: ChatMessage = {
       id: `user-${Date.now()}`,
       role: 'user',
-      content: query,
+      content: query || '[Imagen adjunta]',
       timestamp: Date.now(),
       traditionFocus: selectedTradition,
     };
@@ -516,6 +566,8 @@ export function App() {
     const newMessages = [...messages, userMessage];
     setMessages(newMessages);
     setInputText('');
+    setImageFile(null);
+    setImagePreview(null);
     setAudioErrorNotice(null);
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
@@ -548,6 +600,8 @@ export function App() {
           })),
           traditionFocus: 'all',
           language: activeLang,
+          imageBase64,
+          imageMimeType,
         }),
       });
 
@@ -1402,14 +1456,47 @@ export function App() {
               </div>
             )}
 
+            {/* Vista previa de imagen seleccionada o pegada */}
+            {imagePreview && (
+              <div className="relative inline-block mb-1 px-1">
+                <img src={imagePreview} alt="Preview" className="h-16 w-16 object-cover rounded-xl border-2 border-amber-500 shadow-md" />
+                <button 
+                  onClick={() => { setImageFile(null); setImagePreview(null); }}
+                  className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full p-1 text-xs shadow hover:bg-red-700 transition cursor-pointer"
+                  title="Eliminar imagen"
+                >
+                  <X className="w-3 h-3" />
+                </button>
+              </div>
+            )}
+
             <div className="relative flex items-end gap-2 bg-slate-50 dark:bg-slate-800/80 rounded-2xl p-2 border border-slate-200 dark:border-slate-700 focus-within:border-amber-500 focus-within:ring-2 focus-within:ring-amber-500/20 transition">
+              
+              {/* Inputs de archivo ocultos para Galería y Cámara */}
+              <input 
+                type="file" 
+                ref={imageFileInputRef}
+                accept="image/*" 
+                className="hidden" 
+                onChange={handleImageSelect}
+              />
+              <input 
+                type="file" 
+                ref={cameraFileInputRef}
+                accept="image/*" 
+                capture="environment" 
+                className="hidden" 
+                onChange={handleImageSelect}
+              />
+
               <textarea
                 ref={textareaRef}
                 rows={1}
                 value={inputText}
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
-                placeholder={t('typeMessagePlaceholder', 'Escribe o dicta tu consulta sobre halajá, festividades o Torá...')}
+                onPaste={handlePaste} // <--- ¡Soporte para Ctrl+V de imágenes!
+                placeholder={t('typeMessagePlaceholder', 'Escribe, dicta, pega una imagen (Ctrl+V)...')}
                 className="flex-1 bg-transparent border-0 resize-none py-2 px-3 text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none max-h-36"
                 dir={activeLangCode === 'he' ? 'rtl' : 'ltr'}
               />
@@ -1423,6 +1510,26 @@ export function App() {
                   onChange={handleAudioFileUpload}
                   className="hidden"
                 />
+
+                {/* Botón para subir imagen desde galería */}
+                <button
+                  type="button"
+                  onClick={() => imageFileInputRef.current?.click()}
+                  className="p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:text-amber-700 dark:hover:text-amber-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition cursor-pointer"
+                  title={t('uploadImage', 'Subir imagen o documento')}
+                >
+                  <Upload className="w-4 h-4" />
+                </button>
+
+                {/* Botón exclusivo para activar la cámara en móviles/tablets */}
+                <button
+                  type="button"
+                  onClick={() => cameraFileInputRef.current?.click()}
+                  className="p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:text-amber-700 dark:hover:text-amber-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition cursor-pointer md:hidden"
+                  title={t('takePhoto', 'Tomar foto con cámara')}
+                >
+                  <span className="text-base">📸</span>
+                </button>
 
                 <button
                   type="button"
@@ -1450,9 +1557,9 @@ export function App() {
                 <button
                   type="button"
                   onClick={() => handleSendMessage()}
-                  disabled={!inputText.trim() || isStreaming}
+                  disabled={(!inputText.trim() && !imageFile) || isStreaming}
                   className={`p-2 rounded-xl text-white transition ${
-                    inputText.trim() && !isStreaming
+                    (inputText.trim() || imageFile) && !isStreaming
                       ? 'bg-amber-600 hover:bg-amber-700 shadow-md shadow-amber-900/20 cursor-pointer'
                       : 'bg-slate-300 dark:bg-slate-700 cursor-not-allowed opacity-60'
                   }`}
