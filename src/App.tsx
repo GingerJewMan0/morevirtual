@@ -364,12 +364,18 @@ export function App() {
     setIsListening(false);
   };
 
-  // --- Sistema de Dictado por Voz Híbrido Total (Render HTTPS + APK + Firefox Inteligente) ---
+  // --- Sistema de Dictado por Voz Híbrido Definitivo (APK + Render Web + Fallback Inteligente) ---
   const toggleVoiceDictation = async () => {
     setAudioErrorNotice(null);
     const isCapacitorApp = typeof window !== 'undefined' && (window as any).Capacitor !== undefined;
 
-    // 1. Lógica para la APK (Android con Capacitor)
+    // Si ya está grabando, detenemos la grabación para que se procese
+    if (isListening) {
+      stopVoiceDictation();
+      return;
+    }
+
+    // 1. Lógica para la APK (Android) con Respaldo de Grabación si el plugin nativo falla
     if (isCapacitorApp) {
       try {
         const permissionStatus = await SpeechRecognition.checkPermissions();
@@ -397,28 +403,22 @@ export function App() {
           const transcript = result.matches[0];
           setInputText((prev) => (prev ? `${prev} ${transcript}` : transcript));
         }
+        setIsListening(false);
+        return;
       } catch (e) {
-        setAudioErrorNotice("El dictado nativo no pudo iniciarse en este dispositivo.");
-      } finally {
+        // Si el plugin nativo de la APK falla, no lanzamos error: activamos la grabación por MediaRecorder de forma fluida
         setIsListening(false);
       }
-      return;
     }
 
-    // Si ya está grabando por voz en Firefox/escritorio, la detenemos
-    if (isListening) {
-      stopVoiceDictation();
-      return;
-    }
-
-    // 2. Lógica para Navegadores Web (Edge / Chrome)
+    // 2. Lógica para Navegadores Web (Edge / Chrome en Render)
     const SpeechRecognitionWeb =
       (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
 
     const isFirefoxBrowser = typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().includes('firefox');
 
-    // 3. Soporte Inteligente para Firefox (Usa MediaRecorder + Transcripción por IA sin abrir archivos)
-    if (!SpeechRecognitionWeb || isFirefoxBrowser) {
+    // 3. Respaldo por MediaRecorder (Usado en Firefox, o cuando la APK/Edge no tienen soporte nativo de texto)
+    if (!SpeechRecognitionWeb || isFirefoxBrowser || isCapacitorApp) {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
         const mediaRecorder = new MediaRecorder(stream);
@@ -451,7 +451,7 @@ export function App() {
                 setAudioErrorNotice('No se detectó voz clara en la grabación.');
               }
             } catch {
-              setAudioErrorNotice('Dificultad temporal al transcribir el audio de Firefox.');
+              setAudioErrorNotice('Dificultad temporal al transcribir el audio.');
             } finally {
               setIsTranscribing(false);
             }
@@ -465,7 +465,7 @@ export function App() {
         setIsListening(true);
         return;
       } catch {
-        setAudioErrorNotice('No se pudo acceder al micrófono en este navegador.');
+        setAudioErrorNotice('No se pudo acceder al micrófono del dispositivo.');
         setIsListening(false);
         return;
       }
