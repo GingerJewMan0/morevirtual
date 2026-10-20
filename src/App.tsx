@@ -47,6 +47,8 @@ import { useTranslation } from 'react-i18next';
 import { checkIsShabbatOrYomTov } from './shabbatGuard.ts';
 import { ShabbatLockScreen } from './ShabbatLockScreen.tsx';
 import { SpeechRecognition } from '@capacitor-community/speech-recognition';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { Geolocation } from '@capacitor/geolocation';
 
 // --- Funciones y Constantes Auxiliares (Fuera del Componente) ---
 
@@ -87,7 +89,7 @@ const LANGUAGES = [
 export function App() {
   const { i18n, t } = useTranslation();
 
-  // --- Bloqueo Global de Shabat y Yom Tov ---
+  // --- Bloqueo Global de Shabat y Yom Tov con Solicitud Nativa de Ubicación ---
   const [isRestDay, setIsRestDay] = useState(false);
   const [isChecking, setIsChecking] = useState(true);
 
@@ -98,15 +100,42 @@ export function App() {
       setIsChecking(false);
     };
 
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => verifyShabbat(pos.coords.latitude, pos.coords.longitude),
-        () => verifyShabbat(19.4326, -99.1332), // Valor por defecto (CDMX) si no hay permisos
-        { timeout: 5000 }
-      );
-    } else {
-      verifyShabbat(19.4326, -99.1332);
-    }
+    const initLocation = async () => {
+      const isCapacitorApp = typeof window !== 'undefined' && (window as any).Capacitor !== undefined;
+
+      if (isCapacitorApp) {
+        try {
+          // Importamos dinámicamente o verificamos con @capacitor/geolocation
+          const { Geolocation } = await import('@capacitor/geolocation');
+          
+          let permStatus = await Geolocation.checkPermissions();
+          if (permStatus.location !== 'granted') {
+            permStatus = await Geolocation.requestPermissions();
+          }
+
+          if (permStatus.location === 'granted') {
+            const coordinates = await Geolocation.getCurrentPosition({ timeout: 5000 });
+            verifyShabbat(coordinates.coords.latitude, coordinates.coords.longitude);
+            return;
+          }
+        } catch (e) {
+          console.log('Error al solicitar permisos nativos de ubicación:', e);
+        }
+      }
+
+      // Respaldo para navegador web o si se denegó el permiso en la app
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => verifyShabbat(pos.coords.latitude, pos.coords.longitude),
+          () => verifyShabbat(19.4326, -99.1332), // Valor por defecto (CDMX)
+          { timeout: 5000 }
+        );
+      } else {
+        verifyShabbat(19.4326, -99.1332);
+      }
+    };
+
+    initLocation();
   }, []);
 
   // Navigation Tabs: chat | calendar | parasha | giluy_daat | developer
@@ -139,9 +168,12 @@ export function App() {
   const [selectedTradition] = useState<TraditionId>('all');
   const [selectedLanguage, setSelectedLanguage] = useState<string>('es');
 
-  // Image Upload / Paste states
+  // Image Upload / Native states
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [nativeImageBase64, setNativeImageBase64] = useState<string | null>(null);
+  const [nativeImageMimeType, setNativeImageMimeType] = useState<string | null>(null);
+  
   const imageFileInputRef = useRef<HTMLInputElement | null>(null);
   const cameraFileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -172,12 +204,48 @@ export function App() {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  // Manejar la selección de archivo (galería o cámara)
+  // Manejar la selección de archivo web (Galería tradicional en PC)
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file && file.type.startsWith('image/')) {
       setImageFile(file);
       setImagePreview(URL.createObjectURL(file));
+      setNativeImageBase64(null);
+      setNativeImageMimeType(null);
+    }
+  };
+
+  // --- Sistema Híbrido de Cámara y Galería Nativa (APK Android + Web) ---
+  const handleNativeImageSelection = async (useCamera: boolean = false) => {
+    setAudioErrorNotice(null);
+    const isCapacitorApp = typeof window !== 'undefined' && (window as any).Capacitor !== undefined;
+
+    if (isCapacitorApp) {
+      try {
+        const photo = await Camera.getPhoto({
+          quality: 90,
+          allowEditing: false,
+          resultType: CameraResultType.Base64,
+          source: useCamera ? CameraSource.Camera : CameraSource.Photos,
+        });
+
+        if (photo && photo.base64String) {
+          const mimeType = `image/${photo.format || 'jpeg'}`;
+          setNativeImageBase64(photo.base64String);
+          setNativeImageMimeType(mimeType);
+          setImageFile(null); // Limpiamos el archivo web si lo hubiera
+          setImagePreview(`data:${mimeType};base64,${photo.base64String}`);
+        }
+      } catch (error) {
+        console.log('Selección de imagen nativa cancelada o con error:', error);
+      }
+    } else {
+      // En navegador web de PC, disparamos el input correspondiente
+      if (useCamera) {
+        cameraFileInputRef.current?.click();
+      } else {
+        imageFileInputRef.current?.click();
+      }
     }
   };
 
@@ -193,6 +261,8 @@ export function App() {
           e.preventDefault();
           setImageFile(file);
           setImagePreview(URL.createObjectURL(file));
+          setNativeImageBase64(null);
+          setNativeImageMimeType(null);
           break;
         }
       }
@@ -203,20 +273,17 @@ export function App() {
   const handleLanguageChange = async (langCode: string) => {
     setSelectedLanguage(langCode);
     i18n.changeLanguage(langCode);
-    setMessages([]); // Limpia el chat actual para evitar que arrastre saludos o contexto del idioma anterior
+    setMessages([]);
 
-    // Traducir dinámicamente el historial de mensajes del asistente si ya existen
     const updatedMessages = await Promise.all(
       messages.map(async (msg) => {
         if (msg.role === 'assistant' && !msg.isError) {
           const translations = msg.translations || { es: msg.content };
 
-          // Si ya tenemos la traducción guardada en caché local, la usamos de inmediato
           if (translations[langCode]) {
             return { ...msg, content: translations[langCode] };
           }
 
-          // Si no la tenemos, la solicitamos al backend
           try {
             const res = await fetch('/api/translate-content', {
               method: 'POST',
@@ -354,7 +421,7 @@ export function App() {
     }
   };
 
-  // --- Función auxiliar para detener el dictado (declarada primero) ---
+  // --- Función auxiliar para detener el dictado ---
   const stopVoiceDictation = () => {
     if (recognitionRef.current) {
       try {
@@ -369,7 +436,6 @@ export function App() {
     setAudioErrorNotice(null);
     const isCapacitorApp = typeof window !== 'undefined' && (window as any).Capacitor !== undefined;
 
-    // Si ya está grabando (ya sea en Android o PC), detenemos para procesar
     if (isListening) {
       stopVoiceDictation();
       return;
@@ -410,9 +476,8 @@ export function App() {
       }
     }
 
-    // 2. Navegador Web en PC (Edge / Firefox / Chrome) -> Funciona con CUALQUIER micrófono conectado
+    // 2. Navegador Web en PC (Edge / Firefox / Chrome)
     try {
-      // Pide acceso al micrófono predeterminado del sistema (Fast Track, USB, diadema o interno)
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const mediaRecorder = new MediaRecorder(stream);
       mediaRecorderRef.current = mediaRecorder;
@@ -465,18 +530,18 @@ export function App() {
   // Send message
   const handleSendMessage = async (textToSend?: string) => {
     const query = (textToSend || inputText).trim();
-    if (!query && !imageFile) return;
+    if (!query && !imageFile && !nativeImageBase64) return;
     if (isStreaming) return;
 
     if (activeMainTab !== 'chat') {
       setActiveMainTab('chat');
     }
 
-    // Convertir la imagen a Base64 si existe
-    let imageBase64 = null;
-    let imageMimeType = null;
+    let imageBase64 = nativeImageBase64;
+    let imageMimeType = nativeImageMimeType;
 
-    if (imageFile) {
+    // Si hay un archivo web tradicional cargado, lo convertimos a Base64
+    if (imageFile && !imageBase64) {
       imageBase64 = await new Promise((resolve) => {
         const reader = new FileReader();
         reader.onload = () => {
@@ -501,6 +566,8 @@ export function App() {
     setInputText('');
     setImageFile(null);
     setImagePreview(null);
+    setNativeImageBase64(null);
+    setNativeImageMimeType(null);
     setAudioErrorNotice(null);
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
@@ -1389,12 +1456,12 @@ export function App() {
               </div>
             )}
 
-            {/* Vista previa de imagen seleccionada o pegada */}
+            {/* Vista previa de imagen seleccionada */}
             {imagePreview && (
               <div className="relative inline-block mb-1 px-1">
                 <img src={imagePreview} alt="Preview" className="h-16 w-16 object-cover rounded-xl border-2 border-amber-500 shadow-md" />
                 <button 
-                  onClick={() => { setImageFile(null); setImagePreview(null); }}
+                  onClick={() => { setImageFile(null); setImagePreview(null); setNativeImageBase64(null); setNativeImageMimeType(null); }}
                   className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full p-1 text-xs shadow hover:bg-red-700 transition cursor-pointer"
                   title="Eliminar imagen"
                 >
@@ -1405,7 +1472,7 @@ export function App() {
 
             <div className="relative flex items-end gap-2 bg-slate-50 dark:bg-slate-800/80 rounded-2xl p-2 border border-slate-200 dark:border-slate-700 focus-within:border-amber-500 focus-within:ring-2 focus-within:ring-amber-500/20 transition">
               
-              {/* Inputs de archivo ocultos para Galería y Cámara */}
+              {/* Inputs de archivo ocultos (Respaldo web tradicional) */}
               <input 
                 type="file" 
                 ref={imageFileInputRef}
@@ -1428,7 +1495,7 @@ export function App() {
                 value={inputText}
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
-                onPaste={handlePaste} // <--- ¡Soporte para Ctrl+V de imágenes!
+                onPaste={handlePaste}
                 placeholder={t('typeMessagePlaceholder', 'Escribe, dicta, pega una imagen (Ctrl+V)...')}
                 className="flex-1 bg-transparent border-0 resize-none py-2 px-3 text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none max-h-36"
                 dir={activeLangCode === 'he' ? 'rtl' : 'ltr'}
@@ -1444,21 +1511,21 @@ export function App() {
                   className="hidden"
                 />
 
-                {/* Botón para subir imagen desde galería */}
+                {/* Botón para subir imagen (Abre galería en Android o selector en PC) */}
                 <button
                   type="button"
-                  onClick={() => imageFileInputRef.current?.click()}
+                  onClick={() => handleNativeImageSelection(false)}
                   className="p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:text-amber-700 dark:hover:text-amber-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition cursor-pointer"
-                  title={t('uploadImage', 'Subir imagen o documento')}
+                  title={t('uploadImage', 'Subir imagen de galería')}
                 >
                   <Upload className="w-4 h-4" />
                 </button>
 
-                {/* Botón exclusivo para activar la cámara en móviles/tablets */}
+                {/* Botón para tomar foto con la cámara (Nativo en Android / Web) */}
                 <button
                   type="button"
-                  onClick={() => cameraFileInputRef.current?.click()}
-                  className="p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:text-amber-700 dark:hover:text-amber-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition cursor-pointer md:hidden"
+                  onClick={() => handleNativeImageSelection(true)}
+                  className="p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:text-amber-700 dark:hover:text-amber-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition cursor-pointer"
                   title={t('takePhoto', 'Tomar foto con cámara')}
                 >
                   <span className="text-base">📸</span>
@@ -1490,9 +1557,9 @@ export function App() {
                 <button
                   type="button"
                   onClick={() => handleSendMessage()}
-                  disabled={(!inputText.trim() && !imageFile) || isStreaming}
+                  disabled={(!inputText.trim() && !imageFile && !nativeImageBase64) || isStreaming}
                   className={`p-2 rounded-xl text-white transition ${
-                    (inputText.trim() || imageFile) && !isStreaming
+                    (inputText.trim() || imageFile || nativeImageBase64) && !isStreaming
                       ? 'bg-amber-600 hover:bg-amber-700 shadow-md shadow-amber-900/20 cursor-pointer'
                       : 'bg-slate-300 dark:bg-slate-700 cursor-not-allowed opacity-60'
                   }`}
