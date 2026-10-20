@@ -364,7 +364,7 @@ export function App() {
     setIsListening(false);
   };
 
-  // --- Sistema de Dictado por Voz Híbrido con Grabación Directa en Web ---
+  // --- Sistema de Dictado por Voz Híbrido Total (Render HTTPS + APK + Firefox Inteligente) ---
   const toggleVoiceDictation = async () => {
     setAudioErrorNotice(null);
     const isCapacitorApp = typeof window !== 'undefined' && (window as any).Capacitor !== undefined;
@@ -398,27 +398,26 @@ export function App() {
           setInputText((prev) => (prev ? `${prev} ${transcript}` : transcript));
         }
       } catch (e) {
-        // Manejo silencioso sin alertas intrusivas
+        setAudioErrorNotice("El dictado nativo no pudo iniciarse en este dispositivo.");
       } finally {
         setIsListening(false);
       }
       return;
     }
 
-    // 2. Lógica para Navegadores Web de Escritorio (Edge / Chrome / Firefox)
-    const SpeechRecognitionWeb =
-      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-
-    const isFirefoxBrowser = typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().includes('firefox');
-
-    // Si ya estamos grabando por voz web, la detenemos
+    // Si ya está grabando por voz en Firefox/escritorio, la detenemos
     if (isListening) {
       stopVoiceDictation();
       return;
     }
 
-    // Si el navegador no soporta SpeechRecognition (como Firefox o restricciones de Edge local),
-    // usamos MediaRecorder para grabar tu voz directamente desde el micrófono de la PC sin abrir archivos.
+    // 2. Lógica para Navegadores Web (Edge / Chrome)
+    const SpeechRecognitionWeb =
+      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+
+    const isFirefoxBrowser = typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().includes('firefox');
+
+    // 3. Soporte Inteligente para Firefox (Usa MediaRecorder + Transcripción por IA sin abrir archivos)
     if (!SpeechRecognitionWeb || isFirefoxBrowser) {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -436,6 +435,7 @@ export function App() {
           setIsTranscribing(true);
           const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
           const reader = new FileReader();
+
           reader.onloadend = async () => {
             try {
               const base64Data = (reader.result as string).split(',')[1];
@@ -447,16 +447,17 @@ export function App() {
               const data = await res.json();
               if (data.text) {
                 setInputText((prev) => (prev ? `${prev} ${data.text}` : data.text));
+              } else {
+                setAudioErrorNotice('No se detectó voz clara en la grabación.');
               }
             } catch {
-              setAudioErrorNotice('No se pudo transcribir el audio grabado.');
+              setAudioErrorNotice('Dificultad temporal al transcribir el audio de Firefox.');
             } finally {
               setIsTranscribing(false);
             }
           };
+
           reader.readAsDataURL(audioBlob);
-          
-          // Apagar las pistas del micrófono
           stream.getTracks().forEach((track) => track.stop());
         };
 
@@ -464,12 +465,13 @@ export function App() {
         setIsListening(true);
         return;
       } catch {
-        setAudioErrorNotice('No se pudo acceder al micrófono del navegador.');
+        setAudioErrorNotice('No se pudo acceder al micrófono en este navegador.');
+        setIsListening(false);
         return;
       }
     }
 
-    // Intento con la API Web estándar si está permitida
+    // Flujo estándar para Edge y Chrome en Render (HTTPS)
     const currentLang = i18n.language?.substring(0, 2) || selectedLanguage;
     const langCode =
       currentLang === 'he'
@@ -496,8 +498,11 @@ export function App() {
         setIsListening(false);
       };
 
-      recognition.onerror = () => {
+      recognition.onerror = (event: any) => {
         setIsListening(false);
+        if (event.error === 'not-allowed') {
+          setAudioErrorNotice("Permiso de micrófono denegado en el navegador.");
+        }
       };
 
       recognition.onend = () => {
@@ -509,6 +514,7 @@ export function App() {
       setIsListening(true);
     } catch {
       setIsListening(false);
+      setAudioErrorNotice("No se pudo iniciar el reconocimiento de voz.");
     }
   };
 
