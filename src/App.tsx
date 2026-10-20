@@ -364,12 +364,12 @@ export function App() {
     setIsListening(false);
   };
 
-  // --- Sistema de Dictado por Voz Híbrido Estabilizado ---
+  // --- Sistema de Dictado por Voz Híbrido Definitivo y Separado ---
   const toggleVoiceDictation = async () => {
     setAudioErrorNotice(null);
     const isCapacitorApp = typeof window !== 'undefined' && (window as any).Capacitor !== undefined;
 
-    // 1. Si estamos en la APK (Capacitor)
+    // 1. Lógica para la APK (Android con Capacitor)
     if (isCapacitorApp) {
       try {
         const permissionStatus = await SpeechRecognition.checkPermissions();
@@ -399,23 +399,20 @@ export function App() {
           setInputText((prev) => (prev ? `${prev} ${transcript}` : transcript));
         }
       } catch (e) {
-        // Si hay algún detalle nativo, activamos directamente el grabador de audio en lugar de mostrar error estático
-        if (audioFileInputRef.current) {
-          audioFileInputRef.current.click();
-        }
+        setAudioErrorNotice("El dictado por voz nativo no pudo iniciarse en este dispositivo.");
       } finally {
         setIsListening(false);
       }
       return;
     }
 
-    // 2. Si estamos en Navegador Web (Edge / Chrome / Firefox)
+    // 2. Lógica para Navegadores Web de Escritorio (Edge / Chrome / Firefox)
     const SpeechRecognitionWeb =
       (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
 
     const isFirefoxBrowser = typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().includes('firefox');
 
-    // Si es Firefox o la API web no está disponible por restricciones locales de Edge, abrimos el grabador de audio directamente
+    // Si es Firefox o la API web no existe, mandamos directo al input de archivos de audio
     if (!SpeechRecognitionWeb || isFirefoxBrowser) {
       if (audioFileInputRef.current) {
         audioFileInputRef.current.click();
@@ -456,10 +453,8 @@ export function App() {
 
       recognition.onerror = () => {
         setIsListening(false);
-        // Si Edge bloquea la API localmente, abrimos el selector de audio para usar tu Fast Track sin trabas
-        if (audioFileInputRef.current) {
-          audioFileInputRef.current.click();
-        }
+        // En Edge de escritorio, si hay bloqueo local, mostramos un aviso amigable EN VEZ de abrir archivos
+        setAudioErrorNotice("El navegador local bloqueó el micrófono. Usa el botón de adjuntar audio si lo prefieres.");
       };
 
       recognition.onend = () => {
@@ -471,9 +466,7 @@ export function App() {
       setIsListening(true);
     } catch {
       setIsListening(false);
-      if (audioFileInputRef.current) {
-        audioFileInputRef.current.click();
-      }
+      setAudioErrorNotice("No se pudo iniciar el dictado web en este entorno.");
     }
   };
 
