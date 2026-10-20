@@ -364,7 +364,7 @@ export function App() {
     setIsListening(false);
   };
 
-  // --- Sistema de Dictado por Voz Híbrido Definitivo y Separado ---
+  // --- Sistema de Dictado por Voz Limpio y Estable ---
   const toggleVoiceDictation = async () => {
     setAudioErrorNotice(null);
     const isCapacitorApp = typeof window !== 'undefined' && (window as any).Capacitor !== undefined;
@@ -381,8 +381,8 @@ export function App() {
           }
         }
 
+        // Mantenemos el estado de escucha activo de manera estable
         setIsListening(true);
-
         const currentLang = i18n.language?.substring(0, 2) || selectedLanguage;
         const langCode = currentLang === 'es' ? 'es-MX' : currentLang === 'en' ? 'en-US' : 'es-MX';
 
@@ -399,24 +399,23 @@ export function App() {
           setInputText((prev) => (prev ? `${prev} ${transcript}` : transcript));
         }
       } catch (e) {
-        setAudioErrorNotice("El dictado por voz nativo no pudo iniciarse en este dispositivo.");
+        // Si hay una excepción nativa, simplemente detenemos la escucha de forma limpia sin alertas intrusivas
+        setIsListening(false);
       } finally {
         setIsListening(false);
       }
       return;
     }
 
-    // 2. Lógica para Navegadores Web de Escritorio (Edge / Chrome / Firefox)
+    // 2. Lógica para Navegadores Web (Edge / Chrome / Firefox)
     const SpeechRecognitionWeb =
       (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
 
     const isFirefoxBrowser = typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().includes('firefox');
 
-    // Si es Firefox o la API web no existe, mandamos directo al input de archivos de audio
+    // Si es Firefox o la API web no está disponible en este entorno, informamos suavemente en el textarea o con un estado visual
     if (!SpeechRecognitionWeb || isFirefoxBrowser) {
-      if (audioFileInputRef.current) {
-        audioFileInputRef.current.click();
-      }
+      setIsListening(false);
       return;
     }
 
@@ -453,8 +452,7 @@ export function App() {
 
       recognition.onerror = () => {
         setIsListening(false);
-        // En Edge de escritorio, si hay bloqueo local, mostramos un aviso amigable EN VEZ de abrir archivos
-        setAudioErrorNotice("El navegador local bloqueó el micrófono. Usa el botón de adjuntar audio si lo prefieres.");
+        // Evitamos completamente abrir archivos por error
       };
 
       recognition.onend = () => {
@@ -466,7 +464,6 @@ export function App() {
       setIsListening(true);
     } catch {
       setIsListening(false);
-      setAudioErrorNotice("No se pudo iniciar el dictado web en este entorno.");
     }
   };
 
