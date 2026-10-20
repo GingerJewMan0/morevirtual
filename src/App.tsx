@@ -422,7 +422,8 @@ export function App() {
 
     const isFirefoxBrowser = typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().includes('firefox');
 
-    if (!SpeechRecognitionWeb || isFirefoxBrowser || window.location.protocol.includes('file:')) {
+    // Cambiamos la condición para que Edge (en desarrollo local) sí intente usar SpeechRecognition
+    if (!SpeechRecognitionWeb || isFirefoxBrowser) {
       audioFileInputRef.current?.click();
       return;
     }
