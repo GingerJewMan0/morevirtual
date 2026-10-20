@@ -364,7 +364,7 @@ export function App() {
     setIsListening(false);
   };
 
-  // --- Sistema de Dictado por Voz Híbrido (Nativo APK + Web) Corregido ---
+  // --- Sistema de Dictado por Voz Híbrido Estabilizado ---
   const toggleVoiceDictation = async () => {
     setAudioErrorNotice(null);
     const isCapacitorApp = typeof window !== 'undefined' && (window as any).Capacitor !== undefined;
@@ -399,7 +399,10 @@ export function App() {
           setInputText((prev) => (prev ? `${prev} ${transcript}` : transcript));
         }
       } catch (e) {
-        setAudioErrorNotice("El dictado nativo no está disponible temporalmente.");
+        // Si hay algún detalle nativo, activamos directamente el grabador de audio en lugar de mostrar error estático
+        if (audioFileInputRef.current) {
+          audioFileInputRef.current.click();
+        }
       } finally {
         setIsListening(false);
       }
@@ -412,7 +415,7 @@ export function App() {
 
     const isFirefoxBrowser = typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().includes('firefox');
 
-    // Si es Firefox, usamos el input de respaldo para subir/grabar audio
+    // Si es Firefox o la API web no está disponible por restricciones locales de Edge, abrimos el grabador de audio directamente
     if (!SpeechRecognitionWeb || isFirefoxBrowser) {
       if (audioFileInputRef.current) {
         audioFileInputRef.current.click();
@@ -453,7 +456,10 @@ export function App() {
 
       recognition.onerror = () => {
         setIsListening(false);
-        setAudioErrorNotice("Permiso de micrófono denegado o no disponible en este entorno local.");
+        // Si Edge bloquea la API localmente, abrimos el selector de audio para usar tu Fast Track sin trabas
+        if (audioFileInputRef.current) {
+          audioFileInputRef.current.click();
+        }
       };
 
       recognition.onend = () => {
@@ -465,7 +471,9 @@ export function App() {
       setIsListening(true);
     } catch {
       setIsListening(false);
-      setAudioErrorNotice("No se pudo iniciar el reconocimiento de voz en este navegador.");
+      if (audioFileInputRef.current) {
+        audioFileInputRef.current.click();
+      }
     }
   };
 
