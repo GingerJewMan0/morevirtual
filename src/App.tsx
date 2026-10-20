@@ -354,7 +354,7 @@ export function App() {
     }
   };
 
- // --- Función auxiliar para detener el dictado (declarada primero) ---
+  // --- Función auxiliar para detener el dictado (declarada primero) ---
   const stopVoiceDictation = () => {
     if (recognitionRef.current) {
       try {
@@ -364,11 +364,12 @@ export function App() {
     setIsListening(false);
   };
 
-  // --- Sistema de Dictado por Voz Híbrido (Nativo APK + Web) corregido ---
+  // --- Sistema de Dictado por Voz Híbrido (Nativo APK + Web) Corregido ---
   const toggleVoiceDictation = async () => {
     setAudioErrorNotice(null);
     const isCapacitorApp = typeof window !== 'undefined' && (window as any).Capacitor !== undefined;
 
+    // 1. Si estamos en la APK (Capacitor)
     if (isCapacitorApp) {
       try {
         const permissionStatus = await SpeechRecognition.checkPermissions();
@@ -385,46 +386,37 @@ export function App() {
         const currentLang = i18n.language?.substring(0, 2) || selectedLanguage;
         const langCode = currentLang === 'es' ? 'es-MX' : currentLang === 'en' ? 'en-US' : 'es-MX';
 
-        // Escuchar resultados parciales o finales antes de cerrar el estado
-        SpeechRecognition.addListener('partialResults', (data: any) => {
-          if (data.matches && data.matches.length > 0) {
-            const transcript = data.matches[0];
-            setInputText((prev) => (prev ? `${prev} ${transcript}` : transcript));
-          }
-        });
-
-        // Iniciar reconocimiento nativo de Capacitor (mantenemos abierto el estado de escucha)
-        const result = await SpeechRecognition.start({
+        const result: any = await SpeechRecognition.start({
           language: langCode,
           maxResults: 1,
           prompt: "Habla ahora...",
-          partialResults: true,
+          partialResults: false,
           popup: true,
         });
 
-        // Si el plugin devuelve un resultado directo al terminar
-        if (result && (result as any).matches && (result as any).matches.length > 0) {
-          const transcript = (result as any).matches[0];
+        if (result && result.matches && result.matches.length > 0) {
+          const transcript = result.matches[0];
           setInputText((prev) => (prev ? `${prev} ${transcript}` : transcript));
         }
-
       } catch (e) {
-        audioFileInputRef.current?.click();
+        setAudioErrorNotice("El dictado nativo no está disponible temporalmente.");
       } finally {
         setIsListening(false);
       }
       return;
     }
 
-    // Lógica para Navegadores Web (Edge / Chrome)
+    // 2. Si estamos en Navegador Web (Edge / Chrome / Firefox)
     const SpeechRecognitionWeb =
       (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
 
     const isFirefoxBrowser = typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().includes('firefox');
 
-    // Cambiamos la condición para que Edge (en desarrollo local) sí intente usar SpeechRecognition
+    // Si es Firefox, usamos el input de respaldo para subir/grabar audio
     if (!SpeechRecognitionWeb || isFirefoxBrowser) {
-      audioFileInputRef.current?.click();
+      if (audioFileInputRef.current) {
+        audioFileInputRef.current.click();
+      }
       return;
     }
 
@@ -461,7 +453,7 @@ export function App() {
 
       recognition.onerror = () => {
         setIsListening(false);
-        audioFileInputRef.current?.click();
+        setAudioErrorNotice("Permiso de micrófono denegado o no disponible en este entorno local.");
       };
 
       recognition.onend = () => {
@@ -472,7 +464,8 @@ export function App() {
       recognition.start();
       setIsListening(true);
     } catch {
-      audioFileInputRef.current?.click();
+      setIsListening(false);
+      setAudioErrorNotice("No se pudo iniciar el reconocimiento de voz en este navegador.");
     }
   };
 
