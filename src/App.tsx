@@ -364,7 +364,7 @@ export function App() {
     setIsListening(false);
   };
 
-  // --- Sistema de Dictado por Voz Híbrido (Nativo APK + Web) ---
+  // --- Sistema de Dictado por Voz Híbrido (Nativo APK + Web) corregido ---
   const toggleVoiceDictation = async () => {
     setAudioErrorNotice(null);
     const isCapacitorApp = typeof window !== 'undefined' && (window as any).Capacitor !== undefined;
@@ -385,14 +385,7 @@ export function App() {
         const currentLang = i18n.language?.substring(0, 2) || selectedLanguage;
         const langCode = currentLang === 'es' ? 'es-MX' : currentLang === 'en' ? 'en-US' : 'es-MX';
 
-        await SpeechRecognition.start({
-          language: langCode,
-          maxResults: 1,
-          prompt: "Habla ahora...",
-          partialResults: false,
-          popup: true,
-        });
-
+        // Escuchar resultados parciales o finales antes de cerrar el estado
         SpeechRecognition.addListener('partialResults', (data: any) => {
           if (data.matches && data.matches.length > 0) {
             const transcript = data.matches[0];
@@ -400,8 +393,22 @@ export function App() {
           }
         });
 
+        // Iniciar reconocimiento nativo de Capacitor (mantenemos abierto el estado de escucha)
+        const result = await SpeechRecognition.start({
+          language: langCode,
+          maxResults: 1,
+          prompt: "Habla ahora...",
+          partialResults: true,
+          popup: true,
+        });
+
+        // Si el plugin devuelve un resultado directo al terminar
+        if (result && (result as any).matches && (result as any).matches.length > 0) {
+          const transcript = (result as any).matches[0];
+          setInputText((prev) => (prev ? `${prev} ${transcript}` : transcript));
+        }
+
       } catch (e) {
-        setIsListening(false);
         audioFileInputRef.current?.click();
       } finally {
         setIsListening(false);
