@@ -46,6 +46,7 @@ import { DeveloperTab } from './components/DeveloperTab.tsx';
 import { useTranslation } from 'react-i18next';
 import { checkIsShabbatOrYomTov } from './shabbatGuard.ts';
 import { ShabbatLockScreen } from './ShabbatLockScreen.tsx';
+import { SpeechRecognition } from '@capacitor-community/speech-recognition';
 
 // --- Funciones y Constantes Auxiliares (Fuera del Componente) ---
 
@@ -353,19 +354,76 @@ export function App() {
     }
   };
 
-  // Voice Dictation
+ // --- Función auxiliar para detener el dictado (declarada primero) ---
+  const stopVoiceDictation = () => {
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.stop();
+      } catch {}
+    }
+    setIsListening(false);
+  };
+
+  // --- Sistema de Dictado por Voz Híbrido (Nativo APK + Web) ---
   const toggleVoiceDictation = async () => {
+    setAudioErrorNotice(null);
+    const isCapacitorApp = typeof window !== 'undefined' && (window as any).Capacitor !== undefined;
+
+    if (isCapacitorApp) {
+      try {
+        const permissionStatus = await SpeechRecognition.checkPermissions();
+        if (!permissionStatus.speechRecognition) {
+          const request = await SpeechRecognition.requestPermissions();
+          if (!request.speechRecognition) {
+            setAudioErrorNotice("Se requieren permisos de micrófono para dictar.");
+            return;
+          }
+        }
+
+        setIsListening(true);
+
+        const currentLang = i18n.language?.substring(0, 2) || selectedLanguage;
+        const langCode = currentLang === 'es' ? 'es-MX' : currentLang === 'en' ? 'en-US' : 'es-MX';
+
+        await SpeechRecognition.start({
+          language: langCode,
+          maxResults: 1,
+          prompt: "Habla ahora...",
+          partialResults: false,
+          popup: true,
+        });
+
+        SpeechRecognition.addListener('partialResults', (data: any) => {
+          if (data.matches && data.matches.length > 0) {
+            const transcript = data.matches[0];
+            setInputText((prev) => (prev ? `${prev} ${transcript}` : transcript));
+          }
+        });
+
+      } catch (e) {
+        setIsListening(false);
+        audioFileInputRef.current?.click();
+      } finally {
+        setIsListening(false);
+      }
+      return;
+    }
+
+    // Lógica para Navegadores Web (Edge / Chrome)
+    const SpeechRecognitionWeb =
+      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+
+    const isFirefoxBrowser = typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().includes('firefox');
+
+    if (!SpeechRecognitionWeb || isFirefoxBrowser || window.location.protocol.includes('file:')) {
+      audioFileInputRef.current?.click();
+      return;
+    }
+
     if (isListening) {
       stopVoiceDictation();
       return;
     }
-    await startVoiceDictation();
-  };
-
-  const startVoiceDictation = async () => {
-    setAudioErrorNotice(null);
-    const SpeechRecognition =
-      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
 
     const currentLang = i18n.language?.substring(0, 2) || selectedLanguage;
     const langCode =
@@ -379,154 +437,35 @@ export function App() {
         ? 'fr-FR'
         : 'es-MX';
 
-    if (SpeechRecognition) {
-      try {
-        const recognition = new SpeechRecognition();
-        recognition.lang = langCode;
-        recognition.continuous = false;
-        recognition.interimResults = false;
-
-        recognition.onresult = (event: any) => {
-          const transcript = event.results?.[0]?.[0]?.transcript;
-          if (transcript) {
-            setInputText((prev) => (prev ? `${prev} ${transcript}` : transcript));
-          }
-          setIsListening(false);
-        };
-
-        recognition.onerror = (event: any) => {
-          setIsListening(false);
-          const errCode = event?.error;
-          if (errCode === 'not-allowed' || errCode === 'service-not-allowed') {
-            setAudioErrorNotice(
-              'Acceso al micrófono restringido por el navegador en este entorno. Puedes escribir en el teclado o pulsar "Subir audio".'
-            );
-          } else {
-            startMediaRecorderFallback();
-          }
-        };
-
-        recognition.onend = () => {
-          setIsListening(false);
-        };
-
-        recognitionRef.current = recognition;
-        recognition.start();
-        setIsListening(true);
-        return;
-      } catch (e: any) {
-        if (e?.name === 'NotAllowedError' || e?.message?.includes('not allowed')) {
-          setIsListening(false);
-          setAudioErrorNotice(
-            'Acceso al micrófono restringido por el navegador en este contexto. Puedes escribir con el teclado o subir un archivo de audio.'
-          );
-          return;
-        }
-      }
-    }
-
-    await startMediaRecorderFallback();
-  };
-
-  const startMediaRecorderFallback = async () => {
     try {
-      if (
-        typeof navigator === 'undefined' ||
-        !navigator.mediaDevices ||
-        typeof navigator.mediaDevices.getUserMedia !== 'function'
-      ) {
-        setIsListening(false);
-        setAudioErrorNotice('Micrófono no soportado en este navegador. Puedes escribir o subir una nota de audio.');
-        return;
-      }
+      const recognition = new SpeechRecognitionWeb();
+      recognition.lang = langCode;
+      recognition.continuous = false;
+      recognition.interimResults = false;
 
-      let stream: MediaStream;
-      try {
-        stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      } catch (err: any) {
-        setIsListening(false);
-        setAudioErrorNotice(
-          'Acceso al micrófono restringido por la plataforma o navegador. Puedes escribir tu consulta o pulsar en "Subir audio".'
-        );
-        return;
-      }
-
-      audioChunksRef.current = [];
-
-      const mimeType =
-        typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported('audio/webm')
-          ? 'audio/webm'
-          : typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported('audio/mp4')
-          ? 'audio/mp4'
-          : '';
-
-      const recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
-
-      recorder.ondataavailable = (event) => {
-        if (event.data && event.data.size > 0) {
-          audioChunksRef.current.push(event.data);
+      recognition.onresult = (event: any) => {
+        const transcript = event.results?.[0]?.[0]?.transcript;
+        if (transcript) {
+          setInputText((prev) => (prev ? `${prev} ${transcript}` : transcript));
         }
+        setIsListening(false);
       };
 
-      recorder.onstop = async () => {
-        stream.getTracks().forEach((track) => track.stop());
-        const blobType = mimeType || 'audio/webm';
-        const audioBlob = new Blob(audioChunksRef.current, { type: blobType });
-
-        if (audioBlob.size < 200) {
-          setIsListening(false);
-          return;
-        }
-
-        setIsTranscribing(true);
-        try {
-          const reader = new FileReader();
-          reader.onloadend = async () => {
-            try {
-              const base64Data = (reader.result as string).split(',')[1];
-              const res = await fetch('/api/transcribe', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ audioBase64: base64Data, mimeType: blobType }),
-              });
-              const data = await res.json();
-              if (data.text) {
-                setInputText((prev) => (prev ? `${prev} ${data.text}` : data.text));
-              }
-            } catch {
-              setAudioErrorNotice('Dificultad temporal al transcribir. Puedes escribir tu duda.');
-            } finally {
-              setIsTranscribing(false);
-            }
-          };
-          reader.readAsDataURL(audioBlob);
-        } catch {
-          setAudioErrorNotice('No se pudo procesar la grabación de audio.');
-          setIsTranscribing(false);
-        }
+      recognition.onerror = () => {
+        setIsListening(false);
+        audioFileInputRef.current?.click();
       };
 
-      recorder.start();
-      mediaRecorderRef.current = recorder;
+      recognition.onend = () => {
+        setIsListening(false);
+      };
+
+      recognitionRef.current = recognition;
+      recognition.start();
       setIsListening(true);
     } catch {
-      setIsListening(false);
-      setAudioErrorNotice('Acceso al micrófono no disponible en este contexto. Puedes escribir tu consulta en el teclado.');
+      audioFileInputRef.current?.click();
     }
-  };
-
-  const stopVoiceDictation = () => {
-    if (recognitionRef.current) {
-      try {
-        recognitionRef.current.stop();
-      } catch {}
-    }
-    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
-      try {
-        mediaRecorderRef.current.stop();
-      } catch {}
-    }
-    setIsListening(false);
   };
 
   // Send message
