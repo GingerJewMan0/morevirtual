@@ -364,18 +364,18 @@ export function App() {
     setIsListening(false);
   };
 
-  // --- Sistema de Dictado por Voz Híbrido Definitivo (APK + Render Web + Fallback Inteligente) ---
+  // --- Sistema de Dictado por Voz Híbrido Universal (Android Nativo + Cualquier Micrófono en PC) ---
   const toggleVoiceDictation = async () => {
     setAudioErrorNotice(null);
     const isCapacitorApp = typeof window !== 'undefined' && (window as any).Capacitor !== undefined;
 
-    // Si ya está grabando, detenemos la grabación para que se procese
+    // Si ya está grabando (ya sea en Android o PC), detenemos para procesar
     if (isListening) {
       stopVoiceDictation();
       return;
     }
 
-    // 1. Lógica para la APK (Android) con Respaldo de Grabación si el plugin nativo falla
+    // 1. APK de Android (Mantiene exactamente el flujo nativo que ya funciona a la perfección)
     if (isCapacitorApp) {
       try {
         const permissionStatus = await SpeechRecognition.checkPermissions();
@@ -406,115 +406,59 @@ export function App() {
         setIsListening(false);
         return;
       } catch (e) {
-        // Si el plugin nativo de la APK falla, no lanzamos error: activamos la grabación por MediaRecorder de forma fluida
         setIsListening(false);
       }
     }
 
-    // 2. Lógica para Navegadores Web (Edge / Chrome en Render)
-    const SpeechRecognitionWeb =
-      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    // 2. Navegador Web en PC (Edge / Firefox / Chrome) -> Funciona con CUALQUIER micrófono conectado
+    try {
+      // Pide acceso al micrófono predeterminado del sistema (Fast Track, USB, diadema o interno)
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mediaRecorder = new MediaRecorder(stream);
+      mediaRecorderRef.current = mediaRecorder;
+      audioChunksRef.current = [];
 
-    const isFirefoxBrowser = typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().includes('firefox');
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          audioChunksRef.current.push(event.data);
+        }
+      };
 
-    // 3. Respaldo por MediaRecorder (Usado en Firefox, o cuando la APK/Edge no tienen soporte nativo de texto)
-    if (!SpeechRecognitionWeb || isFirefoxBrowser || isCapacitorApp) {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        const mediaRecorder = new MediaRecorder(stream);
-        mediaRecorderRef.current = mediaRecorder;
-        audioChunksRef.current = [];
+      mediaRecorder.onstop = async () => {
+        setIsTranscribing(true);
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        const reader = new FileReader();
 
-        mediaRecorder.ondataavailable = (event) => {
-          if (event.data.size > 0) {
-            audioChunksRef.current.push(event.data);
+        reader.onloadend = async () => {
+          try {
+            const base64Data = (reader.result as string).split(',')[1];
+            const res = await fetch('/api/transcribe', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ audioBase64: base64Data, mimeType: 'audio/webm' }),
+            });
+            const data = await res.json();
+            if (data.text) {
+              setInputText((prev) => (prev ? `${prev} ${data.text}` : data.text));
+            } else {
+              setAudioErrorNotice('No se detectó voz clara en la grabación.');
+            }
+          } catch {
+            setAudioErrorNotice('Dificultad temporal al transcribir el audio.');
+          } finally {
+            setIsTranscribing(false);
           }
         };
 
-        mediaRecorder.onstop = async () => {
-          setIsTranscribing(true);
-          const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
-          const reader = new FileReader();
-
-          reader.onloadend = async () => {
-            try {
-              const base64Data = (reader.result as string).split(',')[1];
-              const res = await fetch('/api/transcribe', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ audioBase64: base64Data, mimeType: 'audio/webm' }),
-              });
-              const data = await res.json();
-              if (data.text) {
-                setInputText((prev) => (prev ? `${prev} ${data.text}` : data.text));
-              } else {
-                setAudioErrorNotice('No se detectó voz clara en la grabación.');
-              }
-            } catch {
-              setAudioErrorNotice('Dificultad temporal al transcribir el audio.');
-            } finally {
-              setIsTranscribing(false);
-            }
-          };
-
-          reader.readAsDataURL(audioBlob);
-          stream.getTracks().forEach((track) => track.stop());
-        };
-
-        mediaRecorder.start();
-        setIsListening(true);
-        return;
-      } catch {
-        setAudioErrorNotice('No se pudo acceder al micrófono del dispositivo.');
-        setIsListening(false);
-        return;
-      }
-    }
-
-    // Flujo estándar para Edge y Chrome en Render (HTTPS)
-    const currentLang = i18n.language?.substring(0, 2) || selectedLanguage;
-    const langCode =
-      currentLang === 'he'
-        ? 'he-IL'
-        : currentLang === 'en'
-        ? 'en-US'
-        : currentLang === 'pt'
-        ? 'pt-BR'
-        : currentLang === 'fr'
-        ? 'fr-FR'
-        : 'es-MX';
-
-    try {
-      const recognition = new SpeechRecognitionWeb();
-      recognition.lang = langCode;
-      recognition.continuous = false;
-      recognition.interimResults = false;
-
-      recognition.onresult = (event: any) => {
-        const transcript = event.results?.[0]?.[0]?.transcript;
-        if (transcript) {
-          setInputText((prev) => (prev ? `${prev} ${transcript}` : transcript));
-        }
-        setIsListening(false);
+        reader.readAsDataURL(audioBlob);
+        stream.getTracks().forEach((track) => track.stop());
       };
 
-      recognition.onerror = (event: any) => {
-        setIsListening(false);
-        if (event.error === 'not-allowed') {
-          setAudioErrorNotice("Permiso de micrófono denegado en el navegador.");
-        }
-      };
-
-      recognition.onend = () => {
-        setIsListening(false);
-      };
-
-      recognitionRef.current = recognition;
-      recognition.start();
+      mediaRecorder.start();
       setIsListening(true);
     } catch {
+      setAudioErrorNotice('No se pudo acceder al micrófono. Revisa los permisos de audio en tu PC.');
       setIsListening(false);
-      setAudioErrorNotice("No se pudo iniciar el reconocimiento de voz.");
     }
   };
 
