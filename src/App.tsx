@@ -87,6 +87,26 @@ export function App() {
   const [isRestDay, setIsRestDay] = useState(false);
   const [isChecking, setIsChecking] = useState(true);
 
+  // Estados de control para la versión Lite y Premium
+  const [isPremium, setIsPremium] = useState<boolean>(() => {
+    return localStorage.getItem('rabino_virtual_premium') === 'true';
+  });
+
+  const MAX_FREE_QUERIES = 12; // Límite diario para la versión Lite
+
+  const [dailyQueriesCount, setDailyQueriesCount] = useState<number>(() => {
+    try {
+      const storedDate = localStorage.getItem('rabino_virtual_query_date');
+      const today = new Date().toDateString();
+      if (storedDate === today) {
+        return parseInt(localStorage.getItem('rabino_virtual_query_count') || '0', 10);
+      }
+      return 0;
+    } catch {
+      return 0;
+    }
+  });
+
   useEffect(() => {
     const verifyShabbat = async (lat: number, lng: number) => {
       const restricted = await checkIsShabbatOrYomTov(lat, lng);
@@ -371,14 +391,14 @@ export function App() {
     if (isCapacitorApp) {
       try {
         const permissionStatus: any = await SpeechRecognition.checkPermissions();
-    if (permissionStatus.speechRecognition !== 'granted' && permissionStatus.permission !== 'granted') {
-      const request: any = await SpeechRecognition.requestPermissions();
-      if (request.speechRecognition !== 'granted' && request.permission !== 'granted') {
-        setAudioErrorNotice("Se requieren permisos de micrófono para dictar.");
-        setIsListening(false);
-        return;
-      }
-    }
+        if (permissionStatus.speechRecognition !== 'granted' && permissionStatus.permission !== 'granted') {
+          const request: any = await SpeechRecognition.requestPermissions();
+          if (request.speechRecognition !== 'granted' && request.permission !== 'granted') {
+            setAudioErrorNotice("Se requieren permisos de micrófono para dictar.");
+            setIsListening(false);
+            return;
+          }
+        }
 
         setIsListening(true);
         const currentLang = i18n.language?.substring(0, 2) || selectedLanguage;
@@ -457,6 +477,20 @@ export function App() {
     const query = (textToSend || inputText).trim();
     if (!query && !imageFile && !nativeImageBase64) return;
     if (isStreaming) return;
+
+    // Validación de límite diario para la versión Lite (Opción A)
+    if (!isPremium) {
+      const today = new Date().toDateString();
+      if (dailyQueriesCount >= MAX_FREE_QUERIES) {
+        alert("Has alcanzado el límite de preguntas gratuitas por hoy. ¡Actualiza a Premium para consultas ilimitadas y sin anuncios!");
+        return;
+      }
+      
+      const newCount = dailyQueriesCount + 1;
+      setDailyQueriesCount(newCount);
+      localStorage.setItem('rabino_virtual_query_count', newCount.toString());
+      localStorage.setItem('rabino_virtual_query_date', today);
+    }
 
     if (activeMainTab !== 'chat') {
       setActiveMainTab('chat');
@@ -632,6 +666,12 @@ export function App() {
     if (isBookmarked) {
       setSavedNotes((prev) => prev.filter((n) => n.id !== msg.id));
     } else {
+      // Restricción para la versión Lite (Opción B: máximo 5 notas guardadas)
+      if (!isPremium && savedNotes.length >= 5) {
+        alert("Has alcanzado el límite de 5 enseñanzas guardadas en la versión gratuita. ¡Pásate a Premium para notas ilimitadas!");
+        return;
+      }
+
       const idx = messages.findIndex((m) => m.id === msg.id);
       const questionText = idx > 0 ? messages[idx - 1].content : 'Enseñanza rabínica';
       const newNote: SavedNote = {
@@ -1315,6 +1355,23 @@ export function App() {
       {activeMainTab === 'chat' && (
         <footer className="sticky bottom-0 z-20 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 p-3 sm:p-4">
           <div className="w-full px-4 sm:px-6 space-y-2">
+            {/* Opción C: Banner publicitario visible únicamente para la versión Lite */}
+            {!isPremium && (
+              <div className="w-full bg-amber-50 dark:bg-slate-800/90 py-1.5 px-3 rounded-xl text-center text-xs text-slate-600 dark:text-slate-300 border border-amber-200 dark:border-slate-700 flex items-center justify-between gap-2 shadow-xs">
+                <span className="truncate">Publicidad (Versión Lite) — Apoya el proyecto</span>
+                <button 
+                  onClick={() => {
+                    localStorage.setItem('rabino_virtual_premium', 'true');
+                    setIsPremium(true);
+                    alert("¡Versión Premium activada con éxito!");
+                  }} 
+                  className="px-2.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-semibold text-[11px] shrink-0 cursor-pointer transition"
+                >
+                  Quitar anuncios
+                </button>
+              </div>
+            )}
+
             {isListening && (
               <div className="p-2.5 rounded-xl bg-red-500/10 dark:bg-red-950/40 border border-red-500/40 text-red-700 dark:text-red-300 flex items-center justify-between text-xs animate-pulse">
                 <div className="flex items-center gap-2">
@@ -1426,7 +1483,7 @@ export function App() {
                 >
                   <span className="text-base">📸</span>
                 </button>
-                
+
                 <button
                   type="button"
                   onClick={toggleVoiceDictation}
