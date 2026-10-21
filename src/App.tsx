@@ -888,7 +888,7 @@ export function App() {
             <span className="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block">
               {t('queryLanguage', 'Idioma de la Consulta')}
             </span>
-            <div className="grid grid-cols-2 gap-1.5 px-1">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
               {LANGUAGES.map((lang) => {
                 const isSelected = activeLangCode === lang.code;
                 return (
@@ -1174,7 +1174,7 @@ export function App() {
       </header>
 
       {/* Main Views - Ancho ampliado a w-full y max-w-5xl para tablets */}
-      <main className="flex-1 w-full max-w-5xl mx-auto px-3 sm:px-6 py-6 flex flex-col">
+      <main className="flex-1 w-full px-4 sm:px-8 py-6 flex flex-col">
         {activeMainTab === 'calendar' && <CalendarZmanimTab />}
 
         {activeMainTab === 'parasha' && (
@@ -1404,7 +1404,7 @@ export function App() {
       {/* Input Bar - Ancho ampliado a w-full y max-w-5xl */}
       {activeMainTab === 'chat' && (
         <footer className="sticky bottom-0 z-20 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 p-3 sm:p-4">
-          <div className="w-full max-w-5xl mx-auto space-y-2">
+          <div className="w-full px-4 sm:px-8 space-y-2">
             {isListening && (
               <div className="p-2.5 rounded-xl bg-red-500/10 dark:bg-red-950/40 border border-red-500/40 text-red-700 dark:text-red-300 flex items-center justify-between text-xs animate-pulse">
                 <div className="flex items-center gap-2">
