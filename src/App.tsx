@@ -974,9 +974,9 @@ export function App() {
         </div>
       </aside>
 
-      {/* Top Header - Con max-w-4xl mx-auto simétrico */}
+      {/* Top Header - Con w-full max-w-5xl mx-auto px-4 simétrico y fluido */}
       <header className="sticky top-0 z-30 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-amber-200/60 dark:border-slate-800 shadow-xs transition-colors">
-        <div className="w-full max-w-4xl mx-auto px-4 h-16 flex items-center justify-between gap-2">
+        <div className="w-full max-w-5xl mx-auto px-4 h-16 flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 sm:gap-3">
             <button
               onClick={() => setIsSidebarOpen(true)}
@@ -1128,8 +1128,8 @@ export function App() {
         </div>
       </header>
 
-      {/* Main Views - Con max-w-4xl mx-auto perfectamente controlado */}
-      <main className="flex-1 w-full max-w-4xl mx-auto px-4 py-6 flex flex-col">
+      {/* Main Views - Con w-full max-w-5xl mx-auto px-4 simétrico y perfectamente centrado */}
+      <main className="flex-1 w-full max-w-5xl mx-auto px-4 py-6 flex flex-col">
         {activeMainTab === 'calendar' && <CalendarZmanimTab />}
 
         {activeMainTab === 'parasha' && (
@@ -1186,7 +1186,7 @@ export function App() {
                   <h2 className="text-2xl sm:text-3xl font-serif font-bold text-slate-900 dark:text-white mb-2 tracking-wide">
                     {t('welcomeTitle', '¡Shalom Alejem! Te doy la bienvenida')}
                   </h2>
-                  <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+                  <p className="max-w-3xl mx-auto text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
                     {t('welcomeDesc', 'Soy tu Rabino Virtual, un educador y guía rabínico concebido para acompañarte con calidez, paciencia y profundidad. Pregúntame con total confianza sobre halajá, Torá, festividades, kashrut, rezos o ética de la vida diaria.')}
                   </p>
 
@@ -1233,7 +1233,7 @@ export function App() {
                     <span>{filteredQuestions.length} {t('topics', 'temas')}</span>
                   </div>
 
-                  {/* Grid responsivo optimizado para tablet landscape (2 columnas equilibradas) */}
+                  {/* Grid responsivo optimizado para tablet portrait (2 columnas equilibradas) */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {filteredQuestions.map((q) => (
                       <button
@@ -1356,10 +1356,10 @@ export function App() {
         )}
       </main>
 
-      {/* Input Bar - Con max-w-4xl mx-auto simétrico */}
+      {/* Input Bar - Con w-full max-w-5xl mx-auto px-4 simétrico y fluido */}
       {activeMainTab === 'chat' && (
         <footer className="sticky bottom-0 z-20 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 p-3 sm:p-4">
-          <div className="w-full max-w-4xl mx-auto px-4 space-y-2">
+          <div className="w-full max-w-5xl mx-auto px-4 space-y-2">
             {isListening && (
               <div className="p-2.5 rounded-xl bg-red-500/10 dark:bg-red-950/40 border border-red-500/40 text-red-700 dark:text-red-300 flex items-center justify-between text-xs animate-pulse">
                 <div className="flex items-center gap-2">
