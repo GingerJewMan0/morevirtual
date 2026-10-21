@@ -89,19 +89,15 @@ export function App() {
   // ==========================================================================
   // 2. PASARELA DE PAGOS (PAYPAL) Y CONTROL FREEMIUM (LITE VS. PREMIUM)
   // ==========================================================================
-
-  // Abre el enlace de PayPal en una pestaña nueva para recibir aportaciones
   const handleOpenPayPal = () => {
     const paypalUrl = "https://www.paypal.com/paypalme/gingerjewman0"; 
     window.open(paypalUrl, '_blank');
   };
 
-  // Estado que verifica si el usuario cuenta con la versión Premium desbloqueada
   const [isPremium, setIsPremium] = useState<boolean>(() => {
     return localStorage.getItem('rabino_virtual_premium') === 'true';
   });
 
-  // Detecta automáticamente el parámetro secreto en la URL (?activate_premium=true) para activación por enlace mágico
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.get('activate_premium') === 'true') {
@@ -111,9 +107,8 @@ export function App() {
     }
   }, []);
 
-  const MAX_FREE_QUERIES = 12; // Límite diario de consultas para la versión Lite
+  const MAX_FREE_QUERIES = 12;
 
-  // Control de conteo diario de consultas para usuarios gratuitos
   const [dailyQueriesCount, setDailyQueriesCount] = useState<number>(() => {
     try {
       const storedDate = localStorage.getItem('rabino_virtual_query_date');
@@ -188,7 +183,6 @@ export function App() {
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // Gestión de Modo Oscuro / Modo Claro
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
     try {
       const savedTheme = localStorage.getItem('rabino_virtual_theme');
@@ -202,7 +196,6 @@ export function App() {
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const langMenuRef = useRef<HTMLDivElement | null>(null);
 
-  // Estados de Chat y Multimedia (Imágenes y Voz)
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputText, setInputText] = useState('');
   const [isStreaming, setIsStreaming] = useState(false);
@@ -225,12 +218,10 @@ export function App() {
   const audioChunksRef = useRef<Blob[]>([]);
   const audioFileInputRef = useRef<HTMLInputElement | null>(null);
 
-  // Modales de herramientas de estudio
   const [isTraditionsModalOpen, setIsTraditionsModalOpen] = useState(false);
   const [isHalachaModalOpen, setIsHalachaModalOpen] = useState(false);
   const [isSavedNotesModalOpen, setIsSavedNotesModalOpen] = useState(false);
 
-  // Almacenamiento local de enseñanzas guardadas (Bookmarks) con límite de 5 para Lite
   const [savedNotes, setSavedNotes] = useState<SavedNote[]>(() => {
     try {
       const stored = localStorage.getItem('rabino_virtual_saved_notes');
@@ -535,7 +526,6 @@ export function App() {
     if (!query && !imageFile && !nativeImageBase64) return;
     if (isStreaming) return;
 
-    // Validación de límite diario de consultas (Versión Lite - 12 consultas)
     if (!isPremium) {
       const today = new Date().toDateString();
       if (dailyQueriesCount >= MAX_FREE_QUERIES) {
@@ -718,7 +708,6 @@ export function App() {
     }
   };
 
-  // Gestión de Notas Guardadas / Bookmarks (Con límite de 5 para versión Lite)
   const handleToggleBookmark = (msg: ChatMessage) => {
     const isBookmarked = savedNotes.some((n) => n.id === msg.id);
     if (isBookmarked) {
@@ -813,10 +802,10 @@ export function App() {
 
 
   // ==========================================================================
-  // 10. RENDERIZADO DE LA INTERFAZ PRINCIPAL (UI)
+  // 10. RENDERIZADO DE LA INTERFAZ PRINCIPAL (UI CON ALTURA FIJA Y SCROLL INTERNO)
   // ==========================================================================
   return (
-    <div className={`flex flex-col min-h-screen w-full overflow-x-hidden ${isDarkMode ? 'dark bg-slate-950 text-slate-100' : 'bg-stone-50/70 text-slate-800'} font-sans transition-colors duration-200`}>
+    <div className={`flex flex-col h-screen w-full overflow-hidden ${isDarkMode ? 'dark bg-slate-950 text-slate-100' : 'bg-stone-50/70 text-slate-800'} font-sans transition-colors duration-200`}>
       {isSidebarOpen && (
         <div
           onClick={() => setIsSidebarOpen(false)}
@@ -1009,7 +998,6 @@ export function App() {
           </div>
         </div>
 
-        {/* Sección inferior del Sidebar con enlace a PayPal del Desarrollador */}
         <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/70 space-y-3">
           <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-500/30 text-xs">
             <div className="flex items-center justify-between text-amber-900 dark:text-amber-300 font-bold mb-1">
@@ -1034,8 +1022,8 @@ export function App() {
         </div>
       </aside>
 
-      {/* Cabecera Superior / Navbar */}
-      <header className="sticky top-0 z-30 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-amber-200/60 dark:border-slate-800 shadow-xs transition-colors">
+      {/* Cabecera Superior / Navbar (Fija arriba, shrink-0 para que no se deforme) */}
+      <header className="shrink-0 z-30 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-amber-200/60 dark:border-slate-800 shadow-xs transition-colors">
         <div className="w-full px-4 sm:px-6 h-16 flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             <button
@@ -1188,8 +1176,8 @@ export function App() {
         </div>
       </header>
 
-      {/* Contenido Principal */}
-      <main className="flex-1 w-full px-4 sm:px-6 py-6 flex flex-col">
+      {/* Área Central con Scroll Independiente (flex-1 overflow-y-auto) */}
+      <main className="flex-1 w-full px-4 sm:px-6 py-6 overflow-y-auto flex flex-col">
         {activeMainTab === 'calendar' && <CalendarZmanimTab />}
 
         {activeMainTab === 'parasha' && (
@@ -1415,12 +1403,12 @@ export function App() {
         )}
       </main>
 
-      {/* Pie de Página / Footer con Banner AdMob y Barra de Entrada de Mensajes */}
+      {/* Pie de Página / Footer Estático Abajo (shrink-0 para que nunca se oculte) */}
       {activeMainTab === 'chat' && (
-        <footer className="sticky bottom-0 z-20 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 p-3 sm:p-4">
+        <footer className="shrink-0 z-20 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 p-3 sm:p-4">
           <div className="w-full px-4 sm:px-6 space-y-2">
             
-            {/* Opción C: Banner publicitario exclusivo para versión Lite (se oculta si isPremium es true) */}
+            {/* Banner publicitario Lite (con tu ID de AdMob integrado en la app y control de pago) */}
             {!isPremium && (
               <div className="w-full bg-amber-50 dark:bg-slate-800/90 py-1.5 px-3 rounded-xl text-center text-xs text-slate-600 dark:text-slate-300 border border-amber-200 dark:border-slate-700 flex items-center justify-between gap-2 shadow-xs">
                 <span className="truncate">Publicidad (Versión Lite) — Apoya el proyecto</span>
