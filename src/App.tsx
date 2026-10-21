@@ -1451,12 +1451,11 @@ export function App() {
 
               <div className="flex items-center gap-1 shrink-0 pb-1">
                 <input
-                  type="file"
-                  ref={audioFileInputRef}
-                  accept="audio/*"
-                  capture="user"
-                  onChange={handleAudioFileUpload}
-                  className="hidden"
+                type="file"
+                ref={audioFileInputRef}
+                accept="audio/*,.mp3,.wav,.m4a,.aac,.ogg"
+                onChange={handleAudioFileUpload}
+                className="hidden"
                 />
 
                 <button
