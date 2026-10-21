@@ -1,7 +1,7 @@
 export async function checkIsShabbatOrYomTov(lat = 19.4326, lng = -99.1332): Promise<boolean> {
   try {
     // Consultamos la API pública e internacional de Hebcal para obtener los horarios de Shabat
-    const response = await fetch(`https://www.hebcal.com/shabbat?cfg=json&latitude=${lat}&longitude=${lng}&geonameid=0&M=on`);
+    const response = await fetch(`https://www.hebcal.com/shabbat?cfg=json&latitude=${lat}&longitude=${lng}`);
     if (!response.ok) return false;
 
     const data = await response.json();
