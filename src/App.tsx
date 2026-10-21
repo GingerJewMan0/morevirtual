@@ -351,47 +351,6 @@ export function App() {
     }
   };
 
-  const handleAudioFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    e.target.value = '';
-    setAudioErrorNotice(null);
-    setIsTranscribing(true);
-
-    try {
-      const mimeType = file.type || 'audio/webm';
-      const reader = new FileReader();
-
-      reader.onloadend = async () => {
-        try {
-          const base64Data = (reader.result as string).split(',')[1];
-          const res = await fetch('/api/transcribe', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ audioBase64: base64Data, mimeType }),
-          });
-
-          const data = await res.json();
-          if (data.text) {
-            setInputText((prev) => (prev ? `${prev} ${data.text}` : data.text));
-          } else if (data.error) {
-            setAudioErrorNotice('No se detectó voz clara en el audio. Puedes escribir tu duda.');
-          }
-        } catch {
-          setAudioErrorNotice('Dificultad temporal al transcribir el archivo de audio. Puedes escribir tu consulta.');
-        } finally {
-          setIsTranscribing(false);
-        }
-      };
-
-      reader.readAsDataURL(file);
-    } catch {
-      setIsTranscribing(false);
-      setAudioErrorNotice('No se pudo leer el archivo de audio seleccionado.');
-    }
-  };
-
   const stopVoiceDictation = () => {
     if (recognitionRef.current) {
       try {
@@ -1450,14 +1409,6 @@ export function App() {
               />
 
               <div className="flex items-center gap-1 shrink-0 pb-1">
-                <input
-                type="file"
-                ref={audioFileInputRef}
-                accept="audio/*,.mp3,.wav,.m4a,.aac,.ogg"
-                onChange={handleAudioFileUpload}
-                className="hidden"
-                />
-
                 <button
                   type="button"
                   onClick={() => handleNativeImageSelection(false)}
