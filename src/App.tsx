@@ -1018,9 +1018,9 @@ export function App() {
         </div>
       </aside>
 
-      {/* Top Header */}
-      <header className="sticky top-0 z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-amber-200/60 dark:border-slate-800 shadow-xs transition-colors">
-        <div className="max-w-6xl mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-2 sm:gap-4">
+      {/* Top Header - Ancho ampliado a w-full y max-w-7xl */}
+      <header className="sticky top-0 z-30 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-amber-200/60 dark:border-slate-800 shadow-xs transition-colors">
+        <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-2 sm:gap-4">
           <div className="flex items-center gap-2 sm:gap-3">
             <button
               onClick={() => setIsSidebarOpen(true)}
@@ -1173,8 +1173,8 @@ export function App() {
         </div>
       </header>
 
-      {/* Main Views */}
-      <main className="flex-1 max-w-4xl w-full mx-auto px-3 sm:px-6 py-6 flex flex-col">
+      {/* Main Views - Ancho ampliado a w-full y max-w-5xl para tablets */}
+      <main className="flex-1 w-full max-w-5xl mx-auto px-3 sm:px-6 py-6 flex flex-col">
         {activeMainTab === 'calendar' && <CalendarZmanimTab />}
 
         {activeMainTab === 'parasha' && (
@@ -1401,10 +1401,10 @@ export function App() {
         )}
       </main>
 
-      {/* Input Bar */}
+      {/* Input Bar - Ancho ampliado a w-full y max-w-5xl */}
       {activeMainTab === 'chat' && (
-        <footer className="sticky bottom-0 z-20 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 p-3 sm:p-4">
-          <div className="max-w-4xl mx-auto space-y-2">
+        <footer className="sticky bottom-0 z-20 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 p-3 sm:p-4">
+          <div className="w-full max-w-5xl mx-auto space-y-2">
             {isListening && (
               <div className="p-2.5 rounded-xl bg-red-500/10 dark:bg-red-950/40 border border-red-500/40 text-red-700 dark:text-red-300 flex items-center justify-between text-xs animate-pulse">
                 <div className="flex items-center gap-2">
