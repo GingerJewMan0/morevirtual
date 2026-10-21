@@ -88,9 +88,25 @@ export function App() {
   const [isChecking, setIsChecking] = useState(true);
 
   // Estados de control para la versión Lite y Premium
-  const [isPremium, setIsPremium] = useState<boolean>(() => {
-    return localStorage.getItem('rabino_virtual_premium') === 'false';
-  });
+  const handleOpenPayPal = () => {
+  const paypalUrl = "https://www.paypal.com/paypalme/gingerjewman0"; // Tu enlace de PayPal
+  window.open(paypalUrl, '_blank');
+};
+
+// 1. Primero declaras tu estado
+const [isPremium, setIsPremium] = useState<boolean>(() => {
+  return localStorage.getItem('rabino_virtual_premium') === 'true';
+});
+
+// 2. Después colocas el efecto que hace uso de ese estado
+useEffect(() => {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('activate_premium') === 'true') {
+    localStorage.setItem('rabino_virtual_premium', 'true');
+    setIsPremium(true);
+    alert("¡Felicidades! Tu cuenta ha sido actualizada a Premium con éxito.");
+  }
+}, []);
 
   const MAX_FREE_QUERIES = 12; // Límite diario para la versión Lite
 
