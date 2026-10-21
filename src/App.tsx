@@ -370,14 +370,15 @@ export function App() {
 
     if (isCapacitorApp) {
       try {
-        const permissionStatus = await SpeechRecognition.checkPermissions();
-        if (!permissionStatus.speechRecognition) {
-          const request = await SpeechRecognition.requestPermissions();
-          if (!request.speechRecognition) {
-            setAudioErrorNotice("Se requieren permisos de micrófono para dictar.");
-            return;
-          }
-        }
+        const permissionStatus: any = await SpeechRecognition.checkPermissions();
+    if (permissionStatus.speechRecognition !== 'granted' && permissionStatus.permission !== 'granted') {
+      const request: any = await SpeechRecognition.requestPermissions();
+      if (request.speechRecognition !== 'granted' && request.permission !== 'granted') {
+        setAudioErrorNotice("Se requieren permisos de micrófono para dictar.");
+        setIsListening(false);
+        return;
+      }
+    }
 
         setIsListening(true);
         const currentLang = i18n.language?.substring(0, 2) || selectedLanguage;
@@ -1425,16 +1426,7 @@ export function App() {
                 >
                   <span className="text-base">📸</span>
                 </button>
-
-                <button
-                  type="button"
-                  onClick={() => audioFileInputRef.current?.click()}
-                  disabled={isTranscribing}
-                  className="p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:text-amber-700 dark:hover:text-amber-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition cursor-pointer"
-                  title={t('uploadAudio', 'Subir audio')}
-                >
-                </button>
-
+                
                 <button
                   type="button"
                   onClick={toggleVoiceDictation}
