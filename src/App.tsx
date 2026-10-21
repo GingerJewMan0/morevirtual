@@ -489,7 +489,7 @@ export function App() {
       mediaRecorder.start();
       setIsListening(true);
     } catch {
-      setAudioErrorNotice('No se pudo acceder al micrófono. Revisa los permisos de audio.');
+      setAudioErrorNotice('No se pudo acceder al micrófono. Revisa los permisos de audio en tu PC.');
       setIsListening(false);
     }
   };
@@ -974,6 +974,7 @@ export function App() {
         </div>
       </aside>
 
+      {/* Top Header - 100% fluido sin restricciones de ancho rígido */}
       <header className="sticky top-0 z-30 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-amber-200/60 dark:border-slate-800 shadow-xs transition-colors">
         <div className="w-full px-4 sm:px-6 h-16 flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 sm:gap-3 min-w-0">
@@ -1127,6 +1128,7 @@ export function App() {
         </div>
       </header>
 
+      {/* Main Views - Ancho 100% fluido con padding responsivo seguro */}
       <main className="flex-1 w-full px-4 sm:px-6 py-6 flex flex-col">
         {activeMainTab === 'calendar' && <CalendarZmanimTab />}
 
@@ -1231,6 +1233,7 @@ export function App() {
                     <span>{filteredQuestions.length} {t('topics', 'temas')}</span>
                   </div>
 
+                  {/* Grid responsivo adaptado para 1, 2 o 3 columnas según el tamaño de pantalla */}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                     {filteredQuestions.map((q) => (
                       <button
@@ -1353,6 +1356,7 @@ export function App() {
         )}
       </main>
 
+      {/* Input Bar - 100% fluido con padding seguro */}
       {activeMainTab === 'chat' && (
         <footer className="sticky bottom-0 z-20 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 p-3 sm:p-4">
           <div className="w-full px-4 sm:px-6 space-y-2">
