@@ -97,36 +97,37 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
   };
 
   return (
-    <div className="max-w-4xl mx-auto py-4 px-3 sm:px-4 space-y-6 animate-fadeIn">
+    <div className="max-w-4xl mx-auto py-4 px-3 sm:px-6 space-y-6 animate-fadeIn">
       
       {/* ==================================================================== */}
-      {/* BANNER PRINCIPAL DE LA PARASHÁ Y SELECTOR (OPTIMIZADO RESPONSIVE)     */}
+      {/* BANNER PRINCIPAL DE LA PARASHÁ Y SELECTOR (DISEÑO GRID ROBUSTO)      */}
       {/* ==================================================================== */}
-      <div className="p-5 sm:p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-amber-950/80 to-slate-900 text-white border border-amber-500/30 shadow-xl flex flex-col gap-5">
+      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-amber-950/80 to-slate-900 text-white border border-amber-500/30 shadow-xl space-y-6">
         
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-          <div className="space-y-1">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+          {/* Título e Información de la Parashá */}
+          <div className="md:col-span-7 space-y-2 min-w-0">
             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-400">
               <Scroll className="w-4 h-4 shrink-0" />
               <span>Limud Torá Semanal • Sefer {getLocalized(parasha.bookSpanish)}</span>
             </div>
-            <div className="flex flex-wrap items-baseline gap-3 pt-1">
-              <h2 className="text-2xl sm:text-4xl font-serif font-bold text-amber-200">
+            <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-amber-200 break-words">
                 Parashat {getLocalized(parasha.name)}
               </h2>
-              <span className="text-2xl sm:text-4xl font-serif font-bold text-amber-400" dir="rtl">
+              <span className="text-2xl sm:text-3xl font-serif font-bold text-amber-400" dir="rtl">
                 {parasha.hebrewName}
               </span>
             </div>
           </div>
 
-          {/* Selector desplegable de Parashot adaptado */}
-          <div className="flex flex-col items-start lg:items-end gap-1.5 w-full lg:w-auto">
+          {/* Selector de Parashá */}
+          <div className="md:col-span-5 flex flex-col gap-1.5 w-full">
             <label className="text-xs text-amber-300 font-medium">{t('selectParasha', 'Seleccionar Parashá:')}</label>
             <select
               value={selectedParashaId}
               onChange={(e) => setSelectedParashaId(e.target.value)}
-              className="w-full lg:w-auto px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-slate-800 text-amber-200 border border-amber-500/40 focus:outline-none focus:ring-2 focus:ring-amber-500/50 cursor-pointer shadow-md"
+              className="w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-slate-800 text-amber-200 border border-amber-500/40 focus:outline-none focus:ring-2 focus:ring-amber-500/50 cursor-pointer shadow-md truncate"
             >
               {PARASHOT_DATA.map((p) => (
                 <option key={p.id} value={p.id}>
@@ -137,7 +138,8 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
           </div>
         </div>
 
-        <div className="pt-3 border-t border-amber-500/20 text-xs sm:text-sm text-slate-300 flex flex-wrap items-center gap-x-4 gap-y-1">
+        {/* Referencias y Haftará */}
+        <div className="pt-4 border-t border-amber-500/20 text-xs sm:text-sm text-slate-300 flex flex-wrap items-center gap-x-4 gap-y-1">
           <span><strong>{t('readParasha', 'Lectura')}:</strong> {parasha.reference}</span>
           <span>•</span>
           <span><strong>{t('haftarah', 'Haftará')}:</strong> {parasha.haftarah}</span>
