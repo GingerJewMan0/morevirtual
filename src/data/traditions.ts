@@ -1,6 +1,25 @@
+/**
+ * ============================================================================
+ * MÓDULO DE INFORMACIÓN DE TRADICIONES (traditions.ts)
+ * ============================================================================
+ * Propósito: Proveer el catálogo completo de las distintas tradiciones y 
+ * corrientes judías (Maguen David, Monte Sinai, Sefaradí, Ashkenazí y Jabad Lubavitch),
+ * detallando sus orígenes, autoridades rabínicas de referencia, características clave,
+ * contexto histórico y ejemplos prácticos de sus costumbres y normativas halájicas.
+ */
+
 import { TraditionInfo } from '../types.ts';
 
+/**
+ * ============================================================================
+ * CATÁLOGO DE TRADICIONES (TRADITIONS)
+ * ============================================================================
+ * Array que almacena la información estructurada de cada tradición para ser 
+ * utilizada en las vistas de comparación, perfiles y guías del Rabino Virtual.
+ */
+
 export const TRADITIONS: TraditionInfo[] = [
+  // ==================== 1. MAGUEN DAVID (TRADICIÓN JALABÍ) ====================
   {
     id: 'maguen_david',
     name: 'Maguen David',
@@ -27,6 +46,7 @@ export const TRADITIONS: TraditionInfo[] = [
       'Costumbres nupciales y bendiciones con melodías tradicionales jalabíes',
     ],
   },
+  // ==================== 2. MONTE SINAI (TRADICIÓN SHAMÍ) ====================
   {
     id: 'monte_sinai',
     name: 'Monte Sinai',
@@ -52,6 +72,7 @@ export const TRADITIONS: TraditionInfo[] = [
       'Melodías devocionales para las Selijot matutinas y Yamim Noraim',
     ],
   },
+  // ==================== 3. SEFARADÍ (TRADICIÓN GENERAL) ====================
   {
     id: 'sefaradi',
     name: 'Sefaradí',
@@ -77,6 +98,7 @@ export const TRADITIONS: TraditionInfo[] = [
       'Orden de bendición sobre las velas de Shabat: primero bendecir y luego encender',
     ],
   },
+  // ==================== 4. ASHKENAZÍ (TRADICIÓN CENTROEUROPEA) ====================
   {
     id: 'ashkenazi',
     name: 'Ashkenazí',
@@ -103,6 +125,7 @@ export const TRADITIONS: TraditionInfo[] = [
       'Costumbre extendida de vestir Talit Gadol solo a partir del matrimonio (con excepciones alemanas)',
     ],
   },
+  // ==================== 5. JABAD LUBAVITCH (JASIDUT) ====================
   {
     id: 'chabad',
     name: 'Jabad Lubavitch',

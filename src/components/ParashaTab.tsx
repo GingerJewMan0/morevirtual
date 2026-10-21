@@ -1,27 +1,54 @@
+/**
+ * ============================================================================
+ * COMPONENTE DE PESTAÑA DE PARASHÁ (ParashaTab.tsx)
+ * ============================================================================
+ * Propósito: Muestra el contenido detallado de la porción semanal de la Torá (Parashá),
+ * organizando la información en subpestañas (Resumen, Aliyot, Rashi, Jasidut/Jabad y Maqam).
+ * Incluye traducción dinámica asistida por IA según el idioma activo del usuario.
+ */
+
 import { useState, useEffect } from 'react';
 import { Scroll, Music, MessageCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { PARASHOT_DATA } from '../data/parashot.ts';
 
+/**
+ * Propiedades requeridas por el componente ParashaTab.
+ */
 interface ParashaTabProps {
+  /** Callback para iniciar una consulta directa con el asistente sobre la Parashá actual. */
   onAskAboutParasha: (question: string) => void;
 }
 
+/**
+ * Componente principal ParashaTab para la visualización y estudio del Limud Torá Semanal.
+ */
 export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
   const { t, i18n } = useTranslation();
+  
+  // Estado local para la Parashá seleccionada por su identificador único
   const [selectedParashaId, setSelectedParashaId] = useState<string>('noaj');
+  
+  // Estado local para la subpestaña activa dentro de la vista de la Parashá
   const [activeSubTab, setActiveSubTab] = useState<'resumen' | 'aliyot' | 'rashi' | 'chabad' | 'maqam'>('resumen');
 
+  // Búsqueda de la Parashá actual basada en el ID seleccionado (con respaldo a la primera por defecto)
   const parasha = PARASHOT_DATA.find((p) => p.id === selectedParashaId) || PARASHOT_DATA[0];
-
+  
+  // Obtención del código de idioma actual (ej. 'es', 'en', 'he')
   const currentLang = i18n.language?.substring(0, 2) || 'es';
 
-  // Estados para la traducción dinámica con IA
+  // Estados para gestionar la traducción dinámica asíncrona mediante IA
   const [translatedContent, setTranslatedContent] = useState<any>(null);
   const [isTranslating, setIsTranslating] = useState(false);
 
+  /**
+   * Efecto secundario para realizar la traducción dinámica de la Parashá 
+   * utilizando el endpoint del backend cuando el idioma no es español.
+   */
   useEffect(() => {
     async function fetchParashaTranslation() {
+      // Si el idioma es español, no se requiere traducción adicional
       if (currentLang === 'es') {
         setTranslatedContent(null);
         return;
@@ -45,7 +72,6 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
           } as any)
         });
         const json = await res.json();
-        console.log("Respuesta de traducción de Parashá:", json);
         if (json.success && json.data) {
           setTranslatedContent(json.data);
         }
@@ -59,6 +85,11 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
     fetchParashaTranslation();
   }, [currentLang, selectedParashaId]);
 
+  /**
+   * Función auxiliar para extraer el texto localizado de un campo que puede ser un objeto multilingüe o un string.
+   * @param field - Campo de texto o diccionario de traducciones.
+   * @returns El texto correspondiente al idioma actual o español por defecto.
+   */
   const getLocalized = (field: any) => {
     if (!field) return '';
     if (typeof field === 'string') return field;
@@ -67,7 +98,10 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
 
   return (
     <div className="max-w-4xl mx-auto py-4 px-3 sm:px-4 space-y-6 animate-fadeIn">
-      {/* Header Banner */}
+      
+      {/* ==================================================================== */}
+      {/* BANNER PRINCIPAL DE LA PARASHÁ Y SELECTOR                             */}
+      {/* ==================================================================== */}
       <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-amber-950/80 to-slate-900 text-white border border-amber-500/30 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-400 mb-1">
@@ -89,7 +123,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
           </p>
         </div>
 
-        {/* Parasha Selector dropdown */}
+        {/* Selector desplegable de Parashot */}
         <div className="flex flex-col items-start md:items-end gap-1.5 shrink-0">
           <label className="text-xs text-amber-300 font-medium">{t('selectParasha', 'Seleccionar Parashá:')}</label>
           <select
@@ -106,7 +140,9 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
         </div>
       </div>
 
-      {/* Subnavigation Bar */}
+      {/* ==================================================================== */}
+      {/* BARRA DE PESTAÑAS SECUNDARIAS (RESUMEN, ALIYOT, RASHI, JABAD, MAQAM)   */}
+      {/* ==================================================================== */}
       <div className="flex border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 rounded-2xl p-1.5 shadow-xs overflow-x-auto gap-1 scrollbar-none">
         <button
           onClick={() => setActiveSubTab('resumen')}
@@ -164,8 +200,12 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
         </button>
       </div>
 
-      {/* Main Tab Content Display */}
+      {/* ==================================================================== */}
+      {/* CONTENIDO DE LA PESTAÑA ACTIVA                                      */}
+      {/* ==================================================================== */}
       <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+        
+        {/* Subpestaña: Resumen y Temas */}
         {activeSubTab === 'resumen' && (
           <div className="space-y-5">
             <div>
@@ -188,6 +228,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
           </div>
         )}
 
+        {/* Subpestaña: 7 Aliyot */}
         {activeSubTab === 'aliyot' && (
           <div className="space-y-4">
             <h3 className="text-xl font-serif font-bold text-slate-900 dark:text-white mb-2">
@@ -195,7 +236,6 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
             </h3>
             <div className="space-y-3">
               {parasha.aliyot.map((aliya, index) => {
-                // Buscamos la descripción traducida de forma flexible
                 const targetAliya = translatedContent?.aliyot?.[index];
                 const translatedDesc = typeof targetAliya === 'string' 
                   ? targetAliya 
@@ -212,7 +252,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
                         <h4 className="text-sm font-bold text-slate-900 dark:text-white">
-                        {targetAliya?.title || `${aliya.number}ª Aliyá (${aliya.number === 1 ? 'Kohén' : aliya.number === 2 ? 'Leví' : 'Israel'})`}
+                          {targetAliya?.title || `${aliya.number}ª Aliyá (${aliya.number === 1 ? 'Kohén' : aliya.number === 2 ? 'Leví' : 'Israel'})`}
                         </h4>
                         <span className="text-xs font-mono text-amber-700 dark:text-amber-400 font-semibold">
                           {aliya.reference}
@@ -229,6 +269,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
           </div>
         )}
 
+        {/* Subpestaña: Perla de Rashi */}
         {activeSubTab === 'rashi' && (
           <div className="space-y-4">
             <div className="flex items-center gap-3">
@@ -245,6 +286,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
           </div>
         )}
 
+        {/* Subpestaña: Jasidut / Jabad */}
         {activeSubTab === 'chabad' && (
           <div className="space-y-4">
             <div className="flex items-center gap-3">
@@ -261,6 +303,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
           </div>
         )}
 
+        {/* Subpestaña: Maqam Semanal */}
         {activeSubTab === 'maqam' && (
           <div className="space-y-4">
             <div className="flex items-center gap-3">
@@ -278,7 +321,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
           </div>
         )}
 
-        {/* Ask Rabbi Button */}
+        {/* Botón de consulta directa al Rabino */}
         <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
           <span className="text-xs text-slate-500">
             {t('askAboutParashaPrompt', '¿Deseas profundizar en algún pasuk, halajá o comentario de esta Parashá?')}
@@ -295,6 +338,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
             <span>{t('consultRabbiParasha', 'Consultar al Rabino sobre')} {getLocalized(parasha.name)}</span>
           </button>
         </div>
+
       </div>
     </div>
   );

@@ -49,6 +49,9 @@ import { SpeechRecognition } from '@capacitor-community/speech-recognition';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Geolocation } from '@capacitor/geolocation';
 
+// ============================================================================
+// 1. UTILIDADES Y MANEJO DE ERRORES AMIGABLES
+// ============================================================================
 function cleanFriendlyError(raw: string): string {
   if (
     raw.includes('503') ||
@@ -82,34 +85,35 @@ const LANGUAGES = [
 ];
 
 export function App() {
-  const { i18n, t } = useTranslation();
 
-  const [isRestDay, setIsRestDay] = useState(false);
-  const [isChecking, setIsChecking] = useState(true);
+  // ==========================================================================
+  // 2. PASARELA DE PAGOS (PAYPAL) Y CONTROL FREEMIUM (LITE VS. PREMIUM)
+  // ==========================================================================
 
-  // Estados de control para la versión Lite y Premium
+  // Abre el enlace de PayPal en una pestaña nueva para recibir aportaciones
   const handleOpenPayPal = () => {
-  const paypalUrl = "https://www.paypal.com/paypalme/gingerjewman0"; // Tu enlace de PayPal
-  window.open(paypalUrl, '_blank');
-};
+    const paypalUrl = "https://www.paypal.com/paypalme/gingerjewman0"; 
+    window.open(paypalUrl, '_blank');
+  };
 
-// 1. Primero declaras tu estado
-const [isPremium, setIsPremium] = useState<boolean>(() => {
-  return localStorage.getItem('rabino_virtual_premium') === 'true';
-});
+  // Estado que verifica si el usuario cuenta con la versión Premium desbloqueada
+  const [isPremium, setIsPremium] = useState<boolean>(() => {
+    return localStorage.getItem('rabino_virtual_premium') === 'true';
+  });
 
-// 2. Después colocas el efecto que hace uso de ese estado
-useEffect(() => {
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('activate_premium') === 'true') {
-    localStorage.setItem('rabino_virtual_premium', 'true');
-    setIsPremium(true);
-    alert("¡Felicidades! Tu cuenta ha sido actualizada a Premium con éxito.");
-  }
-}, []);
+  // Detecta automáticamente el parámetro secreto en la URL (?activate_premium=true) para activación por enlace mágico
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('activate_premium') === 'true') {
+      localStorage.setItem('rabino_virtual_premium', 'true');
+      setIsPremium(true);
+      alert("¡Felicidades! Tu cuenta ha sido actualizada a Premium con éxito.");
+    }
+  }, []);
 
-  const MAX_FREE_QUERIES = 12; // Límite diario para la versión Lite
+  const MAX_FREE_QUERIES = 12; // Límite diario de consultas para la versión Lite
 
+  // Control de conteo diario de consultas para usuarios gratuitos
   const [dailyQueriesCount, setDailyQueriesCount] = useState<number>(() => {
     try {
       const storedDate = localStorage.getItem('rabino_virtual_query_date');
@@ -122,6 +126,15 @@ useEffect(() => {
       return 0;
     }
   });
+
+  const { i18n, t } = useTranslation(); 
+
+
+  // ==========================================================================
+  // 3. BLOQUEO AUTOMÁTICO DE SHABAT Y YOM TOV
+  // ==========================================================================
+  const [isRestDay, setIsRestDay] = useState(false);
+  const [isChecking, setIsChecking] = useState(true);
 
   useEffect(() => {
     const verifyShabbat = async (lat: number, lng: number) => {
@@ -165,12 +178,17 @@ useEffect(() => {
     initLocation();
   }, []);
 
+
+  // ==========================================================================
+  // 4. ESTADOS DE NAVEGACIÓN Y UI GENERAL
+  // ==========================================================================
   const [activeMainTab, setActiveMainTab] = useState<
     'chat' | 'calendar' | 'parasha' | 'giluy_daat' | 'developer'
   >('chat');
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  // Gestión de Modo Oscuro / Modo Claro
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
     try {
       const savedTheme = localStorage.getItem('rabino_virtual_theme');
@@ -184,6 +202,7 @@ useEffect(() => {
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const langMenuRef = useRef<HTMLDivElement | null>(null);
 
+  // Estados de Chat y Multimedia (Imágenes y Voz)
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputText, setInputText] = useState('');
   const [isStreaming, setIsStreaming] = useState(false);
@@ -206,10 +225,12 @@ useEffect(() => {
   const audioChunksRef = useRef<Blob[]>([]);
   const audioFileInputRef = useRef<HTMLInputElement | null>(null);
 
+  // Modales de herramientas de estudio
   const [isTraditionsModalOpen, setIsTraditionsModalOpen] = useState(false);
   const [isHalachaModalOpen, setIsHalachaModalOpen] = useState(false);
   const [isSavedNotesModalOpen, setIsSavedNotesModalOpen] = useState(false);
 
+  // Almacenamiento local de enseñanzas guardadas (Bookmarks) con límite de 5 para Lite
   const [savedNotes, setSavedNotes] = useState<SavedNote[]>(() => {
     try {
       const stored = localStorage.getItem('rabino_virtual_saved_notes');
@@ -222,6 +243,10 @@ useEffect(() => {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
+
+  // ==========================================================================
+  // 5. MANEJADORES DE IMÁGENES Y CÁMARA
+  // ==========================================================================
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file && file.type.startsWith('image/')) {
@@ -283,6 +308,10 @@ useEffect(() => {
     }
   };
 
+
+  // ==========================================================================
+  // 6. GESTIÓN DE IDIOMAS Y TRADUCCIÓN DINÁMICA
+  // ==========================================================================
   const handleLanguageChange = async (langCode: string) => {
     setSelectedLanguage(langCode);
     i18n.changeLanguage(langCode);
@@ -329,6 +358,10 @@ useEffect(() => {
     setMessages(updatedMessages);
   };
 
+
+  // ==========================================================================
+  // 7. EFECTOS DE TEMA, DIRECCIÓN Y LISTENERS GLOBALES
+  // ==========================================================================
   useEffect(() => {
     try {
       if (isDarkMode) {
@@ -386,6 +419,10 @@ useEffect(() => {
     }
   };
 
+
+  // ==========================================================================
+  // 8. DICTADO POR VOZ Y RECONOCIMIENTO DE AUDIO
+  // ==========================================================================
   const stopVoiceDictation = () => {
     if (recognitionRef.current) {
       try {
@@ -489,12 +526,16 @@ useEffect(() => {
     }
   };
 
+
+  // ==========================================================================
+  // 9. LÓGICA DE ENVÍO DE MENSAJES Y COMUNICACIÓN CON LA IA
+  // ==========================================================================
   const handleSendMessage = async (textToSend?: string) => {
     const query = (textToSend || inputText).trim();
     if (!query && !imageFile && !nativeImageBase64) return;
     if (isStreaming) return;
 
-    // Validación de límite diario para la versión Lite (Opción A)
+    // Validación de límite diario de consultas (Versión Lite - 12 consultas)
     if (!isPremium) {
       const today = new Date().toDateString();
       if (dailyQueriesCount >= MAX_FREE_QUERIES) {
@@ -677,12 +718,12 @@ useEffect(() => {
     }
   };
 
+  // Gestión de Notas Guardadas / Bookmarks (Con límite de 5 para versión Lite)
   const handleToggleBookmark = (msg: ChatMessage) => {
     const isBookmarked = savedNotes.some((n) => n.id === msg.id);
     if (isBookmarked) {
       setSavedNotes((prev) => prev.filter((n) => n.id !== msg.id));
     } else {
-      // Restricción para la versión Lite (Opción B: máximo 5 notas guardadas)
       if (!isPremium && savedNotes.length >= 5) {
         alert("Has alcanzado el límite de 5 enseñanzas guardadas en la versión gratuita. ¡Pásate a Premium para notas ilimitadas!");
         return;
@@ -770,6 +811,10 @@ useEffect(() => {
     return <ShabbatLockScreen />;
   }
 
+
+  // ==========================================================================
+  // 10. RENDERIZADO DE LA INTERFAZ PRINCIPAL (UI)
+  // ==========================================================================
   return (
     <div className={`flex flex-col min-h-screen w-full overflow-x-hidden ${isDarkMode ? 'dark bg-slate-950 text-slate-100' : 'bg-stone-50/70 text-slate-800'} font-sans transition-colors duration-200`}>
       {isSidebarOpen && (
@@ -780,6 +825,7 @@ useEffect(() => {
         />
       )}
 
+      {/* Barra Lateral / Sidebar */}
       <aside
         className={`fixed top-0 left-0 bottom-0 z-50 w-72 sm:w-80 bg-white dark:bg-slate-900 border-r border-amber-200/80 dark:border-amber-500/30 text-slate-900 dark:text-white shadow-2xl flex flex-col justify-between transition-transform duration-300 ease-in-out ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
@@ -963,6 +1009,7 @@ useEffect(() => {
           </div>
         </div>
 
+        {/* Sección inferior del Sidebar con enlace a PayPal del Desarrollador */}
         <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/70 space-y-3">
           <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-500/30 text-xs">
             <div className="flex items-center justify-between text-amber-900 dark:text-amber-300 font-bold mb-1">
@@ -972,15 +1019,13 @@ useEffect(() => {
             <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-tight mb-2">
               {t('devSupportText', 'Desarrollador de Rabino Virtual. Apoya el proyecto con un donativo voluntario.')}
             </p>
-            <a
-              href="https://www.paypal.com/paypalme/gingerjewman0"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full py-1.5 px-2.5 rounded-lg font-semibold text-[11px] bg-amber-600 hover:bg-amber-500 text-white dark:text-slate-950 transition flex items-center justify-center gap-1.5 shadow-xs"
+            <button
+              onClick={handleOpenPayPal}
+              className="w-full py-1.5 px-2.5 rounded-lg font-semibold text-[11px] bg-amber-600 hover:bg-amber-500 text-white dark:text-slate-950 transition flex items-center justify-center gap-1.5 shadow-xs cursor-pointer"
             >
               <ExternalLink className="w-3 h-3" />
               <span>{t('donatePaypal', 'Donar vía PayPal')}</span>
-            </a>
+            </button>
           </div>
 
           <p className="text-[10px] text-slate-500 text-center italic">
@@ -989,6 +1034,7 @@ useEffect(() => {
         </div>
       </aside>
 
+      {/* Cabecera Superior / Navbar */}
       <header className="sticky top-0 z-30 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-amber-200/60 dark:border-slate-800 shadow-xs transition-colors">
         <div className="w-full px-4 sm:px-6 h-16 flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 sm:gap-3 min-w-0">
@@ -1142,6 +1188,7 @@ useEffect(() => {
         </div>
       </header>
 
+      {/* Contenido Principal */}
       <main className="flex-1 w-full px-4 sm:px-6 py-6 flex flex-col">
         {activeMainTab === 'calendar' && <CalendarZmanimTab />}
 
@@ -1368,19 +1415,17 @@ useEffect(() => {
         )}
       </main>
 
+      {/* Pie de Página / Footer con Banner AdMob y Barra de Entrada de Mensajes */}
       {activeMainTab === 'chat' && (
         <footer className="sticky bottom-0 z-20 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 p-3 sm:p-4">
           <div className="w-full px-4 sm:px-6 space-y-2">
-            {/* Opción C: Banner publicitario visible únicamente para la versión Lite */}
+            
+            {/* Opción C: Banner publicitario exclusivo para versión Lite (se oculta si isPremium es true) */}
             {!isPremium && (
               <div className="w-full bg-amber-50 dark:bg-slate-800/90 py-1.5 px-3 rounded-xl text-center text-xs text-slate-600 dark:text-slate-300 border border-amber-200 dark:border-slate-700 flex items-center justify-between gap-2 shadow-xs">
                 <span className="truncate">Publicidad (Versión Lite) — Apoya el proyecto</span>
                 <button 
-                  onClick={() => {
-                    localStorage.setItem('rabino_virtual_premium', 'true');
-                    setIsPremium(true);
-                    alert("¡Versión Premium activada con éxito!");
-                  }} 
+                  onClick={handleOpenPayPal} 
                   className="px-2.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-semibold text-[11px] shrink-0 cursor-pointer transition"
                 >
                   Quitar anuncios
@@ -1540,13 +1585,14 @@ useEffect(() => {
                 </span>
               </button>
               <span className="hidden sm:inline italic">
-                {t('consultRabbiNotice', 'Para decisiones prácticas individuales, consulta al rabino du tu comunidad.')}
+                {t('consultRabbiNotice', 'Para decisiones prácticas individuales, consulta al rabino de tu comunidad.')}
               </span>
             </div>
           </div>
         </footer>
       )}
 
+      {/* Modales de la aplicación */}
       <TraditionsGuideModal
         isOpen={isTraditionsModalOpen}
         onClose={() => setIsTraditionsModalOpen(false)}

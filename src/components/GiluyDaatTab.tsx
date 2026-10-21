@@ -9,7 +9,9 @@ export const GiluyDaatTab: React.FC<{ onAcknowledge?: () => void }> = ({ onAckno
     <div className="max-w-4xl mx-auto p-4 md:p-6 space-y-6 animate-fadeIn">
       <div className="rounded-2xl border p-6 md:p-8 transition-colors bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 shadow-lg">
         
-        {/* Encabezado */}
+        {/* ==================================================================== */}
+        {/* CABECERA                                                             */}
+        {/* ==================================================================== */}
         <div className="flex items-center gap-4 mb-6">
           <div className="p-3 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 border border-amber-300 dark:border-amber-800/50">
             <ShieldAlert className="w-8 h-8" />
@@ -24,7 +26,9 @@ export const GiluyDaatTab: React.FC<{ onAcknowledge?: () => void }> = ({ onAckno
           </div>
         </div>
 
-        {/* Advertencia Estricta */}
+        {/* ==================================================================== */}
+        {/* ADVERTENCIA ESTRICTA                                                 */}
+        {/* ==================================================================== */}
         <div className="mb-6 p-4 rounded-xl border bg-amber-50 dark:bg-amber-950/30 border-amber-300 dark:border-amber-800/60 text-amber-900 dark:text-amber-200 text-sm leading-relaxed flex gap-3">
           <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
           <div>
@@ -36,7 +40,9 @@ export const GiluyDaatTab: React.FC<{ onAcknowledge?: () => void }> = ({ onAckno
           </div>
         </div>
 
-        {/* Sección: ¿Por qué un sistema digital no puede dar Psak Halajá? */}
+        {/* ==================================================================== */}
+        {/* RAZONES TÉCNICAS E HISTÓRICAS DE LA HALAJÁ                           */}
+        {/* ==================================================================== */}
         <div className="space-y-4 mb-6">
           <h3 className="text-lg font-bold font-serif flex items-center gap-2 text-slate-900 dark:text-amber-400">
             <Scale className="w-5 h-5 text-amber-600 dark:text-amber-400" />
@@ -68,7 +74,9 @@ export const GiluyDaatTab: React.FC<{ onAcknowledge?: () => void }> = ({ onAckno
           </ul>
         </div>
 
-        {/* Caja de Información */}
+        {/* ==================================================================== */}
+        {/* PROPÓSITO PEDAGÓGICO                                                 */}
+        {/* ==================================================================== */}
         <div className="mb-6 p-4 rounded-xl border bg-slate-100 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 text-sm">
           <h4 className="font-bold flex items-center gap-2 mb-2 text-slate-900 dark:text-amber-400">
             <BookOpen className="w-4 h-4 text-amber-600 dark:text-amber-400" />
@@ -90,7 +98,6 @@ export const GiluyDaatTab: React.FC<{ onAcknowledge?: () => void }> = ({ onAckno
           </div>
         )}
 
-        {/* Cita */}
         <p className="mt-4 text-center text-xs italic text-slate-500 dark:text-slate-400 font-serif">
           "Ase leja Rav, ukne leja Javer" — Pirkei Avot 1:6
         </p>
@@ -99,4 +106,5 @@ export const GiluyDaatTab: React.FC<{ onAcknowledge?: () => void }> = ({ onAckno
     </div>
   );
 };
+
 export default GiluyDaatTab;

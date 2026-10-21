@@ -1,3 +1,13 @@
+/**
+ * ============================================================================
+ * COMPONENTE DE RESPUESTA FORMATEADA DEL RABINO (FormattedRabbiResponse.tsx)
+ * ============================================================================
+ * Propósito: Renderiza la respuesta de la IA aplicando formato enriquecido en 
+ * Markdown, resaltando bloques halájicos (obligatorio, costumbre, opcional),
+ * manejando la síntesis de voz neuronal (Text-to-Speech con ElevenLabs) y 
+ * ofreciendo herramientas interactivas como copia de texto, marcadores y preguntas de reflexión.
+ */
+
 import React, { useState, useRef, useEffect } from 'react';
 import {
   Volume2,
@@ -11,14 +21,26 @@ import {
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
+/**
+ * Propiedades requeridas por el componente FormattedRabbiResponse.
+ */
 interface FormattedRabbiResponseProps {
+  /** Texto plano o estructurado devuelto por el modelo de IA. */
   content: string;
+  /** Indica si la respuesta actual se encuentra en proceso de streaming en tiempo real. */
   isStreaming?: boolean;
+  /** Callback opcional para enviar una pregunta de seguimiento basada en la reflexión. */
   onAskFollowUp?: (questionText: string) => void;
+  /** Estado que indica si la respuesta ha sido guardada en favoritos/notas. */
   isBookmarked?: boolean;
+  /** Callback para alternar el estado de guardado de la enseñanza. */
   onToggleBookmark?: () => void;
 }
 
+/**
+ * Componente principal FormattedRabbiResponse para mostrar y dar formato interactivo
+ * a las respuestas del asistente rabínico.
+ */
 export function FormattedRabbiResponse({
   content,
   isStreaming,
@@ -30,9 +52,11 @@ export function FormattedRabbiResponse({
   const [copied, setCopied] = useState(false);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [isLoadingAudio, setIsLoadingAudio] = useState(false);
+  
+  // Referencia mutable para controlar el elemento de audio HTML y su reproducción
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Definimos los títulos localizados y obtenemos el idioma actual de forma limpia
+  // Diccionario de títulos localizados para la sección de preguntas de reflexión
   const reflectionTitles: Record<string, string> = {
     he: 'שאלה להתבוננות ולהמשך הדיון',
     en: 'Question for Reflection and Continuing the Dialogue',
@@ -41,9 +65,13 @@ export function FormattedRabbiResponse({
     es: 'Pregunta para Reflexionar y Continuar el Diálogo',
   };
 
+  // Obtención del idioma actual de la interfaz (con respaldo a español)
   const currentLang = (localStorage.getItem('i18nextLng') || 'es').substring(0, 2);
   const reflectionTitle = reflectionTitles[currentLang] || reflectionTitles.es;
 
+  /**
+   * Efecto secundario para limpiar y pausar el audio al desmontar el componente.
+   */
   useEffect(() => {
     return () => {
       if (audioRef.current) {
@@ -53,12 +81,20 @@ export function FormattedRabbiResponse({
     };
   }, []);
 
+  /**
+   * Copia el contenido completo de la respuesta al portapapeles del dispositivo
+   * y activa temporalmente el indicador visual de éxito.
+   */
   const handleCopy = () => {
     navigator.clipboard.writeText(content);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
+  /**
+   * Gestiona la reproducción y pausa de la voz neuronal mediante el servicio de ElevenLabs.
+   * Solicita el audio en formato base64 al backend, construye un objeto Blob y lo reproduce.
+   */
   const handleToggleAudio = async () => {
     if (isPlayingAudio) {
       if (audioRef.current) {
@@ -85,6 +121,7 @@ export function FormattedRabbiResponse({
       const data = await response.json();
       if (!data.audioBase64) throw new Error('No se recibió audio de ElevenLabs');
 
+      // Conversión de la cadena base64 a un buffer de bytes binarios
       const binaryString = atob(data.audioBase64);
       const len = binaryString.length;
       const bytes = new Uint8Array(len);
@@ -92,17 +129,20 @@ export function FormattedRabbiResponse({
         bytes[i] = binaryString.charCodeAt(i);
       }
 
+      // Creación del Blob de audio y URL temporal
       const audioBlob = new Blob([bytes], { type: 'audio/mp3' });
       const audioUrl = URL.createObjectURL(audioBlob);
       const audio = new Audio(audioUrl);
       audioRef.current = audio;
 
+      // Evento al finalizar la reproducción del audio
       audio.onended = () => {
         setIsPlayingAudio(false);
         audioRef.current = null;
         URL.revokeObjectURL(audioUrl);
       };
 
+      // Manejo de errores durante la reproducción
       audio.onerror = (e) => {
         console.error('Error al reproducir audio de ElevenLabs:', e);
         audioRef.current = null;
@@ -121,6 +161,11 @@ export function FormattedRabbiResponse({
     }
   };
 
+  /**
+   * Parsea y formatea el texto plano de la respuesta línea por línea,
+   * identificando encabezados, listas, insignias comunitarias y bloques halájicos.
+   * @returns Elementos JSX estructurados para el renderizado del mensaje.
+   */
   const renderFormattedContent = () => {
     const reflectionMatch = content.match(
       /(?:(?:Pregunta|Preguntas)\s+para\s+reflexionar|שאלה\s+למחשבה|Question\s+(?:for\s+reflection|to\s+reflect\s+on)|Pergunta\s+para\s+reflexão|Question\s+pour\s+réfléchir)[\s\S]*$/i
@@ -230,6 +275,7 @@ export function FormattedRabbiResponse({
             );
           }
 
+          // Detección de menciones a tradiciones específicas para insertar insignias visuales
           const isMaguenDavid = trimmed.match(/(\*\*|\b)(Maguen David|Jalabí|Alepo)(\*\*|\b)/i);
           const isMonteSinai = trimmed.match(/(\*\*|\b)(Monte Sinai|Shamí|Damasco)(\*\*|\b)/i);
           const isSefaradi = trimmed.match(/(\*\*|\b)(Sefaradí|Sefardí|Maran)(\*\*|\b)/i);
@@ -289,6 +335,7 @@ export function FormattedRabbiResponse({
           );
         })}
 
+        {/* Sección de Pregunta para Reflexión */}
         {reflectionText && (
           <div className="mt-5 p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-amber-50 via-orange-50/50 to-amber-100/50 dark:from-amber-950/30 dark:via-slate-900 dark:to-amber-900/20 border-2 border-amber-300/80 dark:border-amber-700/60 shadow-sm animate-fadeIn">
             <div className="flex items-center gap-2 mb-2 text-amber-900 dark:text-amber-300 font-serif font-bold text-sm sm:text-base">
@@ -329,6 +376,11 @@ export function FormattedRabbiResponse({
     );
   };
 
+  /**
+   * Da formato a elementos inline dentro del texto (negritas, cursivas y fragmentos de código).
+   * @param text - Cadena de texto a formatear.
+   * @returns Nodos React con etiquetas HTML apropiadas.
+   */
   const formatInlineText = (text: string): React.ReactNode => {
     const parts = text.split(/(\*\*.*?\*\*|\*.*?\*|`.*?`)/g);
 
@@ -365,6 +417,7 @@ export function FormattedRabbiResponse({
     <div className="relative group">
       {renderFormattedContent()}
 
+      {/* Barra de herramientas inferior (Audio, Copiar y Marcador) */}
       {!isStreaming && (
         <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs text-slate-500">
           <div className="flex items-center gap-1.5">

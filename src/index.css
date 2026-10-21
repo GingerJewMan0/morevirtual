@@ -2,6 +2,9 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* ============================================================================ */
+/* CONFIGURACIÓN DE TIPOGRAFÍAS BASE Y HEBREAS                                  */
+/* ============================================================================ */
 @layer base {
   body {
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
@@ -16,6 +19,9 @@
   }
 }
 
+/* ============================================================================ */
+/* ANIMACIONES PERSONALIZADAS                                                   */
+/* ============================================================================ */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -31,7 +37,9 @@
   animation: fadeIn 0.25s ease-out forwards;
 }
 
-/* Custom subtle scrollbar */
+/* ============================================================================ */
+/* ESTILOS DE BARRA DE DESPLAZAMIENTO (SCROLLBAR)                               */
+/* ============================================================================ */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;

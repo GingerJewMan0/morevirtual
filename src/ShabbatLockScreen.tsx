@@ -5,7 +5,9 @@ import { useTranslation } from 'react-i18next';
 export function ShabbatLockScreen() {
   const { i18n } = useTranslation();
 
-  // Obtenemos el idioma limpio (ej. 'es', 'en', 'he', 'fr', 'pt')
+  // ==========================================================================
+  // DETECCIÓN Y SELECCIÓN DE IDIOMA PARA LA PANTALLA DE REPOSO
+  // ==========================================================================
   const rawLang = i18n.language || localStorage.getItem('i18nextLng') || 'es';
   const currentLang = rawLang.toLowerCase().includes('he')
     ? 'he'
@@ -19,6 +21,7 @@ export function ShabbatLockScreen() {
 
   const isHebrew = currentLang === 'he';
 
+  // Textos traducidos para el bloqueo de Shabat / Yom Tov
   const content = {
     he: {
       title: 'שבת שלום או חג שמח',
@@ -49,6 +52,9 @@ export function ShabbatLockScreen() {
 
   const t = content[currentLang as keyof typeof content] || content.es;
 
+  // ==========================================================================
+  // RENDERIZADO DE LA PANTALLA DE BLOQUEO
+  // ==========================================================================
   return (
     <div 
       className="min-h-screen bg-slate-950 text-slate-100 flex flex-col items-center justify-center p-6 text-center select-none font-sans"

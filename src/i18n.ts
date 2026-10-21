@@ -1,8 +1,27 @@
+/**
+ * ============================================================================
+ * MÓDULO DE INTERNACIONALIZACIÓN (i18n.ts) - RABINO VIRTUAL
+ * ============================================================================
+ * Propósito: Configurar el soporte multilingüe completo de la aplicación,
+ * administrando diccionarios de traducción para 5 idiomas (es, he, en, fr, pt),
+ * la dirección de lectura de la interfaz (LTR / RTL), y la persistencia del idioma.
+ */
+
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
+/**
+ * ============================================================================
+ * RECURSOS DE TRADUCCIÓN POR IDIOMA
+ * ============================================================================
+ * Almacena todas las cadenas de texto, etiquetas, títulos de pestañas, guías
+ * comunitarias y advertencias haláchicas traducidas para cada cultura soportada.
+ */
 const resources = {
+  // --------------------------------------------------------------------------
+  // ESPAÑOL (Idioma predeterminado / Fallback)
+  // --------------------------------------------------------------------------
   es: {
     translation: {
       appName: 'Rabino Virtual',
@@ -136,6 +155,10 @@ const resources = {
       clickBookmarkPrompt: 'Haz clic en el ícono de marcador al final de cualquier respuesta de Rabino Virtual para guardarla aquí'
     }
   },
+
+  // --------------------------------------------------------------------------
+  // HEBREO (Idioma con soporte especial de dirección RTL)
+  // --------------------------------------------------------------------------
   he: {
     translation: {
       appName: 'רב וירטואלי',
@@ -167,7 +190,6 @@ const resources = {
       tabGiluyDaatDesc: 'מטרה פדגוגית והסתייגות הלכתית',
       tabDeveloper: 'מפתח',
       tabDeveloperDesc: 'ליאור פישר לובטון ותרומות פייפאל',
-
 
       welcomeTitle: 'שלום עליכם! ברוכים הבאים',
       welcomeDesc: 'אני הרב הוירטואלי שלך, מחנך ומורה דרך רוחני שנועד ללוות אותך בחום, בסבלנות ובעומק.',
@@ -270,6 +292,10 @@ const resources = {
       clickBookmarkPrompt: 'לחץ על סמל הסימנייה בתחתית כל תשובה כדי לשמור אותה'
     }
   },
+
+  // --------------------------------------------------------------------------
+  // INGLÉS
+  // --------------------------------------------------------------------------
   en: {
     translation: {
       appName: 'Virtual Rabbi',
@@ -403,6 +429,10 @@ const resources = {
       clickBookmarkPrompt: 'Click the bookmark icon at the end of any Virtual Rabbi answer to save it here'
     }
   },
+
+  // --------------------------------------------------------------------------
+  // FRANCÉS
+  // --------------------------------------------------------------------------
   fr: {
     translation: {
       appName: 'Rabbin Virtuel',
@@ -430,7 +460,7 @@ const resources = {
       tabZmanimDesc: 'Allumage des bougies de Shabbat, Havdalah & Zmanim',
       tabParasha: 'Parasha de la Semaine',
       tabParashaDesc: 'Étude hebdomadaire de la Torah, Aliyot & Rashi',
-      tabGiluyDaat: 'Giluy Da/at (Avertissement)',
+      tabGiluyDaat: 'Gilouy Da/at (Avertissement)',
       tabGiluyDaatDesc: 'Objectif pédagogique et avertissement halachique',
       tabDeveloper: 'Développeur',
       tabDeveloperDesc: 'Lior Fisher Lobaton & Dons PayPal',
@@ -536,11 +566,15 @@ const resources = {
       clickBookmarkPrompt: 'Cliquez sur l icône de marque-page sous une réponse pour la sauvegarder'
     }
   },
+
+  // --------------------------------------------------------------------------
+  // PORTUGUÉS
+  // --------------------------------------------------------------------------
   pt: {
     translation: {
       appName: 'Rabino Virtual',
       tagline: 'Guia Rabínico & Estudo de Torá',
-      mainSections: 'Seções Principais',
+      mainSections: 'Seções Principales',
       queryLanguage: 'Idioma da Consulta',
       visualAppearance: 'Aparência Visual',
       lightMode: 'Modo Claro',
@@ -644,7 +678,7 @@ const resources = {
       creatorRole: 'Criador e Desenvolvedor',
       devSubtitle: 'Desenvolvimento, Educação Judaica e IA',
       devMainDesc: 'foi criado para compartilhar a sabedoria judaica respeitando todas as tradições:',
-      sirianDesc: 'Preservação dos costumes judaico-sírios (Halabi e Shami).',
+      sirianDesc: 'Preservación dos costumes judaico-sírios (Halabi e Shami).',
       sefaradiAshkenaziDesc: 'Integração do Shulchan Aruch e do Rama.',
       chabadDesc: 'Ensino do Shulchan Aruch HaRav e da Chassidut.',
       pedagogicalClassification: 'Classificação Haláchica',
@@ -671,20 +705,35 @@ const resources = {
   }
 };
 
+/**
+ * ============================================================================
+ * INICIALIZACIÓN DEL MOTOR i18next
+ * ============================================================================
+ * Configura los detectores de idioma del navegador, vincula React y deshabilita
+ * el uso de Suspense para evitar pantallas en blanco durante la carga de componentes.
+ */
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources,
-    fallbackLng: 'es',
+    fallbackLng: 'es', // Idioma de respaldo por defecto
     react: {
-      useSuspense: false, // <-- ESTA LÍNEA EVITA LA PANTALLA EN BLANCO
+      useSuspense: false, // Evita la pantalla en blanco al cambiar o cargar idiomas
     },
     interpolation: {
-      escapeValue: false,
+      escapeValue: false, // React ya se encarga de prevenir ataques XSS de manera nativa
     },
   });
 
+/**
+ * ============================================================================
+ * ESCUCHADOR DE CAMBIO DE IDIOMA (DIRECCIÓN RTL / LTR)
+ * ============================================================================
+ * Detecta automáticamente si el usuario selecciona hebreo ('he') para cambiar
+ * la orientación del documento a Right-to-Left (rtl), o Left-to-Right (ltr)
+ * para los demás idiomas occidentales.
+ */
 i18n.on('languageChanged', (lng) => {
   if (typeof document !== 'undefined' && document.documentElement) {
     const dir = lng === 'he' ? 'rtl' : 'ltr';

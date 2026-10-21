@@ -1,30 +1,51 @@
+/**
+ * ============================================================================
+ * MÓDULO DE DATOS DE ZMANIM Y CIUDADES GLOBALES (zmanimData.ts)
+ * ============================================================================
+ * Propósito: Definir los tipos e interfaces de TypeScript para los tiempos
+ * halájicos diarios (*Zmanim*), así como el listado estructurado de ciudades 
+ * globales con sus costumbres comunitarias, reglas de encendido de velas y 
+ * horarios astronómicos de referencia.
+ */
+
+/**
+ * Interfaz que modela los datos completos de Zmanim y configuraciones 
+ * comunitarias para una ciudad específica.
+ */
 export interface CityZmanim {
-  id: string;
-  name: string;
-  country: string;
-  flag: string;
-  communityFlavor: string;
-  candleLightingMinutesBeforeSunset: number; // usually 18, 20 or 40 (Jerusalem)
-  sampleSunsetFriday: string; // e.g. "18:24"
-  sampleCandleLighting: string; // e.g. "18:06"
-  sampleSunsetSaturday: string; // e.g. "18:25"
-  sampleHavdalahStandard: string; // e.g. "19:18" (3 medium stars)
-  sampleHavdalahRabenuTam: string; // e.g. "19:37" (72 min)
-  hebrewDate: string;
+  id: string;                                   // Identificador único de la ciudad (ej. 'cdmx')
+  name: string;                                 // Nombre oficial de la ciudad
+  country: string;                              // País al que pertenece
+  flag: string;                                 // Emoji de la bandera nacional
+  communityFlavor: string;                      // Reseña de las comunidades judías locales
+  candleLightingMinutesBeforeSunset: number;    // Minutos antes de la puesta de sol (ej. 18, 20 o 40 en Jerusalén)
+  sampleSunsetFriday: string;                   // Muestra de puesta de sol en viernes (ej. "18:24")
+  sampleCandleLighting: string;                 // Muestra de encendido de velas (ej. "18:06")
+  sampleSunsetSaturday: string;                 // Muestra de puesta de sol en sábado (ej. "18:25")
+  sampleHavdalahStandard: string;               // Muestra de Havdalá estándar (3 estrellas medianas, ej. "19:18")
+  sampleHavdalahRabenuTam: string;              // Muestra de Havdalá según Rabenu Tam (72 min, ej. "19:37")
+  hebrewDate: string;                           // Fecha hebrea de referencia (ej. "Jeshván 5787")
   zmanim: {
-    alotHaShajar: string; // Dawn
-    netzHaChama: string; // Sunrise
-    sofZmanShemaMagenAvraham: string; // Shema Magen Avraham
-    sofZmanShemaGra: string; // Shema Gra
-    sofZmanTefilah: string; // Tefilah Gra
-    chatzot: string; // Midday
-    minchaGedolah: string; // Earliest Mincha
-    plagHaMincha: string; // Plag HaMincha
-    shekia: string; // Sunset
-    tzaitHakochavim: string; // Nightfall (stars)
+    alotHaShajar: string;                       // Albor / Amanecer astronómico
+    netzHaChama: string;                        // Salida del sol (*Netz*)
+    sofZmanShemaMagenAvraham: string;           // Límite para el Shemá según Magen Avraham
+    sofZmanShemaGra: string;                    // Límite para el Shemá según el Gaón de Vilna (Gra)
+    sofZmanTefilah: string;                     // Límite para la Amidá / Tefilá matutina
+    chatzot: string;                            // Mediodía halájico (*Chatzot*)
+    minchaGedolah: string;                      // Inicio de Minjá Gedolá (Mediodía + 30 min)
+    plagHaMincha: string;                       // Plag HaMinjá (Mitad del atardecer)
+    shekia: string;                             // Puesta del sol (*Shekia*)
+    tzaitHakochavim: string;                    // Salida de las estrellas / Noche (*Tzait Hakochavim*)
   };
 }
 
+/**
+ * ============================================================================
+ * CATÁLOGO GLOBAL DE CIUDADES Y ZMANIM (CITIES_ZMANIM)
+ * ============================================================================
+ * Base de datos estática que alimenta el selector de ubicaciones del componente 
+ * de Calendario y Zmanim, incorporando matices comunitarios y horarios detallados.
+ */
 export const CITIES_ZMANIM: CityZmanim[] = [
   {
     id: 'cdmx',
@@ -109,7 +130,7 @@ export const CITIES_ZMANIM: CityZmanim[] = [
     name: 'Ciudad de Panamá',
     country: 'Panamá',
     flag: '🇵🇦',
-    communityFlavor: 'Gran comunidad judía Jalabí (Shevet Ahim) y Ashkenazí, con altísima observancia de kashrut y Shabat.',
+    communityFlavor: 'Gran comunidad judía Jalabí (Shevet Ajim) y Ashkenazí, con altísima observancia de kashrut y Shabat.',
     candleLightingMinutesBeforeSunset: 18,
     sampleSunsetFriday: '18:10',
     sampleCandleLighting: '17:52',

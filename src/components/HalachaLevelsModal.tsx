@@ -11,7 +11,10 @@ export function HalachaLevelsModal({ isOpen, onClose }: HalachaLevelsModalProps)
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
       <div className="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-amber-200/50 dark:border-slate-800 overflow-hidden max-h-[90vh] flex flex-col">
-        {/* Header */}
+        
+        {/* ==================================================================== */}
+        {/* CABECERA                                                             */}
+        {/* ==================================================================== */}
         <div className="p-6 bg-gradient-to-r from-amber-700 via-amber-800 to-amber-900 text-amber-50 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="text-2xl">⚖️</span>
@@ -31,13 +34,15 @@ export function HalachaLevelsModal({ isOpen, onClose }: HalachaLevelsModalProps)
           </button>
         </div>
 
-        {/* Content */}
+        {/* ==================================================================== */}
+        {/* CONTENIDO: NIVELES 🔴, 🟡 y 🟢                                       */}
+        {/* ==================================================================== */}
         <div className="p-6 space-y-6 overflow-y-auto text-slate-700 dark:text-slate-300">
           <p className="text-sm text-slate-600 dark:text-slate-400">
             En la tradición rabínica, distinguir el nivel normativo de una práctica es fundamental para saber cómo actuar, cómo resolver dudas y cuándo existe flexibilidad o rigor. Rabino Virtual clasifica siempre cada tema según estos tres niveles:
           </p>
 
-          {/* Nivel 1 */}
+          {/* Nivel 1: Obligatorio (🔴) */}
           <div className="p-4 rounded-xl border-2 border-red-200 dark:border-red-900/50 bg-red-50/60 dark:bg-red-950/20">
             <div className="flex items-center gap-2 mb-2">
               <span className="text-lg">🔴</span>
@@ -74,7 +79,7 @@ export function HalachaLevelsModal({ isOpen, onClose }: HalachaLevelsModalProps)
             </div>
           </div>
 
-          {/* Nivel 2 */}
+          {/* Nivel 2: Costumbre / Minhag (🟡) */}
           <div className="p-4 rounded-xl border-2 border-amber-300 dark:border-amber-800/50 bg-amber-50/60 dark:bg-amber-950/20">
             <div className="flex items-center gap-2 mb-2">
               <span className="text-lg">🟡</span>
@@ -83,17 +88,17 @@ export function HalachaLevelsModal({ isOpen, onClose }: HalachaLevelsModalProps)
               </h3>
             </div>
             <p className="text-sm text-slate-700 dark:text-slate-300 mb-2">
-              Prácticas santas adoptadas voluntariamente por las comunidades a lo largo de las generaciones. Tienen un inmenso valor y fuerza moral (<em className="font-serif">"Minhag Avoteinu Torá Hi"</em> — La costumbre de nuestros padres es Torá).
+              Prácticas santas adoptadas voluntariamente por las comunidades a lo largo de las generaciones. Tienen un inmenso valor y fuerza moral (<em className="font-serif">"Minhag Avoteinu Torá Hi"</em>).
             </p>
             <div className="bg-white/80 dark:bg-slate-800/80 p-3 rounded-lg text-xs border border-amber-200 dark:border-amber-900/30">
               <span className="font-semibold text-amber-800 dark:text-amber-300">Ejemplos: </span>
               <span className="text-slate-600 dark:text-slate-400">
-                Los Simanim en Rosh Hashaná, no comer kitniyot en Ashkenazí vs sí comerlos en Sefaradí, Maguen David y Monte Sinai; los 40 días de Selijot en las comunidades orientales; melodías tradicionales de los rezos.
+                Los Simanim en Rosh Hashaná, no comer kitniyot en Ashkenazí vs sí comerlos en Sefaradí, Maguen David y Monte Sinai; los 40 días de Selijot en las comunidades orientales.
               </span>
             </div>
           </div>
 
-          {/* Nivel 3 */}
+          {/* Nivel 3: Opcional / Humrá (🟢) */}
           <div className="p-4 rounded-xl border-2 border-emerald-300 dark:border-emerald-800/50 bg-emerald-50/60 dark:bg-emerald-950/20">
             <div className="flex items-center gap-2 mb-2">
               <span className="text-lg">🟢</span>
@@ -102,27 +107,32 @@ export function HalachaLevelsModal({ isOpen, onClose }: HalachaLevelsModalProps)
               </h3>
             </div>
             <p className="text-sm text-slate-700 dark:text-slate-300 mb-2">
-              Un nivel extra de rigor o elevación espiritual (Midat Jasidut) asumido por quien desea embellecer la mitzvá más allá del requerimiento estricto, sin que sea una transgresión no realizarlo.
+              Un nivel extra de rigor o elevación espiritual (Midat Jasidut) asumido por quien desea embellecer la mitzvá más allá del requerimiento estricto.
             </p>
             <div className="bg-white/80 dark:bg-slate-800/80 p-3 rounded-lg text-xs border border-emerald-200 dark:border-emerald-900/30">
               <span className="font-semibold text-emerald-800 dark:text-emerald-300">Ejemplos: </span>
               <span className="text-slate-600 dark:text-slate-400">
-                Colocarse dos pares de Tefilín (Rashi y Rabenu Tam), abstenerse rigurosamente de Gebrochts en Pésaj (usanza de Jabad), extender el tiempo de espera entre carne y leche a 6 horas cuando la costumbre familiar era menor, o adoptar el Jalav Israel estricto.
+                Colocarse dos pares de Tefilín (Rashi y Rabenu Tam), abstenerse de Gebrochts en Pésaj, extender el tiempo de espera entre carne y leche a 6 horas.
               </span>
             </div>
           </div>
         </div>
 
-        {/* Footer */}
+        {/* ==================================================================== */}
+        {/* PIE DE PÁGINA                                                        */}
+        {/* ==================================================================== */}
         <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 flex justify-end">
           <button
             onClick={onClose}
-            className="px-5 py-2 text-sm font-medium text-amber-900 bg-amber-200 hover:bg-amber-300 dark:bg-amber-800/50 dark:text-amber-200 dark:hover:bg-amber-700/60 rounded-xl transition"
+            className="px-5 py-2 text-sm font-medium text-amber-900 bg-amber-200 hover:bg-amber-300 dark:bg-amber-800/50 dark:text-amber-200 dark:hover:bg-amber-700/60 rounded-xl transition cursor-pointer"
           >
             Entendido
           </button>
         </div>
+
       </div>
     </div>
   );
 }
+
+export default HalachaLevelsModal;

@@ -1,23 +1,41 @@
+/**
+ * ============================================================================
+ * MÓDULO DE DATOS DE LAS PARASHOT DE LA TORÁ (parashatData.ts)
+ * ============================================================================
+ * Propósito: Proveer la estructura de tipos e interfaces de TypeScript junto con
+ * la base de datos completa de las 54 parashot (porciones semanales de la Torá),
+ * abarcando los 5 libros de Moisés (Sefer Bereshit, Shemot, Vayikra, Bamidbar y Devarim),
+ * con sus respectivas lecturas de Haftará, maqamat halabíes, resúmenes, divisiones 
+ * de aliyot, perlas de Rashi, enseñanzas jasídicas (Chabad) y enfoques halájicos.
+ */
+
 export interface Parasha {
-  id: string;
-  name: string;
-  hebrewName: string;
-  book: 'Bereshit' | 'Shemot' | 'Vayikra' | 'Bamidbar' | 'Devarim';
-  bookSpanish: string;
-  reference: string;
-  haftarah: string;
-  maqamHalabi: string;
-  summary: string;
+  id: string;                          // Identificador único de la parashá
+  name: string;                        // Nombre principal en español / transliteración
+  hebrewName: string;                  // Nombre original en hebreo (con vocales)
+  book: 'Bereshit' | 'Shemot' | 'Vayikra' | 'Bamidbar' | 'Devarim'; // Libro de la Torá (Sefer)
+  bookSpanish: string;                 // Nombre del libro en español (Génesis, Éxodo, etc.)
+  reference: string;                   // Citas bíblicas del Tanaj (capítulos y versículos)
+  haftarah: string;                    // Lectura profética correspondiente (Neviim)
+  maqamHalabi: string;                 // Maqam musical tradicional de Alepo (Siria) asignado
+  summary: string;                     // Resumen temático general de la porción
   aliyot: {
-    number: number;
-    reference: string;
-    description: string;
+    number: number;                    // Número de la Aliá (del 1 al 7)
+    reference: string;                 // Versículos específicos que abarca la aliá
+    description: string;               // Descripción detallada de los eventos de esa aliá
   }[];
-  rashiInsight: string;
-  chabadInsight: string;
-  halachaFocus: string;
+  rashiInsight: string;                // Comentario clásico de Rashi (Rabí Shelomó Itzjakí)
+  chabadInsight: string;               // Perspectiva jasídica y mística (Jabad Lubavitch / Jasidut)
+  halachaFocus: string;                // Enfoque halájico o mitzvá central derivada del texto
 }
 
+/**
+ * ============================================================================
+ * BASE DE DATOS DE LAS 54 PARASHOT (PARASHOT_DATA)
+ * ============================================================================
+ * Catálogo completo que alimenta las pestañas de estudio, lecturas y consultas
+ * del Rabino Virtual sobre la porción semanal de la Torá.
+ */
 export const PARASHOT_DATA: Parasha[] = [
   // ==================== SEFER BERESHIT (GÉNESIS) ====================
   {
@@ -500,7 +518,7 @@ export const PARASHOT_DATA: Parasha[] = [
   {
     id: 'vayakhel',
     name: 'Vayakhel',
-    hebrewName: 'וַיakרֵה (וַיַּקְהֵל)',
+    hebrewName: 'וַיַּקְהֵל',
     book: 'Shemot',
     bookSpanish: 'Éxodo',
     reference: 'Éxodo 35:1 – 38:20',
@@ -551,7 +569,7 @@ export const PARASHOT_DATA: Parasha[] = [
     reference: 'Vayikra 1:1 – 5:26',
     haftarah: 'Isaías 43:21 – 44:23',
     maqamHalabi: 'Hajaz o Husseini (melodía de ofrendas, expiación y llamada divina)',
-    summary: 'Dios llama a Moshé desde la Tienda de Reunión para enseñarle las complejas leyes de los sacrificios (*Korbanot*): el holocausto (* Olá*), la ofrenda vegetal (*Minjá*), el sacrificio de paz (*Shelamim*), y las ofrendas por transgresiones involuntarias (*Jatat* y *Asham*).',
+    summary: 'Dios llama a Moshé desde la Tienda de Reunión para enseñarle las complejas leyes de los sacrificios (*Korbanot*): el holocausto (*Olá*), la ofrenda vegetal (*Minjá*), el sacrificio de paz (*Shelamim*), y las ofrendas por transgresiones involuntarias (*Jatat* y *Asham*).',
     aliyot: [
       { number: 1, reference: '1:1 - 1:13', description: 'Leyes del holocausto animal (*Olá*) presentado voluntariamente ante el altar.' },
       { number: 2, reference: '1:14 - 2:16', description: 'Holocausto de aves y leyes de la ofrenda de harina y aceite (*Minjá*).' },
@@ -605,10 +623,10 @@ export const PARASHOT_DATA: Parasha[] = [
       { number: 4, reference: '11:1 - 11:8', description: 'Leyes de animales terrestres permitidos (pezuña hendida y rumiantes) y prohibición del cerdo.' },
       { number: 5, reference: '11:9 - 11:12', description: 'Leyes de peces (requieren aletas y escamas).' },
       { number: 6, reference: '11:13 - 11:25', description: 'Lista de aves impuras y leyes de contaminación por contacto con carroña.' },
-      { number: 7, reference: '11:26 - 11:47', description: 'Pureza de insectos, reptiles y mandamiento de santidad dietética: *"Sed santos porque Yo soy santo"*.l' },
+      { number: 7, reference: '11:26 - 11:47', description: 'Pureza de insectos, reptiles y mandamiento de santidad dietética: *"Sed santos porque Yo soy santo"*.' },
     ],
     rashiInsight: 'Rashi explica el silencio heroico de Aarón (*"Vayidom Aharon"*): ante la repentina pérdida de sus dos hijos mayores, aceptó la justicia divina sin cuestionamientos.',
-    chabadInsight: 'Las leyes de Kashrut no son normas de salud física, sino mandatos divinos de refinamiento (*Choquim*). Al seleccionar qué consumir, elevamos la materia física hacia lo sagrado.',
+    chabadInsight: 'Las leyes de Kashrut no son normas de salud física, sino mandatos divinos de refinamiento (*Choquim*). Al seleccionar qué continuamos, elevamos la materia física hacia lo sagrado.',
     halachaFocus: 'Las leyes completas de Kashrut (separación de carne y leche, animales permitidos, pureza de utensilios y verificación de insectos).',
   },
   {
@@ -739,7 +757,7 @@ export const PARASHOT_DATA: Parasha[] = [
     halachaFocus: 'Leyes del Shmitá agrícola, prohibición de usura entre judíos, y la prohibición de herir los sentimientos del prójimo con palabras (*Onaat Devarim*).',
   },
   {
-    id: ' בחוקותי (behukotai)',
+    id: 'behukotai',
     name: 'Behukotai',
     hebrewName: 'בְּחֻקֹּתַי',
     book: 'Vayikra',
@@ -1032,7 +1050,7 @@ export const PARASHOT_DATA: Parasha[] = [
     reference: 'Devarim 7:12 – 11:25',
     haftarah: 'Isaías 49:14 – 51:3',
     maqamHalabi: 'Ajam o Rast (melodía de recompensa, gratitud tras comer y fidelidad)',
-    summary: `Promesas de bendición, salud y prosperidad material si el pueblo cumple los preceptos de la Torá. Recordatorio de las pruebas del desierto (el Maná, la ropa que no se desgastó). Advertencia contra el orgullo y el olvido de Dios tras la abundancia en la tierra ("No digas: *'Mi fuerza y el poder de mi mano me han dado esta riqueza'*"). La bendición del Birkat Hamazon.`,
+    summary: 'Promesas de bendición, salud y prosperidad material si el pueblo cumple los preceptos de la Torá. Recordatorio de las pruebas del desierto (el Maná, la ropa que no se desgastó). Advertencia contra el orgullo y el olvido de Dios tras la abundancia en la tierra ("No digas: *Mi fuerza y el poder de mi mano me han dado esta riqueza*"). La bendición del Birkat Hamazon.',
     aliyot: [
       { number: 1, reference: '7:12 - 8:10', description: 'Promesas de bendición por la observancia de la Torá, el maná del desierto y la bondad de la Tierra Prometida (*Zavat lechev udevash*).' },
       { number: 2, reference: '8:11 - 9:3', description: 'Advertencia severa contra la arrogancia tras alcanzar la abundancia y recordatorio de la conquista por mérito divino.' },

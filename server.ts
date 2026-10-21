@@ -1,19 +1,33 @@
+/**
+ * ============================================================================
+ * SERVIDOR BACKEND DEL RABINO VIRTUAL (server.ts)
+ * ============================================================================
+ * Propósito: Servidor principal en Express que gestiona las rutas de la API,
+ * la integración multimodal con la SDK de @google/genai (modelos de texto, 
+ * streaming, traducción de parashot y contenido) y la síntesis de voz neuronal 
+ * de alta velocidad mediante ElevenLabs para múltiples idiomas (incluyendo hebreo).
+ */
+
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import { GoogleGenAI } from '@google/genai';
 
+// Cargar variables de entorno desde el archivo .env
 dotenv.config();
 
+// Configuración de directorios para ES Modules (Node.js)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 const port = parseInt(process.env.PORT || '3000', 10);
 
+// Middleware para procesar JSON con un límite ampliado para imágenes base64
 app.use(express.json({ limit: '10mb' }));
 
+// Inicialización del cliente oficial de Google GenAI con cabeceras de compilación
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,
   httpOptions: {
@@ -22,7 +36,15 @@ const ai = new GoogleGenAI({
     },
   },
 });
-//Función principal de la IA
+
+/**
+ * ============================================================================
+ * PROMPT DEL SISTEMA (SYSTEM_PROMPT)
+ * ============================================================================
+ * Define la personalidad cálida, pedagógica y rabínica del asistente, así como
+ * las directrices obligatorias sobre idioma adaptativo, aislamiento de contexto,
+ * estructura de respuestas, clasificación halájica y el deslinde responsable.
+ */
 const SYSTEM_PROMPT = `Eres "Rabino Virtual", un educador y guía rabínico cálido, sabio, accesible y sumamente pedagógico.
 
 TU MISIÓN:
@@ -71,7 +93,9 @@ FINALIZA SIEMPRE tu respuesta con una pregunta reflexiva o de apertura hacia otr
 8. BREVEDAD Y CLARIDAD:
 Sé directo y ve al grano en la explicación principal, evitando preámbulos innecesarios, enfocándote en la práctica del usuario sin volverte pesado o redundante.`;
 
-// Modelos en prioridad en orden: gemini-flash-lite-latest is fastest and highly available, followed by flash models
+/**
+ * Array de modelos de texto ordenados por prioridad y disponibilidad (Flash y Flash Lite).
+ */
 const TEXT_MODELS = [
   'gemini-flash-lite-latest',
   'gemini-3.1-flash-lite',
@@ -79,19 +103,25 @@ const TEXT_MODELS = [
   'gemini-flash-latest',
 ];
 
-// Función para optimizar la lectura del hebreo en ElevenLabs añadiendo pausas naturales
+/**
+ * Función auxiliar para optimizar la lectura del hebreo en ElevenLabs añadiendo pausas naturales.
+ */
 function prepareTextForHebrewTTS(text: string): string {
   const isHebrew = /[\u0590-\u05FF]/.test(text);
   if (!isHebrew) return text;
 
-  // Inserta puntos y pausas en los saltos de línea y dos puntos
   return text
     .replace(/\n-/g, '. -')
     .replace(/:\s*/g, ': ... ')
     .replace(/\n/g, '. ');
 }
 
-// Endpoint para traducir/generar el contenido de la Parashá con reintentos y respaldo de modelos
+/**
+ * ============================================================================
+ * ENDPOINT: Traducción de Parashot (/api/translate-parasha)
+ * ============================================================================
+ * Traduce el resumen, aliyot y comentarios de la porción semanal al idioma solicitado.
+ */
 app.post('/api/translate-parasha', async (req, res) => {
   try {
     const { parasha, targetLanguage: tLang, language, parashaName, reference, originalSummary, aliyot, halachaFocus, rashiInsight, chabadInsight, maqamHalabi } = req.body;
@@ -139,6 +169,7 @@ app.post('/api/translate-parasha', async (req, res) => {
     let translatedData = null;
     let lastError = null;
 
+    // Iteración de respaldo entre modelos disponibles
     for (const modelName of TEXT_MODELS) {
       try {
         const response = await ai.models.generateContent({
@@ -169,10 +200,15 @@ app.post('/api/translate-parasha', async (req, res) => {
   }
 });
 
-// Streaming Chat API with automatic model fallback & Image Support
+/**
+ * ============================================================================
+ * ENDPOINT: Chat en Streaming con soporte multimodal (/api/chat)
+ * ============================================================================
+ * Procesa las consultas del usuario, inyecta el contexto de su comunidad/ubicación,
+ * maneja imágenes adjuntas y transmite la respuesta en tiempo real vía Server-Sent Events (SSE).
+ */
 app.post('/api/chat', async (req, res) => {
   try {
-    // 1. Extraemos todo correctamente incluyendo los parámetros de imagen
     const { messages, traditionFocus, language, location, responseStyle, imageBase64, imageMimeType } = req.body;
 
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
@@ -185,7 +221,6 @@ app.post('/api/chat', async (req, res) => {
       });
     }
 
-    // 2. Definimos el idioma de forma absoluta para evitar mezclas
     const lang = (language || 'es').toLowerCase();
     
     let languageDirective = "";
@@ -215,11 +250,10 @@ app.post('/api/chat', async (req, res) => {
       dynamicSystemInstruction += `\n\nESTILO DE RESPUESTA PREFERIDO: El usuario prefiere respuestas de estilo "${responseStyle}".`;
     }
 
-    // 3. Formateamos el historial de chat para Gemini integrando la imagen si existe en el último mensaje
+    // Mapeo del historial de chat e inclusión de imágenes multimodales en el último mensaje
     const contents = messages.map((m: { role: string; content: string }, index: number) => {
       const parts: any[] = [{ text: m.content }];
 
-      // Si el último mensaje trae una imagen adjunta, la añadimos como parte multimodal de Gemini
       if (index === messages.length - 1 && imageBase64) {
         parts.push({
           inlineData: {
@@ -238,6 +272,7 @@ app.post('/api/chat', async (req, res) => {
     let streamSuccess = false;
     let lastError: any = null;
 
+    // Bucle con tolerancia a fallos para streaming de contenido
     for (const modelName of TEXT_MODELS) {
       try {
         console.log(`[Rabino Virtual] Intentando generar respuesta con modelo: ${modelName}`);
@@ -307,7 +342,12 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
-// --- Endpoint de Text-to-Speech con ElevenLabs (Optimizado con modelo Turbo de alta velocidad) ---
+/**
+ * ============================================================================
+ * ENDPOINT: Text-to-Speech con ElevenLabs (/api/tts)
+ * ============================================================================
+ * Convierte el texto de respuesta en audio neuronal optimizado mediante el modelo Turbo.
+ */
 app.post('/api/tts', async (req, res) => {
   try {
     const { text } = req.body;
@@ -323,6 +363,7 @@ app.post('/api/tts', async (req, res) => {
     const isHebrew = /[\u0590-\u05FF]/.test(text);
     let cleanText = '';
 
+    // Limpieza y normalización fonética de términos tradicionales
     if (isHebrew) {
       cleanText = text
         .replace(/[#*`_~()-]/g, ' ')
@@ -364,7 +405,7 @@ app.post('/api/tts', async (req, res) => {
       },
       body: JSON.stringify({
         text: cleanText,
-        model_id: 'eleven_turbo_v2_5', // <-- Cambiado al modelo Turbo para ultra velocidad y baja latencia
+        model_id: 'eleven_turbo_v2_5', // Modelo Turbo para ultra velocidad y baja latencia
         voice_settings: {
           stability: isHebrew ? 0.88 : 0.75,          
           similarity_boost: 0.80, 
@@ -389,7 +430,9 @@ app.post('/api/tts', async (req, res) => {
   }
 });
 
-// Vite or Static file serving
+/**
+ * Función para configurar el middleware de Vite (desarrollo) o archivos estáticos (producción).
+ */
 async function setupViteOrStatic() {
   if (process.env.NODE_ENV !== 'production') {
     const { createServer: createViteServer } = await import('vite');
@@ -413,7 +456,12 @@ async function setupViteOrStatic() {
   });
 }
 
-// Endpoint para traducir el contenido del chat al cambiar de idioma
+/**
+ * ============================================================================
+ * ENDPOINT: Traducción general de contenido (/api/translate-content)
+ * ============================================================================
+ * Traduce fragmentos de texto del chat al cambiar el idioma de la interfaz en caliente.
+ */
 app.post('/api/translate-content', async (req, res) => {
   try {
     const { textToTranslate, targetLanguage } = req.body;
@@ -459,4 +507,5 @@ app.post('/api/translate-content', async (req, res) => {
   }
 });
 
+// Inicialización del servidor y despliegue de rutas
 setupViteOrStatic();

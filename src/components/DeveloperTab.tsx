@@ -27,7 +27,9 @@ export const DeveloperTab: React.FC = () => {
     <div className="max-w-4xl mx-auto p-4 md:p-6 space-y-6 animate-fadeIn">
       <div className="rounded-2xl border p-6 md:p-8 transition-colors bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 shadow-lg">
         
-        {/* Encabezado del Creador */}
+        {/* ==================================================================== */}
+        {/* CABECERA DEL CREADOR (LIOR FISHER LOBATON)                           */}
+        {/* ==================================================================== */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 mb-8">
           <div className="w-16 h-16 rounded-2xl bg-amber-500 text-white font-bold flex items-center justify-center text-2xl shadow-lg shadow-amber-500/20 shrink-0">
             LF
@@ -46,13 +48,17 @@ export const DeveloperTab: React.FC = () => {
           </div>
         </div>
 
-        {/* Descripción Principal */}
+        {/* ==================================================================== */}
+        {/* DESCRIPCIÓN PRINCIPAL                                                */}
+        {/* ==================================================================== */}
         <p className="text-sm sm:text-base leading-relaxed text-slate-700 dark:text-slate-300 mb-8">
           <strong className="text-slate-900 dark:text-slate-100">{t('appName', 'Rabino Virtual')}</strong>{' '}
           {t('devMainDesc', 'fue concebido y desarrollado con el propósito de poner la riqueza de la sabiduría milenaria judía al alcance de toda persona con inquietud espiritual, respetando con rigor y devoción la diversidad de nuestras comunidades:')}
         </p>
 
-        {/* Grilla de Comunidades */}
+        {/* ==================================================================== */}
+        {/* GRILLA DE COMUNIDADES Y PILARES                                      */}
+        {/* ==================================================================== */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
           
           <div className="p-4 rounded-xl border transition-colors bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700/60">
@@ -97,7 +103,9 @@ export const DeveloperTab: React.FC = () => {
 
         </div>
 
-        {/* Sección de Donaciones */}
+        {/* ==================================================================== */}
+        {/* SECCIÓN DE DONATIVOS PAYPAL                                          */}
+        {/* ==================================================================== */}
         <div className="p-6 sm:p-8 rounded-2xl border transition-colors bg-amber-50/50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/60">
           <h3 className="text-lg sm:text-xl font-bold font-serif flex items-center gap-2 mb-3 text-slate-900 dark:text-amber-400">
             <Heart className="w-5 h-5 text-amber-600 dark:text-amber-400 fill-amber-500/20" />
@@ -145,4 +153,5 @@ export const DeveloperTab: React.FC = () => {
     </div>
   );
 };
+
 export default DeveloperTab;

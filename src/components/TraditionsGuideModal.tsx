@@ -18,6 +18,8 @@ export function TraditionsGuideModal({
   currentFilter,
 }: TraditionsGuideModalProps) {
   const { t } = useTranslation();
+  
+  // Pestaña activa según el filtro actual
   const [activeTab, setActiveTab] = useState<string>(
     currentFilter === 'all' ? 'maguen_david' : currentFilter
   );
@@ -29,7 +31,10 @@ export function TraditionsGuideModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
       <div className="relative w-full max-w-4xl bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-amber-200/50 dark:border-slate-800 overflow-hidden max-h-[92vh] flex flex-col">
-        {/* Header */}
+        
+        {/* ==================================================================== */}
+        {/* CABECERA                                                             */}
+        {/* ==================================================================== */}
         <div className="p-6 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white flex items-center justify-between border-b border-amber-500/20">
           <div className="flex items-center gap-3">
             <span className="text-2xl">✡️</span>
@@ -51,7 +56,9 @@ export function TraditionsGuideModal({
           </button>
         </div>
 
-        {/* Tab navigation */}
+        {/* ==================================================================== */}
+        {/* PESTAÑAS DE NAVEGACIÓN ENTRE TRADICIONES                              */}
+        {/* ==================================================================== */}
         <div className="flex border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/50 overflow-x-auto px-4 pt-3 gap-2 scrollbar-none">
           {TRADITIONS.map((tradition) => {
             const isActive = activeTab === tradition.id;
@@ -72,7 +79,9 @@ export function TraditionsGuideModal({
           })}
         </div>
 
-        {/* Active tradition detail */}
+        {/* ==================================================================== */}
+        {/* CONTENIDO DETALLADO DE LA TRADICIÓN SELECCIONADA                     */}
+        {/* ==================================================================== */}
         <div className="p-6 overflow-y-auto space-y-6 flex-1 text-slate-800 dark:text-slate-200">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100 dark:border-slate-800">
             <div>
@@ -159,7 +168,9 @@ export function TraditionsGuideModal({
           </div>
         </div>
 
-        {/* Footer */}
+        {/* ==================================================================== */}
+        {/* PIE DE PÁGINA                                                        */}
+        {/* ==================================================================== */}
         <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 flex justify-between items-center text-xs text-slate-500">
           <span>Rabino Virtual compara siempre las 5 tradiciones comunitarias.</span>
           <button
@@ -169,7 +180,10 @@ export function TraditionsGuideModal({
             {t('close', 'Cerrar')}
           </button>
         </div>
+
       </div>
     </div>
   );
 }
+
+export default TraditionsGuideModal;

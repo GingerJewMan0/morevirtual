@@ -12,7 +12,10 @@ export function CalendarZmanimTab() {
 
   return (
     <div className="max-w-4xl mx-auto py-4 px-3 sm:px-4 space-y-6 animate-fadeIn">
-      {/* Top Banner */}
+      
+      {/* ==================================================================== */}
+      {/* BANNER SUPERIOR Y SELECTOR DE CIUDAD                                 */}
+      {/* ==================================================================== */}
       <div className="p-6 rounded-3xl bg-gradient-to-r from-slate-900 via-amber-950/80 to-slate-900 text-white border border-amber-500/30 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-400 mb-1">
@@ -27,7 +30,7 @@ export function CalendarZmanimTab() {
           </p>
         </div>
 
-        {/* City Selector */}
+        {/* Selector de Ciudad */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
           <label className="text-xs text-amber-300 font-medium flex items-center gap-1">
             <MapPin className="w-3.5 h-3.5" />
@@ -47,9 +50,12 @@ export function CalendarZmanimTab() {
         </div>
       </div>
 
-      {/* Main Highlights Grid */}
+      {/* ==================================================================== */}
+      {/* TARJETAS PRINCIPALES: ENCENDIDO DE VELAS Y HAVDALÁ                   */}
+      {/* ==================================================================== */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Candle Lighting Card */}
+        
+        {/* Tarjeta de Encendido de Velas */}
         <div className="p-6 rounded-3xl bg-gradient-to-br from-amber-500/10 via-amber-50 to-orange-50/40 dark:from-slate-900 dark:via-amber-950/30 dark:to-slate-900 border-2 border-amber-400/60 dark:border-amber-700/60 shadow-md flex flex-col justify-between">
           <div className="space-y-4">
             <div className="flex items-center justify-between">
@@ -94,7 +100,7 @@ export function CalendarZmanimTab() {
           </div>
         </div>
 
-        {/* Havdalah Card */}
+        {/* Tarjeta de Havdalá */}
         <div className="p-6 rounded-3xl bg-gradient-to-br from-indigo-500/10 via-indigo-50 to-blue-50/40 dark:from-slate-900 dark:via-indigo-950/30 dark:to-slate-900 border-2 border-indigo-400/60 dark:border-indigo-700/60 shadow-md flex flex-col justify-between">
           <div className="space-y-4">
             <div className="flex items-center justify-between">
@@ -151,9 +157,12 @@ export function CalendarZmanimTab() {
             <span>🔴 {t('mandatoryTitle', 'OBLIGATORIO')}: {t('havdalahMandatoryNotice', 'Mitzvá Deoraita / Derabanan al terminar Shabat')}</span>
           </div>
         </div>
+
       </div>
 
-      {/* Daily Zmanim Breakdown Table */}
+      {/* ==================================================================== */}
+      {/* TABLA DE TIEMPOS DEL DÍA (ZMANIM HALAJIIM)                           */}
+      {/* ==================================================================== */}
       <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-md space-y-4">
         <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
           <div className="flex items-center gap-2">
@@ -231,7 +240,9 @@ export function CalendarZmanimTab() {
         </div>
       </div>
 
-      {/* Traditional Blessings Card */}
+      {/* ==================================================================== */}
+      {/* BENDICIONES TRADICIONALES EN HEBREO Y FONÉTICA                       */}
+      {/* ==================================================================== */}
       <div className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
         <div className="flex border-b border-slate-200 dark:border-slate-800 gap-3">
           <button
@@ -284,6 +295,7 @@ export function CalendarZmanimTab() {
           </div>
         )}
       </div>
+
     </div>
   );
 }

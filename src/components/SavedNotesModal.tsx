@@ -19,12 +19,16 @@ export function SavedNotesModal({
 }: SavedNotesModalProps) {
   const { t } = useTranslation();
 
+  // Si el modal no está abierto, no renderizamos nada
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
       <div className="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-amber-200/50 dark:border-slate-800 overflow-hidden max-h-[85vh] flex flex-col">
-        {/* Header */}
+        
+        {/* ==================================================================== */}
+        {/* CABECERA DEL MODAL                                                   */}
+        {/* ==================================================================== */}
         <div className="p-6 bg-gradient-to-r from-amber-700 via-amber-800 to-amber-900 text-white flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Bookmark className="w-6 h-6 fill-white text-white" />
@@ -45,7 +49,9 @@ export function SavedNotesModal({
           </button>
         </div>
 
-        {/* Content */}
+        {/* ==================================================================== */}
+        {/* CONTENIDO / LISTADO DE NOTAS                                          */}
+        {/* ==================================================================== */}
         <div className="p-6 overflow-y-auto space-y-3 flex-1">
           {savedNotes.length === 0 ? (
             <div className="py-12 text-center text-slate-400 dark:text-slate-500 space-y-3">
@@ -90,7 +96,9 @@ export function SavedNotesModal({
           )}
         </div>
 
-        {/* Footer */}
+        {/* ==================================================================== */}
+        {/* PIE DE PÁGINA / CIERRE                                               */}
+        {/* ==================================================================== */}
         <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 flex justify-end">
           <button
             onClick={onClose}
@@ -99,7 +107,10 @@ export function SavedNotesModal({
             {t('close', 'Cerrar')}
           </button>
         </div>
+
       </div>
     </div>
   );
 }
+
+export default SavedNotesModal;
