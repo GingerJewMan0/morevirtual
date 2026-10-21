@@ -1403,12 +1403,12 @@ export function App() {
         )}
       </main>
 
-      {/* Pie de Página / Footer Estático Abajo (shrink-0 para que nunca se oculte) */}
+      {/* Pie de Página / Footer Estático Abajo (para el Chat con input y banner) */}
       {activeMainTab === 'chat' && (
         <footer className="shrink-0 z-20 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 p-3 sm:p-4">
           <div className="w-full px-4 sm:px-6 space-y-2">
             
-            {/* Banner publicitario Lite (con tu ID de AdMob integrado en la app y control de pago) */}
+            {/* Banner publicitario Lite (con ID de AdMob y control de pago) */}
             {!isPremium && (
               <div className="w-full bg-amber-50 dark:bg-slate-800/90 py-1.5 px-3 rounded-xl text-center text-xs text-slate-600 dark:text-slate-300 border border-amber-200 dark:border-slate-700 flex items-center justify-between gap-2 shadow-xs">
                 <span className="truncate">Publicidad (Versión Lite) — Apoya el proyecto</span>
@@ -1575,6 +1575,23 @@ export function App() {
               <span className="hidden sm:inline italic">
                 {t('consultRabbiNotice', 'Para decisiones prácticas individuales, consulta al rabino de tu comunidad.')}
               </span>
+            </div>
+          </div>
+        </footer>
+      )}
+
+      {/* Pie de Página / Footer Estático Abajo (Para las demás pestañas: Calendario, Parashá, Giluy Da'at, Desarrollador) */}
+      {activeMainTab !== 'chat' && !isPremium && (
+        <footer className="shrink-0 z-20 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 p-3">
+          <div className="w-full px-4 sm:px-6">
+            <div className="w-full bg-amber-50 dark:bg-slate-800/90 py-1.5 px-3 rounded-xl text-center text-xs text-slate-600 dark:text-slate-300 border border-amber-200 dark:border-slate-700 flex items-center justify-between gap-2 shadow-xs">
+              <span className="truncate">Publicidad (Versión Lite) — Apoya el proyecto</span>
+              <button 
+                onClick={handleOpenPayPal} 
+                className="px-2.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-semibold text-[11px] shrink-0 cursor-pointer transition"
+              >
+                Quitar anuncios
+              </button>
             </div>
           </div>
         </footer>
