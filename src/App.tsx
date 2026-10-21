@@ -50,8 +50,6 @@ import { SpeechRecognition } from '@capacitor-community/speech-recognition';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Geolocation } from '@capacitor/geolocation';
 
-// --- Funciones y Constantes Auxiliares (Fuera del Componente) ---
-
 function cleanFriendlyError(raw: string): string {
   if (
     raw.includes('503') ||
@@ -84,12 +82,9 @@ const LANGUAGES = [
   { code: 'fr', label: 'Francés', flag: '🇫🇷', nativeLabel: 'Français' },
 ];
 
-// --- Componente Principal ---
-
 export function App() {
   const { i18n, t } = useTranslation();
 
-  // --- Bloqueo Global de Shabat y Yom Tov con Solicitud Nativa de Ubicación ---
   const [isRestDay, setIsRestDay] = useState(false);
   const [isChecking, setIsChecking] = useState(true);
 
@@ -106,7 +101,6 @@ export function App() {
       if (isCapacitorApp) {
         try {
           const { Geolocation } = await import('@capacitor/geolocation');
-          
           let permStatus = await Geolocation.checkPermissions();
           if (permStatus.location !== 'granted') {
             permStatus = await Geolocation.requestPermissions();
@@ -980,9 +974,9 @@ export function App() {
         </div>
       </aside>
 
-      {/* Top Header - Con contenedor interno max-w-7xl mx-auto centrado */}
+      {/* Top Header - Con max-w-4xl mx-auto simétrico */}
       <header className="sticky top-0 z-30 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-amber-200/60 dark:border-slate-800 shadow-xs transition-colors">
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4">
+        <div className="w-full max-w-4xl mx-auto px-4 h-16 flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 sm:gap-3">
             <button
               onClick={() => setIsSidebarOpen(true)}
@@ -1134,8 +1128,8 @@ export function App() {
         </div>
       </header>
 
-      {/* Main Views - Con max-w-6xl mx-auto controlado para evitar desbordes en tablet */}
-      <main className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col">
+      {/* Main Views - Con max-w-4xl mx-auto perfectamente controlado */}
+      <main className="flex-1 w-full max-w-4xl mx-auto px-4 py-6 flex flex-col">
         {activeMainTab === 'calendar' && <CalendarZmanimTab />}
 
         {activeMainTab === 'parasha' && (
@@ -1192,7 +1186,7 @@ export function App() {
                   <h2 className="text-2xl sm:text-3xl font-serif font-bold text-slate-900 dark:text-white mb-2 tracking-wide">
                     {t('welcomeTitle', '¡Shalom Alejem! Te doy la bienvenida')}
                   </h2>
-                  <p className="max-w-3xl mx-auto text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+                  <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
                     {t('welcomeDesc', 'Soy tu Rabino Virtual, un educador y guía rabínico concebido para acompañarte con calidez, paciencia y profundidad. Pregúntame con total confianza sobre halajá, Torá, festividades, kashrut, rezos o ética de la vida diaria.')}
                   </p>
 
@@ -1239,8 +1233,8 @@ export function App() {
                     <span>{filteredQuestions.length} {t('topics', 'temas')}</span>
                   </div>
 
-                  {/* Grid responsivo: 1 col en móvil, 2 en tablets portrait, 3 en tablets landscape */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {/* Grid responsivo optimizado para tablet landscape (2 columnas equilibradas) */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {filteredQuestions.map((q) => (
                       <button
                         key={q.id}
@@ -1362,10 +1356,10 @@ export function App() {
         )}
       </main>
 
-      {/* Input Bar - Con max-w-6xl mx-auto controlado */}
+      {/* Input Bar - Con max-w-4xl mx-auto simétrico */}
       {activeMainTab === 'chat' && (
         <footer className="sticky bottom-0 z-20 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 p-3 sm:p-4">
-          <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-2">
+          <div className="w-full max-w-4xl mx-auto px-4 space-y-2">
             {isListening && (
               <div className="p-2.5 rounded-xl bg-red-500/10 dark:bg-red-950/40 border border-red-500/40 text-red-700 dark:text-red-300 flex items-center justify-between text-xs animate-pulse">
                 <div className="flex items-center gap-2">
