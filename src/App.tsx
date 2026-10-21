@@ -89,7 +89,7 @@ export function App() {
 
   // Estados de control para la versión Lite y Premium
   const [isPremium, setIsPremium] = useState<boolean>(() => {
-    return localStorage.getItem('rabino_virtual_premium') === 'true';
+    return localStorage.getItem('rabino_virtual_premium') === 'false';
   });
 
   const MAX_FREE_QUERIES = 12; // Límite diario para la versión Lite
