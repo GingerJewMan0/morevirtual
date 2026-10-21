@@ -30,7 +30,6 @@ import {
   Loader2,
   Check,
   Upload,
-  FileAudio,
 } from 'lucide-react';
 import { ChatMessage, TraditionId, SavedNote } from './types.ts';
 import { TRADITIONS } from './data/traditions.ts';
@@ -1434,7 +1433,6 @@ export function App() {
                   className="p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:text-amber-700 dark:hover:text-amber-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition cursor-pointer"
                   title={t('uploadAudio', 'Subir audio')}
                 >
-                  <FileAudio className="w-4 h-4" />
                 </button>
 
                 <button
