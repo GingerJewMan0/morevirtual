@@ -100,43 +100,47 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
     <div className="max-w-4xl mx-auto py-4 px-3 sm:px-4 space-y-6 animate-fadeIn">
       
       {/* ==================================================================== */}
-      {/* BANNER PRINCIPAL DE LA PARASHÁ Y SELECTOR                             */}
+      {/* BANNER PRINCIPAL DE LA PARASHÁ Y SELECTOR (OPTIMIZADO RESPONSIVE)     */}
       {/* ==================================================================== */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-amber-950/80 to-slate-900 text-white border border-amber-500/30 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div>
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-400 mb-1">
-            <Scroll className="w-4 h-4" />
-            <span>Limud Torá Semanal • Sefer {getLocalized(parasha.bookSpanish)}</span>
+      <div className="p-5 sm:p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-amber-950/80 to-slate-900 text-white border border-amber-500/30 shadow-xl flex flex-col gap-5">
+        
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-400">
+              <Scroll className="w-4 h-4 shrink-0" />
+              <span>Limud Torá Semanal • Sefer {getLocalized(parasha.bookSpanish)}</span>
+            </div>
+            <div className="flex flex-wrap items-baseline gap-3 pt-1">
+              <h2 className="text-2xl sm:text-4xl font-serif font-bold text-amber-200">
+                Parashat {getLocalized(parasha.name)}
+              </h2>
+              <span className="text-2xl sm:text-4xl font-serif font-bold text-amber-400" dir="rtl">
+                {parasha.hebrewName}
+              </span>
+            </div>
           </div>
-          <div className="flex items-baseline gap-4 mt-1">
-            <h2 className="text-3xl sm:text-4xl font-serif font-bold text-amber-200">
-              Parashat {getLocalized(parasha.name)}
-            </h2>
-            <span className="text-3xl sm:text-4xl font-serif font-bold text-amber-400" dir="rtl">
-              {parasha.hebrewName}
-            </span>
+
+          {/* Selector desplegable de Parashot adaptado */}
+          <div className="flex flex-col items-start lg:items-end gap-1.5 w-full lg:w-auto">
+            <label className="text-xs text-amber-300 font-medium">{t('selectParasha', 'Seleccionar Parashá:')}</label>
+            <select
+              value={selectedParashaId}
+              onChange={(e) => setSelectedParashaId(e.target.value)}
+              className="w-full lg:w-auto px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-slate-800 text-amber-200 border border-amber-500/40 focus:outline-none focus:ring-2 focus:ring-amber-500/50 cursor-pointer shadow-md"
+            >
+              {PARASHOT_DATA.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {getLocalized(p.name)} ({p.hebrewName}) — {getLocalized(p.bookSpanish)}
+                </option>
+              ))}
+            </select>
           </div>
-          <p className="text-xs sm:text-sm text-slate-300 mt-2 flex flex-wrap items-center gap-x-4 gap-y-1">
-            <span><strong>{t('readParasha', 'Lectura')}:</strong> {parasha.reference}</span>
-            <span>•</span>
-            <span><strong>{t('haftarah', 'Haftará')}:</strong> {parasha.haftarah}</span>
-          </p>
         </div>
 
-        {/* Selector desplegable de Parashot */}
-        <div className="flex flex-col items-start md:items-end gap-1.5 shrink-0">
-          <label className="text-xs text-amber-300 font-medium">{t('selectParasha', 'Seleccionar Parashá:')}</label>
-          <select
-            value={selectedParashaId}
-            onChange={(e) => setSelectedParashaId(e.target.value)}
-            className="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-slate-800 text-amber-200 border border-amber-500/40 focus:outline-none focus:ring-2 focus:ring-amber-500/50 cursor-pointer shadow-md"
-          >
-            {PARASHOT_DATA.map((p) => (
-              <option key={p.id} value={p.id}>
-                {getLocalized(p.name)} ({p.hebrewName}) — {getLocalized(p.bookSpanish)}
-              </option>
-            ))}
-          </select>
+        <div className="pt-3 border-t border-amber-500/20 text-xs sm:text-sm text-slate-300 flex flex-wrap items-center gap-x-4 gap-y-1">
+          <span><strong>{t('readParasha', 'Lectura')}:</strong> {parasha.reference}</span>
+          <span>•</span>
+          <span><strong>{t('haftarah', 'Haftará')}:</strong> {parasha.haftarah}</span>
         </div>
       </div>
 
@@ -323,7 +327,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
 
         {/* Botón de consulta directa al Rabino */}
         <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <span className="text-xs text-slate-500">
+          <span className="text-xs text-slate-500 text-center sm:text-left">
             {t('askAboutParashaPrompt', '¿Deseas profundizar en algún pasuk, halajá o comentario de esta Parashá?')}
           </span>
           <button
@@ -332,7 +336,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
                 `Rabino, me gustaría profundizar en las enseñanzas y halajot principales de Parashat ${getLocalized(parasha.name)}.`
               );
             }}
-            className="w-full sm:w-auto px-5 py-2.5 rounded-xl font-semibold text-xs sm:text-sm bg-amber-600 hover:bg-amber-700 text-white shadow-sm transition flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full sm:w-auto px-5 py-2.5 rounded-xl font-semibold text-xs sm:text-sm bg-amber-600 hover:bg-amber-700 text-white shadow-sm transition flex items-center justify-center gap-2 cursor-pointer shrink-0"
           >
             <MessageCircle className="w-4 h-4" />
             <span>{t('consultRabbiParasha', 'Consultar al Rabino sobre')} {getLocalized(parasha.name)}</span>
