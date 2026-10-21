@@ -97,41 +97,45 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
   };
 
   return (
-    <div className="max-w-4xl mx-auto py-4 px-3 sm:px-6 space-y-6 animate-fadeIn">
+    <div className="w-full max-w-4xl mx-auto py-4 px-3 sm:px-4 space-y-6 overflow-x-hidden animate-fadeIn">
       
       {/* ==================================================================== */}
-      {/* BANNER PRINCIPAL DE LA PARASHÁ Y SELECTOR (DISEÑO GRID ROBUSTO)      */}
+      {/* BANNER PRINCIPAL DE LA PARASHÁ Y SELECTOR (ESTRICTAMENTE SIN DESBORDE) */}
       {/* ==================================================================== */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-amber-950/80 to-slate-900 text-white border border-amber-500/30 shadow-xl space-y-6">
+      <div className="w-full p-5 sm:p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-amber-950/80 to-slate-900 text-white border border-amber-500/30 shadow-xl space-y-5 overflow-hidden box-border">
         
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
-          {/* Título e Información de la Parashá */}
-          <div className="md:col-span-7 space-y-2 min-w-0">
+        {/* Encabezado: Secreto contra desbordamiento con flex-col en portrait y flex-row seguro en landscape */}
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 w-full">
+          
+          {/* Bloque de Títulos */}
+          <div className="space-y-1.5 flex-1 min-w-0">
             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-400">
               <Scroll className="w-4 h-4 shrink-0" />
-              <span>Limud Torá Semanal • Sefer {getLocalized(parasha.bookSpanish)}</span>
+              <span className="truncate">Limud Torá Semanal • Sefer {getLocalized(parasha.bookSpanish)}</span>
             </div>
-            <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-amber-200 break-words">
+            
+            {/* Título y hebreo envueltos de manera flexible para evitar cortes */}
+            <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 w-full">
+              <h2 className="text-xl sm:text-3xl font-serif font-bold text-amber-200 break-words max-w-full">
                 Parashat {getLocalized(parasha.name)}
               </h2>
-              <span className="text-2xl sm:text-3xl font-serif font-bold text-amber-400" dir="rtl">
+              <span className="text-xl sm:text-3xl font-serif font-bold text-amber-400 shrink-0" dir="rtl">
                 {parasha.hebrewName}
               </span>
             </div>
           </div>
 
-          {/* Selector de Parashá */}
-          <div className="md:col-span-5 flex flex-col gap-1.5 w-full">
+          {/* Selector desplegable de Parashot 100% contenido */}
+          <div className="flex flex-col items-start gap-1.5 w-full lg:w-72 shrink-0">
             <label className="text-xs text-amber-300 font-medium">{t('selectParasha', 'Seleccionar Parashá:')}</label>
             <select
               value={selectedParashaId}
               onChange={(e) => setSelectedParashaId(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-slate-800 text-amber-200 border border-amber-500/40 focus:outline-none focus:ring-2 focus:ring-amber-500/50 cursor-pointer shadow-md truncate"
+              className="w-full px-3 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-slate-800 text-amber-200 border border-amber-500/40 focus:outline-none focus:ring-2 focus:ring-amber-500/50 cursor-pointer shadow-md truncate"
             >
               {PARASHOT_DATA.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {getLocalized(p.name)} ({p.hebrewName}) — {getLocalized(p.bookSpanish)}
+                <option key={p.id} value={p.id} className="truncate">
+                  {getLocalized(p.name)} ({p.hebrewName})
                 </option>
               ))}
             </select>
@@ -139,7 +143,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
         </div>
 
         {/* Referencias y Haftará */}
-        <div className="pt-4 border-t border-amber-500/20 text-xs sm:text-sm text-slate-300 flex flex-wrap items-center gap-x-4 gap-y-1">
+        <div className="pt-3 border-t border-amber-500/20 text-xs sm:text-sm text-slate-300 flex flex-wrap items-center gap-x-4 gap-y-1 w-full">
           <span><strong>{t('readParasha', 'Lectura')}:</strong> {parasha.reference}</span>
           <span>•</span>
           <span><strong>{t('haftarah', 'Haftará')}:</strong> {parasha.haftarah}</span>
@@ -147,9 +151,9 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
       </div>
 
       {/* ==================================================================== */}
-      {/* BARRA DE PESTAÑAS SECUNDARIAS (RESUMEN, ALIYOT, RASHI, JABAD, MAQAM)   */}
+      {/* BARRA DE PESTAÑAS SECUNDARIAS                                        */}
       {/* ==================================================================== */}
-      <div className="flex border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 rounded-2xl p-1.5 shadow-xs overflow-x-auto gap-1 scrollbar-none">
+      <div className="w-full flex border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 rounded-2xl p-1.5 shadow-xs overflow-x-auto gap-1 scrollbar-none">
         <button
           onClick={() => setActiveSubTab('resumen')}
           className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition cursor-pointer ${
@@ -209,7 +213,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
       {/* ==================================================================== */}
       {/* CONTENIDO DE LA PESTAÑA ACTIVA                                      */}
       {/* ==================================================================== */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+      <div className="w-full p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-6 overflow-hidden">
         
         {/* Subpestaña: Resumen y Temas */}
         {activeSubTab === 'resumen' && (
@@ -218,7 +222,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
               <h3 className="text-xl font-serif font-bold text-slate-900 dark:text-white mb-2">
                 {t('summaryOf', 'Resumen de Parashat')} {getLocalized(parasha.name)}
               </h3>
-              <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+              <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed break-words">
                 {isTranslating ? '✨ Traduciendo contenido con IA...' : (translatedContent?.summary || parasha.summary)}
               </p>
             </div>
@@ -227,7 +231,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
               <span className="text-xs uppercase font-bold tracking-wider text-amber-800 dark:text-amber-300">
                 {t('halachaCentralPoint', 'Punto Central de Halajá y Vida Judía:')}
               </span>
-              <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-medium">
+              <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-medium break-words">
                 {isTranslating ? '...' : (translatedContent?.halachaFocus || parasha.halachaFocus)}
               </p>
             </div>
@@ -255,16 +259,16 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
                     <div className="w-8 h-8 rounded-xl bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 font-bold text-sm flex items-center justify-center shrink-0 border border-amber-300 dark:border-amber-700">
                       {aliya.number}
                     </div>
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between">
-                        <h4 className="text-sm font-bold text-slate-900 dark:text-white">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between gap-2">
+                        <h4 className="text-sm font-bold text-slate-900 dark:text-white truncate">
                           {targetAliya?.title || `${aliya.number}ª Aliyá (${aliya.number === 1 ? 'Kohén' : aliya.number === 2 ? 'Leví' : 'Israel'})`}
                         </h4>
-                        <span className="text-xs font-mono text-amber-700 dark:text-amber-400 font-semibold">
+                        <span className="text-xs font-mono text-amber-700 dark:text-amber-400 font-semibold shrink-0">
                           {aliya.reference}
                         </span>
                       </div>
-                      <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">
+                      <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed break-words">
                         {isTranslating ? '✨ Traduciendo Aliyot...' : (translatedDesc || aliya.description)}
                       </p>
                     </div>
@@ -285,7 +289,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
               </h3>
             </div>
             <div className="p-5 rounded-2xl bg-amber-50/80 dark:bg-slate-800/80 border border-amber-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm leading-relaxed space-y-3">
-              <p className="font-serif italic text-base text-amber-900 dark:text-amber-300">
+              <p className="font-serif italic text-base text-amber-900 dark:text-amber-300 break-words">
                 "{isTranslating ? '✨ Traduciendo...' : (translatedContent?.rashiInsight || parasha.rashiInsight)}"
               </p>
             </div>
@@ -302,7 +306,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
               </h3>
             </div>
             <div className="p-5 rounded-2xl bg-rose-50/70 dark:bg-slate-800/80 border border-rose-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm leading-relaxed space-y-3">
-              <p className="font-serif text-base text-rose-950 dark:text-rose-200">
+              <p className="font-serif text-base text-rose-950 dark:text-rose-200 break-words">
                 {isTranslating ? '✨ Traduciendo...' : (translatedContent?.chabadInsight || parasha.chabadInsight)}
               </p>
             </div>
@@ -319,9 +323,9 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
               </h3>
             </div>
             <div className="p-5 rounded-2xl bg-emerald-50/80 dark:bg-slate-800/80 border border-emerald-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm leading-relaxed space-y-3">
-              <div className="flex items-center gap-2 text-emerald-900 dark:text-emerald-300 font-bold text-base">
-                <Music className="w-5 h-5 text-emerald-600" />
-                <span>{t('assignedMaqam', 'Maqam asignado')}: {isTranslating ? '✨ Traduciendo...' : (translatedContent?.maqamHalabi || parasha.maqamHalabi)}</span>
+              <div className="flex items-center gap-2 text-emerald-900 dark:text-emerald-300 font-bold text-base flex-wrap">
+                <Music className="w-5 h-5 text-emerald-600 shrink-0" />
+                <span className="break-words">{t('assignedMaqam', 'Maqam asignado')}: {isTranslating ? '✨ Traduciendo...' : (translatedContent?.maqamHalabi || parasha.maqamHalabi)}</span>
               </div>
             </div>
           </div>
@@ -340,8 +344,8 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
             }}
             className="w-full sm:w-auto px-5 py-2.5 rounded-xl font-semibold text-xs sm:text-sm bg-amber-600 hover:bg-amber-700 text-white shadow-sm transition flex items-center justify-center gap-2 cursor-pointer shrink-0"
           >
-            <MessageCircle className="w-4 h-4" />
-            <span>{t('consultRabbiParasha', 'Consultar al Rabino sobre')} {getLocalized(parasha.name)}</span>
+            <MessageCircle className="w-4 h-4 shrink-0" />
+            <span className="truncate">{t('consultRabbiParasha', 'Consultar al Rabino sobre')} {getLocalized(parasha.name)}</span>
           </button>
         </div>
 
