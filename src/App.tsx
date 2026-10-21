@@ -105,7 +105,6 @@ export function App() {
 
       if (isCapacitorApp) {
         try {
-          // Importamos dinámicamente o verificamos con @capacitor/geolocation
           const { Geolocation } = await import('@capacitor/geolocation');
           
           let permStatus = await Geolocation.checkPermissions();
@@ -123,11 +122,10 @@ export function App() {
         }
       }
 
-      // Respaldo para navegador web o si se denegó el permiso en la app
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (pos) => verifyShabbat(pos.coords.latitude, pos.coords.longitude),
-          () => verifyShabbat(19.4326, -99.1332), // Valor por defecto (CDMX)
+          () => verifyShabbat(19.4326, -99.1332),
           { timeout: 5000 }
         );
       } else {
@@ -138,37 +136,31 @@ export function App() {
     initLocation();
   }, []);
 
-  // Navigation Tabs: chat | calendar | parasha | giluy_daat | developer
   const [activeMainTab, setActiveMainTab] = useState<
     'chat' | 'calendar' | 'parasha' | 'giluy_daat' | 'developer'
   >('chat');
 
-  // Collapsible Sidebar Drawer
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // Light / Dark Theme State
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
     try {
       const savedTheme = localStorage.getItem('rabino_virtual_theme');
       if (savedTheme) return savedTheme === 'dark';
-      return false; // Default to warm light theme
+      return false;
     } catch {
       return false;
     }
   });
 
-  // Language Dropdown open state
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const langMenuRef = useRef<HTMLDivElement | null>(null);
 
-  // Messages and Input
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputText, setInputText] = useState('');
   const [isStreaming, setIsStreaming] = useState(false);
   const [selectedTradition] = useState<TraditionId>('all');
   const [selectedLanguage, setSelectedLanguage] = useState<string>('es');
 
-  // Image Upload / Native states
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [nativeImageBase64, setNativeImageBase64] = useState<string | null>(null);
@@ -177,7 +169,6 @@ export function App() {
   const imageFileInputRef = useRef<HTMLInputElement | null>(null);
   const cameraFileInputRef = useRef<HTMLInputElement | null>(null);
 
-  // Voice Dictation state
   const [isListening, setIsListening] = useState(false);
   const [isTranscribing, setIsTranscribing] = useState(false);
   const [audioErrorNotice, setAudioErrorNotice] = useState<string | null>(null);
@@ -186,12 +177,10 @@ export function App() {
   const audioChunksRef = useRef<Blob[]>([]);
   const audioFileInputRef = useRef<HTMLInputElement | null>(null);
 
-  // Modals
   const [isTraditionsModalOpen, setIsTraditionsModalOpen] = useState(false);
   const [isHalachaModalOpen, setIsHalachaModalOpen] = useState(false);
   const [isSavedNotesModalOpen, setIsSavedNotesModalOpen] = useState(false);
 
-  // Bookmarks
   const [savedNotes, setSavedNotes] = useState<SavedNote[]>(() => {
     try {
       const stored = localStorage.getItem('rabino_virtual_saved_notes');
@@ -204,7 +193,6 @@ export function App() {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  // Manejar la selección de archivo web (Galería tradicional en PC)
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file && file.type.startsWith('image/')) {
@@ -215,7 +203,6 @@ export function App() {
     }
   };
 
-  // --- Sistema Híbrido de Cámara y Galería Nativa (APK Android + Web) ---
   const handleNativeImageSelection = async (useCamera: boolean = false) => {
     setAudioErrorNotice(null);
     const isCapacitorApp = typeof window !== 'undefined' && (window as any).Capacitor !== undefined;
@@ -233,14 +220,13 @@ export function App() {
           const mimeType = `image/${photo.format || 'jpeg'}`;
           setNativeImageBase64(photo.base64String);
           setNativeImageMimeType(mimeType);
-          setImageFile(null); // Limpiamos el archivo web si lo hubiera
+          setImageFile(null);
           setImagePreview(`data:${mimeType};base64,${photo.base64String}`);
         }
       } catch (error) {
         console.log('Selección de imagen nativa cancelada o con error:', error);
       }
     } else {
-      // En navegador web de PC, disparamos el input correspondiente
       if (useCamera) {
         cameraFileInputRef.current?.click();
       } else {
@@ -249,7 +235,6 @@ export function App() {
     }
   };
 
-  // Atrapar imágenes pegadas desde el portapapeles con Ctrl+V
   const handlePaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
     const items = e.clipboardData?.items;
     if (!items) return;
@@ -269,7 +254,6 @@ export function App() {
     }
   };
 
-  // Helper para cambiar idioma sincronizando i18n, limpiando el historial y traduciendo mensajes si es necesario
   const handleLanguageChange = async (langCode: string) => {
     setSelectedLanguage(langCode);
     i18n.changeLanguage(langCode);
@@ -316,7 +300,6 @@ export function App() {
     setMessages(updatedMessages);
   };
 
-  // Synchronize Dark / Light Theme
   useEffect(() => {
     try {
       if (isDarkMode) {
@@ -333,7 +316,6 @@ export function App() {
     }
   }, [isDarkMode]);
 
-  // Synchronize RTL layout for Hebrew
   useEffect(() => {
     const currentLang = i18n.language?.substring(0, 2) || selectedLanguage;
     if (currentLang === 'he') {
@@ -343,7 +325,6 @@ export function App() {
     }
   }, [selectedLanguage, i18n.language]);
 
-  // Click outside to close language dropdown
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (langMenuRef.current && !langMenuRef.current.contains(event.target as Node)) {
@@ -354,7 +335,6 @@ export function App() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Persist saved notes
   useEffect(() => {
     try {
       localStorage.setItem('rabino_virtual_saved_notes', JSON.stringify(savedNotes));
@@ -363,14 +343,12 @@ export function App() {
     }
   }, [savedNotes]);
 
-  // Auto-scroll chat
   useEffect(() => {
     if (activeMainTab === 'chat') {
       messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
   }, [messages, isStreaming, activeMainTab]);
 
-  // Adjust textarea height automatically
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputText(e.target.value);
     if (textareaRef.current) {
@@ -379,7 +357,6 @@ export function App() {
     }
   };
 
-  // Upload and Transcribe Audio File
   const handleAudioFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -421,7 +398,6 @@ export function App() {
     }
   };
 
-  // --- Función auxiliar para detener el dictado ---
   const stopVoiceDictation = () => {
     if (recognitionRef.current) {
       try {
@@ -431,7 +407,6 @@ export function App() {
     setIsListening(false);
   };
 
-  // --- Sistema de Dictado por Voz Híbrido Universal (Android Nativo + Cualquier Micrófono en PC) ---
   const toggleVoiceDictation = async () => {
     setAudioErrorNotice(null);
     const isCapacitorApp = typeof window !== 'undefined' && (window as any).Capacitor !== undefined;
@@ -441,7 +416,6 @@ export function App() {
       return;
     }
 
-    // 1. APK de Android (Mantiene exactamente el flujo nativo que ya funciona a la perfección)
     if (isCapacitorApp) {
       try {
         const permissionStatus = await SpeechRecognition.checkPermissions();
@@ -476,7 +450,6 @@ export function App() {
       }
     }
 
-    // 2. Navegador Web en PC (Edge / Firefox / Chrome)
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const mediaRecorder = new MediaRecorder(stream);
@@ -527,7 +500,6 @@ export function App() {
     }
   };
 
-  // Send message
   const handleSendMessage = async (textToSend?: string) => {
     const query = (textToSend || inputText).trim();
     if (!query && !imageFile && !nativeImageBase64) return;
@@ -540,7 +512,6 @@ export function App() {
     let imageBase64 = nativeImageBase64;
     let imageMimeType = nativeImageMimeType;
 
-    // Si hay un archivo web tradicional cargado, lo convertimos a Base64
     if (imageFile && !imageBase64) {
       imageBase64 = await new Promise((resolve) => {
         const reader = new FileReader();
@@ -782,7 +753,6 @@ export function App() {
   const currentTabLabel =
     NAV_ITEMS.find((item) => item.id === activeMainTab)?.label || t('tabAskRabbi', 'Diálogo Rabínico');
 
-  // --- Retornos condicionales para el bloqueo global de Shabat ---
   if (isChecking) {
     return null;
   }
@@ -793,7 +763,6 @@ export function App() {
 
   return (
     <div className={`flex flex-col min-h-screen ${isDarkMode ? 'dark bg-slate-950 text-slate-100' : 'bg-stone-50/70 text-slate-800'} font-sans transition-colors duration-200`}>
-      {/* Sidebar Drawer Overlay */}
       {isSidebarOpen && (
         <div
           onClick={() => setIsSidebarOpen(false)}
@@ -802,14 +771,12 @@ export function App() {
         />
       )}
 
-      {/* Sidebar Drawer */}
       <aside
         className={`fixed top-0 left-0 bottom-0 z-50 w-72 sm:w-80 bg-white dark:bg-slate-900 border-r border-amber-200/80 dark:border-amber-500/30 text-slate-900 dark:text-white shadow-2xl flex flex-col justify-between transition-transform duration-300 ease-in-out ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         <div className="flex-1 flex flex-col overflow-y-auto">
-          {/* Sidebar Header */}
           <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-amber-50/60 dark:bg-slate-950/60">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-600 to-amber-500 flex items-center justify-center text-white shadow-md shadow-amber-900/30">
@@ -833,7 +800,6 @@ export function App() {
             </button>
           </div>
 
-          {/* Navigation Links */}
           <div className="p-4 space-y-1.5">
             <span className="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block mb-2">
               {t('mainSections', 'Secciones Principales')}
@@ -883,7 +849,6 @@ export function App() {
             })}
           </div>
 
-          {/* Sidebar Language Selector */}
           <div className="p-4 pt-2 border-t border-slate-200 dark:border-slate-800 space-y-2">
             <span className="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block">
               {t('queryLanguage', 'Idioma de la Consulta')}
@@ -912,7 +877,6 @@ export function App() {
             </div>
           </div>
 
-          {/* Theme Selector inside Sidebar */}
           <div className="p-4 pt-2 border-t border-slate-200 dark:border-slate-800 space-y-2">
             <span className="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block">
               {t('visualAppearance', 'Apariencia Visual')}
@@ -943,7 +907,6 @@ export function App() {
             </div>
           </div>
 
-          {/* Educational Reference Tools */}
           <div className="p-4 pt-2 border-t border-slate-200 dark:border-slate-800 space-y-1">
             <span className="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block mb-2">
               {t('studyTools', 'Herramientas de Estudio')}
@@ -991,7 +954,6 @@ export function App() {
           </div>
         </div>
 
-        {/* Sidebar Footer */}
         <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/70 space-y-3">
           <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-500/30 text-xs">
             <div className="flex items-center justify-between text-amber-900 dark:text-amber-300 font-bold mb-1">
@@ -1018,9 +980,9 @@ export function App() {
         </div>
       </aside>
 
-      {/* Top Header - Ancho ampliado a w-full y max-w-7xl */}
+      {/* Top Header - Con contenedor interno max-w-7xl mx-auto centrado */}
       <header className="sticky top-0 z-30 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-amber-200/60 dark:border-slate-800 shadow-xs transition-colors">
-        <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-2 sm:gap-4">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4">
           <div className="flex items-center gap-2 sm:gap-3">
             <button
               onClick={() => setIsSidebarOpen(true)}
@@ -1107,7 +1069,6 @@ export function App() {
               </button>
             )}
 
-            {/* Language Selector Dropdown Header */}
             <div className="relative" ref={langMenuRef}>
               <button
                 type="button"
@@ -1173,8 +1134,8 @@ export function App() {
         </div>
       </header>
 
-      {/* Main Views - Ancho ampliado a w-full y max-w-5xl para tablets */}
-      <main className="flex-1 w-full max-w-5xl mx-auto px-3 sm:px-6 py-6 flex flex-col">
+      {/* Main Views - Con max-w-6xl mx-auto controlado para evitar desbordes en tablet */}
+      <main className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col">
         {activeMainTab === 'calendar' && <CalendarZmanimTab />}
 
         {activeMainTab === 'parasha' && (
@@ -1194,7 +1155,6 @@ export function App() {
 
         {activeMainTab === 'chat' && (
           <>
-            {/* Quick Language Selector Bar */}
             <div className="flex items-center justify-between flex-wrap gap-2 px-3.5 py-2.5 rounded-2xl bg-white/95 dark:bg-slate-900/95 border border-amber-200/80 dark:border-slate-800 shadow-xs mb-3">
               <div className="flex items-center gap-2 text-xs font-semibold text-slate-700 dark:text-slate-300">
                 <Globe className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
@@ -1232,7 +1192,7 @@ export function App() {
                   <h2 className="text-2xl sm:text-3xl font-serif font-bold text-slate-900 dark:text-white mb-2 tracking-wide">
                     {t('welcomeTitle', '¡Shalom Alejem! Te doy la bienvenida')}
                   </h2>
-                  <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+                  <p className="max-w-3xl mx-auto text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
                     {t('welcomeDesc', 'Soy tu Rabino Virtual, un educador y guía rabínico concebido para acompañarte con calidez, paciencia y profundidad. Pregúntame con total confianza sobre halajá, Torá, festividades, kashrut, rezos o ética de la vida diaria.')}
                   </p>
 
@@ -1279,7 +1239,8 @@ export function App() {
                     <span>{filteredQuestions.length} {t('topics', 'temas')}</span>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {/* Grid responsivo: 1 col en móvil, 2 en tablets portrait, 3 en tablets landscape */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                     {filteredQuestions.map((q) => (
                       <button
                         key={q.id}
@@ -1401,10 +1362,10 @@ export function App() {
         )}
       </main>
 
-      {/* Input Bar - Ancho ampliado a w-full y max-w-5xl */}
+      {/* Input Bar - Con max-w-6xl mx-auto controlado */}
       {activeMainTab === 'chat' && (
         <footer className="sticky bottom-0 z-20 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 p-3 sm:p-4">
-          <div className="w-full max-w-5xl mx-auto space-y-2">
+          <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-2">
             {isListening && (
               <div className="p-2.5 rounded-xl bg-red-500/10 dark:bg-red-950/40 border border-red-500/40 text-red-700 dark:text-red-300 flex items-center justify-between text-xs animate-pulse">
                 <div className="flex items-center gap-2">
@@ -1456,7 +1417,6 @@ export function App() {
               </div>
             )}
 
-            {/* Vista previa de imagen seleccionada */}
             {imagePreview && (
               <div className="relative inline-block mb-1 px-1">
                 <img src={imagePreview} alt="Preview" className="h-16 w-16 object-cover rounded-xl border-2 border-amber-500 shadow-md" />
@@ -1471,8 +1431,6 @@ export function App() {
             )}
 
             <div className="relative flex items-end gap-2 bg-slate-50 dark:bg-slate-800/80 rounded-2xl p-2 border border-slate-200 dark:border-slate-700 focus-within:border-amber-500 focus-within:ring-2 focus-within:ring-amber-500/20 transition">
-              
-              {/* Inputs de archivo ocultos (Respaldo web tradicional) */}
               <input 
                 type="file" 
                 ref={imageFileInputRef}
@@ -1511,7 +1469,6 @@ export function App() {
                   className="hidden"
                 />
 
-                {/* Botón para subir imagen (Abre galería en Android o selector en PC) */}
                 <button
                   type="button"
                   onClick={() => handleNativeImageSelection(false)}
@@ -1521,7 +1478,6 @@ export function App() {
                   <Upload className="w-4 h-4" />
                 </button>
 
-                {/* Botón para tomar foto con la cámara (Nativo en Android / Web) */}
                 <button
                   type="button"
                   onClick={() => handleNativeImageSelection(true)}
@@ -1588,7 +1544,6 @@ export function App() {
         </footer>
       )}
 
-      {/* Modals */}
       <TraditionsGuideModal
         isOpen={isTraditionsModalOpen}
         onClose={() => setIsTraditionsModalOpen(false)}
