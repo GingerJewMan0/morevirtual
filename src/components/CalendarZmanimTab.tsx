@@ -3,7 +3,7 @@ import { Flame, Moon, Clock, MapPin, Calendar, Loader2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { CITIES_ZMANIM } from '../data/citiesZmanim.ts';
 
-// Mapa explícito de husos horarios IANA por ID de ciudad
+// Mapa explícito de husos horarios IANA por ID de ciudad (sin Marsella)
 const CITY_TIMEZONES: Record<string, string> = {
   cdmx: 'America/Mexico_City',
   monterrey: 'America/Monterrey',
@@ -62,6 +62,7 @@ export function CalendarZmanimTab() {
 
         const todayStr = new Date().toISOString().split('T')[0];
 
+        // Coordenadas manuales de respaldo limpias (sin Marsella)
         const fallbackCoords: Record<string, { lat: number; lon: number }> = {
           saopaulo: { lat: -23.5505, lon: -46.6333 },
           riodejaneiro: { lat: -22.9068, lon: -43.1729 },
@@ -92,12 +93,11 @@ export function CalendarZmanimTab() {
         if (zmanimJson && zmanimJson.times) {
           const times = zmanimJson.times;
           
-          // Mapeo seguro y completo de cada propiedad de Zmanim
           setZmanimDaily({
             alotHaShajar: formatExactTime(times.alotHaShajar),
             netzHaChama: formatExactTime(times.sunrise),
-            sofZmanShemaGra: formatExactTime(times.sofZmanShemaGRA || times.sofZmanShema),
-            sofZmanTefilah: formatExactTime(times.sofZmanTefilahGRA || times.sofZmanTefilah),
+            sofZmanShemaGra: formatExactTime(times.sofZmanShemaGRA),
+            sofZmanTefilah: formatExactTime(times.sofZmanTefilahGRA),
             chatzot: formatExactTime(times.chatzot),
             minchaGedolah: formatExactTime(times.minchaGedolah),
             plagHaMincha: formatExactTime(times.plagHaMincha),
