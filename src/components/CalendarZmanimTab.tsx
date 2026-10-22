@@ -63,7 +63,7 @@ export function CalendarZmanimTab() {
 
         const todayStr = new Date().toISOString().split('T')[0];
 
-        // Coordenadas manuales de respaldo para evitar errores 404 por geonameid obsoleto
+        // Coordenadas manuales de respaldo corregidas para evitar errores en Marsella y Sudamérica
         const fallbackCoords: Record<string, { lat: number; lon: number }> = {
           saopaulo: { lat: -23.5505, lon: -46.6333 },
           riodejaneiro: { lat: -22.9068, lon: -43.1729 },
@@ -107,7 +107,7 @@ export function CalendarZmanimTab() {
             tzaitHakochavim: formatExactTime(times.tzeitHakochavim),
           });
 
-          // Cálculo astronómico directo basado en la puesta de sol real
+          // Cálculo astronómico directo basado en la puesta de sol real de la API
           if (times.sunset) {
             const sunsetDate = new Date(times.sunset);
             if (!isNaN(sunsetDate.getTime())) {
@@ -322,7 +322,7 @@ export function CalendarZmanimTab() {
           <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 text-center">
             <span className="text-slate-400 block text-[11px]">Fin Tefilá</span>
             <span className="font-mono font-bold text-sm text-slate-800 dark:text-slate-200 mt-1 block">
-              {zmanimDaily?.sofZmanTefilah || '--:--'}
+              {zmanimDaily?.sofZmanTefilah || '--:--`'}
             </span>
           </div>
 
