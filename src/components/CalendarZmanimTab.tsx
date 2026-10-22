@@ -14,26 +14,26 @@ export function CalendarZmanimTab() {
     <div className="max-w-4xl mx-auto py-4 px-3 sm:px-4 space-y-6 animate-fadeIn">
       
       {/* ==================================================================== */}
-      {/* BANNER SUPERIOR Y SELECTOR DE CIUDAD (Diseño fluido seguro)          */}
+      {/* BANNER SUPERIOR Y SELECTOR DE CIUDAD (Ajuste definitivo Tablet)      */}
       {/* ==================================================================== */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-amber-950/80 to-slate-900 text-white border border-amber-500/35 shadow-xl flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+      <div className="p-5 sm:p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-amber-950/80 to-slate-900 text-white border border-amber-500/35 shadow-xl flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6">
         
-        {/* Columna de Títulos (Fluida y con ancho máximo controlado) */}
-        <div className="space-y-2 flex-1 min-w-0 pr-0 md:pr-4">
+        {/* Columna de Títulos con ancho adaptativo */}
+        <div className="space-y-2 flex-1 min-w-0">
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-400">
             <Calendar className="w-4 h-4 shrink-0" />
             <span>{t('zmanimBannerTitle', 'Calendario Judío & Tiempos Halájicos (Zmanim)')}</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-serif font-bold text-amber-200 leading-tight">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-serif font-bold text-amber-200 leading-tight">
             {t('zmanimTitle', 'Horarios Halájicos y Velas de Shabat')}
           </h2>
-          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl">
             {city.communityFlavor}
           </p>
         </div>
 
-        {/* Selector de Ciudad (Caja compacta adaptativa) */}
-        <div className="flex flex-col sm:flex-row md:flex-col items-stretch sm:items-center md:items-end gap-2 bg-slate-950/60 p-4 rounded-2xl border border-amber-500/30 shrink-0 self-start md:self-center">
+        {/* Selector de Ciudad compacto y seguro */}
+        <div className="flex flex-col sm:flex-row xl:flex-col items-stretch sm:items-center xl:items-end gap-2 bg-slate-950/60 p-4 rounded-2xl border border-amber-500/30 shrink-0 self-start xl:self-center">
           <label className="text-xs text-amber-300 font-medium flex items-center gap-1.5 whitespace-nowrap">
             <MapPin className="w-3.5 h-3.5 text-amber-400" />
             <span>{t('selectCity', 'Ciudad:')}</span>
