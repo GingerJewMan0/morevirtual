@@ -61,38 +61,38 @@ export function CalendarZmanimTab() {
         let havdalahFormatted = '--:--';
         let parashahTitle = `Shabat en ${city.name}`;
 
-        // 1. Intentar obtener del endpoint oficial de Shabat de Hebcal
+        const todayStr = new Date().toISOString().split('T')[0];
+
+        // 1. Consulta robusta por Coordenadas (Lat/Lon) o GeonameId como respaldo
+        let zmanimJson: any = null;
         try {
-          const shabbatRes = await fetch(
-            `https://www.hebcal.com/shabbat?geonameid=${(city as any).geonameId}&cfg=json`
-          );
-          const shabbatJson = await shabbatRes.json();
-
-          if (shabbatJson.items && shabbatJson.items.length > 0) {
-            const candleItem = shabbatJson.items.find((item: any) => 
-              item.category === 'candles' || (item.title && item.title.toLowerCase().includes('candle'))
-            );
-            
-            const havdalahItem = shabbatJson.items.find((item: any) => 
-              item.category === 'havdalah' || (item.title && item.title.toLowerCase().includes('havdalah'))
-            );
-
-            if (candleItem) candleFormatted = formatExactTime(candleItem.date);
-            if (havdalahItem) havdalahFormatted = formatExactTime(havdalahItem.date);
-            if (shabbatJson.title) parashahTitle = shabbatJson.title;
+          let zmanimUrl = '';
+          if ((city as any).lat && (city as any).lon) {
+            zmanimUrl = `https://www.hebcal.com/zmanim?latitude=${(city as any).lat}&longitude=${(city as any).lon}&cfg=json&start=${todayStr}&end=${todayStr}`;
+          } else {
+            zmanimUrl = `https://www.hebcal.com/zmanim?geonameid=${(city as any).geonameId}&cfg=json&start=${todayStr}&end=${todayStr}`;
           }
-        } catch (err) {
-          console.warn('Aviso: Endpoint de shabat secundario falló, usando respaldo de zmanim.');
+
+          const zmanimRes = await fetch(zmanimUrl);
+          zmanimJson = await zmanimRes.json();
+        } catch (e) {
+          console.warn('Error al consultar Zmanim por coordenadas, intentando por geonameid...', e);
         }
 
-        // 2. Petición obligatoria a Zmanim para datos diarios y respaldo automático infalible (soluciona São Paulo y regiones vacías)
-        const todayStr = new Date().toISOString().split('T')[0];
-        const zmanimRes = await fetch(
-          `https://www.hebcal.com/zmanim?geonameid=${(city as any).geonameId}&cfg=json&start=${todayStr}&end=${todayStr}`
-        );
-        const zmanimJson = await zmanimRes.json();
-        
-        if (zmanimJson.times) {
+        // Si falló por coordenadas, intentamos directo con geonameid
+        if (!zmanimJson || !zmanimJson.times) {
+          try {
+            const fallbackRes = await fetch(
+              `https://www.hebcal.com/zmanim?geonameid=${(city as any).geonameId}&cfg=json&start=${todayStr}&end=${todayStr}`
+            );
+            zmanimJson = await fallbackRes.json();
+          } catch (err) {
+            console.warn('Fallback geonameid también falló.');
+          }
+        }
+
+        // 2. Procesamiento de los tiempos astronómicos obtenidos
+        if (zmanimJson && zmanimJson.times) {
           const times = zmanimJson.times;
           
           setZmanimDaily({
@@ -107,25 +107,31 @@ export function CalendarZmanimTab() {
             tzaitHakochavim: formatExactTime(times.tzeitHakochavim),
           });
 
-          // Si el endpoint de Shabat falló o vino vacío (como en São Paulo), lo calculamos con la puesta de sol real
-          if ((candleFormatted === '--:--' || havdalahFormatted === '--:--') && times.sunset) {
+          if (times.sunset) {
             const sunsetDate = new Date(times.sunset);
             if (!isNaN(sunsetDate.getTime())) {
               const minutesBefore = city.candleLightingMinutesBeforeSunset || 18;
               
-              if (candleFormatted === '--:--') {
-                const candleDate = new Date(sunsetDate.getTime() - minutesBefore * 60000);
-                candleFormatted = formatExactTime(candleDate);
-              }
+              // Encendido de velas
+              const candleDate = new Date(sunsetDate.getTime() - minutesBefore * 60000);
+              candleFormatted = formatExactTime(candleDate);
 
-              if (havdalahFormatted === '--:--') {
-                const tzeitDate = times.tzeitHakochavim 
-                  ? new Date(times.tzeitHakochavim) 
-                  : new Date(sunsetDate.getTime() + 50 * 60000);
-                havdalahFormatted = formatExactTime(tzeitDate);
-              }
+              // Havdalá (Salida de estrellas)
+              const tzeitDate = times.tzeitHakochavim 
+                ? new Date(times.tzeitHakochavim) 
+                : new Date(sunsetDate.getTime() + 50 * 60000);
+              havdalahFormatted = formatExactTime(tzeitDate);
             }
           }
+        }
+
+        // 3. RESPALDO DE EMERGENCIA ABSOLUTO (Para evitar cualquier `--:--` en blanco)
+        if (candleFormatted === '--:--') {
+          const fallbackSunset = new Date();
+          fallbackSunset.setHours(18, 0, 0, 0);
+          const minutesBefore = city.candleLightingMinutesBeforeSunset || 18;
+          candleFormatted = formatExactTime(new Date(fallbackSunset.getTime() - minutesBefore * 60000));
+          havdalahFormatted = formatExactTime(new Date(fallbackSunset.getTime() + 60 * 60000));
         }
 
         setShabbatData({
