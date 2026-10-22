@@ -39,7 +39,7 @@ export function CalendarZmanimTab() {
       try {
         const cityTimeZone = CITY_TIMEZONES[city.id] || 'UTC';
 
-        // Función estricta para formatear cualquier ISO string o Date a la hora local exacta
+        // Función estricta para formatear fechas a la zona horaria IANA de la ciudad
         const formatExactTime = (dateInput: string | Date) => {
           if (!dateInput) return '--:--';
           try {
@@ -63,35 +63,20 @@ export function CalendarZmanimTab() {
 
         const todayStr = new Date().toISOString().split('T')[0];
 
-        // 1. Consulta robusta por Coordenadas (Lat/Lon) o GeonameId como respaldo
-        let zmanimJson: any = null;
-        try {
-          let zmanimUrl = '';
-          if ((city as any).lat && (city as any).lon) {
-            zmanimUrl = `https://www.hebcal.com/zmanim?latitude=${(city as any).lat}&longitude=${(city as any).lon}&cfg=json&start=${todayStr}&end=${todayStr}`;
-          } else {
-            zmanimUrl = `https://www.hebcal.com/zmanim?geonameid=${(city as any).geonameId}&cfg=json&start=${todayStr}&end=${todayStr}`;
-          }
+        // Consulta directa y robusta por Coordenadas (Lat/Lon) para Zmanim
+        const lat = (city as any).lat;
+        const lon = (city as any).lon;
 
-          const zmanimRes = await fetch(zmanimUrl);
-          zmanimJson = await zmanimRes.json();
-        } catch (e) {
-          console.warn('Error al consultar Zmanim por coordenadas, intentando por geonameid...', e);
+        let zmanimUrl = '';
+        if (lat && lon) {
+          zmanimUrl = `https://www.hebcal.com/zmanim?latitude=${lat}&longitude=${lon}&cfg=json&start=${todayStr}&end=${todayStr}`;
+        } else {
+          zmanimUrl = `https://www.hebcal.com/zmanim?geonameid=${(city as any).geonameId}&cfg=json&start=${todayStr}&end=${todayStr}`;
         }
 
-        // Si falló por coordenadas, intentamos directo con geonameid
-        if (!zmanimJson || !zmanimJson.times) {
-          try {
-            const fallbackRes = await fetch(
-              `https://www.hebcal.com/zmanim?geonameid=${(city as any).geonameId}&cfg=json&start=${todayStr}&end=${todayStr}`
-            );
-            zmanimJson = await fallbackRes.json();
-          } catch (err) {
-            console.warn('Fallback geonameid también falló.');
-          }
-        }
-
-        // 2. Procesamiento de los tiempos astronómicos obtenidos
+        const zmanimRes = await fetch(zmanimUrl);
+        const zmanimJson = await zmanimRes.json();
+        
         if (zmanimJson && zmanimJson.times) {
           const times = zmanimJson.times;
           
@@ -107,6 +92,7 @@ export function CalendarZmanimTab() {
             tzaitHakochavim: formatExactTime(times.tzeitHakochavim),
           });
 
+          // Cálculo astronómico directo y preciso basado en la puesta de sol real
           if (times.sunset) {
             const sunsetDate = new Date(times.sunset);
             if (!isNaN(sunsetDate.getTime())) {
@@ -116,22 +102,13 @@ export function CalendarZmanimTab() {
               const candleDate = new Date(sunsetDate.getTime() - minutesBefore * 60000);
               candleFormatted = formatExactTime(candleDate);
 
-              // Havdalá (Salida de estrellas)
+              // Havdalá (Salida de estrellas Tzeit HaKojavim)
               const tzeitDate = times.tzeitHakochavim 
                 ? new Date(times.tzeitHakochavim) 
                 : new Date(sunsetDate.getTime() + 50 * 60000);
               havdalahFormatted = formatExactTime(tzeitDate);
             }
           }
-        }
-
-        // 3. RESPALDO DE EMERGENCIA ABSOLUTO (Para evitar cualquier `--:--` en blanco)
-        if (candleFormatted === '--:--') {
-          const fallbackSunset = new Date();
-          fallbackSunset.setHours(18, 0, 0, 0);
-          const minutesBefore = city.candleLightingMinutesBeforeSunset || 18;
-          candleFormatted = formatExactTime(new Date(fallbackSunset.getTime() - minutesBefore * 60000));
-          havdalahFormatted = formatExactTime(new Date(fallbackSunset.getTime() + 60 * 60000));
         }
 
         setShabbatData({
