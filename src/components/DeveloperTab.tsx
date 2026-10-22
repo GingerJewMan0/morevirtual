@@ -12,7 +12,11 @@ import {
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
-export const DeveloperTab: React.FC = () => {
+interface DeveloperTabProps {
+  onOpenPaymentModal: () => void; // <--- Añadimos la propiedad para abrir el modal
+}
+
+export const DeveloperTab: React.FC<DeveloperTabProps> = ({ onOpenPaymentModal }) => {
   const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
   const donationLink = 'https://paypal.me/gingerjewman0';
@@ -104,7 +108,7 @@ export const DeveloperTab: React.FC = () => {
         </div>
 
         {/* ==================================================================== */}
-        {/* SECCIÓN DE DONATIVOS PAYPAL                                          */}
+        {/* SECCIÓN DE APOYO Y APORTACIONES                                      */}
         {/* ==================================================================== */}
         <div className="p-6 sm:p-8 rounded-2xl border transition-colors bg-amber-50/50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/60">
           <h3 className="text-lg sm:text-xl font-bold font-serif flex items-center gap-2 mb-3 text-slate-900 dark:text-amber-400">
@@ -116,15 +120,13 @@ export const DeveloperTab: React.FC = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3">
-            <a
-              href={donationLink}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={onOpenPaymentModal} // <--- Ahora abre el modal con todas las opciones (PayPal, Mercado Pago, SPEI)
               className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-medium text-white bg-amber-600 hover:bg-amber-700 active:bg-amber-800 transition-colors shadow-md shadow-amber-600/20 cursor-pointer text-sm"
             >
               <ExternalLink className="w-4 h-4" />
-              {t('donatePaypalFull', 'Donar con PayPal (paypal.me/gingerjewman0)')}
-            </a>
+              {t('donatePaypalFull', 'Apoyar / Desbloquear Premium ($200 MXN)')}
+            </button>
 
             <button
               onClick={handleCopy}

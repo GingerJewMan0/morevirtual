@@ -38,6 +38,7 @@ import { FormattedRabbiResponse } from './components/FormattedRabbiResponse.tsx'
 import { TraditionsGuideModal } from './components/TraditionsGuideModal.tsx';
 import { HalachaLevelsModal } from './components/HalachaLevelsModal.tsx';
 import { SavedNotesModal } from './components/SavedNotesModal.tsx';
+import { PaymentModal } from './components/PaymentModal.tsx'; // <--- Importamos el modal de pagos
 import { CalendarZmanimTab } from './components/CalendarZmanimTab.tsx';
 import { ParashaTab } from './components/ParashaTab.tsx';
 import { GiluyDaatTab } from './components/GiluyDaatTab.tsx';
@@ -87,12 +88,9 @@ const LANGUAGES = [
 export function App() {
 
   // ==========================================================================
-  // 2. PASARELA DE PAGOS (PAYPAL) Y CONTROL FREEMIUM (LITE VS. PREMIUM)
+  // 2. PASARELA DE PAGOS Y CONTROL FREEMIUM (LITE VS. PREMIUM)
   // ==========================================================================
-  const handleOpenPayPal = () => {
-    const paypalUrl = "https://www.paypal.com/paypalme/gingerjewman0"; 
-    window.open(paypalUrl, '_blank');
-  };
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
   const [isPremium, setIsPremium] = useState<boolean>(() => {
     return localStorage.getItem('rabino_virtual_premium') === 'true';
@@ -529,7 +527,7 @@ export function App() {
     if (!isPremium) {
       const today = new Date().toDateString();
       if (dailyQueriesCount >= MAX_FREE_QUERIES) {
-        alert("Has alcanzado el límite de preguntas gratuitas por hoy. ¡Actualiza a Premium por $200 MXN para consultas ilimitadas y sin anuncios!");
+        setIsPaymentModalOpen(true);
         return;
       }
       
@@ -714,7 +712,7 @@ export function App() {
       setSavedNotes((prev) => prev.filter((n) => n.id !== msg.id));
     } else {
       if (!isPremium && savedNotes.length >= 5) {
-        alert("Has alcanzado el límite de 5 enseñanzas guardadas en la versión gratuita. ¡Pásate a Premium por $200 MXN para notas ilimitadas!");
+        setIsPaymentModalOpen(true);
         return;
       }
 
@@ -802,7 +800,7 @@ export function App() {
 
 
   // ==========================================================================
-  // 10. RENDERIZADO DE LA INTERFAZ PRINCIPAL (UI CON ALTURA FIJA Y SCROLL INTERNO)
+  // 10. RENDERIZADO DE LA INTERFAZ PRINCIPAL
   // ==========================================================================
   return (
     <div className={`flex flex-col h-screen w-full overflow-hidden ${isDarkMode ? 'dark bg-slate-950 text-slate-100' : 'bg-stone-50/70 text-slate-800'} font-sans transition-colors duration-200`}>
@@ -1008,11 +1006,11 @@ export function App() {
               {t('devSupportText', 'Desarrollador de Rabino Virtual. Apoya el proyecto con un donativo voluntario.')}
             </p>
             <button
-              onClick={handleOpenPayPal}
+              onClick={() => setIsPaymentModalOpen(true)}
               className="w-full py-1.5 px-2.5 rounded-lg font-semibold text-[11px] bg-amber-600 hover:bg-amber-500 text-white dark:text-slate-950 transition flex items-center justify-center gap-1.5 shadow-xs cursor-pointer"
             >
               <ExternalLink className="w-3 h-3" />
-              <span>{t('donatePaypal', 'Donar vía PayPal')}</span>
+              <span>{t('donatePaypal', 'Actualizar a Premium ($200 MXN)')}</span>
             </button>
           </div>
 
@@ -1022,7 +1020,7 @@ export function App() {
         </div>
       </aside>
 
-      {/* Cabecera Superior / Navbar (Fija arriba, shrink-0 para que no se deforme) */}
+      {/* Cabecera Superior / Navbar */}
       <header className="shrink-0 z-30 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-amber-200/60 dark:border-slate-800 shadow-xs transition-colors">
         <div className="w-full px-4 sm:px-6 h-16 flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 sm:gap-3 min-w-0">
@@ -1176,7 +1174,7 @@ export function App() {
         </div>
       </header>
 
-      {/* Área Central con Scroll Independiente (flex-1 overflow-y-auto) */}
+      {/* Área Central con Scroll Independiente */}
       <main className="flex-1 w-full px-4 sm:px-6 py-6 overflow-y-auto flex flex-col">
         {activeMainTab === 'calendar' && <CalendarZmanimTab />}
 
@@ -1193,7 +1191,9 @@ export function App() {
           <GiluyDaatTab onAcknowledge={() => setActiveMainTab('chat')} />
         )}
 
-        {activeMainTab === 'developer' && <DeveloperTab />}
+        {activeMainTab === 'developer' && (
+          <DeveloperTab onOpenPaymentModal={() => setIsPaymentModalOpen(true)} />
+          )}
 
         {activeMainTab === 'chat' && (
           <>
@@ -1413,7 +1413,7 @@ export function App() {
               <div className="w-full bg-amber-50 dark:bg-slate-800/90 py-1.5 px-3 rounded-xl text-center text-xs text-slate-600 dark:text-slate-300 border border-amber-200 dark:border-slate-700 flex items-center justify-between gap-2 shadow-xs">
                 <span className="truncate">Versión Lite con anuncios — Desbloquea Premium por sólo $200 MXN</span>
                 <button 
-                  onClick={handleOpenPayPal} 
+                  onClick={() => setIsPaymentModalOpen(true)} 
                   className="px-2.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-semibold text-[11px] shrink-0 cursor-pointer transition"
                 >
                   Quitar anuncios ($200 MXN)
@@ -1580,14 +1580,14 @@ export function App() {
         </footer>
       )}
 
-      {/* Pie de Página / Footer Estático Abajo (Para las demás pestañas: Calendario, Parashá, Giluy Da'at, Desarrollador) */}
+      {/* Pie de Página / Footer Estático Abajo (Para otras pestañas) */}
       {activeMainTab !== 'chat' && !isPremium && (
         <footer className="shrink-0 z-20 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 p-3">
           <div className="w-full px-4 sm:px-6">
             <div className="w-full bg-amber-50 dark:bg-slate-800/90 py-1.5 px-3 rounded-xl text-center text-xs text-slate-600 dark:text-slate-300 border border-amber-200 dark:border-slate-700 flex items-center justify-between gap-2 shadow-xs">
               <span className="truncate">Versión Lite con anuncios — Desbloquea Premium por sólo $200 MXN</span>
               <button 
-                onClick={handleOpenPayPal} 
+                onClick={() => setIsPaymentModalOpen(true)} 
                 className="px-2.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-semibold text-[11px] shrink-0 cursor-pointer transition"
               >
                 Quitar anuncios ($200 MXN)
@@ -1627,6 +1627,12 @@ export function App() {
             },
           ]);
         }}
+      />
+
+      {/* Modal de Opciones de Pago (PayPal, Mercado Pago, SPEI/OXXO) */}
+      <PaymentModal
+        isOpen={isPaymentModalOpen}
+        onClose={() => setIsPaymentModalOpen(false)}
       />
     </div>
   );
