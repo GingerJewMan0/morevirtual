@@ -25,19 +25,31 @@ export function CalendarZmanimTab() {
         );
         const shabbatJson = await shabbatRes.json();
         
-        // Extraer la zona horaria oficial provista por Hebcal para la ciudad
-        const cityTimeZone = shabbatJson.location?.tz || undefined;
+        // Zona horaria oficial provista por Hebcal para la ciudad (ej. "America/Mexico_City", "America/Chicago")
+        const cityTimeZone = shabbatJson.location?.tz || 'UTC';
         
         const candleItem = shabbatJson.items?.find((item: any) => item.category === 'candles');
         const havdalahItem = shabbatJson.items?.find((item: any) => item.category === 'havdalah');
+
+        // Función robusta para formatear la hora respetando estrictamente la zona horaria de la ciudad objetivo
+        const formatHebcalTime = (dateStr: string) => {
+          if (!dateStr) return '--:--';
+          try {
+            const date = new Date(dateStr);
+            return new Intl.DateTimeFormat('en-US', {
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: true,
+              timeZone: cityTimeZone
+            }).format(date);
+          } catch (e) {
+            return '--:--';
+          }
+        };
         
         setShabbatData({
-          candleLighting: candleItem 
-          ? new Date(candleItem.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', timeZone: cityTimeZone }) 
-          : '--:--',
-          havdalah: havdalahItem 
-          ? new Date(havdalahItem.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', timeZone: cityTimeZone }) 
-          : '--:--',
+          candleLighting: candleItem ? formatHebcalTime(candleItem.date) : '--:--',
+          havdalah: havdalahItem ? formatHebcalTime(havdalahItem.date) : '--:--',
           parashah: shabbatJson.title || ''
         });
 
@@ -49,21 +61,33 @@ export function CalendarZmanimTab() {
         const zmanimJson = await zmanimRes.json();
         
         if (zmanimJson.times) {
-          const formatTime = (isoString: string) => {
+          const formatZmanTime = (isoString: string) => {
             if (!isoString) return '--:--';
-            return new Date(isoString).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            try {
+              const date = new Date(isoString);
+              // Si la API de Zmanim incluye la zona horaria o usamos la de la ubicación
+              const tz = zmanimJson.location?.tz || cityTimeZone;
+              return new Intl.DateTimeFormat('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true,
+                timeZone: tz
+              }).format(date);
+            } catch (e) {
+              return '--:--';
+            }
           };
 
           setZmanimDaily({
-            alotHaShajar: formatTime(zmanimJson.times.alotHaShajar),
-            netzHaChama: formatTime(zmanimJson.times.sunrise),
-            sofZmanShemaGra: formatTime(zmanimJson.times.sofZmanShemaGRA),
-            sofZmanTefilah: formatTime(zmanimJson.times.sofZmanTefilahGRA),
-            chatzot: formatTime(zmanimJson.times.chatzot),
-            minchaGedolah: formatTime(zmanimJson.times.minchaGedolah),
-            plagHaMincha: formatTime(zmanimJson.times.plagHaMincha),
-            shekia: formatTime(zmanimJson.times.sunset),
-            tzaitHakochavim: formatTime(zmanimJson.times.tzeitHakochavim),
+            alotHaShajar: formatZmanTime(zmanimJson.times.alotHaShajar),
+            netzHaChama: formatZmanTime(zmanimJson.times.sunrise),
+            sofZmanShemaGra: formatZmanTime(zmanimJson.times.sofZmanShemaGRA),
+            sofZmanTefilah: formatZmanTime(zmanimJson.times.sofZmanTefilahGRA),
+            chatzot: formatZmanTime(zmanimJson.times.chatzot),
+            minchaGedolah: formatZmanTime(zmanimJson.times.minchaGedolah),
+            plagHaMincha: formatZmanTime(zmanimJson.times.plagHaMincha),
+            shekia: formatZmanTime(zmanimJson.times.sunset),
+            tzaitHakochavim: formatZmanTime(zmanimJson.times.tzeitHakochavim),
           });
         }
       } catch (error) {
