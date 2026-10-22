@@ -21,16 +21,23 @@ export function CalendarZmanimTab() {
       try {
         // 1. Obtener datos de Shabat (Velas y Havdalá)
         const shabbatRes = await fetch(
-          `https://www.hebcal.com/shabbat?geonameid=${(city as any).geonameId}&cfg=json`
+          `https://www.hebcal.com/shabbat?geonameId=${(city as any).geonameId}&cfg=json`
         );
         const shabbatJson = await shabbatRes.json();
         
+        // Extraer la zona horaria oficial provista por Hebcal para la ciudad
+        const cityTimeZone = shabbatJson.location?.tz;
+        
         const candleItem = shabbatJson.items?.find((item: any) => item.category === 'candles');
         const havdalahItem = shabbatJson.items?.find((item: any) => item.category === 'havdalah');
-
+        
         setShabbatData({
-          candleLighting: candleItem ? new Date(candleItem.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '--:--',
-          havdalah: havdalahItem ? new Date(havdalahItem.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '--:--',
+          candleLighting: candleItem 
+          ? new Date(candleItem.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', timeZone: cityTimeZone }) 
+          : '--:--',
+          havdalah: havdalahItem 
+          ? new Date(candleItem.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', timeZone: cityTimeZone }) 
+          : '--:--',
           parashah: shabbatJson.title || ''
         });
 
