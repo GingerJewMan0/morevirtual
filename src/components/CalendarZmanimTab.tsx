@@ -91,18 +91,18 @@ export function CalendarZmanimTab() {
         
         if (zmanimJson && zmanimJson.times) {
           const times = zmanimJson.times;
+          console.log('Tiempos recibidos de Hebcal:', times); // Para inspeccionar claves si fuera necesario
           
-          // Mapeo seguro y completo de cada propiedad de Zmanim
           setZmanimDaily({
-            alotHaShajar: formatExactTime(times.alotHaShajar),
+            alotHaShajar: formatExactTime(times.alotHaShajar || times.alutHaShahar),
             netzHaChama: formatExactTime(times.sunrise),
             sofZmanShemaGra: formatExactTime(times.sofZmanShemaGRA || times.sofZmanShema),
             sofZmanTefilah: formatExactTime(times.sofZmanTefilahGRA || times.sofZmanTefilah),
             chatzot: formatExactTime(times.chatzot),
-            minchaGedolah: formatExactTime(times.minchaGedolah),
+            minchaGedolah: formatExactTime(times.minchaGedolah || times.minchaGedola),
             plagHaMincha: formatExactTime(times.plagHaMincha),
             shekia: formatExactTime(times.sunset),
-            tzaitHakochavim: formatExactTime(times.tzeitHakochavim),
+            tzaitHakochavim: formatExactTime(times.tzeitHakochavim || times.tzeit),
           });
 
           if (times.sunset) {
@@ -113,8 +113,8 @@ export function CalendarZmanimTab() {
               const candleDate = new Date(sunsetDate.getTime() - minutesBefore * 60000);
               candleFormatted = formatExactTime(candleDate);
 
-              const tzeitDate = times.tzeitHakochavim 
-                ? new Date(times.tzeitHakochavim) 
+              const tzeitDate = times.tzeitHakochavim || times.tzeit
+                ? new Date(times.tzeitHakochavim || times.tzeit) 
                 : new Date(sunsetDate.getTime() + 50 * 60000);
               havdalahFormatted = formatExactTime(tzeitDate);
             }
