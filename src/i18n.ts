@@ -182,6 +182,10 @@ const resources = {
       city_chicago_country: 'Estados Unidos',
       city_chicago_flavor: 'Histórica y gran comunidad Ashkenazí y Sefaradí con fuerte presencia en West Ridge y los suburbios.',
 
+      city_miami_name: 'Miami / Surfside / Aventura',
+      city_miami_country: 'Estados Unidos',
+      city_miami_flavor: 'Vibrante polo comunitario hispanohablante con sinagogas Jalabí, Shamí, Sefaradí, Ashkenazí y centros de Jabad.',
+
       city_jerusalem_name: 'Jerusalén (Yerushalayim)',
       city_jerusalem_country: 'Israel',
       city_jerusalem_flavor: 'Costumbre milenaria de encender velas 40 minutos antes de la puesta de sol (Minhag Yerushalayim).',
@@ -209,10 +213,6 @@ const resources = {
       city_marseille_name: 'Marsella',
       city_marseille_country: 'Francia',
       city_marseille_flavor: 'Importante y tradicional polo judío en el sur de Francia con fuertes raíces mediterráneas.',
-
-      city_miami_name: 'Miami / Surfside / Aventura',
-      city_miami_country: 'Estados Unidos',
-      city_miami_flavor: 'Vibrante polo comunitario hispanohablante con sinagogas Jalabí, Shamí, Sefaradí, Ashkenazí y centros de Jabad.',
       
       city_madrid_name: 'Madrid',
       city_madrid_country: 'España',
@@ -387,6 +387,10 @@ const resources = {
       city_chicago_country: 'ארצות הברית',
       city_chicago_flavor: 'קהילה אשכנזית וספרדית היסטורית וגדולה עם נוכחות חזקה בווסט רידג\' ובפרברים.',
 
+      city_miami_name: 'מיאמי / סרפסייד / אבנטורה',
+      city_miami_country: 'ארצות הברית',
+      city_miami_flavor: 'מרכז קהילתי דובר ספרדית תוסס עם בתי כנסת חלאביים, ספרדיים, אשכנזיים ומרכזי חב"ד.',
+
       city_jerusalem_name: 'ירושלים (Yerushalayim)',
       city_jerusalem_country: 'ישראל',
       city_jerusalem_flavor: 'מנהג קדום להדליק נרות 40 דקות לפני השקיעה (מנהג ירושלים).',
@@ -414,10 +418,6 @@ const resources = {
       city_marseille_name: 'מרسيליה',
       city_marseille_country: 'צרפת',
       city_marseille_flavor: 'מרכז יהודי חשוב ומסורתי בדרום צרפת בעל שורשים תיכוניסטיים חזקים.',
-
-      city_miami_name: 'מיאמי / סרפסייד / אבנטורה',
-      city_miami_country: 'ארצות הברית',
-      city_miami_flavor: 'מרכז קהילתי דובר ספרדית תוסס עם בתי כנסת חלאביים, ספרדיים, אשכנזיים ומרכזי חב"ד.',
       
       city_madrid_name: 'מדריד',
       city_madrid_country: 'ספרד',
@@ -592,6 +592,10 @@ const resources = {
       city_chicago_country: 'United States',
       city_chicago_flavor: 'Historical and large Ashkenazi and Sephardic community with a strong presence in West Ridge and the suburbs.',
 
+      city_miami_name: 'Miami / Surfside / Aventura',
+      city_miami_country: 'United States',
+      city_miami_flavor: 'Vibrant Spanish-speaking community hub with Jalabi, Shami, Sephardic, Ashkenazi synagogues, and Chabad centers.',
+
       city_jerusalem_name: 'Jerusalem (Yerushalayim)',
       city_jerusalem_country: 'Israel',
       city_jerusalem_flavor: 'Ancient custom of lighting candles 40 minutes before sunset (Minhag Yerushalayim).',
@@ -619,10 +623,6 @@ const resources = {
       city_marseille_name: 'Marseille',
       city_marseille_country: 'France',
       city_marseille_flavor: 'Important and traditional Jewish hub in southern France with strong Mediterranean roots.',
-
-      city_miami_name: 'Miami / Surfside / Aventura',
-      city_miami_country: 'United States',
-      city_miami_flavor: 'Vibrant Spanish-speaking community hub with Jalabi, Shami, Sephardic, Ashkenazi synagogues, and Chabad centers.',
       
       city_madrid_name: 'Madrid',
       city_madrid_country: 'Spain',
@@ -797,6 +797,10 @@ const resources = {
       city_chicago_country: 'États-Unis',
       city_chicago_flavor: 'Grande communauté historique ashkénaze et séfarade avec une forte présence à West Ridge et dans les banlieues.',
 
+      city_miami_name: 'Miami / Surfside / Aventura',
+      city_miami_country: 'États-Unis',
+      city_miami_flavor: 'Pôle communautaire hispanophone dynamique avec des synagogues jalabi, séfarades, ashkénazes et des centres Habad.',
+
       city_jerusalem_name: 'Jérusalem (Yerushalayim)',
       city_jerusalem_country: 'Israël',
       city_jerusalem_flavor: 'Coutume millénaire d’allumer les bougies 40 minutes avant le coucher du soleil (Minhag Yerushalayim).',
@@ -824,10 +828,6 @@ const resources = {
       city_marseille_name: 'Marseille',
       city_marseille_country: 'France',
       city_marseille_flavor: 'Important pôle juif traditionnel du sud de la France aux fortes racines méditerranéennes.',
-
-      city_miami_name: 'Miami / Surfside / Aventura',
-      city_miami_country: 'États-Unis',
-      city_miami_flavor: 'Pôle communautaire hispanophone dynamique avec des synagogues jalabi, séfarades, ashkénazes et des centres Habad.',
       
       city_madrid_name: 'Madrid',
       city_madrid_country: 'Espagne',
@@ -1002,6 +1002,10 @@ const resources = {
       city_chicago_country: 'Estados Unidos',
       city_chicago_flavor: 'Grande comunidade histórica Ashkenazi e Sefaradi com forte presença em West Ridge e nos subúrbios.',
 
+      city_miami_name: 'Miami / Surfside / Aventura',
+      city_miami_country: 'Estados Unidos',
+      city_miami_flavor: 'Vibrante polo comunitário hispanofalante com sinagogas jalabi, sefaradi, ashkenazi e centros de Chabad.',
+
       city_jerusalem_name: 'Jerusalém (Yerushalayim)',
       city_jerusalem_country: 'Israel',
       city_jerusalem_flavor: 'Costume milenar de acender velas 40 minutos antes do pôr do sol (Minhag Yerushalayim).',
@@ -1029,10 +1033,6 @@ const resources = {
       city_marseille_name: 'Marselha',
       city_marseille_country: 'França',
       city_marseille_flavor: 'Importante e tradicional polo judaico no sul da França com fortes raízes mediterrâneas.',
-
-      city_miami_name: 'Miami / Surfside / Aventura',
-      city_miami_country: 'Estados Unidos',
-      city_miami_flavor: 'Vibrante polo comunitário hispanofalante com sinagogas jalabi, sefaradi, ashkenazi e centros de Chabad.',
       
       city_madrid_name: 'Madrid',
       city_madrid_country: 'Espanha',

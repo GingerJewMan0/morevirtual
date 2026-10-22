@@ -55,6 +55,15 @@ export const CITIES_ZMANIM: CityZmanim[] = [
     candleLightingMinutesBeforeSunset: 18,
   },
   {
+    id: 'miami',
+    geonameId: 4164138,
+    name: 'Miami / Surfside / Aventura',
+    country: 'Estados Unidos',
+    flag: '🇺🇸',
+    communityFlavor: 'Vibrante polo comunitario hispanohablante con sinagogas Jalabí, Shamí, Sefaradí, Ashkenazí y centros de Jabad.',
+    candleLightingMinutesBeforeSunset: 18,
+  },
+  {
     id: 'jerusalem',
     geonameId: 281184,
     name: 'Jerusalén (Yerushalayim)',
@@ -115,15 +124,6 @@ export const CITIES_ZMANIM: CityZmanim[] = [
     country: 'Francia',
     flag: '🇫🇷',
     communityFlavor: 'Importante y tradicional polo judío en el sur de Francia con fuertes raíces mediterráneas.',
-    candleLightingMinutesBeforeSunset: 18,
-  },
-  {
-    id: 'miami',
-    geonameId: 4164138,
-    name: 'Miami / Surfside / Aventura',
-    country: 'Estados Unidos',
-    flag: '🇺🇸',
-    communityFlavor: 'Vibrante polo comunitario hispanohablante con sinagogas Jalabí, Shamí, Sefaradí, Ashkenazí y centros de Jabad.',
     candleLightingMinutesBeforeSunset: 18,
   },
   {
