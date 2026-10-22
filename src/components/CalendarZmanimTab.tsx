@@ -91,18 +91,23 @@ export function CalendarZmanimTab() {
         
         if (zmanimJson && zmanimJson.times) {
           const times = zmanimJson.times;
-          console.log('Tiempos recibidos de Hebcal:', times); // Para inspeccionar claves si fuera necesario
           
+          // Extracción robusta contemplando las claves reales de la API de Hebcal
+          const alotRaw = times.alotHaShajar || times.alutHaShahar || times.dawn || (times.sunrise ? new Date(new Date(times.sunrise).getTime() - 72 * 60000) : null);
+          const shemaRaw = times.sofZmanShemaGRA || times.sofZmanShema || times.sof_zman_shema;
+          const tefilahRaw = times.sofZmanTefilahGRA || times.sofZmanTefilah || times.sof_zman_tefilah;
+          const tzeitRaw = times.tzeitHakochavim || times.tzeit || times.night || (times.sunset ? new Date(new Date(times.sunset).getTime() + 50 * 60000) : null);
+
           setZmanimDaily({
-            alotHaShajar: formatExactTime(times.alotHaShajar || times.alutHaShahar),
+            alotHaShajar: formatExactTime(alotRaw),
             netzHaChama: formatExactTime(times.sunrise),
-            sofZmanShemaGra: formatExactTime(times.sofZmanShemaGRA || times.sofZmanShema),
-            sofZmanTefilah: formatExactTime(times.sofZmanTefilahGRA || times.sofZmanTefilah),
+            sofZmanShemaGra: formatExactTime(shemaRaw),
+            sofZmanTefilah: formatExactTime(tefilahRaw),
             chatzot: formatExactTime(times.chatzot),
             minchaGedolah: formatExactTime(times.minchaGedolah || times.minchaGedola),
             plagHaMincha: formatExactTime(times.plagHaMincha),
             shekia: formatExactTime(times.sunset),
-            tzaitHakochavim: formatExactTime(times.tzeitHakochavim || times.tzeit),
+            tzaitHakochavim: formatExactTime(tzeitRaw),
           });
 
           if (times.sunset) {
@@ -113,9 +118,7 @@ export function CalendarZmanimTab() {
               const candleDate = new Date(sunsetDate.getTime() - minutesBefore * 60000);
               candleFormatted = formatExactTime(candleDate);
 
-              const tzeitDate = times.tzeitHakochavim || times.tzeit
-                ? new Date(times.tzeitHakochavim || times.tzeit) 
-                : new Date(sunsetDate.getTime() + 50 * 60000);
+              const tzeitDate = tzeitRaw ? new Date(tzeitRaw) : new Date(sunsetDate.getTime() + 50 * 60000);
               havdalahFormatted = formatExactTime(tzeitDate);
             }
           }
