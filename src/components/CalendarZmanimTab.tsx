@@ -92,10 +92,15 @@ export function CalendarZmanimTab() {
         if (zmanimJson && zmanimJson.times) {
           const times = zmanimJson.times;
           
-          // Extracción robusta contemplando las claves reales de la API de Hebcal
+          // Extracción robusta con múltiples variantes y respaldos matemáticos para Shema y Tefilá
           const alotRaw = times.alotHaShajar || times.alutHaShahar || times.dawn || (times.sunrise ? new Date(new Date(times.sunrise).getTime() - 72 * 60000) : null);
-          const shemaRaw = times.sofZmanShemaGRA || times.sofZmanShema || times.sof_zman_shema;
-          const tefilahRaw = times.sofZmanTefilahGRA || times.sofZmanTefilah || times.sof_zman_tefilah;
+          
+          const shemaRaw = times.sofZmanShemaGRA || times.sofZmanShema || times.sof_zman_shema || times.sofZmanShemaMGA || 
+                           (times.sunrise && times.sunset ? new Date(new Date(times.sunrise).getTime() + (new Date(times.sunset).getTime() - new Date(times.sunrise).getTime()) * 3 / 12) : null);
+                           
+          const tefilahRaw = times.sofZmanTefilahGRA || times.sofZmanTefilah || times.sof_zman_tefilah || 
+                             (times.sunrise && times.sunset ? new Date(new Date(times.sunrise).getTime() + (new Date(times.sunset).getTime() - new Date(times.sunrise).getTime()) * 4 / 12) : null);
+                             
           const tzeitRaw = times.tzeitHakochavim || times.tzeit || times.night || (times.sunset ? new Date(new Date(times.sunset).getTime() + 50 * 60000) : null);
 
           setZmanimDaily({
