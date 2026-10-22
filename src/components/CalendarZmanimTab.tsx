@@ -60,20 +60,57 @@ export function CalendarZmanimTab() {
         let havdalahFormatted = '--:--';
         let parashahTitle = `Shabat en ${city.name}`;
 
-        // Intentar obtener opcionalmente el título de la Parashá del endpoint de Shabat
+        // 1. Consulta directa al endpoint oficial de Shabat de Hebcal
         try {
           const shabbatRes = await fetch(
             `https://www.hebcal.com/shabbat?geonameid=${(city as any).geonameId}&cfg=json`
           );
           const shabbatJson = await shabbatRes.json();
-          if (shabbatJson.title) {
-            parashahTitle = shabbatJson.title;
+
+          if (shabbatJson.items && shabbatJson.items.length > 0) {
+            const candleItem = shabbatJson.items.find((item: any) => 
+              item.category === 'candles' || (item.title && item.title.toLowerCase().includes('candle'))
+            );
+            
+            const havdalahItem = shabbatJson.items.find((item: any) => 
+              item.category === 'havdalah' || (item.title && item.title.toLowerCase().includes('havdalah'))
+            );
+
+            if (candleItem) candleFormatted = formatExactTime(candleItem.date);
+            if (havdalahItem) havdalahFormatted = formatExactTime(havdalahItem.date);
+            if (shabbatJson.title) parashahTitle = shabbatJson.title;
           }
         } catch (err) {
-          // Silencioso, usará el título por defecto
+          console.warn('Aviso: Error al consultar el endpoint de Shabat.', err);
         }
 
-        // Petición al endpoint de Zmanim diarios (para obtener la puesta de sol y salida de estrellas reales)
+        // 2. Si por alguna razón el endpoint de Shabat viene vacío (como ocurría en algunas regiones),
+        // consultamos el shabat usando el modo 'Mevarchim' o con una petición de respaldo por coordenadas o sin geonameid estricto si fuera necesario.
+        if (candleFormatted === '--:--' || havdalahFormatted === '--:--') {
+          try {
+            const fallbackRes = await fetch(
+              `https://www.hebcal.com/shabbat?city=${encodeURIComponent(city.name)}&cfg=json`
+            );
+            const fallbackJson = await fallbackRes.json();
+            if (fallbackJson.items && fallbackJson.items.length > 0) {
+              const candleItem = fallbackJson.items.find((item: any) => item.category === 'candles');
+              const havdalahItem = fallbackJson.items.find((item: any) => item.category === 'havdalah');
+              if (candleItem) candleFormatted = formatExactTime(candleItem.date);
+              if (havdalahItem) havdalahFormatted = formatExactTime(havdalahItem.date);
+              if (fallbackJson.title) parashahTitle = fallbackJson.title;
+            }
+          } catch (e) {
+            console.warn('Fallback por nombre de ciudad también falló.');
+          }
+        }
+
+        setShabbatData({
+          candleLighting: candleFormatted,
+          havdalah: havdalahFormatted,
+          parashah: parashahTitle
+        });
+
+        // 3. Petición separada para Zmanim diarios (tiempos de hoy para la tarjeta inferior)
         const todayStr = new Date().toISOString().split('T')[0];
         const zmanimRes = await fetch(
           `https://www.hebcal.com/zmanim?geonameid=${(city as any).geonameId}&cfg=json&start=${todayStr}&end=${todayStr}`
@@ -82,7 +119,6 @@ export function CalendarZmanimTab() {
         
         if (zmanimJson.times) {
           const times = zmanimJson.times;
-          
           setZmanimDaily({
             alotHaShajar: formatExactTime(times.alotHaShajar),
             netzHaChama: formatExactTime(times.sunrise),
@@ -94,31 +130,7 @@ export function CalendarZmanimTab() {
             shekia: formatExactTime(times.sunset),
             tzaitHakochavim: formatExactTime(times.tzeitHakochavim),
           });
-
-          // Cálculo astronómico directo y preciso basado en la puesta de sol real de la ciudad
-          if (times.sunset) {
-            const sunsetDate = new Date(times.sunset);
-            if (!isNaN(sunsetDate.getTime())) {
-              const minutesBefore = city.candleLightingMinutesBeforeSunset || 18;
-              
-              // Encendido de velas (Minutos antes de la puesta de sol)
-              const candleDate = new Date(sunsetDate.getTime() - minutesBefore * 60000);
-              candleFormatted = formatExactTime(candleDate);
-
-              // Havdalá (Salida de estrellas Tzeit HaKojavim o 50 min después)
-              const tzeitDate = times.tzeitHakochavim 
-                ? new Date(times.tzeitHakochavim) 
-                : new Date(sunsetDate.getTime() + 50 * 60000);
-              havdalahFormatted = formatExactTime(tzeitDate);
-            }
-          }
         }
-
-        setShabbatData({
-          candleLighting: candleFormatted,
-          havdalah: havdalahFormatted,
-          parashah: parashahTitle
-        });
 
       } catch (error) {
         console.error('Error general al conectar con la API de Hebcal:', error);
