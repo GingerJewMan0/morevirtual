@@ -119,30 +119,14 @@ export const DeveloperTab: React.FC<DeveloperTabProps> = ({ onOpenPaymentModal }
             {t('supportProjectDesc', 'Tu contribución permite mantener los servidores activos, sufragar los costos de cómputo de los modelos de inteligencia artificial y continuar expandiendo herramientas educativas abiertas para toda la comunidad.')}
           </p>
 
+          {/* Botón limpio de Donar (abre el modal unificado de donativo libre y premium) */}
           <div className="flex flex-col sm:flex-row gap-3">
             <button
-              onClick={onOpenPaymentModal} // <--- Ahora abre el modal con todas las opciones (PayPal, Mercado Pago, SPEI)
-              className="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-medium text-white bg-amber-600 hover:bg-amber-700 active:bg-amber-800 transition-colors shadow-md shadow-amber-600/20 cursor-pointer text-sm"
+              onClick={onOpenPaymentModal}
+              className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-medium text-white bg-amber-600 hover:bg-amber-700 active:bg-amber-800 transition-colors shadow-md shadow-amber-600/20 cursor-pointer text-sm"
             >
-              <ExternalLink className="w-4 h-4" />
-              {t('donatePaypalFull', 'Apoyar / Desbloquear Premium ($200 MXN)')}
-            </button>
-
-            <button
-              onClick={handleCopy}
-              className="flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-medium transition-colors bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 cursor-pointer text-sm border border-slate-300 dark:border-slate-700"
-            >
-              {copied ? (
-                <>
-                  <Check className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                  {t('copied', 'Copiado')}
-                </>
-              ) : (
-                <>
-                  <Copy className="w-4 h-4" />
-                  {t('copyLink', 'Copiar enlace')}
-                </>
-              )}
+              <Heart className="w-4 h-4 fill-white/20" />
+              {t('donateButton', 'Donar')}
             </button>
           </div>
 

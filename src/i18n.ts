@@ -152,7 +152,75 @@ const resources = {
       savedTeachingsTitle: 'Enseñanzas Guardadas',
       savedTeachingsSubtitle: 'Tus respuestas y temas de estudio favoritos',
       noSavedTeachings: 'Aún no has guardado ninguna enseñanza',
-      clickBookmarkPrompt: 'Haz clic en el ícono de marcador al final de cualquier respuesta de Rabino Virtual para guardarla aquí'
+      clickBookmarkPrompt: 'Haz clic en el ícono de marcador al final de cualquier respuesta de Rabino Virtual para guardarla aquí',
+      
+      // sistema de pago
+      liteVersionBanner: 'Versión Lite con anuncios',
+      unlockAdsBtn: 'Quitar anuncios ($10 USD)',
+      // disclaimer
+      disclaimerNotice: 'Aviso: Propósito pedagógico y de Limud Torá. La IA puede cometer errores (Ver Giluy Da\'at)',
+      disclaimerSubtext: 'Para decisiones prácticas individuales, consulta al rabino de tu comunidad.',
+
+      //citiesZmanim (Ciudades Globales)
+      city_cdmx_name: 'Ciudad de México',
+      city_cdmx_country: 'México',
+      city_cdmx_flavor: 'Sede de las históricas Comunidades Maguen David (Jalabí) y Monte Sinai (Shamí), además de Sefaradí, Ashkenazí y Beit Jabad.',
+      
+      city_monterrey_name: 'Monterrey',
+      city_monterrey_country: 'México',
+      city_monterrey_flavor: 'Comunidad judía próspera y unida en el norte de México, con sinagogas y centros comunitarios activos.',
+
+      city_brooklyn_name: 'Nueva York / Brooklyn',
+      city_brooklyn_country: 'Estados Unidos',
+      city_brooklyn_flavor: 'Gran comunidad siria de Ocean Parkway (Aram Tzobá), Crown Heights (sede mundial de Jabad Lubavitch) y Flatbush/Boro Park.',
+      
+      city_losangeles_name: 'Los Ángeles',
+      city_losangeles_country: 'Estados Unidos',
+      city_losangeles_flavor: 'Hogar de una de las poblaciones judías más grandes de EE. UU., destacando los barrios de Pico-Robertson y Valley.',
+
+      city_chicago_name: 'Chicago',
+      city_chicago_country: 'Estados Unidos',
+      city_chicago_flavor: 'Histórica y gran comunidad Ashkenazí y Sefaradí con fuerte presencia en West Ridge y los suburbios.',
+
+      city_jerusalem_name: 'Jerusalén (Yerushalayim)',
+      city_jerusalem_country: 'Israel',
+      city_jerusalem_flavor: 'Costumbre milenaria de encender velas 40 minutos antes de la puesta de sol (Minhag Yerushalayim).',
+      
+      city_panama_name: 'Ciudad de Panamá',
+      city_panama_country: 'Panamá',
+      city_panama_flavor: 'Gran comunidad judía Jalabí (Shevet Ajim) y Ashkenazí, con altísima observancia de kashrut y Shabat.',
+      
+      city_buenosaires_name: 'Buenos Aires',
+      city_buenosaires_country: 'Argentina',
+      city_buenosaires_flavor: 'Barrios tradicionales de Once, Flores y Palermo; sinagogas jalabíes (Sucat David), shamíes, sefaradíes y asquenazíes.',
+      
+      city_saopaulo_name: 'São Paulo',
+      city_saopaulo_country: 'Brasil',
+      city_saopaulo_flavor: 'El corazón de la comunidad judía en Brasil, con instituciones centenarias, sinagogas y colegios comunitarios.',
+
+      city_riodejaneiro_name: 'Río de Janeiro',
+      city_riodejaneiro_country: 'Brasil',
+      city_riodejaneiro_flavor: 'Vibrante comunidad judía con centros en Copacabana, Ipanema y Tijuca.',
+
+      city_paris_name: 'París',
+      city_paris_country: 'Francia',
+      city_paris_flavor: 'La comunidad judía más grande de Europa, con el histórico barrio de Le Marais y numerosas sinagogas activas.',
+
+      city_marseille_name: 'Marsella',
+      city_marseille_country: 'Francia',
+      city_marseille_flavor: 'Importante y tradicional polo judío en el sur de Francia con fuertes raíces mediterráneas.',
+
+      city_miami_name: 'Miami / Surfside / Aventura',
+      city_miami_country: 'Estados Unidos',
+      city_miami_flavor: 'Vibrante polo comunitario hispanohablante con sinagogas Jalabí, Shamí, Sefaradí, Ashkenazí y centros de Jabad.',
+      
+      city_madrid_name: 'Madrid',
+      city_madrid_country: 'España',
+      city_madrid_flavor: 'Cuna del legado histórico de Sefarad y la Comunidad Judía de Madrid.',
+
+      city_barcelona_name: 'Barcelona',
+      city_barcelona_country: 'España',
+      city_barcelona_flavor: 'Comunidad judía activa en Cataluña, con gran legado histórico en el antiguo Call Jueu.'
     }
   },
 
@@ -186,7 +254,7 @@ const resources = {
       tabZmanimDesc: 'כניסת שבת, הבדלה וזמנים',
       tabParasha: 'פרשת השבוע',
       tabParashaDesc: 'לימוד תורה שבועי, עליות ורש\'י',
-      tabGiluyDaat: 'גילוי דעת (הסתייגות',
+      tabGiluyDaat: 'גילוי דעת (הסתייגות)',
       tabGiluyDaatDesc: 'מטרה פדגוגית והסתייגות הלכתית',
       tabDeveloper: 'מפתח',
       tabDeveloperDesc: 'ליאור פישר לובטון ותרומות פייפאל',
@@ -289,7 +357,75 @@ const resources = {
       savedTeachingsTitle: 'תורות שמורות',
       savedTeachingsSubtitle: 'התשובות ונושאי הלימוד המועדפים עליך',
       noSavedTeachings: 'טרם שמרת תורות',
-      clickBookmarkPrompt: 'לחץ על סמל הסימנייה בתחתית כל תשובה כדי לשמור אותה'
+      clickBookmarkPrompt: 'לחץ על סמל הסימנייה בתחתית כל תשובה כדי לשמור אותה',
+      
+      // sistema de pago
+      liteVersionBanner: 'גרסת לייט עם פרסומות',
+      unlockAdsBtn: 'הסר פרסומות ($10 USD)',
+      // disclaimer
+      disclaimerNotice: 'הודעה: מטרה חינוכית ולימוד תורה. הבינה המלאכותית עלולה לטעות (ראה גילוי דעת)',
+      disclaimerSubtext: 'להחלטות מעשיות אישיות, התייעץ עם רב הקהילה שלך.',
+
+      //citiesZmanim
+      city_cdmx_name: 'מקסיקו סיטי',
+      city_cdmx_country: 'מקסיקו',
+      city_cdmx_flavor: 'מושב הקהילות ההיסטוריות מגן דוד ומונטה סיני, לצד קהילות ספרדיות, אשכנזיות ובית חב"ד.',
+      
+      city_monterrey_name: 'מונטריי',
+      city_monterrey_country: 'מקסיקו',
+      city_monterrey_flavor: 'קהילה יהודית משגשגת ומאוחדת בצפון מקסיקו, עם בתי כנסת ומרכזים קהילתיים פעילים.',
+
+      city_brooklyn_name: 'ניו יורק / ברוקלין',
+      city_brooklyn_country: 'ארצות הברית',
+      city_brooklyn_flavor: 'קהילה סורית גדולה באושן פארקוויי, קראון הייטס (מרכז חב"ד העולמי) ופלטבוש.',
+      
+      city_losangeles_name: 'לוס אנג\'לס',
+      city_losangeles_country: 'ארצות הברית',
+      city_losangeles_flavor: 'בית לאחת האוכלוסיות היהודיות הגדולות בארה"ב, ובמיוחד באזורי פיקו-רוברטסון והוואלי.',
+
+      city_chicago_name: 'שיקגו',
+      city_chicago_country: 'ארצות הברית',
+      city_chicago_flavor: 'קהילה אשכנזית וספרדית היסטורית וגדולה עם נוכחות חזקה בווסט רידג\' ובפרברים.',
+
+      city_jerusalem_name: 'ירושלים (Yerushalayim)',
+      city_jerusalem_country: 'ישראל',
+      city_jerusalem_flavor: 'מנהג קדום להדליק נרות 40 דקות לפני השקיעה (מנהג ירושלים).',
+      
+      city_panama_name: 'פנמה סיטי',
+      city_panama_country: 'פנמה',
+      city_panama_flavor: 'קהילה יהודית חלאבית ואשכנזית גדולה, עם שמירה גבוהה על כשרות ושבת.',
+      
+      city_buenosaires_name: 'בואנוס איירס',
+      city_buenosaires_country: 'ארגנטינה',
+      city_buenosaires_flavor: 'שכונות מסורתיות של אונסה, פלורס ופלרמו; בתי כנסת חלאביים, ספרדיים ואשכנזיים.',
+      
+      city_saopaulo_name: 'סאו פאולו',
+      city_saopaulo_country: 'ברזיל',
+      city_saopaulo_flavor: 'לב הקהילה היהודית בברזיל, עם מוסדות ותיקים, בתי כנסת ובתי ספר קהילתיים.',
+
+      city_riodejaneiro_name: 'ריו דה ז\'ניירו',
+      city_riodejaneiro_country: 'ברזיל',
+      city_riodejaneiro_flavor: 'קהילה יהודית תוססת עם מרכזים בקופקבנה, איפנמה ותיז\'וקה.',
+
+      city_paris_name: 'פריז',
+      city_paris_country: 'צרפת',
+      city_paris_flavor: 'הקהילה היהודית הגדולה באירופה, הכוללת את רובע לה מארה ההיסטורי وبתי כנסת פעילים רבים.',
+
+      city_marseille_name: 'מרسيליה',
+      city_marseille_country: 'צרפת',
+      city_marseille_flavor: 'מרכז יהודי חשוב ומסורתי בדרום צרפת בעל שורשים תיכוניסטיים חזקים.',
+
+      city_miami_name: 'מיאמי / סרפסייד / אבנטורה',
+      city_miami_country: 'ארצות הברית',
+      city_miami_flavor: 'מרכז קהילתי דובר ספרדית תוסס עם בתי כנסת חלאביים, ספרדיים, אשכנזיים ומרכזי חב"ד.',
+      
+      city_madrid_name: 'מדריד',
+      city_madrid_country: 'ספרד',
+      city_madrid_flavor: 'ערש המורשת ההיסטורית של ספרד והקהילה היהודית במדריד.',
+
+      city_barcelona_name: 'ברצלונה',
+      city_barcelona_country: 'ספרד',
+      city_barcelona_flavor: 'קהילה יהודית פעילה בקטלוניה, בעלת מורשת היסטורית עשירה ברובע היהודי העתיק.'
     }
   },
 
@@ -323,7 +459,7 @@ const resources = {
       tabZmanimDesc: 'Shabbat candle lighting, Havdalah & Zmanim',
       tabParasha: 'Weekly Parashah',
       tabParashaDesc: 'Weekly Torah study, Aliyot & Rashi',
-      tabGiluyDaat: 'Giluy Da/at (Disclaimer)',
+      tabGiluyDaat: 'Giluy Da\'at (Disclaimer)',
       tabGiluyDaatDesc: 'Pedagogical purpose and halachic disclaimer',
       tabDeveloper: 'Developer',
       tabDeveloperDesc: 'Lior Fisher Lobaton & PayPal Donations',
@@ -379,7 +515,7 @@ const resources = {
       summaryOf: 'Summary of Parashat',
       halachaCentralPoint: 'Central Halachic & Jewish Living Point:',
       aliyotBreakdown: 'Division of 7 Aliyot on Shabbat Morning',
-      rashiInsightTitle: 'Rashis Commentary',
+      rashiInsightTitle: 'Rashi\'s Commentary',
       chabadInsightTitle: 'Spiritual & Chassidic Dimension',
       maqamTitle: 'Weekly Maqam in Aleppo & Damascus',
       assignedMaqam: 'Assigned Maqam',
@@ -390,7 +526,7 @@ const resources = {
       strictNoticeTitle: 'Strict Disclaimer:',
       strictNoticeText: 'This digital educator is designed strictly for educational and Torah study purposes.',
       noPsakNotice: 'It does not issue or replace under any circumstance a binding Psak Halacha.',
-      whyNoPsakTitle: 'Why cant an AI system give a Psak Halacha?',
+      whyNoPsakTitle: 'Why can\'t an AI system give a Psak Halacha?',
       caseAssessmentTitle: 'Personalized Case Assessment:',
       caseAssessmentDesc: 'In Halakha, every ruling takes into account unique personal factors.',
       minhagTitle: 'Community Minhag & Tradition:',
@@ -405,7 +541,7 @@ const resources = {
       devSubtitle: 'Technology Development, Jewish Education & Artificial Intelligence',
       devMainDesc: 'was conceived and built to bring the wealth of Jewish wisdom to every seeker:',
       sirianDesc: 'Preserving Syrian-Jewish traditions (Halabi & Shami).',
-      sefaradiAshkenaziDesc: 'Faithful integration of Marans Shulchan Aruch and Ramas glosses.',
+      sefaradiAshkenaziDesc: 'Faithful integration of Maran\'s Shulchan Aruch and Rama\'s glosses.',
       chabadDesc: 'Teaching Shulchan Aruch HaRav and Chassidic philosophy.',
       pedagogicalClassification: 'Pedagogical Halachic Classification',
       clarityDesc: 'Clear distinction between Deoraita/Derabanan (🔴), Minhag (🟡), and Humra (🟢).',
@@ -426,7 +562,75 @@ const resources = {
       savedTeachingsTitle: 'Saved Teachings',
       savedTeachingsSubtitle: 'Your favorite responses and study topics',
       noSavedTeachings: 'You have not saved any teachings yet',
-      clickBookmarkPrompt: 'Click the bookmark icon at the end of any Virtual Rabbi answer to save it here'
+      clickBookmarkPrompt: 'Click the bookmark icon at the end of any Virtual Rabbi answer to save it here',
+      
+      // sistema de pago
+      liteVersionBanner: 'Lite Version with ads',
+      unlockAdsBtn: 'Remove ads ($10 USD)',
+      // disclaimer
+      disclaimerNotice: 'Notice: Pedagogical and Limud Torah purpose. AI may make mistakes (See Giluy Da\'at)',
+      disclaimerSubtext: 'For individual practical decisions, consult your community rabbi.',
+
+      //citiesZmanim
+      city_cdmx_name: 'Mexico City',
+      city_cdmx_country: 'Mexico',
+      city_cdmx_flavor: 'Home to the historic Maguen David (Jalabi) and Monte Sinai (Shami) communities, as well as Sephardic, Ashkenazi, and Beit Chabad.',
+      
+      city_monterrey_name: 'Monterrey',
+      city_monterrey_country: 'Mexico',
+      city_monterrey_flavor: 'Prosperous and united Jewish community in northern Mexico, with active synagogues and community centers.',
+
+      city_brooklyn_name: 'New York / Brooklyn',
+      city_brooklyn_country: 'United States',
+      city_brooklyn_flavor: 'Large Syrian community of Ocean Parkway (Aram Zobah), Crown Heights (world headquarters of Chabad Lubavitch), and Flatbush/Boro Park.',
+      
+      city_losangeles_name: 'Los Angeles',
+      city_losangeles_country: 'United States',
+      city_losangeles_flavor: 'Home to one of the largest Jewish populations in the US, prominent in Pico-Robertson and the Valley.',
+
+      city_chicago_name: 'Chicago',
+      city_chicago_country: 'United States',
+      city_chicago_flavor: 'Historical and large Ashkenazi and Sephardic community with a strong presence in West Ridge and the suburbs.',
+
+      city_jerusalem_name: 'Jerusalem (Yerushalayim)',
+      city_jerusalem_country: 'Israel',
+      city_jerusalem_flavor: 'Ancient custom of lighting candles 40 minutes before sunset (Minhag Yerushalayim).',
+      
+      city_panama_name: 'Panama City',
+      city_panama_country: 'Panama',
+      city_panama_flavor: 'Large Jalabi (Shevet Achim) and Ashkenazi Jewish community, with very high observance of kashrut and Shabbat.',
+      
+      city_buenosaires_name: 'Buenos Aires',
+      city_buenosaires_country: 'Argentina',
+      city_buenosaires_flavor: 'Traditional neighborhoods of Once, Flores, and Palermo; Jalabi (Sucat David), Shami, Sephardic, and Ashkenazi synagogues.',
+      
+      city_saopaulo_name: 'São Paulo',
+      city_saopaulo_country: 'Brazil',
+      city_saopaulo_flavor: 'The heart of the Jewish community in Brazil, with century-old institutions, synagogues, and community schools.',
+
+      city_riodejaneiro_name: 'Rio de Janeiro',
+      city_riodejaneiro_country: 'Brazil',
+      city_riodejaneiro_flavor: 'Vibrant Jewish community with centers in Copacabana, Ipanema, and Tijuca.',
+
+      city_paris_name: 'Paris',
+      city_paris_country: 'France',
+      city_paris_flavor: 'The largest Jewish community in Europe, featuring the historic Le Marais district and numerous active synagogues.',
+
+      city_marseille_name: 'Marseille',
+      city_marseille_country: 'France',
+      city_marseille_flavor: 'Important and traditional Jewish hub in southern France with strong Mediterranean roots.',
+
+      city_miami_name: 'Miami / Surfside / Aventura',
+      city_miami_country: 'United States',
+      city_miami_flavor: 'Vibrant Spanish-speaking community hub with Jalabi, Shami, Sephardic, Ashkenazi synagogues, and Chabad centers.',
+      
+      city_madrid_name: 'Madrid',
+      city_madrid_country: 'Spain',
+      city_madrid_flavor: 'Cradle of the historical legacy of Sefarad and the Jewish Community of Madrid.',
+
+      city_barcelona_name: 'Barcelona',
+      city_barcelona_country: 'Spain',
+      city_barcelona_flavor: 'Active Jewish community in Catalonia, with a rich historical legacy in the ancient Call Jueu.'
     }
   },
 
@@ -442,7 +646,7 @@ const resources = {
       visualAppearance: 'Apparence Visuelle',
       lightMode: 'Mode Clair',
       darkMode: 'Mode Sombre',
-      studyTools: 'Outils d Etude',
+      studyTools: 'Outils d\'Etude',
       traditionsTool: '5 Traditions Communautaires',
       halachaLevelsTool: 'Niveaux Halakhiques (🔴 🟡 🟢)',
       savedNotesTool: 'Enseignements Sauvegardés',
@@ -460,7 +664,7 @@ const resources = {
       tabZmanimDesc: 'Allumage des bougies de Shabbat, Havdalah & Zmanim',
       tabParasha: 'Parasha de la Semaine',
       tabParashaDesc: 'Étude hebdomadaire de la Torah, Aliyot & Rashi',
-      tabGiluyDaat: 'Gilouy Da/at (Avertissement)',
+      tabGiluyDaat: 'Gilouy Da\'at (Avertissement)',
       tabGiluyDaatDesc: 'Objectif pédagogique et avertissement halachique',
       tabDeveloper: 'Développeur',
       tabDeveloperDesc: 'Lior Fisher Lobaton & Dons PayPal',
@@ -486,8 +690,8 @@ const resources = {
       saturdayNight: 'Samedi Soir',
       minutesBeforeSunset: 'minutes avant le coucher du soleil',
       communityNuance: 'Nuance Communautaire :',
-      sefaradiCandleRule: 'La femme récite la bénédiction d abord puis allume les bougies.',
-      ashkenaziCandleRule: 'On allume d abord les bougies, se couvre les yeux puis récite la bénédiction.',
+      sefaradiCandleRule: 'La femme récite la bénédiction d\'abord puis allume les bougies.',
+      ashkenaziCandleRule: 'On allume d\'abord les bougies, se couvre les yeux puis récite la bénédiction.',
       standard3Stars: 'Standard (Sortie de 3 étoiles)',
       rabenuTamTitle: 'Rabénou Tam (72 min)',
       havdalahElements: 'Les 4 Éléments de la Havdalah :',
@@ -518,7 +722,7 @@ const resources = {
       aliyotBreakdown: 'Division des 7 Aliyot du Shabbat Matin',
       rashiInsightTitle: 'Enseignement de Rachi',
       chabadInsightTitle: 'Dimension Spirituelle (Habad)',
-      maqamTitle: 'Maqam Semainier d Alep et Damas',
+      maqamTitle: 'Maqam Semainier d\'Alep et Damas',
       assignedMaqam: 'Maqam attribué',
       askAboutParashaPrompt: 'Souhaitez-vous approfondir un verset ou une halakha de cette Paracha ?',
       consultRabbiParasha: 'Consulter le Rabbin sur',
@@ -527,9 +731,9 @@ const resources = {
       strictNoticeTitle: 'Avertissement strict :',
       strictNoticeText: 'Ce système est conçu exclusivement comme ressource éducative.',
       noPsakNotice: 'Il ne constitue en aucun cas un Psak Halakha décisionnel.',
-      whyNoPsakTitle: 'Pourquoi l IA ne peut pas émettre de Psak Halakha ?',
+      whyNoPsakTitle: 'Pourquoi l\'IA ne peut pas émettre de Psak Halakha ?',
       caseAssessmentTitle: 'Evaluation personnelle :',
-      caseAssessmentDesc: 'Chaque décision prend en compte la santé, les finances et l urgence personnelle.',
+      caseAssessmentDesc: 'Chaque décision prend en compte la santé, les finances et l\'urgence personnelle.',
       minhagTitle: 'Tradition communautaire :',
       minhagDesc: 'Chaque communauté a ses coutumes (Sépharade, Ashkénaze, etc.).',
       semichaTitle: 'Autorité Rabbinique (Smikha) :',
@@ -562,8 +766,76 @@ const resources = {
       close: 'Fermer',
       savedTeachingsTitle: 'Enseignements Sauvegardés',
       savedTeachingsSubtitle: 'Vos réponses et sujets préférés',
-      noSavedTeachings: 'Vous n avez pas encore sauvegardé d enseignement',
-      clickBookmarkPrompt: 'Cliquez sur l icône de marque-page sous une réponse pour la sauvegarder'
+      noSavedTeachings: 'Vous n\'avez pas encore sauvegardé d\'enseignement',
+      clickBookmarkPrompt: 'Cliquez sur l\'icône de marque-page sous une réponse pour la sauvegarder',
+
+      // sistema de pago
+      liteVersionBanner: 'Version Lite avec annonces',
+      unlockAdsBtn: 'Supprimer les annonces ($10 USD)',
+      // disclaimer
+      disclaimerNotice: 'Avis : Objectif pédagogique et de Limud Torah. L\'IA peut commettre des erreurs (Voir Giluy Da\'at)',
+      disclaimerSubtext: 'Pour les décisions pratiques individuelles, consultez le rabbin de votre communauté.',
+
+      //citiesZmanim
+      city_cdmx_name: 'Mexico',
+      city_cdmx_country: 'Mexique',
+      city_cdmx_flavor: 'Siège des communautés historiques Maguen David et Monte Sinai, ainsi que séfarade, ashkénaze et Beit Chabad.',
+      
+      city_monterrey_name: 'Monterrey',
+      city_monterrey_country: 'Mexique',
+      city_monterrey_flavor: 'Communauté juive prospère et unie dans le nord du Mexique, avec des synagogues et des centres communautaires actifs.',
+
+      city_brooklyn_name: 'New York / Brooklyn',
+      city_brooklyn_country: 'États-Unis',
+      city_brooklyn_flavor: 'Grande communauté syrienne d’Ocean Parkway, Crown Heights (siège mondial de Chabad) et Flatbush.',
+      
+      city_losangeles_name: 'Los Angeles',
+      city_losangeles_country: 'États-Unis',
+      city_losangeles_flavor: 'Abrite l\'une des plus grandes populations juives des États-Unis, notamment dans les quartiers de Pico-Robertson et Valley.',
+
+      city_chicago_name: 'Chicago',
+      city_chicago_country: 'États-Unis',
+      city_chicago_flavor: 'Grande communauté historique ashkénaze et séfarade avec une forte présence à West Ridge et dans les banlieues.',
+
+      city_jerusalem_name: 'Jérusalem (Yerushalayim)',
+      city_jerusalem_country: 'Israël',
+      city_jerusalem_flavor: 'Coutume millénaire d’allumer les bougies 40 minutes avant le coucher du soleil (Minhag Yerushalayim).',
+      
+      city_panama_name: 'Panama',
+      city_panama_country: 'Panama',
+      city_panama_flavor: 'Grande communauté juive jalabi et ashkénaze, avec une très haute observance de la cacherout et du Shabbat.',
+      
+      city_buenosaires_name: 'Buenos Aires',
+      city_buenosaires_country: 'Argentine',
+      city_buenosaires_flavor: 'Quartiers traditionnels de Once, Flores et Palermo; synagogues jalabies, séfarades et ashkénazes.',
+      
+      city_saopaulo_name: 'São Paulo',
+      city_saopaulo_country: 'Brésil',
+      city_saopaulo_flavor: 'Le cœur de la communauté juive au Brésil, doté d\'institutions centenaires, de synagogues et d\'écoles communautaires.',
+
+      city_riodejaneiro_name: 'Rio de Janeiro',
+      city_riodejaneiro_country: 'Brésil',
+      city_riodejaneiro_flavor: 'Communauté juive dynamique avec des centres à Copacabana, Ipanema et Tijuca.',
+
+      city_paris_name: 'Paris',
+      city_paris_country: 'France',
+      city_paris_flavor: 'La plus grande communauté juive d\'Europe, avec le quartier historique du Marais et de nombreuses synagogues actives.',
+
+      city_marseille_name: 'Marseille',
+      city_marseille_country: 'France',
+      city_marseille_flavor: 'Important pôle juif traditionnel du sud de la France aux fortes racines méditerranéennes.',
+
+      city_miami_name: 'Miami / Surfside / Aventura',
+      city_miami_country: 'États-Unis',
+      city_miami_flavor: 'Pôle communautaire hispanophone dynamique avec des synagogues jalabi, séfarades, ashkénazes et des centres Habad.',
+      
+      city_madrid_name: 'Madrid',
+      city_madrid_country: 'Espagne',
+      city_madrid_flavor: 'Berceau de l’héritage historique de Sefarad et de la Communauté Juive de Madrid.',
+
+      city_barcelona_name: 'Barcelone',
+      city_barcelona_country: 'Espagne',
+      city_barcelona_flavor: 'Communauté juive active en Catalogne, dotée d\'un riche patrimoine historique dans l\'ancien Call Jueu.'
     }
   },
 
@@ -574,7 +846,7 @@ const resources = {
     translation: {
       appName: 'Rabino Virtual',
       tagline: 'Guia Rabínico & Estudo de Torá',
-      mainSections: 'Seções Principales',
+      mainSections: 'Seções Principais',
       queryLanguage: 'Idioma da Consulta',
       visualAppearance: 'Aparência Visual',
       lightMode: 'Modo Claro',
@@ -597,13 +869,13 @@ const resources = {
       tabZmanimDesc: 'Acendimento de Shabat, Havdalá e Zmanim',
       tabParasha: 'Parashá da Semana',
       tabParashaDesc: 'Estudo semanal da Torá, Aliyot e Rashi',
-      tabGiluyDaat: 'Giluy Da/at (Isenção)',
+      tabGiluyDaat: 'Giluy Da\'at (Isenção)',
       tabGiluyDaatDesc: 'Propósito pedagógico e isenção haláchica',
       tabDeveloper: 'Desenvolvedor',
       tabDeveloperDesc: 'Lior Fisher Lobaton e Doações PayPal',
 
       welcomeTitle: 'Shalom Aleichem! Bem-vindo',
-      welcomeDesc: 'Sou o seu Rabino Virtual, um educador concebido para acompanhá-lo com paciência e profundidade.',
+      welcomeDesc: 'Sou o seu Rabino Virtual, un educador concebido para acompanhá-lo com paciência e profundidade.',
       mandatoryTitle: 'OBRIGATÓRIO',
       mandatoryDesc: 'Mitzvá da Torá (Deoraitá) ou Decreto Rabínico vinculativo (Derabanan).',
       customTitle: 'COSTUME (MINHAG)',
@@ -678,7 +950,7 @@ const resources = {
       creatorRole: 'Criador e Desenvolvedor',
       devSubtitle: 'Desenvolvimento, Educação Judaica e IA',
       devMainDesc: 'foi criado para compartilhar a sabedoria judaica respeitando todas as tradições:',
-      sirianDesc: 'Preservación dos costumes judaico-sírios (Halabi e Shami).',
+      sirianDesc: 'Preservação dos costumes judaico-sírios (Halabi e Shami).',
       sefaradiAshkenaziDesc: 'Integração do Shulchan Aruch e do Rama.',
       chabadDesc: 'Ensino do Shulchan Aruch HaRav e da Chassidut.',
       pedagogicalClassification: 'Classificação Haláchica',
@@ -700,7 +972,75 @@ const resources = {
       savedTeachingsTitle: 'Ensinamentos Salvos',
       savedTeachingsSubtitle: 'Suas respostas e temas favoritos',
       noSavedTeachings: 'Você ainda não salvou nenhum ensinamento',
-      clickBookmarkPrompt: 'Clique no ícone de marcador abaixo de qualquer resposta para salvá-la aqui'
+      clickBookmarkPrompt: 'Clique no ícone de marcador abaixo de qualquer resposta para salvá-la aqui',
+      
+      // sistema de pago
+      liteVersionBanner: 'Versão Lite com anúncios',
+      unlockAdsBtn: 'Remover anúncios ($10 USD)',
+      // disclaimer
+      disclaimerNotice: 'Aviso: Propósito pedagógico e de Limud Torá. A IA pode cometer erros (Ver Giluy Da\'at)',
+      disclaimerSubtext: 'Para decisões prácticas individuais, consulte o rabino da sua comunidade.',
+
+      //citiesZmanim
+      city_cdmx_name: 'Cidade do México',
+      city_cdmx_country: 'México',
+      city_cdmx_flavor: 'Sede das históricas Comunidades Maguen David e Monte Sinai, além de Sefaradi, Ashkenazi e Beit Chabad.',
+      
+      city_monterrey_name: 'Monterrey',
+      city_monterrey_country: 'México',
+      city_monterrey_flavor: 'Próspera e unida comunidade judaica no norte do México, com sinagogas e centros comunitários ativos.',
+
+      city_brooklyn_name: 'Nova York / Brooklyn',
+      city_brooklyn_country: 'Estados Unidos',
+      city_brooklyn_flavor: 'Grande comunidade síria de Ocean Parkway, Crown Heights (sede mundial de Chabad) e Flatbush.',
+      
+      city_losangeles_name: 'Los Angeles',
+      city_losangeles_country: 'Estados Unidos',
+      city_losangeles_flavor: 'Lar de uma das maiores populações judaicas dos EUA, com destaque para os bairros de Pico-Robertson e Valley.',
+
+      city_chicago_name: 'Chicago',
+      city_chicago_country: 'Estados Unidos',
+      city_chicago_flavor: 'Grande comunidade histórica Ashkenazi e Sefaradi com forte presença em West Ridge e nos subúrbios.',
+
+      city_jerusalem_name: 'Jerusalém (Yerushalayim)',
+      city_jerusalem_country: 'Israel',
+      city_jerusalem_flavor: 'Costume milenar de acender velas 40 minutos antes do pôr do sol (Minhag Yerushalayim).',
+      
+      city_panama_name: 'Cidade do Panamá',
+      city_panama_country: 'Panamá',
+      city_panama_flavor: 'Grande comunidade judaica jalabi e ashkenazi, com altíssima observância de kashrut e Shabat.',
+      
+      city_buenosaires_name: 'Buenos Aires',
+      city_buenosaires_country: 'Argentina',
+      city_buenosaires_flavor: 'Bairros tradicionais de Once, Flores e Palermo; sinagogas jalabi, sefaradi e ashkenazi.',
+      
+      city_saopaulo_name: 'São Paulo',
+      city_saopaulo_country: 'Brasil',
+      city_saopaulo_flavor: 'O coração da comunidade judaica no Brasil, com instituições centenárias, sinagogas e escolas comunitárias.',
+
+      city_riodejaneiro_name: 'Río de Janeiro',
+      city_riodejaneiro_country: 'Brasil',
+      city_riodejaneiro_flavor: 'Vibrante comunidade judaica com centros em Copacabana, Ipanema e Tijuca.',
+
+      city_paris_name: 'Paris',
+      city_paris_country: 'França',
+      city_paris_flavor: 'A maior comunidade judaica da Europa, com o histórico bairro de Le Marais e inúmeras sinagogas ativas.',
+
+      city_marseille_name: 'Marselha',
+      city_marseille_country: 'França',
+      city_marseille_flavor: 'Importante e tradicional polo judaico no sul da França com fortes raízes mediterrâneas.',
+
+      city_miami_name: 'Miami / Surfside / Aventura',
+      city_miami_country: 'Estados Unidos',
+      city_miami_flavor: 'Vibrante polo comunitário hispanofalante com sinagogas jalabi, sefaradi, ashkenazi e centros de Chabad.',
+      
+      city_madrid_name: 'Madrid',
+      city_madrid_country: 'Espanha',
+      city_madrid_flavor: 'Berço do legado histórico de Sefarad e da Comunidade Judaica de Madrid.',
+
+      city_barcelona_name: 'Barcelona',
+      city_barcelona_country: 'Espanha',
+      city_barcelona_flavor: 'Comunidade judaica ativa na Catalunha, com rico legado histórico no antigo Call Jueu.'
     }
   }
 };

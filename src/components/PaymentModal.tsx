@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, ExternalLink, CreditCard, ShieldCheck, Smartphone, Copy, Check } from 'lucide-react';
+import { X, ExternalLink, CreditCard, ShieldCheck, Smartphone, Copy, Check, Heart, Star, Globe } from 'lucide-react';
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -7,31 +7,22 @@ interface PaymentModalProps {
 }
 
 export function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
+  const [activeTab, setActiveTab] = useState<'premium' | 'donate'>('premium');
+  const [customAmount, setCustomAmount] = useState('10'); // Cambiado a base USD para donativo internacional
   const [copied, setCopied] = useState(false);
 
   if (!isOpen) return null;
 
-  // Datos bancarios (puedes ajustar el nombre del banco o CLABE si lo deseas)
   const bankDetails = {
-    bankName: 'Banco Azteca / Mercado Pago',
+    bankName: 'Banco Azteca / Mercado Pago (México)',
     clabe: '127180013566372716',
     beneficiary: 'Lior Fisher Lobaton',
-    amount: '$200 MXN',
   };
 
-  const handleCopyClabe = () => {
-    navigator.clipboard.writeText(bankDetails.clabe);
+  const handleCopyClabe = (text: string) => {
+    navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 3000);
-  };
-
-  const handlePayPalPay = () => {
-    window.open("https://www.paypal.com/paypalme/gingerjewman0/200MXN", '_blank');
-  };
-
-  const handleMercadoPagoPay = () => {
-    // Reemplaza con tu enlace de cobro de Mercado Pago de $200 MXN
-    window.open("https://mpago.la/26bPTR9", '_blank');
   };
 
   return (
@@ -41,10 +32,10 @@ export function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
         {/* Cabecera del Modal */}
         <div className="p-5 bg-gradient-to-r from-amber-600 to-amber-700 text-white flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2.5">
-            <span className="text-2xl">⭐</span>
+            <Globe className="w-6 h-6 text-amber-100" />
             <div>
-              <h3 className="font-serif font-bold text-lg leading-tight">Desbloquear Versión Premium</h3>
-              <p className="text-xs text-amber-100 opacity-90">Acceso ilimitado y sin anuncios ($200 MXN)</p>
+              <h3 className="font-serif font-bold text-lg leading-tight">Apoyo Internacional & Premium</h3>
+              <p className="text-xs text-amber-100 opacity-90">Rabino Virtual — Global Torah & Tech</p>
             </div>
           </div>
           <button 
@@ -55,102 +46,168 @@ export function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
           </button>
         </div>
 
+        {/* Pestañas de Navegación Interna */}
+        <div className="flex border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/40 p-1.5 shrink-0">
+          <button
+            onClick={() => setActiveTab('premium')}
+            className={`flex-1 py-2.5 px-3 rounded-2xl text-xs font-bold flex items-center justify-center gap-1.5 transition cursor-pointer ${
+              activeTab === 'premium'
+                ? 'bg-amber-600 text-white shadow-sm'
+                : 'text-slate-600 dark:text-slate-400 hover:bg-slate-200/60 dark:hover:bg-slate-800'
+            }`}
+          >
+            <Star className="w-4 h-4 fill-current" />
+            <span>Versión Premium ($10 USD / $200 MXN)</span>
+          </button>
+          
+          <button
+            onClick={() => setActiveTab('donate')}
+            className={`flex-1 py-2.5 px-3 rounded-2xl text-xs font-bold flex items-center justify-center gap-1.5 transition cursor-pointer ${
+              activeTab === 'donate'
+                ? 'bg-amber-600 text-white shadow-sm'
+                : 'text-slate-600 dark:text-slate-400 hover:bg-slate-200/60 dark:hover:bg-slate-800'
+            }`}
+          >
+            <Heart className="w-4 h-4 fill-current" />
+            <span>Donativo Libre</span>
+          </button>
+        </div>
+
         {/* Cuerpo del Modal con Scroll */}
         <div className="p-6 space-y-4 overflow-y-auto flex-1">
-          <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed text-center">
-            Elige tu método de pago preferido para realizar tu aportación única de <strong className="text-amber-700 dark:text-amber-400">$200 pesos mexicanos</strong>:
-          </p>
-
-          <div className="space-y-3">
-            {/* Opción 1: PayPal */}
-            <button
-              onClick={handlePayPalPay}
-              className="w-full p-3.5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 hover:border-amber-500 dark:hover:border-amber-500 bg-slate-50 dark:bg-slate-800/60 hover:bg-amber-50/50 dark:hover:bg-slate-800 transition flex items-center justify-between group cursor-pointer shadow-xs"
-            >
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-blue-100 dark:bg-blue-950/60 text-blue-600 flex items-center justify-center font-bold text-base">
-                  P
-                </div>
-                <div className="text-left">
-                  <span className="block font-bold text-sm text-slate-800 dark:text-white group-hover:text-amber-700 dark:group-hover:text-amber-400">
-                    PayPal / Tarjeta
-                  </span>
-                  <span className="block text-[11px] text-slate-500 dark:text-slate-400">
-                    Pago seguro en línea
-                  </span>
-                </div>
-              </div>
-              <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-amber-600" />
-            </button>
-
-            {/* Opción 2: Mercado Pago */}
-            <button
-              onClick={handleMercadoPagoPay}
-              className="w-full p-3.5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 hover:border-amber-500 dark:hover:border-amber-500 bg-slate-50 dark:bg-slate-800/60 hover:bg-amber-50/50 dark:hover:bg-slate-800 transition flex items-center justify-between group cursor-pointer shadow-xs"
-            >
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-sky-100 dark:bg-sky-950/60 text-sky-600 flex items-center justify-center font-bold">
-                  <CreditCard className="w-4 h-4" />
-                </div>
-                <div className="text-left">
-                  <span className="block font-bold text-sm text-slate-800 dark:text-white group-hover:text-amber-700 dark:group-hover:text-amber-400">
-                    Mercado Pago / Tarjetas
-                  </span>
-                  <span className="block text-[11px] text-slate-500 dark:text-slate-400">
-                    Débito, crédito o dinero en cuenta
-                  </span>
-                </div>
-              </div>
-              <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-amber-600" />
-            </button>
-
-            {/* Opción 3: Transferencia Bancaria SPEI / OXXO Directa */}
-            <div className="p-4 rounded-2xl border-2 border-amber-300 dark:border-amber-900/60 bg-amber-50/70 dark:bg-amber-950/30 space-y-3">
-              <div className="flex items-center gap-2 text-xs font-bold text-amber-900 dark:text-amber-300">
-                <Smartphone className="w-4 h-4 text-amber-600" />
-                <span>Transferencia SPEI o Depósito Directo</span>
-              </div>
-              
-              <div className="space-y-1.5 text-xs text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900/80 p-3 rounded-xl border border-amber-200/60 dark:border-amber-900/40">
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Banco:</span>
-                  <span className="font-semibold">{bankDetails.bankName}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Monto:</span>
-                  <span className="font-bold text-amber-700 dark:text-amber-400">{bankDetails.amount}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-500">Beneficiario:</span>
-                  <span className="font-semibold">{bankDetails.beneficiary}</span>
-                </div>
-                
-                <div className="pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-2">
-                  <div className="truncate">
-                    <span className="block text-[10px] text-slate-400">CLABE Interbancaria:</span>
-                    <span className="font-mono font-bold text-xs">{bankDetails.clabe}</span>
-                  </div>
-                  <button
-                    onClick={handleCopyClabe}
-                    className="px-2.5 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-semibold text-[11px] flex items-center gap-1 transition shrink-0 cursor-pointer"
-                    title="Copiar CLABE"
-                  >
-                    {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                    <span>{copied ? '¡Copiado!' : 'Copiar'}</span>
-                  </button>
-                </div>
-              </div>
-
-              <p className="text-[10px] text-slate-500 dark:text-slate-400 italic">
-                * Si realizas transferencia SPEI o depósito, puedes notificarlo para activar tu cuenta de inmediato.
+          
+          {/* VISTA 1: PREMIUM INTERNACIONAL */}
+          {activeTab === 'premium' && (
+            <div className="space-y-4 animate-fadeIn">
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed text-center">
+                Desbloquea acceso ilimitado y sin anuncios a nivel mundial por <strong className="text-amber-700 dark:text-amber-400">$10 USD o $200 MXN</strong>:
               </p>
+
+              <div className="space-y-3">
+                {/* PayPal Internacional ($10 USD) */}
+                <button
+                  onClick={() => window.open("https://www.paypal.com/paypalme/gingerjewman0/10USD", '_blank')}
+                  className="w-full p-3.5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 hover:border-amber-500 bg-slate-50 dark:bg-slate-800/60 transition flex items-center justify-between group cursor-pointer"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-xl bg-blue-100 dark:bg-blue-950/60 text-blue-600 flex items-center justify-center font-bold">P</div>
+                    <div className="text-left">
+                      <span className="block font-bold text-sm text-slate-800 dark:text-white group-hover:text-amber-600">PayPal / Tarjeta Internacional</span>
+                      <span className="block text-[11px] text-slate-500">Pago global de $10 USD</span>
+                    </div>
+                  </div>
+                  <ExternalLink className="w-4 h-4 text-slate-400" />
+                </button>
+
+                {/* Mercado Pago (Exclusivo para México) */}
+                <button
+                  onClick={() => window.open("https://mpago.la/26bPTR9", '_blank')}
+                  className="w-full p-3.5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 hover:border-amber-500 bg-slate-50 dark:bg-slate-800/60 transition flex items-center justify-between group cursor-pointer"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-xl bg-sky-100 dark:bg-sky-950/60 text-sky-600 flex items-center justify-center font-bold"><CreditCard className="w-4 h-4" /></div>
+                    <div className="text-left">
+                      <span className="block font-bold text-sm text-slate-800 dark:text-white group-hover:text-amber-600">
+                        Mercado Pago <span className="text-[10px] font-normal text-amber-700 dark:text-amber-400 bg-amber-100 dark:bg-amber-950/60 px-1.5 py-0.5 rounded-md ml-1">Solo México</span>
+                      </span>
+                      <span className="block text-[11px] text-slate-500">Tarjetas o efectivo en pesos ($200 MXN)</span>
+                    </div>
+                  </div>
+                  <ExternalLink className="w-4 h-4 text-slate-400" />
+                </button>
+
+                {/* SPEI Nacional */}
+                <div className="p-3.5 rounded-2xl border-2 border-amber-300 dark:border-amber-900/60 bg-amber-50/70 dark:bg-amber-950/30 space-y-2">
+                  <div className="flex items-center gap-2 text-xs font-bold text-amber-900 dark:text-amber-300">
+                    <Smartphone className="w-4 h-4 text-amber-600" />
+                    <span>Transferencia SPEI (México - $200 MXN)</span>
+                  </div>
+                  <div className="space-y-1 text-xs text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-900 p-2.5 rounded-xl border border-amber-200/60">
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">CLABE:</span>
+                      <span className="font-mono font-bold">{bankDetails.clabe}</span>
+                    </div>
+                    <div className="pt-2 flex justify-end">
+                      <button
+                        onClick={() => handleCopyClabe(bankDetails.clabe)}
+                        className="px-2.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-semibold text-[11px] flex items-center gap-1 cursor-pointer"
+                      >
+                        {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                        <span>{copied ? '¡Copiado!' : 'Copiar CLABE'}</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
+          )}
+
+          {/* VISTA 2: DONATIVO LIBRE INTERNACIONAL */}
+          {activeTab === 'donate' && (
+            <div className="space-y-4 animate-fadeIn">
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed text-center">
+                Apoya voluntariamente el mantenimiento del proyecto global eligiendo el monto de tu preferencia (USD):
+              </p>
+
+              {/* Selector de montos en USD para alcance internacional */}
+              <div className="space-y-2">
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">Selecciona un monto (USD):</label>
+                <div className="grid grid-cols-4 gap-2">
+                  {['5', '10', '25', '50'].map((amount) => (
+                    <button
+                      key={amount}
+                      onClick={() => setCustomAmount(amount)}
+                      className={`py-2 rounded-xl text-xs font-bold border transition cursor-pointer ${
+                        customAmount === amount
+                          ? 'bg-amber-600 text-white border-amber-600'
+                          : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700'
+                      }`}
+                    >
+                      ${amount} USD
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <button
+                  onClick={() => window.open(`https://www.paypal.com/paypalme/gingerjewman0/${customAmount}USD`, '_blank')}
+                  className="w-full p-3.5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 hover:border-amber-500 bg-slate-50 dark:bg-slate-800/60 transition flex items-center justify-between group cursor-pointer"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-xl bg-blue-100 dark:bg-blue-950/60 text-blue-600 flex items-center justify-center font-bold">P</div>
+                    <div className="text-left">
+                      <span className="block font-bold text-sm text-slate-800 dark:text-white group-hover:text-amber-600">Donar con PayPal (${customAmount} USD)</span>
+                      <span className="block text-[11px] text-slate-500">Aportación internacional segura</span>
+                    </div>
+                  </div>
+                  <ExternalLink className="w-4 h-4 text-slate-400" />
+                </button>
+
+                <button
+                  onClick={() => window.open("https://mpago.la/26bPTR9", '_blank')}
+                  className="w-full p-3.5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 hover:border-amber-500 bg-slate-50 dark:bg-slate-800/60 transition flex items-center justify-between group cursor-pointer"
+                >
+                   {/* Mercado Pago (Exclusivo para México) */}
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-xl bg-sky-100 dark:bg-sky-950/60 text-sky-600 flex items-center justify-center font-bold"><CreditCard className="w-4 h-4" /></div>
+                    <div className="text-left">
+                      <span className="block font-bold text-sm text-slate-800 dark:text-white group-hover:text-amber-600">
+                        Mercado Pago <span className="text-[10px] font-normal text-amber-700 dark:text-amber-400 bg-amber-100 dark:bg-amber-950/60 px-1.5 py-0.5 rounded-md ml-1">Solo México</span>
+                      </span>
+                      <span className="block text-[11px] text-slate-500">Aportación local en pesos</span>
+                    </div>
+                  </div>
+                  <ExternalLink className="w-4 h-4 text-slate-400" />
+                </button>
+              </div>
+            </div>
+          )}
 
           <div className="pt-1 text-center">
             <p className="text-[10px] text-slate-400 dark:text-slate-500 flex items-center justify-center gap-1">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-              Soporte garantizado y activación rápida tras tu aportación.
+              Transacciones seguras a nivel global. ¡Gracias por tu apoyo!
             </p>
           </div>
         </div>
@@ -169,3 +226,5 @@ export function PaymentModal({ isOpen, onClose }: PaymentModalProps) {
     </div>
   );
 }
+
+export default PaymentModal;
