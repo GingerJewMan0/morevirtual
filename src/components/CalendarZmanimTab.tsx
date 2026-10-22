@@ -58,7 +58,7 @@ export function CalendarZmanimTab() {
 
         let candleFormatted = '--:--';
         let havdalahFormatted = '--:--';
-        let parashahTitle = `Shabat en ${city.name}`;
+        let parashahTitle = `${t('shabbatIn', 'Shabat en')} ${city.name}`;
 
         const todayStr = new Date().toISOString().split('T')[0];
 
@@ -92,15 +92,11 @@ export function CalendarZmanimTab() {
         if (zmanimJson && zmanimJson.times) {
           const times = zmanimJson.times;
           
-          // Extracción robusta con múltiples variantes y respaldos matemáticos para Shema y Tefilá
           const alotRaw = times.alotHaShajar || times.alutHaShahar || times.dawn || (times.sunrise ? new Date(new Date(times.sunrise).getTime() - 72 * 60000) : null);
-          
           const shemaRaw = times.sofZmanShemaGRA || times.sofZmanShema || times.sof_zman_shema || times.sofZmanShemaMGA || 
                            (times.sunrise && times.sunset ? new Date(new Date(times.sunrise).getTime() + (new Date(times.sunset).getTime() - new Date(times.sunrise).getTime()) * 3 / 12) : null);
-                           
           const tefilahRaw = times.sofZmanTefilahGRA || times.sofZmanTefilah || times.sof_zman_tefilah || 
                              (times.sunrise && times.sunset ? new Date(new Date(times.sunrise).getTime() + (new Date(times.sunset).getTime() - new Date(times.sunrise).getTime()) * 4 / 12) : null);
-                             
           const tzeitRaw = times.tzeitHakochavim || times.tzeit || times.night || (times.sunset ? new Date(new Date(times.sunset).getTime() + 50 * 60000) : null);
 
           setZmanimDaily({
@@ -185,7 +181,7 @@ export function CalendarZmanimTab() {
       {loading && (
         <div className="flex items-center justify-center py-2 text-amber-600 dark:text-amber-400 text-xs gap-2">
           <Loader2 className="w-4 h-4 animate-spin" />
-          <span>Sincronizando horarios astronómicos internacionales con Hebcal...</span>
+          <span>{t('syncingZmanim', 'Sincronizando horarios astronómicos internacionales con Hebcal...')}</span>
         </div>
       )}
 
@@ -233,7 +229,7 @@ export function CalendarZmanimTab() {
           </div>
 
           <div className="pt-3 border-t border-amber-200/60 dark:border-slate-800 text-[11px] text-amber-800 dark:text-amber-300 font-semibold flex items-center gap-1.5">
-            <span>🔴 {t('mandatoryTitle', 'OBLIGATORIO')}: Mitzvá Derabanan (Shalom Bait y Kavod Shabat)</span>
+            <span>🔴 {t('mandatoryTitle', 'OBLIGATORIO')}: {t('mitzvahDerabanan', 'Mitzvá Derabanan (Shalom Bait y Kavod Shabat)')}</span>
           </div>
         </div>
 
@@ -274,15 +270,15 @@ export function CalendarZmanimTab() {
               <strong className="text-indigo-800 dark:text-indigo-300 block mb-1">
                 {t('havdalahElements', 'Los 4 Elementos de la Havdalá:')}
               </strong>
-              1. <strong>Yayin:</strong> Copa de vino.<br />
-              2. <strong>Besamim:</strong> Especias aromáticas.<br />
-              3. <strong>Ner:</strong> Vela trenzada.<br />
-              4. <strong>Hamavdil:</strong> Bendición de distinción.
+              1. <strong>Yayin:</strong> {t('wineCup', 'Copa de vino.')}<br />
+              2. <strong>Besamim:</strong> {t('spices', 'Especias aromáticas.')}<br />
+              3. <strong>Ner:</strong> {t('braidedCandle', 'Vela trenzada.')}<br />
+              4. <strong>Hamavdil:</strong> {t('distinctionBlessing', 'Bendición de distinción.')}
             </div>
           </div>
 
           <div className="pt-3 border-t border-indigo-200/60 dark:border-slate-800 text-[11px] text-indigo-800 dark:text-indigo-300 font-semibold flex items-center gap-1.5">
-            <span>🔴 {t('mandatoryTitle', 'OBLIGATORIO')}: Mitzvá Deoraita / Derabanan</span>
+            <span>🔴 {t('mandatoryTitle', 'OBLIGATORIO')}: {t('mitzvahDeoraita', 'Mitzvá Deoraita / Derabanan')}</span>
           </div>
         </div>
 
@@ -297,12 +293,12 @@ export function CalendarZmanimTab() {
               {t('dailyZmanimTitle', 'Tiempos del Día (Zmanim Halajiim)')} — {city.name}
             </h3>
           </div>
-          <span className="text-xs text-slate-400">Tiempo Real (Hebcal)</span>
+          <span className="text-xs text-slate-400">{t('realTimeHebcal', 'Tiempo Real (Hebcal)')}</span>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 text-xs">
           <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 text-center">
-            <span className="text-slate-400 block text-[11px]">Alot HaShajar</span>
+            <span className="text-slate-400 block text-[11px]">{t('alotHaShajar', 'Alot HaShajar')}</span>
             <span className="font-mono font-bold text-sm text-slate-800 dark:text-slate-200 mt-1 block">
               {zmanimDaily?.alotHaShajar || '--:--'}
             </span>
@@ -323,7 +319,7 @@ export function CalendarZmanimTab() {
           </div>
 
           <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 text-center">
-            <span className="text-slate-400 block text-[11px]">Fin Tefilá</span>
+            <span className="text-slate-400 block text-[11px]">{t('tefilahLimit', 'Fin Tefilá')}</span>
             <span className="font-mono font-bold text-sm text-slate-800 dark:text-slate-200 mt-1 block">
               {zmanimDaily?.sofZmanTefilah || '--:--'}
             </span>
@@ -337,14 +333,14 @@ export function CalendarZmanimTab() {
           </div>
 
           <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 text-center">
-            <span className="text-slate-400 block text-[11px]">Minjá Guedolá</span>
+            <span className="text-slate-400 block text-[11px]">{t('minchaGedolah', 'Minjá Guedolá')}</span>
             <span className="font-mono font-bold text-sm text-slate-800 dark:text-slate-200 mt-1 block">
               {zmanimDaily?.minchaGedolah || '--:--'}
             </span>
           </div>
 
           <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 text-center">
-            <span className="text-slate-400 block text-[11px]">Plag HaMinjá</span>
+            <span className="text-slate-400 block text-[11px]">{t('plagHaMincha', 'Plag HaMinjá')}</span>
             <span className="font-mono font-bold text-sm text-slate-800 dark:text-slate-200 mt-1 block">
               {zmanimDaily?.plagHaMincha || '--:--'}
             </span>
@@ -358,7 +354,7 @@ export function CalendarZmanimTab() {
           </div>
 
           <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 text-center col-span-2 sm:col-span-1">
-            <span className="text-slate-400 block text-[11px]">Tzeit HaKojavim</span>
+            <span className="text-slate-400 block text-[11px]">{t('tzeitHakochavim', 'Tzeit HaKojavim')}</span>
             <span className="font-mono font-bold text-sm text-indigo-600 dark:text-indigo-400 mt-1 block">
               {zmanimDaily?.tzaitHakochavim || '--:--'}
             </span>
