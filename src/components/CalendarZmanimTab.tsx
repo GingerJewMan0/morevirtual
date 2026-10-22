@@ -14,32 +14,34 @@ export function CalendarZmanimTab() {
     <div className="max-w-4xl mx-auto py-4 px-3 sm:px-4 space-y-6 animate-fadeIn">
       
       {/* ==================================================================== */}
-      {/* BANNER SUPERIOR Y SELECTOR DE CIUDAD                                 */}
+      {/* BANNER SUPERIOR Y SELECTOR DE CIUDAD (Optimizado responsivo)         */}
       {/* ==================================================================== */}
-      <div className="p-6 rounded-3xl bg-gradient-to-r from-slate-900 via-amber-950/80 to-slate-900 text-white border border-amber-500/30 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-400 mb-1">
-            <Calendar className="w-4 h-4" />
+      <div className="p-6 rounded-3xl bg-gradient-to-r from-slate-900 via-amber-950/80 to-slate-900 text-white border border-amber-500/30 shadow-xl flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        
+        {/* Columna de Títulos */}
+        <div className="space-y-1.5 flex-1">
+          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-400">
+            <Calendar className="w-4 h-4 shrink-0" />
             <span>{t('zmanimBannerTitle', 'Calendario Judío & Tiempos Halájicos (Zmanim)')}</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-serif font-bold text-amber-200">
             {t('zmanimTitle', 'Horarios Halájicos y Velas de Shabat')}
           </h2>
-          <p className="text-xs text-slate-300 mt-1 max-w-lg">
+          <p className="text-xs text-slate-300 max-w-xl">
             {city.communityFlavor}
           </p>
         </div>
 
         {/* Selector de Ciudad */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
-          <label className="text-xs text-amber-300 font-medium flex items-center gap-1">
-            <MapPin className="w-3.5 h-3.5" />
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2.5 bg-slate-950/40 p-3.5 rounded-2xl border border-amber-500/20 shrink-0">
+          <label className="text-xs text-amber-300 font-medium flex items-center gap-1.5 whitespace-nowrap">
+            <MapPin className="w-3.5 h-3.5 text-amber-400" />
             <span>{t('selectCity', 'Ciudad:')}</span>
           </label>
           <select
             value={selectedCityId}
             onChange={(e) => setSelectedCityId(e.target.value)}
-            className="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-800 text-amber-200 border border-amber-500/40 focus:outline-none focus:ring-2 focus:ring-amber-500/50 cursor-pointer shadow-sm"
+            className="w-full sm:w-auto px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 text-amber-200 border border-amber-500/40 focus:outline-none focus:ring-2 focus:ring-amber-500/50 cursor-pointer shadow-sm"
           >
             {CITIES_ZMANIM.map((c) => (
               <option key={c.id} value={c.id}>
@@ -48,6 +50,7 @@ export function CalendarZmanimTab() {
             ))}
           </select>
         </div>
+
       </div>
 
       {/* ==================================================================== */}
