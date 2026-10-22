@@ -3,6 +3,24 @@ import { Flame, Moon, Clock, MapPin, Calendar, Loader2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { CITIES_ZMANIM } from '../data/citiesZmanim.ts';
 
+// Mapa explícito de husos horarios IANA por ID de ciudad para evitar fallos de la API
+const CITY_TIMEZONES: Record<string, string> = {
+  cdmx: 'America/Mexico_City',
+  monterrey: 'America/Monterrey',
+  newyork: 'America/New_York',
+  brooklyn: 'America/New_York',
+  miami: 'America/New_York',
+  panama: 'America/Panama',
+  buenosaires: 'America/Argentina/Buenos_Aires',
+  saopaulo: 'America/Sao_Paulo',
+  riodejaneiro: 'America/Sao_Paulo',
+  paris: 'Europe/Paris',
+  marsella: 'Europe/Paris',
+  madrid: 'Europe/Madrid',
+  barcelona: 'Europe/Madrid',
+  jerusalem: 'Asia/Jerusalem',
+};
+
 export function CalendarZmanimTab() {
   const { t } = useTranslation();
   const [selectedCityId, setSelectedCityId] = useState<string>('cdmx');
@@ -17,15 +35,18 @@ export function CalendarZmanimTab() {
     async function fetchHebcalData() {
       setLoading(true);
       try {
-        // 1. Obtener datos oficiales de Shabat y zona horaria de la ciudad
+        // Obtenemos la zona horaria asegurada por el mapa, con respaldo en la API o UTC
+        const explicitTimeZone = CITY_TIMEZONES[city.id] || (city as any).timeZone;
+
+        // 1. Obtener datos oficiales de Shabat
         const shabbatRes = await fetch(
           `https://www.hebcal.com/shabbat?geonameid=${(city as any).geonameId}&cfg=json`
         );
         const shabbatJson = await shabbatRes.json();
         
-        const cityTimeZone = shabbatJson.location?.tz || 'UTC';
+        const cityTimeZone = explicitTimeZone || shabbatJson.location?.tz || 'UTC';
 
-        // Función auxiliar ultra segura para formatear fechas sin errores de zona horaria
+        // Función auxiliar ultra segura para formatear fechas respetando la zona horaria estricta
         const formatSafeTime = (dateInput: string | Date) => {
           if (!dateInput) return '--:--';
           try {
@@ -95,7 +116,7 @@ export function CalendarZmanimTab() {
         setShabbatData({
           candleLighting: candleFormatted,
           havdalah: havdalahFormatted,
-          parashah: shabbatJson.title || zmanimJson.location?.city ? `Shabat en ${zmanimJson.location?.city || city.name}` : ''
+          parashah: shabbatJson.title || `Shabat en ${city.name}`
         });
 
       } catch (error) {
