@@ -118,15 +118,6 @@ export const CITIES_ZMANIM: CityZmanim[] = [
     candleLightingMinutesBeforeSunset: 18,
   },
   {
-    id: 'marseille',
-    geonameId: 2995469,
-    name: 'Marsella',
-    country: 'Francia',
-    flag: '🇫🇷',
-    communityFlavor: 'Importante y tradicional polo judío en el sur de Francia con fuertes raíces mediterráneas.',
-    candleLightingMinutesBeforeSunset: 18,
-  },
-  {
     id: 'madrid',
     geonameId: 3117735,
     name: 'Madrid',

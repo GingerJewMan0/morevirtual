@@ -3,7 +3,7 @@ import { Flame, Moon, Clock, MapPin, Calendar, Loader2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { CITIES_ZMANIM } from '../data/citiesZmanim.ts';
 
-// Mapa explícito de husos horarios IANA por ID de ciudad
+// Mapa explícito de husos horarios IANA por ID de ciudad (sin Marsella)
 const CITY_TIMEZONES: Record<string, string> = {
   cdmx: 'America/Mexico_City',
   monterrey: 'America/Monterrey',
@@ -17,7 +17,6 @@ const CITY_TIMEZONES: Record<string, string> = {
   saopaulo: 'America/Sao_Paulo',
   riodejaneiro: 'America/Sao_Paulo',
   paris: 'Europe/Paris',
-  marsella: 'Europe/Paris',
   madrid: 'Europe/Madrid',
   barcelona: 'Europe/Madrid',
   jerusalem: 'Asia/Jerusalem',
@@ -63,7 +62,7 @@ export function CalendarZmanimTab() {
 
         const todayStr = new Date().toISOString().split('T')[0];
 
-        // Coordenadas manuales de respaldo seguras para todas las ciudades
+        // Coordenadas manuales de respaldo limpias (sin Marsella)
         const fallbackCoords: Record<string, { lat: number; lon: number }> = {
           saopaulo: { lat: -23.5505, lon: -46.6333 },
           riodejaneiro: { lat: -22.9068, lon: -43.1729 },
@@ -77,7 +76,6 @@ export function CalendarZmanimTab() {
           chicago: { lat: 41.8781, lon: -87.6298 },
           panama: { lat: 8.9824, lon: -79.5199 },
           paris: { lat: 48.8566, lon: 2.3522 },
-          marsella: { lat: 43.2965, lon: 5.3698 },
           madrid: { lat: 40.4168, lon: -3.7038 },
           barcelona: { lat: 41.3851, lon: 2.1734 },
           jerusalem: { lat: 31.7683, lon: 35.2137 }
@@ -87,7 +85,6 @@ export function CalendarZmanimTab() {
           ? { lat: (city as any).lat, lon: (city as any).lon } 
           : (fallbackCoords[city.id] || { lat: 19.4326, lon: -99.1332 });
 
-        // URL limpia sin parámetros extraños
         const zmanimUrl = `https://www.hebcal.com/zmanim?latitude=${cityCoords.lat}&longitude=${cityCoords.lon}&cfg=json&start=${todayStr}&end=${todayStr}`;
 
         const zmanimRes = await fetch(zmanimUrl);
@@ -108,17 +105,14 @@ export function CalendarZmanimTab() {
             tzaitHakochavim: formatExactTime(times.tzeitHakochavim),
           });
 
-          // Cálculo astronómico directo basado en la puesta de sol real
           if (times.sunset) {
             const sunsetDate = new Date(times.sunset);
             if (!isNaN(sunsetDate.getTime())) {
               const minutesBefore = city.candleLightingMinutesBeforeSunset || 18;
               
-              // Encendido de velas
               const candleDate = new Date(sunsetDate.getTime() - minutesBefore * 60000);
               candleFormatted = formatExactTime(candleDate);
 
-              // Havdalá (Salida de estrellas)
               const tzeitDate = times.tzeitHakochavim 
                 ? new Date(times.tzeitHakochavim) 
                 : new Date(sunsetDate.getTime() + 50 * 60000);
@@ -171,7 +165,7 @@ export function CalendarZmanimTab() {
             onChange={(e) => setSelectedCityId(e.target.value)}
             className="w-full sm:w-auto px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 text-amber-200 border border-amber-500/40 focus:outline-none focus:ring-2 focus:ring-amber-500/50 cursor-pointer shadow-sm"
           >
-            {CITIES_ZMANIM.map((c) => (
+            {CITIES_ZMANIM.filter(c => c.id !== 'marsella').map((c) => (
               <option key={c.id} value={c.id}>
                 {c.flag} {c.name} ({c.country})
               </option>

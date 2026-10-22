@@ -209,10 +209,6 @@ const resources = {
       city_paris_name: 'París',
       city_paris_country: 'Francia',
       city_paris_flavor: 'La comunidad judía más grande de Europa, con el histórico barrio de Le Marais y numerosas sinagogas activas.',
-
-      city_marseille_name: 'Marsella',
-      city_marseille_country: 'Francia',
-      city_marseille_flavor: 'Importante y tradicional polo judío en el sur de Francia con fuertes raíces mediterráneas.',
       
       city_madrid_name: 'Madrid',
       city_madrid_country: 'España',
@@ -414,10 +410,6 @@ const resources = {
       city_paris_name: 'פריז',
       city_paris_country: 'צרפת',
       city_paris_flavor: 'הקהילה היהודית הגדולה באירופה, הכוללת את רובע לה מארה ההיסטורי وبתי כנסת פעילים רבים.',
-
-      city_marseille_name: 'מרسيליה',
-      city_marseille_country: 'צרפת',
-      city_marseille_flavor: 'מרכז יהודי חשוב ומסורתי בדרום צרפת בעל שורשים תיכוניסטיים חזקים.',
       
       city_madrid_name: 'מדריד',
       city_madrid_country: 'ספרד',
@@ -619,10 +611,6 @@ const resources = {
       city_paris_name: 'Paris',
       city_paris_country: 'France',
       city_paris_flavor: 'The largest Jewish community in Europe, featuring the historic Le Marais district and numerous active synagogues.',
-
-      city_marseille_name: 'Marseille',
-      city_marseille_country: 'France',
-      city_marseille_flavor: 'Important and traditional Jewish hub in southern France with strong Mediterranean roots.',
       
       city_madrid_name: 'Madrid',
       city_madrid_country: 'Spain',
@@ -825,10 +813,6 @@ const resources = {
       city_paris_country: 'France',
       city_paris_flavor: 'La plus grande communauté juive d\'Europe, avec le quartier historique du Marais et de nombreuses synagogues actives.',
 
-      city_marseille_name: 'Marseille',
-      city_marseille_country: 'France',
-      city_marseille_flavor: 'Important pôle juif traditionnel du sud de la France aux fortes racines méditerranéennes.',
-      
       city_madrid_name: 'Madrid',
       city_madrid_country: 'Espagne',
       city_madrid_flavor: 'Berceau de l’héritage historique de Sefarad et de la Communauté Juive de Madrid.',
