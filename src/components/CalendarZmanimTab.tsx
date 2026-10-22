@@ -6,7 +6,6 @@ import { CITIES_ZMANIM } from '../data/citiesZmanim.ts';
 export function CalendarZmanimTab() {
   const { t } = useTranslation();
   const [selectedCityId, setSelectedCityId] = useState<string>('cdmx');
-  const [activeBlessingTab, setActiveBlessingTab] = useState<'shabbat' | 'havdalah'>('shabbat');
   const [loading, setLoading] = useState<boolean>(false);
   
   const [shabbatData, setShabbatData] = useState<any>(null);
@@ -14,28 +13,25 @@ export function CalendarZmanimTab() {
 
   const city = CITIES_ZMANIM.find((c) => c.id === selectedCityId) || CITIES_ZMANIM[0];
 
-  // Sincronización en tiempo real con la API de Hebcal
   useEffect(() => {
     async function fetchHebcalData() {
       setLoading(true);
       try {
-        // 1. Obtener datos de Shabat (Velas y Havdalá)
-        const shabbatRes = await fetch(
-          `https://www.hebcal.com/shabbat?geonameId=${(city as any).geonameId}&cfg=json`
-        );
-        const shabbatJson = await shabbatRes.json();
-        
-        // Zona horaria oficial provista por Hebcal para la ciudad (ej. "America/Mexico_City", "America/Chicago")
-        const cityTimeZone = shabbatJson.location?.tz || 'UTC';
-        
-        const candleItem = shabbatJson.items?.find((item: any) => item.category === 'candles');
-        const havdalahItem = shabbatJson.items?.find((item: any) => item.category === 'havdalah');
+        const todayStr = new Date().toISOString().split('T')[0];
 
-        // Función robusta para formatear la hora respetando estrictamente la zona horaria de la ciudad objetivo
-        const formatHebcalTime = (dateStr: string) => {
-          if (!dateStr) return '--:--';
+        // 1. Petición unificada y robusta a Zmanim (que incluye puesta de sol y zona horaria exacta)
+        const zmanimRes = await fetch(
+          `https://www.hebcal.com/zmanim?geonameid=${(city as any).geonameId}&cfg=json&start=${todayStr}&end=${todayStr}`
+        );
+        const zmanimJson = await zmanimRes.json();
+        
+        const cityTimeZone = zmanimJson.location?.tz || 'UTC';
+
+        // Función para formatear fechas u objetos ISO a la hora local exacta de la ciudad
+        const formatTime = (isoString: string) => {
+          if (!isoString) return '--:--';
           try {
-            const date = new Date(dateStr);
+            const date = new Date(isoString);
             return new Intl.DateTimeFormat('en-US', {
               hour: '2-digit',
               minute: '2-digit',
@@ -46,50 +42,69 @@ export function CalendarZmanimTab() {
             return '--:--';
           }
         };
-        
-        setShabbatData({
-          candleLighting: candleItem ? formatHebcalTime(candleItem.date) : '--:--',
-          havdalah: havdalahItem ? formatHebcalTime(havdalahItem.date) : '--:--',
-          parashah: shabbatJson.title || ''
-        });
 
-        // 2. Obtener Zmanim diarios para la fecha actual
-        const todayStr = new Date().toISOString().split('T')[0];
-        const zmanimRes = await fetch(
-          `https://www.hebcal.com/zmanim?geonameid=${(city as any).geonameId}&cfg=json&start=${todayStr}&end=${todayStr}`
-        );
-        const zmanimJson = await zmanimRes.json();
-        
         if (zmanimJson.times) {
-          const formatZmanTime = (isoString: string) => {
-            if (!isoString) return '--:--';
-            try {
-              const date = new Date(isoString);
-              // Si la API de Zmanim incluye la zona horaria o usamos la de la ubicación
-              const tz = zmanimJson.location?.tz || cityTimeZone;
-              return new Intl.DateTimeFormat('en-US', {
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: true,
-                timeZone: tz
-              }).format(date);
-            } catch (e) {
-              return '--:--';
-            }
-          };
-
           setZmanimDaily({
-            alotHaShajar: formatZmanTime(zmanimJson.times.alotHaShajar),
-            netzHaChama: formatZmanTime(zmanimJson.times.sunrise),
-            sofZmanShemaGra: formatZmanTime(zmanimJson.times.sofZmanShemaGRA),
-            sofZmanTefilah: formatZmanTime(zmanimJson.times.sofZmanTefilahGRA),
-            chatzot: formatZmanTime(zmanimJson.times.chatzot),
-            minchaGedolah: formatZmanTime(zmanimJson.times.minchaGedolah),
-            plagHaMincha: formatZmanTime(zmanimJson.times.plagHaMincha),
-            shekia: formatZmanTime(zmanimJson.times.sunset),
-            tzaitHakochavim: formatZmanTime(zmanimJson.times.tzeitHakochavim),
+            alotHaShajar: formatTime(zmanimJson.times.alotHaShajar),
+            netzHaChama: formatTime(zmanimJson.times.sunrise),
+            sofZmanShemaGra: formatTime(zmanimJson.times.sofZmanShemaGRA),
+            sofZmanTefilah: formatTime(zmanimJson.times.sofZmanTefilahGRA),
+            chatzot: formatTime(zmanimJson.times.chatzot),
+            minchaGedolah: formatTime(zmanimJson.times.minchaGedolah),
+            plagHaMincha: formatTime(zmanimJson.times.plagHaMincha),
+            shekia: formatTime(zmanimJson.times.sunset),
+            tzaitHakochavim: formatTime(zmanimJson.times.tzeitHakochavim),
           });
+
+          // Cálculo automático y preciso de Velas (restando los minutos configurados a la puesta de sol)
+          if (zmanimJson.times.sunset) {
+            const sunsetDate = new Date(zmanimJson.times.sunset);
+            const minutesBefore = city.candleLightingMinutesBeforeSunset || 18;
+            const candleDate = new Date(sunsetDate.getTime() - minutesBefore * 60000);
+            
+            const candleFormatted = new Intl.DateTimeFormat('en-US', {
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: true,
+              timeZone: cityTimeZone
+            }).format(candleDate);
+
+            // Havdalá estándar (aprox. 50 min después de la puesta o basado en Tzeit si está disponible)
+            const tzeitDate = zmanimJson.times.tzeitHakochavim 
+              ? new Date(zmanimJson.times.tzeitHakochavim) 
+              : new Date(sunsetDate.getTime() + 42 * 60000);
+
+            const havdalahFormatted = new Intl.DateTimeFormat('en-US', {
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: true,
+              timeZone: cityTimeZone
+            }).format(tzeitDate);
+
+            setShabbatData({
+              candleLighting: candleFormatted,
+              havdalah: havdalahFormatted,
+              parashah: zmanimJson.location?.city ? `Shabat en ${zmanimJson.location.city}` : ''
+            });
+          }
         }
+
+        // 2. Intentar enriquecer con la Parashá de la API de Shabat de forma opcional
+        try {
+          const shabbatRes = await fetch(
+            `https://www.hebcal.com/shabbat?geonameid=${(city as any).geonameId}&cfg=json`
+          );
+          const shabbatJson = await shabbatRes.json();
+          if (shabbatJson.title) {
+            setShabbatData((prev: any) => ({
+              ...(prev || {}),
+              parashah: shabbatJson.title
+            }));
+          }
+        } catch (err) {
+          // Si falla el título de Shabat, nos quedamos con el cálculo astronómico seguro de Zmanim
+        }
+
       } catch (error) {
         console.error('Error al conectar con la API de Hebcal:', error);
       } finally {
