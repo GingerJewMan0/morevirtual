@@ -14,26 +14,26 @@ export function CalendarZmanimTab() {
     <div className="max-w-4xl mx-auto py-4 px-3 sm:px-4 space-y-6 animate-fadeIn">
       
       {/* ==================================================================== */}
-      {/* BANNER SUPERIOR Y SELECTOR DE CIUDAD (Optimizado responsivo)         */}
+      {/* BANNER SUPERIOR Y SELECTOR DE CIUDAD                                 */}
       {/* ==================================================================== */}
-      <div className="p-6 rounded-3xl bg-gradient-to-r from-slate-900 via-amber-950/80 to-slate-900 text-white border border-amber-500/30 shadow-xl flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-amber-950/80 to-slate-900 text-white border border-amber-500/30 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
         
         {/* Columna de Títulos */}
-        <div className="space-y-1.5 flex-1">
+        <div className="space-y-2 flex-1 max-w-2xl">
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-400">
             <Calendar className="w-4 h-4 shrink-0" />
             <span>{t('zmanimBannerTitle', 'Calendario Judío & Tiempos Halájicos (Zmanim)')}</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-serif font-bold text-amber-200">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-amber-200 leading-tight">
             {t('zmanimTitle', 'Horarios Halájicos y Velas de Shabat')}
           </h2>
-          <p className="text-xs text-slate-300 max-w-xl">
+          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
             {city.communityFlavor}
           </p>
         </div>
 
         {/* Selector de Ciudad */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2.5 bg-slate-950/40 p-3.5 rounded-2xl border border-amber-500/20 shrink-0">
+        <div className="flex flex-col sm:flex-row md:flex-col lg:flex-row items-start sm:items-center gap-2.5 bg-slate-950/50 p-4 rounded-2xl border border-amber-500/20 shrink-0">
           <label className="text-xs text-amber-300 font-medium flex items-center gap-1.5 whitespace-nowrap">
             <MapPin className="w-3.5 h-3.5 text-amber-400" />
             <span>{t('selectCity', 'Ciudad:')}</span>
