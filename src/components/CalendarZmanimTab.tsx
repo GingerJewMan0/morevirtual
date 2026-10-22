@@ -60,31 +60,20 @@ export function CalendarZmanimTab() {
         let havdalahFormatted = '--:--';
         let parashahTitle = `Shabat en ${city.name}`;
 
-        // 1. Intentar obtener del endpoint oficial de Shabat de Hebcal
+        // Intentar obtener opcionalmente el título de la Parashá del endpoint de Shabat
         try {
           const shabbatRes = await fetch(
             `https://www.hebcal.com/shabbat?geonameid=${(city as any).geonameId}&cfg=json`
           );
           const shabbatJson = await shabbatRes.json();
-
-          if (shabbatJson.items && shabbatJson.items.length > 0) {
-            const candleItem = shabbatJson.items.find((item: any) => 
-              item.category === 'candles' || (item.title && item.title.toLowerCase().includes('candle'))
-            );
-            
-            const havdalahItem = shabbatJson.items.find((item: any) => 
-              item.category === 'havdalah' || (item.title && item.title.toLowerCase().includes('havdalah'))
-            );
-
-            if (candleItem) candleFormatted = formatExactTime(candleItem.date);
-            if (havdalahItem) havdalahFormatted = formatExactTime(havdalahItem.date);
-            if (shabbatJson.title) parashahTitle = shabbatJson.title;
+          if (shabbatJson.title) {
+            parashahTitle = shabbatJson.title;
           }
         } catch (err) {
-          console.warn('Aviso: Endpoint de shabat secundario falló, usando respaldo de zmanim.');
+          // Silencioso, usará el título por defecto
         }
 
-        // 2. Petición para Zmanim diarios (tiempos de hoy)
+        // Petición al endpoint de Zmanim diarios (para obtener la puesta de sol y salida de estrellas reales)
         const todayStr = new Date().toISOString().split('T')[0];
         const zmanimRes = await fetch(
           `https://www.hebcal.com/zmanim?geonameid=${(city as any).geonameId}&cfg=json&start=${todayStr}&end=${todayStr}`
@@ -93,6 +82,7 @@ export function CalendarZmanimTab() {
         
         if (zmanimJson.times) {
           const times = zmanimJson.times;
+          
           setZmanimDaily({
             alotHaShajar: formatExactTime(times.alotHaShajar),
             netzHaChama: formatExactTime(times.sunrise),
@@ -105,24 +95,21 @@ export function CalendarZmanimTab() {
             tzaitHakochavim: formatExactTime(times.tzeitHakochavim),
           });
 
-          // 3. RESPALDO INTELIGENTE: Si el endpoint de Shabat vino vacío (como en São Paulo), 
-          // calculamos las velas y havdalá usando la puesta de sol y salida de estrellas del día actual
-          if ((candleFormatted === '--:--' || havdalahFormatted === '--:--') && times.sunset) {
+          // Cálculo astronómico directo y preciso basado en la puesta de sol real de la ciudad
+          if (times.sunset) {
             const sunsetDate = new Date(times.sunset);
             if (!isNaN(sunsetDate.getTime())) {
               const minutesBefore = city.candleLightingMinutesBeforeSunset || 18;
               
-              if (candleFormatted === '--:--') {
-                const candleDate = new Date(sunsetDate.getTime() - minutesBefore * 60000);
-                candleFormatted = formatExactTime(candleDate);
-              }
+              // Encendido de velas (Minutos antes de la puesta de sol)
+              const candleDate = new Date(sunsetDate.getTime() - minutesBefore * 60000);
+              candleFormatted = formatExactTime(candleDate);
 
-              if (havdalahFormatted === '--:--') {
-                const tzeitDate = times.tzeitHakochavim 
-                  ? new Date(times.tzeitHakochavim) 
-                  : new Date(sunsetDate.getTime() + 50 * 60000);
-                havdalahFormatted = formatExactTime(tzeitDate);
-              }
+              // Havdalá (Salida de estrellas Tzeit HaKojavim o 50 min después)
+              const tzeitDate = times.tzeitHakochavim 
+                ? new Date(times.tzeitHakochavim) 
+                : new Date(sunsetDate.getTime() + 50 * 60000);
+              havdalahFormatted = formatExactTime(tzeitDate);
             }
           }
         }
@@ -310,7 +297,7 @@ export function CalendarZmanimTab() {
             <span className="text-slate-400 block text-[11px]">{t('sunrise', 'Amanecer (Netz)')}</span>
             <span className="font-mono font-bold text-sm text-slate-800 dark:text-slate-200 mt-1 block">
               {zmanimDaily?.netzHaChama || '--:--'}
-              </span>
+            </span>
           </div>
 
           <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 text-center">
