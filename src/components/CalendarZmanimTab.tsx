@@ -149,20 +149,20 @@ export function CalendarZmanimTab() {
         <div className="space-y-2 flex-1 min-w-0">
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-400">
             <Calendar className="w-4 h-4 shrink-0" />
-            <span>{t('zmanimBannerTitle', 'Calendario Judío & Tiempos Halájicos (Zmanim)')}</span>
+            <span>{t('zmanimBannerTitle')}</span>
           </div>
           <h2 className="text-xl sm:text-2xl lg:text-3xl font-serif font-bold text-amber-200 leading-tight">
-            {t('zmanimTitle', 'Horarios Halájicos y Velas de Shabat')}
+            {t('zmanimTitle')}
           </h2>
           <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl">
-            {city.communityFlavor} {shabbatData?.parashah && `• ${shabbatData.parashah}`}
+            {t(`city_${city.id}_flavor`)} {shabbatData?.parashah && `• ${shabbatData.parashah}`}
           </p>
         </div>
 
         <div className="flex flex-col sm:flex-row lg:flex-col items-stretch sm:items-center lg:items-end gap-2 bg-slate-950/60 p-4 rounded-2xl border border-amber-500/30 shrink-0 self-start lg:self-center">
           <label className="text-xs text-amber-300 font-medium flex items-center gap-1.5 whitespace-nowrap">
             <MapPin className="w-3.5 h-3.5 text-amber-400" />
-            <span>{t('selectCity', 'Ciudad:')}</span>
+            <span>{t('selectCity')}</span>
           </label>
           <select
             value={selectedCityId}
@@ -171,7 +171,7 @@ export function CalendarZmanimTab() {
           >
             {CITIES_ZMANIM.filter(c => c.id !== 'marsella').map((c) => (
               <option key={c.id} value={c.id}>
-                {c.flag} {c.name} ({c.country})
+                {c.flag} {t(`city_${c.id}_name`)} ({t(`city_${c.id}_country`)})
               </option>
             ))}
           </select>
@@ -198,7 +198,7 @@ export function CalendarZmanimTab() {
                 </div>
                 <div>
                   <h3 className="font-serif font-bold text-lg text-slate-900 dark:text-white">
-                    {t('shabbatCandles', 'Encendido de Velas')}
+                    {t('shabbatCandles')}
                   </h3>
                   <p className="text-xs font-serif text-slate-500 dark:text-slate-400" dir="rtl">
                     הדלקת נרות שבת קודש
@@ -206,7 +206,7 @@ export function CalendarZmanimTab() {
                 </div>
               </div>
               <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-200/80 text-amber-900 dark:bg-amber-900/60 dark:text-amber-200">
-                {t('friday', 'Viernes')}
+                {t('friday')}
               </span>
             </div>
 
@@ -215,21 +215,21 @@ export function CalendarZmanimTab() {
                 {shabbatData?.candleLighting || '--:--'}
               </div>
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                {city.candleLightingMinutesBeforeSunset} {t('minutesBeforeSunset', 'minutos antes de la puesta del sol')}
+                {city.candleLightingMinutesBeforeSunset} {t('minutesBeforeSunset')}
               </p>
             </div>
 
             <div className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed bg-amber-100/40 dark:bg-slate-800/40 p-3 rounded-xl border border-amber-200/40 dark:border-slate-800">
               <strong className="text-amber-800 dark:text-amber-300 block mb-1">
-                {t('communityNuance', 'Matiz Comunitario:')}
+                {t('communityNuance')}
               </strong>
-              • <strong>Sefaradí, Jalabí y Shamí:</strong> {t('sefaradiCandleRule', 'La mujer primero pronuncia la bendición y luego enciende las velas.')}<br />
-              • <strong>Ashkenazí y Jabad:</strong> {t('ashkenaziCandleRule', 'Primero se encienden las velas, luego se cubren los ojos y se recita la bendición.')}
+              • <strong>Sefaradí, Jalabí y Shamí:</strong> {t('sefaradiCandleRule')}<br />
+              • <strong>Ashkenazí y Jabad:</strong> {t('ashkenaziCandleRule')}
             </div>
           </div>
 
           <div className="pt-3 border-t border-amber-200/60 dark:border-slate-800 text-[11px] text-amber-800 dark:text-amber-300 font-semibold flex items-center gap-1.5">
-            <span>🔴 {t('mandatoryTitle', 'OBLIGATORIO')}: {t('mitzvahDerabanan', 'Mitzvá Derabanan (Shalom Bait y Kavod Shabat)')}</span>
+            <span>🔴 {t('mandatoryTitle')}: {t('mitzvahDerabanan', 'Mitzvá Derabanan (Shalom Bait y Kavod Shabat)')}</span>
           </div>
         </div>
 
@@ -243,7 +243,7 @@ export function CalendarZmanimTab() {
                 </div>
                 <div>
                   <h3 className="font-serif font-bold text-lg text-slate-900 dark:text-white">
-                    {t('havdalah', 'Havdalá / Salida de Shabat')}
+                    {t('havdalah')}
                   </h3>
                   <p className="text-xs font-serif text-slate-500 dark:text-slate-400" dir="rtl">
                     הבדלה ומוצאי שבת
@@ -251,14 +251,14 @@ export function CalendarZmanimTab() {
                 </div>
               </div>
               <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-indigo-200/80 text-indigo-900 dark:bg-indigo-900/60 dark:text-indigo-200">
-                {t('saturdayNight', 'Sábado Noche')}
+                {t('saturdayNight')}
               </span>
             </div>
 
             <div className="pt-2 text-center py-4 bg-white/70 dark:bg-slate-800/70 rounded-2xl border border-indigo-200/50 dark:border-indigo-900/40 space-y-2">
               <div>
                 <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
-                  {t('standard3Stars', 'Estándar (Salida de 3 estrellas)')}
+                  {t('standard3Stars')}
                 </span>
                 <div className="text-3xl sm:text-4xl font-mono font-extrabold text-indigo-700 dark:text-indigo-400">
                   {shabbatData?.havdalah || '--:--'}
@@ -268,7 +268,7 @@ export function CalendarZmanimTab() {
 
             <div className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed bg-indigo-100/40 dark:bg-slate-800/40 p-3 rounded-xl border border-indigo-200/40 dark:border-slate-800">
               <strong className="text-indigo-800 dark:text-indigo-300 block mb-1">
-                {t('havdalahElements', 'Los 4 Elementos de la Havdalá:')}
+                {t('havdalahElements')}
               </strong>
               1. <strong>Yayin:</strong> {t('wineCup', 'Copa de vino.')}<br />
               2. <strong>Besamim:</strong> {t('spices', 'Especias aromáticas.')}<br />
@@ -278,7 +278,7 @@ export function CalendarZmanimTab() {
           </div>
 
           <div className="pt-3 border-t border-indigo-200/60 dark:border-slate-800 text-[11px] text-indigo-800 dark:text-indigo-300 font-semibold flex items-center gap-1.5">
-            <span>🔴 {t('mandatoryTitle', 'OBLIGATORIO')}: {t('mitzvahDeoraita', 'Mitzvá Deoraita / Derabanan')}</span>
+            <span>🔴 {t('mandatoryTitle')}: {t('mitzvahDeoraita', 'Mitzvá Deoraita / Derabanan')}</span>
           </div>
         </div>
 
@@ -290,7 +290,7 @@ export function CalendarZmanimTab() {
           <div className="flex items-center gap-2">
             <Clock className="w-5 h-5 text-amber-600" />
             <h3 className="font-serif font-bold text-base sm:text-lg text-slate-900 dark:text-white">
-              {t('dailyZmanimTitle', 'Tiempos del Día (Zmanim Halajiim)')} — {city.name}
+              {t('dailyZmanimTitle')} — {t(`city_${city.id}_name`)}
             </h3>
           </div>
           <span className="text-xs text-slate-400">{t('realTimeHebcal', 'Tiempo Real (Hebcal)')}</span>
@@ -305,14 +305,14 @@ export function CalendarZmanimTab() {
           </div>
 
           <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 text-center">
-            <span className="text-slate-400 block text-[11px]">{t('sunrise', 'Amanecer (Netz)')}</span>
+            <span className="text-slate-400 block text-[11px]">{t('sunrise')}</span>
             <span className="font-mono font-bold text-sm text-slate-800 dark:text-slate-200 mt-1 block">
               {zmanimDaily?.netzHaChama || '--:--'}
             </span>
           </div>
 
           <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 text-center">
-            <span className="text-slate-400 block text-[11px]">{t('shemaLimit', 'Fin Shemá')}</span>
+            <span className="text-slate-400 block text-[11px]">{t('shemaLimit')}</span>
             <span className="font-mono font-bold text-sm text-amber-700 dark:text-amber-400 mt-1 block">
               {zmanimDaily?.sofZmanShemaGra || '--:--'}
             </span>
@@ -326,7 +326,7 @@ export function CalendarZmanimTab() {
           </div>
 
           <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 text-center">
-            <span className="text-slate-400 block text-[11px]">{t('chatzot', 'Mediodía')}</span>
+            <span className="text-slate-400 block text-[11px]">{t('chatzot')}</span>
             <span className="font-mono font-bold text-sm text-slate-800 dark:text-slate-200 mt-1 block">
               {zmanimDaily?.chatzot || '--:--'}
             </span>
@@ -347,7 +347,7 @@ export function CalendarZmanimTab() {
           </div>
 
           <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 text-center">
-            <span className="text-slate-400 block text-[11px]">{t('sunset', 'Puesta del Sol')}</span>
+            <span className="text-slate-400 block text-[11px]">{t('sunset')}</span>
             <span className="font-mono font-bold text-sm text-orange-600 dark:text-orange-400 mt-1 block">
               {zmanimDaily?.shekia || '--:--'}
             </span>
