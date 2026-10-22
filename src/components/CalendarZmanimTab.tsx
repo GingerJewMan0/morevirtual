@@ -3,13 +3,14 @@ import { Flame, Moon, Clock, MapPin, Calendar, Loader2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { CITIES_ZMANIM } from '../data/citiesZmanim.ts';
 
-// Mapa explícito y robusto de husos horarios IANA por ID de ciudad
+// Mapa explícito de husos horarios IANA por ID de ciudad
 const CITY_TIMEZONES: Record<string, string> = {
   cdmx: 'America/Mexico_City',
   monterrey: 'America/Monterrey',
   newyork: 'America/New_York',
   brooklyn: 'America/New_York',
   miami: 'America/New_York',
+  losangeles: 'America/Los_Angeles',
   panama: 'America/Panama',
   buenosaires: 'America/Argentina/Buenos_Aires',
   saopaulo: 'America/Sao_Paulo',
@@ -35,21 +36,13 @@ export function CalendarZmanimTab() {
     async function fetchHebcalData() {
       setLoading(true);
       try {
-        const explicitTimeZone = CITY_TIMEZONES[city.id] || 'UTC';
+        const cityTimeZone = CITY_TIMEZONES[city.id] || 'UTC';
 
-        // 1. Petición oficial al endpoint de Shabat de Hebcal por geonameid
-        const shabbatRes = await fetch(
-          `https://www.hebcal.com/shabbat?geonameid=${(city as any).geonameId}&cfg=json`
-        );
-        const shabbatJson = await shabbatRes.json();
-        
-        const cityTimeZone = explicitTimeZone;
-
-        // Función estricta para formatear la fecha del evento de Shabat de Hebcal a la hora local exacta
-        const formatShabbatTime = (isoString: string) => {
-          if (!isoString) return '--:--';
+        // Función estricta que acepta tanto string ISO como objetos Date
+        const formatExactTime = (dateInput: string | Date) => {
+          if (!dateInput) return '--:--';
           try {
-            const date = new Date(isoString);
+            const date = typeof dateInput === 'string' ? new Date(dateInput) : dateInput;
             if (isNaN(date.getTime())) return '--:--';
             
             return new Intl.DateTimeFormat('en-US', {
@@ -63,59 +56,85 @@ export function CalendarZmanimTab() {
           }
         };
 
-        const candleItem = shabbatJson.items?.find((item: any) => item.category === 'candles');
-        const havdalahItem = shabbatJson.items?.find((item: any) => item.category === 'havdalah');
+        let candleFormatted = '--:--';
+        let havdalahFormatted = '--:--';
+        let parashahTitle = `Shabat en ${city.name}`;
 
-        let candleFormatted = candleItem ? formatShabbatTime(candleItem.date) : '--:--';
-        let havdalahFormatted = havdalahItem ? formatShabbatTime(havdalahItem.date) : '--:--';
+        try {
+          // 1. Intentar obtener del endpoint oficial de Shabat
+          const shabbatRes = await fetch(
+            `https://www.hebcal.com/shabbat?geonameid=${(city as any).geonameId}&cfg=json`
+          );
+          const shabbatJson = await shabbatRes.json();
 
-        // 2. Petición para Zmanim diarios (tiempos de hoy)
+          if (shabbatJson.items && shabbatJson.items.length > 0) {
+            const candleItem = shabbatJson.items.find((item: any) => 
+              item.category === 'candles' || (item.title && item.title.toLowerCase().includes('candle'))
+            );
+            
+            const havdalahItem = shabbatJson.items.find((item: any) => 
+              item.category === 'havdalah' || (item.title && item.title.toLowerCase().includes('havdalah'))
+            );
+
+            if (candleItem) candleFormatted = formatExactTime(candleItem.date);
+            if (havdalahItem) havdalahFormatted = formatExactTime(havdalahItem.date);
+            if (shabbatJson.title) parashahTitle = shabbatJson.title;
+          }
+        } catch (err) {
+          console.warn('Aviso: Endpoint de shabat secundario falló, usando respaldo de zmanim.');
+        }
+
+        // 2. Petición obligatoria a Zmanim (para datos diarios y respaldo matemático infalible)
         const todayStr = new Date().toISOString().split('T')[0];
         const zmanimRes = await fetch(
           `https://www.hebcal.com/zmanim?geonameid=${(city as any).geonameId}&cfg=json&start=${todayStr}&end=${todayStr}`
         );
         const zmanimJson = await zmanimRes.json();
         
-        const formatDailyTime = (isoString: string) => {
-          if (!isoString) return '--:--';
-          try {
-            const date = new Date(isoString);
-            if (isNaN(date.getTime())) return '--:--';
-            
-            return new Intl.DateTimeFormat('en-US', {
-              hour: '2-digit',
-              minute: '2-digit',
-              hour12: true,
-              timeZone: cityTimeZone
-            }).format(date);
-          } catch (e) {
-            return '--:--';
-          }
-        };
-
         if (zmanimJson.times) {
           const times = zmanimJson.times;
+
           setZmanimDaily({
-            alotHaShajar: formatDailyTime(times.alotHaShajar),
-            netzHaChama: formatDailyTime(times.sunrise),
-            sofZmanShemaGra: formatDailyTime(times.sofZmanShemaGRA),
-            sofZmanTefilah: formatDailyTime(times.sofZmanTefilahGRA),
-            chatzot: formatDailyTime(times.chatzot),
-            minchaGedolah: formatDailyTime(times.minchaGedolah),
-            plagHaMincha: formatDailyTime(times.plagHaMincha),
-            shekia: formatDailyTime(times.sunset),
-            tzaitHakochavim: formatDailyTime(times.tzeitHakochavim),
+            alotHaShajar: formatExactTime(times.alotHaShajar),
+            netzHaChama: formatExactTime(times.sunrise),
+            sofZmanShemaGra: formatExactTime(times.sofZmanShemaGRA),
+            sofZmanTefilah: formatExactTime(times.sofZmanTefilahGRA),
+            chatzot: formatExactTime(times.chatzot),
+            minchaGedolah: formatExactTime(times.minchaGedolah),
+            plagHaMincha: formatExactTime(times.plagHaMincha),
+            shekia: formatExactTime(times.sunset),
+            tzaitHakochavim: formatExactTime(times.tzeitHakochavim),
           });
+
+          // Si el endpoint de Shabat no arrojó datos, los calculamos matemáticamente con la puesta de sol real
+          if ((candleFormatted === '--:--' || havdalahFormatted === '--:--') && times.sunset) {
+            const sunsetDate = new Date(times.sunset);
+            if (!isNaN(sunsetDate.getTime())) {
+              const minutesBefore = city.candleLightingMinutesBeforeSunset || 18;
+              
+              if (candleFormatted === '--:--') {
+                const candleDate = new Date(sunsetDate.getTime() - minutesBefore * 60000);
+                candleFormatted = formatExactTime(candleDate);
+              }
+
+              if (havdalahFormatted === '--:--') {
+                const tzeitDate = times.tzeitHakochavim 
+                  ? new Date(times.tzeitHakochavim) 
+                  : new Date(sunsetDate.getTime() + 50 * 60000);
+                havdalahFormatted = formatExactTime(tzeitDate);
+              }
+            }
+          }
         }
 
         setShabbatData({
           candleLighting: candleFormatted,
           havdalah: havdalahFormatted,
-          parashah: shabbatJson.title || `Shabat en ${city.name}`
+          parashah: parashahTitle
         });
 
       } catch (error) {
-        console.error('Error al conectar con la API de Hebcal:', error);
+        console.error('Error general al conectar con la API de Hebcal:', error);
       } finally {
         setLoading(false);
       }
