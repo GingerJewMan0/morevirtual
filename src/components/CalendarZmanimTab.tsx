@@ -19,7 +19,7 @@ export function CalendarZmanimTab() {
       try {
         const todayStr = new Date().toISOString().split('T')[0];
 
-        // 1. Obtener Zmanim y datos de la ciudad desde la API de Hebcal
+        // Petición a Zmanim
         const zmanimRes = await fetch(
           `https://www.hebcal.com/zmanim?geonameid=${(city as any).geonameId}&cfg=json&start=${todayStr}&end=${todayStr}`
         );
@@ -27,12 +27,11 @@ export function CalendarZmanimTab() {
         
         const cityTimeZone = zmanimJson.location?.tz || 'UTC';
 
-        // Función infalible para extraer la hora local directamente del string ISO de Hebcal sin alterar offsets
-        const extractLocalTime = (isoString: string) => {
+        // Función blindada usando Intl con la zona horaria oficial exacta de la ciudad
+        const formatTime = (isoString: string) => {
           if (!isoString) return '--:--';
           try {
-            // El string viene en formato tipo "2026-10-23T18:49:00-05:00" o con "Z". 
-            // Usamos Intl.DateTimeFormat forzando la zona horaria exacta de la ciudad y extrayendo solo HH:MM AM/PM
+            // Limpiamos y aseguramos que el objeto Date interprete correctamente la cadena
             const date = new Date(isoString);
             return new Intl.DateTimeFormat('en-US', {
               hour: '2-digit',
@@ -46,24 +45,27 @@ export function CalendarZmanimTab() {
         };
 
         if (zmanimJson.times) {
+          // Extraemos directamente del JSON de la API de Zmanim los tiempos exactos
+          const times = zmanimJson.times;
+
           setZmanimDaily({
-            alotHaShajar: extractLocalTime(zmanimJson.times.alotHaShajar),
-            netzHaChama: extractLocalTime(zmanimJson.times.sunrise),
-            sofZmanShemaGra: extractLocalTime(zmanimJson.times.sofZmanShemaGRA),
-            sofZmanTefilah: extractLocalTime(zmanimJson.times.sofZmanTefilahGRA),
-            chatzot: extractLocalTime(zmanimJson.times.chatzot),
-            minchaGedolah: extractLocalTime(zmanimJson.times.minchaGedolah),
-            plagHaMincha: extractLocalTime(zmanimJson.times.plagHaMincha),
-            shekia: extractLocalTime(zmanimJson.times.sunset),
-            tzaitHakochavim: extractLocalTime(zmanimJson.times.tzeitHakochavim),
+            alotHaShajar: formatTime(times.alotHaShajar),
+            netzHaChama: formatTime(times.sunrise),
+            sofZmanShemaGra: formatTime(times.sofZmanShemaGRA),
+            sofZmanTefilah: formatTime(times.sofZmanTefilahGRA),
+            chatzot: formatTime(times.chatzot),
+            minchaGedolah: formatTime(times.minchaGedolah),
+            plagHaMincha: formatTime(times.plagHaMincha),
+            shekia: formatTime(times.sunset),
+            tzaitHakochavim: formatTime(times.tzeitHakochavim),
           });
 
-          // 2. Cálculo exacto y directo de Velas y Havdalá basado en la puesta de sol real de la ciudad
-          if (zmanimJson.times.sunset) {
-            const sunsetDate = new Date(zmanimJson.times.sunset);
+          // Cálculo exacto para Velas y Havdalá basado en la puesta de sol (`sunset`) y Tzeit del JSON
+          if (times.sunset) {
+            const sunsetDate = new Date(times.sunset);
             const minutesBefore = city.candleLightingMinutesBeforeSunset || 18;
             
-            // Velas = Puesta de sol menos los minutos configurados (ej. 18 min)
+            // Velas: Puesta de sol menos los minutos configurados (ej. 18 min)
             const candleDate = new Date(sunsetDate.getTime() - minutesBefore * 60000);
             
             const candleFormatted = new Intl.DateTimeFormat('en-US', {
@@ -73,9 +75,9 @@ export function CalendarZmanimTab() {
               timeZone: cityTimeZone
             }).format(candleDate);
 
-            // Havdalá = Salida de estrellas (Tzeit) o 50 minutos después de la puesta si no hay tzeit
-            const tzeitDate = zmanimJson.times.tzeitHakochavim 
-              ? new Date(zmanimJson.times.tzeitHakochavim) 
+            // Havdalá: Usamos tzeitHakochavim directo de la API si existe, o 50 min después de la puesta
+            const tzeitDate = times.tzeitHakochavim 
+              ? new Date(times.tzeitHakochavim) 
               : new Date(sunsetDate.getTime() + 50 * 60000);
 
             const havdalahFormatted = new Intl.DateTimeFormat('en-US', {
