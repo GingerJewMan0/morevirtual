@@ -63,16 +63,31 @@ export function CalendarZmanimTab() {
 
         const todayStr = new Date().toISOString().split('T')[0];
 
-        // Consulta directa y robusta por Coordenadas (Lat/Lon) para Zmanim
-        const lat = (city as any).lat;
-        const lon = (city as any).lon;
+        // Coordenadas manuales de respaldo para evitar errores 404 por geonameid obsoleto
+        const fallbackCoords: Record<string, { lat: number; lon: number }> = {
+          saopaulo: { lat: -23.5505, lon: -46.6333 },
+          riodejaneiro: { lat: -22.9068, lon: -43.1729 },
+          buenosaires: { lat: -34.6037, lon: -58.3816 },
+          cdmx: { lat: 19.4326, lon: -99.1332 },
+          monterrey: { lat: 25.6866, lon: -100.3161 },
+          newyork: { lat: 40.7128, lon: -74.0060 },
+          brooklyn: { lat: 40.6782, lon: -73.9442 },
+          miami: { lat: 25.7617, lon: -80.1918 },
+          losangeles: { lat: 34.0522, lon: -118.2437 },
+          chicago: { lat: 41.8781, lon: -87.6298 },
+          panama: { lat: 8.9824, lon: -79.5199 },
+          paris: { lat: 48.8566, lon: 2.3522 },
+          marsella: { lat: 43.2965, lon: 5.3698 },
+          madrid: { lat: 40.4168, lon: -3.7038 },
+          barcelona: { lat: 41.3851, lon: 2.1734 },
+          jerusalem: { lat: 31.7683, lon: 35.2137 }
+        };
 
-        let zmanimUrl = '';
-        if (lat && lon) {
-          zmanimUrl = `https://www.hebcal.com/zmanim?latitude=${lat}&longitude=${lon}&cfg=json&start=${todayStr}&end=${todayStr}`;
-        } else {
-          zmanimUrl = `https://www.hebcal.com/zmanim?geonameid=${(city as any).geonameId}&cfg=json&start=${todayStr}&end=${todayStr}`;
-        }
+        const cityCoords = (city as any).lat && (city as any).lon 
+          ? { lat: (city as any).lat, lon: (city as any).lon } 
+          : (fallbackCoords[city.id] || { lat: 19.4326, lon: -99.1332 });
+
+        const zmanimUrl = `https://www.hebcal.com/zmanim?latitude=${cityCoords.lat}&longitude=${cityCoords.lon}&cfg=json&start=${todayStr}&end=${todayStr}`;
 
         const zmanimRes = await fetch(zmanimUrl);
         const zmanimJson = await zmanimRes.json();
@@ -92,7 +107,7 @@ export function CalendarZmanimTab() {
             tzaitHakochavim: formatExactTime(times.tzeitHakochavim),
           });
 
-          // Cálculo astronómico directo y preciso basado en la puesta de sol real
+          // Cálculo astronómico directo basado en la puesta de sol real
           if (times.sunset) {
             const sunsetDate = new Date(times.sunset);
             if (!isNaN(sunsetDate.getTime())) {
