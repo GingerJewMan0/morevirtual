@@ -26,7 +26,7 @@ export function CalendarZmanimTab() {
         const shabbatJson = await shabbatRes.json();
         
         // Extraer la zona horaria oficial provista por Hebcal para la ciudad
-        const cityTimeZone = shabbatJson.location?.tz;
+        const cityTimeZone = shabbatJson.location?.tz || undefined;
         
         const candleItem = shabbatJson.items?.find((item: any) => item.category === 'candles');
         const havdalahItem = shabbatJson.items?.find((item: any) => item.category === 'havdalah');
@@ -36,7 +36,7 @@ export function CalendarZmanimTab() {
           ? new Date(candleItem.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', timeZone: cityTimeZone }) 
           : '--:--',
           havdalah: havdalahItem 
-          ? new Date(candleItem.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', timeZone: cityTimeZone }) 
+          ? new Date(havdalahItem.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', timeZone: cityTimeZone }) 
           : '--:--',
           parashah: shabbatJson.title || ''
         });
