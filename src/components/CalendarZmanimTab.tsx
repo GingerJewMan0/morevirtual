@@ -39,11 +39,10 @@ export function CalendarZmanimTab() {
       try {
         const cityTimeZone = CITY_TIMEZONES[city.id] || 'UTC';
 
-        // Función blindada para extraer la hora exacta en la zona horaria de la ciudad
+        // Función estricta para formatear fechas a la zona horaria IANA de la ciudad
         const formatExactTime = (dateInput: string | Date) => {
           if (!dateInput) return '--:--';
           try {
-            // Si es string de la API, nos aseguramos de que se lea con su offset o UTC limpio
             const date = typeof dateInput === 'string' ? new Date(dateInput) : dateInput;
             if (isNaN(date.getTime())) return '--:--';
             
@@ -64,7 +63,7 @@ export function CalendarZmanimTab() {
 
         const todayStr = new Date().toISOString().split('T')[0];
 
-        // Coordenadas manuales de respaldo para evitar errores 404
+        // Coordenadas manuales de respaldo seguras para todas las ciudades
         const fallbackCoords: Record<string, { lat: number; lon: number }> = {
           saopaulo: { lat: -23.5505, lon: -46.6333 },
           riodejaneiro: { lat: -22.9068, lon: -43.1729 },
@@ -88,7 +87,8 @@ export function CalendarZmanimTab() {
           ? { lat: (city as any).lat, lon: (city as any).lon } 
           : (fallbackCoords[city.id] || { lat: 19.4326, lon: -99.1332 });
 
-        const zmanimUrl = `https://www.hebcal.com/zmanim?latitude=${cityCoords.lat}&longitude=${cityCoords.lon}&cfg=json&start=${todayStr}&end=${todayStr}&geonameid=0`;
+        // URL limpia sin parámetros extraños
+        const zmanimUrl = `https://www.hebcal.com/zmanim?latitude=${cityCoords.lat}&longitude=${cityCoords.lon}&cfg=json&start=${todayStr}&end=${todayStr}`;
 
         const zmanimRes = await fetch(zmanimUrl);
         const zmanimJson = await zmanimRes.json();
@@ -114,11 +114,11 @@ export function CalendarZmanimTab() {
             if (!isNaN(sunsetDate.getTime())) {
               const minutesBefore = city.candleLightingMinutesBeforeSunset || 18;
               
-              // Encendido de velas restando los minutos en milisegundos
+              // Encendido de velas
               const candleDate = new Date(sunsetDate.getTime() - minutesBefore * 60000);
               candleFormatted = formatExactTime(candleDate);
 
-              // Havdalá
+              // Havdalá (Salida de estrellas)
               const tzeitDate = times.tzeitHakochavim 
                 ? new Date(times.tzeitHakochavim) 
                 : new Date(sunsetDate.getTime() + 50 * 60000);
