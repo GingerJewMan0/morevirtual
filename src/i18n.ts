@@ -238,7 +238,10 @@ const resources = {
       yayinDesc: "Copa de vino o jugo de uva desbordante.",
       besamimDesc: "Especias aromáticas para reconfortar el alma.",
       nerDesc: "Vela trenzada con múltiples mechas.",
-      hamavdilDesc: "Bendición de distinción entre lo sagrado y lo profano."
+      hamavdilDesc: "Bendición de distinción entre lo sagrado y lo profano.",
+
+      giluySubtitle: 'Giluy Da\'at y advertencia halájica',
+      aiErrorWarning: 'El Rabino Virtual es una inteligencia artificial y puede cometer errores. Verifica siempre los textos y la halajá con fuentes autorizadas.',
     }
   },
 
@@ -461,7 +464,10 @@ const resources = {
       yayinDesc: "כוס יין או מיץ ענבים.",
       besamimDesc: "בשמים להשיב את הנפש.",
       nerDesc: "נר קלוע.",
-      hamavdilDesc: "ברכת המבדיל בין קודש לחול."
+      hamavdilDesc: "ברכת המבדיל בין קודש לחול.",
+
+      giluySubtitle: 'גילוי דעת ואזהרה הלכתית',
+      aiErrorWarning: 'הרב הווירטואלי הוא בינה מלאכותית ועלול לשגות. בדוק תמיד את המקורות וההלכה מול מוסמכים.',
     }
   },
 
@@ -684,7 +690,10 @@ const resources = {
       yayinDesc: "Cup of wine or grape juice.",
       besamimDesc: "Aromatic spices.",
       nerDesc: "Braided candle.",
-      hamavdilDesc: "Blessing of distinction."
+      hamavdilDesc: "Blessing of distinction.",
+
+      giluySubtitle: 'Giluy Da\'at & Halachic Warning',
+      aiErrorWarning: 'Virtual Rabbi is an artificial intelligence and may make mistakes. Always verify texts and halakha with authorized sources.',
     }
   },
 
@@ -907,7 +916,9 @@ const resources = {
       yayinDesc: "Verre de vin ou jus de raisin.",
       besamimDesc: "Épices aromatiques.",
       nerDesc: "Bougie tressée.",
-      hamavdilDesc: "Bénédiction de distinction."
+      hamavdilDesc: "Bénédiction de distinction.",
+      giluySubtitle: 'Gilouy Da\'at & Avertissement Halachique',
+      aiErrorWarning: 'Le Rabbin Virtuel est une intelligence artificielle et peut commettre des erreurs. Vérifiez toujours les textes et la halakha auprès de sources autorisées.',
     }
   },
 
@@ -1134,7 +1145,10 @@ const resources = {
       yayinDesc: "Copo de vinho ou suco de uva.",
       besamimDesc: "Especiarias aromáticas.",
       nerDesc: "Vela trançada.",
-      hamavdilDesc: "Bênção de distinção."
+      hamavdilDesc: "Bênção de distinção.",
+
+      giluySubtitle: 'Giluy Da\'at e Aviso Haláchico',
+      aiErrorWarning: 'O Rabino Virtual é uma inteligência artificial e pode cometer erros. Verifique sempre os textos e a halachá com fontes autorizadas.',
     }
   }
 };
