@@ -242,6 +242,7 @@ const resources = {
 
       giluySubtitle: 'Giluy Da\'at y advertencia halájica',
       aiErrorWarning: 'El Rabino Virtual es una inteligencia artificial y puede cometer errores. Verifica siempre los textos y la halajá con fuentes autorizadas.',
+      followUpPracticeQuery: '¿Te gustaría saber cómo se maneja esta misma práctica en otras comunidades (como Ashkenazí, Sefaradí, Maguen David, Monte Sinai o Jabad)?'
     }
   },
 
@@ -468,6 +469,7 @@ const resources = {
 
       giluySubtitle: 'גילוי דעת ואזהרה הלכתית',
       aiErrorWarning: 'הרב הווירטואלי הוא בינה מלאכותית ועלול לשגות. בדוק תמיד את המקורות וההלכה מול מוסמכים.',
+      followUpPracticeQuery: 'האם תרצה לדעת כיצד נונהגת פרקטיקה זו בקהילות אחרות (כגון אשכנז, ספרד, מגן דוד, מוונטה סיני או חב"ד)?',
     }
   },
 
@@ -694,6 +696,7 @@ const resources = {
 
       giluySubtitle: 'Giluy Da\'at & Halachic Warning',
       aiErrorWarning: 'Virtual Rabbi is an artificial intelligence and may make mistakes. Always verify texts and halakha with authorized sources.',
+      followUpPracticeQuery: 'Would you like to know how this same practice is handled in other communities (such as Ashkenazic, Sephardic, Maguen David, Monte Sinai, or Chabad)?',
     }
   },
 
@@ -919,6 +922,7 @@ const resources = {
       hamavdilDesc: "Bénédiction de distinction.",
       giluySubtitle: 'Gilouy Da\'at & Avertissement Halachique',
       aiErrorWarning: 'Le Rabbin Virtuel est une intelligence artificielle et peut commettre des erreurs. Vérifiez toujours les textes et la halakha auprès de sources autorisées.',
+      followUpPracticeQuery: 'Aimeriez-vous savoir comment cette même pratique est gérée dans d\'autres communautés (comme les Ashkénazes, les Séfarades, Maguen David, Monte Sinai ou Habad) ?',
     }
   },
 
@@ -1149,6 +1153,7 @@ const resources = {
 
       giluySubtitle: 'Giluy Da\'at e Aviso Haláchico',
       aiErrorWarning: 'O Rabino Virtual é uma inteligência artificial e pode cometer erros. Verifique sempre os textos e a halachá com fontes autorizadas.',
+      followUpPracticeQuery: 'Você gostaria de saber como essa mesma prática é tratada em outras comunidades (como Asquenazi, Sefaradi, Maguen David, Monte Sinai ou Chabad)?',
     }
   }
 };
