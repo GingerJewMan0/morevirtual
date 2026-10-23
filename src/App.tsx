@@ -821,11 +821,11 @@ useEffect(() => {
         <div className="flex-1 flex flex-col overflow-y-auto">
           <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-amber-50/60 dark:bg-slate-950/60">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl overflow-hidden shadow-sm shrink-0 flex items-center justify-center bg-slate-900 border border-amber-500/40">
-              <img
+              <div className="w-10 h-10 rounded-xl overflow-hidden shadow-sm shrink-0 flex items-center justify-center bg-slate-900 border border-amber-500/40 p-0.5">
+              <img 
               src="./icon.jpg" 
               alt="Rabino Virtual" 
-              className="w-full h-full object-cover" 
+              className="w-full h-full object-contain" 
               />
               </div>
               <div>
@@ -1041,11 +1041,11 @@ useEffect(() => {
               className="flex items-center gap-2.5 cursor-pointer min-w-0"
               onClick={() => setActiveMainTab('chat')}
             >
-              <div className="w-10 h-10 rounded-xl overflow-hidden shadow-sm shrink-0 flex items-center justify-center bg-slate-900 border border-amber-500/40">
+              <div className="w-10 h-10 rounded-xl overflow-hidden shadow-sm shrink-0 flex items-center justify-center bg-slate-900 border border-amber-500/40 p-0.5">
               <img 
               src="./icon.jpg" 
               alt="Rabino Virtual" 
-              className="w-full h-full object-cover" 
+              className="w-full h-full object-contain" 
               />
               </div>
             </div>
