@@ -216,7 +216,13 @@ const resources = {
 
       city_barcelona_name: 'Barcelona',
       city_barcelona_country: 'España',
-      city_barcelona_flavor: 'Comunidad judía activa en Cataluña, con gran legado histórico en el antiguo Call Jueu.'
+      city_barcelona_flavor: 'Comunidad judía activa en Cataluña, con gran legado histórico en el antiguo Call Jueu.',
+      
+      shabbatIn: "Shabat en",
+      yayinDesc: "Copa de vino o jugo de uva desbordante.",
+      besamimDesc: "Especias aromáticas para reconfortar el alma.",
+      nerDesc: "Vela trenzada con múltiples mechas.",
+      hamavdilDesc: "Bendición de distinción entre lo sagrado y lo profano."
     }
   },
 
@@ -417,7 +423,15 @@ const resources = {
 
       city_barcelona_name: 'ברצלונה',
       city_barcelona_country: 'ספרד',
-      city_barcelona_flavor: 'קהילה יהודית פעילה בקטלוניה, בעלת מורשת היסטורית עשירה ברובע היהודי העתיק.'
+      city_barcelona_flavor: 'קהילה יהודית פעילה בקטלוניה, בעלת מורשת היסטורית עשירה ברובע היהודי העתיק.',
+
+      shabbatIn: "שבת ב",
+      yayinDesc: "כוס יין או מיץ ענבים.",
+      besamimDesc: "בשמים להשיב את הנפש.",
+      nerDesc: "נר קלוע.",
+      hamavdilDesc: "ברכת המבדיל בין קודש לחול."
+
+
     }
   },
 
@@ -618,7 +632,15 @@ const resources = {
 
       city_barcelona_name: 'Barcelona',
       city_barcelona_country: 'Spain',
-      city_barcelona_flavor: 'Active Jewish community in Catalonia, with a rich historical legacy in the ancient Call Jueu.'
+      city_barcelona_flavor: 'Active Jewish community in Catalonia, with a rich historical legacy in the ancient Call Jueu.',
+      
+      shabbatIn: "Shabbat in",
+      yayinDesc: "Cup of wine or grape juice.",
+      besamimDesc: "Aromatic spices.",
+      nerDesc: "Braided candle.",
+      hamavdilDesc: "Blessing of distinction."
+
+
     }
   },
 
@@ -819,7 +841,13 @@ const resources = {
 
       city_barcelona_name: 'Barcelone',
       city_barcelona_country: 'Espagne',
-      city_barcelona_flavor: 'Communauté juive active en Catalogne, dotée d\'un riche patrimoine historique dans l\'ancien Call Jueu.'
+      city_barcelona_flavor: 'Communauté juive active en Catalogne, dotée d\'un riche patrimoine historique dans l\'ancien Call Jueu.',
+
+      shabbatIn: "Shabbat à",
+      yayinDesc: "Verre de vin ou jus de raisin.",
+      besamimDesc: "Épices aromatiques.",
+      nerDesc: "Bougie tressée.",
+      hamavdilDesc: "Bénédiction de distinction."
     }
   },
 
@@ -1024,7 +1052,13 @@ const resources = {
 
       city_barcelona_name: 'Barcelona',
       city_barcelona_country: 'Espanha',
-      city_barcelona_flavor: 'Comunidade judaica ativa na Catalunha, com rico legado histórico no antigo Call Jueu.'
+      city_barcelona_flavor: 'Comunidade judaica ativa na Catalunha, com rico legado histórico no antigo Call Jueu.',
+
+      shabbatIn: "Shabat em",
+      yayinDesc: "Copo de vinho ou suco de uva.",
+      besamimDesc: "Especiarias aromáticas.",
+      nerDesc: "Vela trançada.",
+      hamavdilDesc: "Bênção de distinção."
     }
   }
 };

@@ -58,7 +58,7 @@ export function CalendarZmanimTab() {
 
         let candleFormatted = '--:--';
         let havdalahFormatted = '--:--';
-        let parashahTitle = `${t('shabbatIn', 'Shabat en')} ${city.name}`;
+        let parashahTitle = `${t('shabbatIn')} ${t(`city_${city.id}_name`)}`;
 
         const todayStr = new Date().toISOString().split('T')[0];
 
@@ -270,10 +270,10 @@ export function CalendarZmanimTab() {
               <strong className="text-indigo-800 dark:text-indigo-300 block mb-1">
                 {t('havdalahElements')}
               </strong>
-              1. <strong>Yayin:</strong> {t('wineCup', 'Copa de vino.')}<br />
-              2. <strong>Besamim:</strong> {t('spices', 'Especias aromáticas.')}<br />
-              3. <strong>Ner:</strong> {t('braidedCandle', 'Vela trenzada.')}<br />
-              4. <strong>Hamavdil:</strong> {t('distinctionBlessing', 'Bendición de distinción.')}
+              1. <strong>Yayin:</strong> {t('yayinDesc')}<br />
+              2. <strong>Besamim:</strong> {t('besamimDesc')}<br />
+              3. <strong>Ner:</strong> {t('nerDesc')}<br />
+              4. <strong>Hamavdil:</strong> {t('hamavdilDesc')}
             </div>
           </div>
 
