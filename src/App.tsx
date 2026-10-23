@@ -821,8 +821,12 @@ useEffect(() => {
         <div className="flex-1 flex flex-col overflow-y-auto">
           <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-amber-50/60 dark:bg-slate-950/60">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-600 to-amber-500 flex items-center justify-center text-white shadow-md shadow-amber-900/30">
-                <span className="text-xl">✡️</span>
+              <div className="w-9 h-9 rounded-xl overflow-hidden shadow-sm shrink-0 flex items-center justify-center bg-slate-900 border border-amber-500/30">
+              <img 
+              src="./icon.jpg" 
+              alt="Rabino Virtual" 
+              className="w-full h-full object-cover" 
+              />
               </div>
               <div>
                 <h2 className="font-serif font-bold text-base text-slate-900 dark:text-white tracking-wide">
@@ -1037,21 +1041,12 @@ useEffect(() => {
               className="flex items-center gap-2.5 cursor-pointer min-w-0"
               onClick={() => setActiveMainTab('chat')}
             >
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-700 to-amber-600 flex items-center justify-center text-white shadow-sm shrink-0">
-                <span className="text-base">✡️</span>
-              </div>
-              <div className="min-w-0">
-                <div className="flex items-center gap-2">
-                  <h1 className="font-serif font-bold text-sm sm:text-lg text-slate-900 dark:text-white leading-tight truncate">
-                    {t('appName', 'Rabino Virtual')}
-                  </h1>
-                  <span className="hidden md:inline-flex px-2 py-0.5 text-[10px] font-semibold rounded-md bg-amber-100 text-amber-800 dark:bg-amber-950/80 dark:text-amber-300 border border-amber-300 dark:border-amber-700 shrink-0">
-                    {currentTabLabel}
-                  </span>
-                </div>
-                <p className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 truncate">
-                  Sefaradí • Ashkenazí • Maguen David • Monte Sinai • Jabad
-                </p>
+              <div className="w-9 h-9 rounded-xl overflow-hidden shadow-sm shrink-0 flex items-center justify-center bg-slate-900 border border-amber-500/30">
+              <img 
+              src="./icon.jpg" 
+              alt="Rabino Virtual" 
+              className="w-full h-full object-cover" 
+              />
               </div>
             </div>
           </div>
