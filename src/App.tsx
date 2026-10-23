@@ -93,8 +93,8 @@ export function App() {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
   const [isPremium, setIsPremium] = useState<boolean>(() => {
-    return localStorage.getItem('rabino_virtual_premium') === 'true';
-  });
+  return localStorage.getItem('isPremium') === 'true';
+});
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
