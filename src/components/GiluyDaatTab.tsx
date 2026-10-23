@@ -38,10 +38,10 @@ export const GiluyDaatTab: React.FC<{ onAcknowledge?: () => void }> = ({ onAckno
               {t('noPsakNotice', 'No emite ni sustituye bajo ningún concepto un Psak Halajá (dictamen legal judío vinculante para la práctica).')}
             </strong>
             
-            {/* Nota añadida: Advertencia de errores de la IA */}
-            <div className="mt-3 pt-2 border-t border-amber-400/30 dark:border-amber-700/40 text-xs italic opacity-90">
-              ⚠️ {t('aiErrorsNotice', 'El Rabino Virtual es una inteligencia artificial y puede cometer errores. Verifica siempre los textos y la halajá con fuentes autorizadas.')}
-            </div>
+           {/* Nota añadida: Advertencia de errores de la IA */}
+           <div className="mt-3 pt-2 border-t border-amber-400/30 dark:border-amber-700/40 text-xs italic opacity-90">
+           ⚠️ {t('aiErrorWarning', 'El Rabino Virtual es una inteligencia artificial y puede cometer errores. Verifica siempre los textos y la halajá con fuentes autorizadas.')}
+           </div>
           </div>
         </div>
 
