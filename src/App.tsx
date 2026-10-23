@@ -1012,10 +1012,10 @@ useEffect(() => {
             </p>
             <button
             onClick={() => setIsPaymentModalOpen(true)}
-            className="w-full py-1.5 px-2.5 rounded-lg font-semibold text-[11px] bg-amber-600 hover:bg-amber-500 text-white dark:text-slate-950 transition flex items-center justify-center gap-1.5 shadow-xs cursor-pointer"
+            className="w-full py-1.5 px-2.5 rounded-lg font-semibold text-[11px] bg-amber-600 hover:bg-amber-500 text-white dark:text-slate-950 transition flex items-center justify-center gap-1.5"
             >
               <ExternalLink className="w-3 h-3" />
-              <span>Donar</span>
+              <span>{t('donateButton', 'Donar')}</span>
               </button>
           </div>
 

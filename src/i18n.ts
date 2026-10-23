@@ -128,7 +128,7 @@ const resources = {
       understandAndContinue: 'Entendido, ir al Diálogo Rabínico',
 
       creatorRole: 'Creador y Desarrollador',
-      devSubtitle: 'Desarrollo de Tecnología, Educación Judía e Inteligencia Artificial',
+      devSubtitle: 'Desarrollo de Tecnologías para la Educación Judía con Juegos e Inteligencia Artificial',
       devMainDesc: 'fue concebido y desarrollado con el propósito de poner la riqueza de la sabiduría milenaria judía al alcance de todos:',
       sirianDesc: 'Preservación de las sagradas usanzas judeo-sirias (Halabí y Shamí).',
       sefaradiAshkenaziDesc: 'Integración fiel del Shulján Aruj de Maran y las glosas del Ramá.',
@@ -140,6 +140,7 @@ const resources = {
       donatePaypalFull: 'Donar con PayPal (paypal.me/gingerjewman0)',
       copied: 'Copiado',
       copyLink: 'Copiar enlace',
+      donateButton: "Donar",
 
       communityGuideTitle: 'Guía de Diversidad Comunitaria',
       communityGuideSubtitle: 'Las 5 grandes vertientes explicadas por Rabino Virtual',
@@ -355,7 +356,7 @@ const resources = {
       understandAndContinue: 'הבנתי, עבור לשיחה עם הרב',
 
       creatorRole: 'יוצר ומפתח',
-      devSubtitle: 'פיתוח טכנולוגיה, חינוך יהודי ובינה מלאכותית',
+      devSubtitle: 'פיתוח טכנולוגיות חינוך יהודי באמצעות משחקים בינה מלאכותית',
       devMainDesc: 'נוצר ופותח במטרה להנגיש את עושר החכמה היהודית.',
       sirianDesc: 'שימור מנהגי יהדות סוריה.',
       sefaradiAshkenaziDesc: 'שילוב נאמן של שולחן ערוך מרן והגהות הרמא.',
@@ -367,6 +368,7 @@ const resources = {
       donatePaypalFull: 'תרום דרך PayPal (paypal.me/gingerjewman0)',
       copied: 'הועתק',
       copyLink: 'העתק קישור',
+      donateButton: "תרום",
 
       communityGuideTitle: 'מדריך מנהגי הקהילות',
       communityGuideSubtitle: '5 המסורות המרכזיות',
@@ -582,7 +584,7 @@ const resources = {
       understandAndContinue: 'Understood, go to Rabbinic Dialogue',
 
       creatorRole: 'Creator & Developer',
-      devSubtitle: 'Technology Development, Jewish Education & Artificial Intelligence',
+      devSubtitle: 'Technology Development for Jewish Education with Games and Artificial Intelligence',
       devMainDesc: 'was conceived and built to bring the wealth of Jewish wisdom to every seeker:',
       sirianDesc: 'Preserving Syrian-Jewish traditions (Halabi & Shami).',
       sefaradiAshkenaziDesc: 'Faithful integration of Maran\'s Shulchan Aruch and Rama\'s glosses.',
@@ -594,6 +596,7 @@ const resources = {
       donatePaypalFull: 'Donate via PayPal (paypal.me/gingerjewman0)',
       copied: 'Copied',
       copyLink: 'Copy link',
+      donateButton: "Donate",
 
       communityGuideTitle: 'Community Diversity Guide',
       communityGuideSubtitle: 'The 5 major traditions explained by Virtual Rabbi',
@@ -809,7 +812,7 @@ const resources = {
       understandAndContinue: 'Compris, aller au dialogue rabbinique',
 
       creatorRole: 'Créateur & Développeur',
-      devSubtitle: 'Développement, Education Juive & IA',
+      devSubtitle: "Développement de technologies pour l'éducation juive avec des jeux et de l'intelligence artificielle",
       devMainDesc: 'a été conçu pour partager la sagesse juive dans le respect des traditions :',
       sirianDesc: 'Préservation des coutumes syriennes (Halabi et Shami).',
       sefaradiAshkenaziDesc: 'Intégration du Choulchan Aroukh et du Rama.',
@@ -821,6 +824,7 @@ const resources = {
       donatePaypalFull: 'Faire un don via PayPal',
       copied: 'Copié',
       copyLink: 'Copier le lien',
+      donateButton: "Faire un don",
 
       communityGuideTitle: 'Guide de la Diversité Communautaire',
       communityGuideSubtitle: 'Les 5 traditions expliquées par le Rabbin Virtuel',
@@ -1035,7 +1039,7 @@ const resources = {
       understandAndContinue: 'Entendido, ir para o diálogo rabínico',
 
       creatorRole: 'Criador e Desenvolvedor',
-      devSubtitle: 'Desenvolvimento, Educação Judaica e IA',
+      devSubtitle: 'Desenvolvimento de Tecnologias para a Educação Judaica com Jogos e Inteligência Artificial',
       devMainDesc: 'foi criado para compartilhar a sabedoria judaica respeitando todas as tradições:',
       sirianDesc: 'Preservação dos costumes judaico-sírios (Halabi e Shami).',
       sefaradiAshkenaziDesc: 'Integração do Shulchan Aruch e do Rama.',
@@ -1047,6 +1051,7 @@ const resources = {
       donatePaypalFull: 'Doar via PayPal',
       copied: 'Copiado',
       copyLink: 'Copiar link',
+      donateButton: "Doar",
 
       communityGuideTitle: 'Guia de Diversidade Comunitária',
       communityGuideSubtitle: 'As 5 grandes tradições explicadas pelo Rabino Virtual',
