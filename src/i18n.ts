@@ -154,7 +154,7 @@ const resources = {
       noSavedTeachings: 'Aún no has guardado ninguna enseñanza',
       clickBookmarkPrompt: 'Haz clic en el ícono de marcador al final de cualquier respuesta de Rabino Virtual para guardarla aquí',
       
-      // sistema de pago
+      // banner de versión lite
       liteVersionBanner: 'Versión Lite con anuncios',
       unlockAdsBtn: 'Quitar anuncios ($10 USD)',
       // disclaimer
@@ -361,7 +361,7 @@ const resources = {
       noSavedTeachings: 'טרם שמרת תורות',
       clickBookmarkPrompt: 'לחץ על סמל הסימנייה בתחתית כל תשובה כדי לשמור אותה',
       
-      // sistema de pago
+      // banner de versión lite
       liteVersionBanner: 'גרסת לייט עם פרסומות',
       unlockAdsBtn: 'הסר פרסומות ($10 USD)',
       // disclaimer
@@ -570,7 +570,7 @@ const resources = {
       noSavedTeachings: 'You have not saved any teachings yet',
       clickBookmarkPrompt: 'Click the bookmark icon at the end of any Virtual Rabbi answer to save it here',
       
-      // sistema de pago
+      // banner de versión lite
       liteVersionBanner: 'Lite Version with ads',
       unlockAdsBtn: 'Remove ads ($10 USD)',
       // disclaimer
@@ -779,7 +779,7 @@ const resources = {
       noSavedTeachings: 'Vous n\'avez pas encore sauvegardé d\'enseignement',
       clickBookmarkPrompt: 'Cliquez sur l\'icône de marque-page sous une réponse pour la sauvegarder',
 
-      // sistema de pago
+      // banner de versión lite
       liteVersionBanner: 'Version Lite avec annonces',
       unlockAdsBtn: 'Supprimer les annonces ($10 USD)',
       // disclaimer
@@ -986,7 +986,7 @@ const resources = {
       noSavedTeachings: 'Você ainda não salvou nenhum ensinamento',
       clickBookmarkPrompt: 'Clique no ícone de marcador abaixo de qualquer resposta para salvá-la aqui',
       
-      // sistema de pago
+      // banner de versión lite
       liteVersionBanner: 'Versão Lite com anúncios',
       unlockAdsBtn: 'Remover anúncios ($10 USD)',
       // disclaimer
@@ -1062,7 +1062,6 @@ const resources = {
     }
   }
 };
-
 /**
  * ============================================================================
  * INICIALIZACIÓN DEL MOTOR i18next
