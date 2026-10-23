@@ -15,8 +15,11 @@
   }
 
   [dir="rtl"], .font-hebrew {
-    font-family: 'Heebo', 'Frank Ruhl Libre', serif;
-  }
+  font-family: 'Heebo', 'Frank Ruhl Libre', serif;
+  /* Agrega estas dos líneas para corregir el flujo de lectura y puntuación RTL */
+  direction: rtl;
+  unicode-bidi: isolate;
+}
 }
 
 /* ============================================================================ */
