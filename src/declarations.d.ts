@@ -1,2 +1,4 @@
-//Función para que no marque el error de index.css en main.tsx 
+//Funciones para que no marque errores
 declare module '*.css';
+declare module '*.jpg';
+declare module '*.png';
