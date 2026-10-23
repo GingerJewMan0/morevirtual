@@ -1579,29 +1579,7 @@ useEffect(() => {
           </div>
         </footer>
       )}
-{/* Eliminar en la versión final para vender (no se te vaya a olvidar quitarlo)*/}
-<div style={{ display: 'flex', gap: '10px', margin: '15px', justifyContent: 'center', zIndex: 9999, position: 'relative' }}>
-  <button 
-    onClick={() => {
-      localStorage.setItem('isPremium', 'true');
-      window.location.reload();
-    }}
-    style={{ background: '#ffd700', color: '#000', padding: '10px 15px', fontWeight: 'bold', borderRadius: '8px', border: 'none', cursor: 'pointer', boxShadow: '0 2px 5px rgba(0,0,0,0.2)' }}
-  >
-    ⭐ Activar Premium
-  </button>
-
-  <button 
-    onClick={() => {
-      localStorage.setItem('isPremium', 'false');
-      window.location.reload();
-    }}
-    style={{ background: '#e0e0e0', color: '#333', padding: '10px 15px', fontWeight: 'bold', borderRadius: '8px', border: 'none', cursor: 'pointer', boxShadow: '0 2px 5px rgba(0,0,0,0.2)' }}
-  >
-    🔄 Cambiar a Lite
-  </button>
-</div>
-
+      
       {/* Pie de Página / Footer Estático Abajo (Para otras pestañas) */}
       {activeMainTab !== 'chat' && !isPremium && (
         <footer className="shrink-0 z-20 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 p-3">
