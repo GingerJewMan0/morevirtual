@@ -417,7 +417,7 @@ app.post('/api/tts', async (req, res) => {
       },
       body: JSON.stringify({
         text: cleanText,
-        model_id: 'eleven_turbo_v2_5', // Modelo Turbo para ultra velocidad y baja latencia
+        model_id: 'eleven_flash_v2_5', // Modelo Flash para la menor latencia posible
         voice_settings: {
           stability: isHebrew ? 0.88 : 0.75,          
           similarity_boost: 0.80, 
