@@ -99,7 +99,7 @@ export function App() {
 useEffect(() => {
   const params = new URLSearchParams(window.location.search);
   if (params.get('activate_premium') === 'true') {
-    localStorage.setItem('isPremium', 'true'); // <--- Usar la misma llave aquí
+    localStorage.setItem('isPremium', 'true');
     setIsPremium(true);
     alert("¡Felicidades! Tu cuenta ha sido actualizada a Premium con éxito.");
   }
@@ -822,11 +822,11 @@ useEffect(() => {
           <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-amber-50/60 dark:bg-slate-950/60">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl overflow-hidden shadow-sm shrink-0 flex items-center justify-center bg-slate-900 border border-amber-500/40 p-0.5">
-              <img 
-              src="./icon.jpg" 
-              alt="Rabino Virtual" 
-              className="w-full h-full object-contain" 
-              />
+                <img 
+                  src="./icon.jpg" 
+                  alt="Rabino Virtual" 
+                  className="w-full h-full object-contain" 
+                />
               </div>
               <div>
                 <h2 className="font-serif font-bold text-base text-slate-900 dark:text-white tracking-wide">
@@ -1042,11 +1042,11 @@ useEffect(() => {
               onClick={() => setActiveMainTab('chat')}
             >
               <div className="w-10 h-10 rounded-xl overflow-hidden shadow-sm shrink-0 flex items-center justify-center bg-slate-900 border border-amber-500/40 p-0.5">
-              <img 
-              src="./icon.jpg" 
-              alt="Rabino Virtual" 
-              className="w-full h-full object-contain" 
-              />
+                <img 
+                  src="./icon.jpg" 
+                  alt="Rabino Virtual" 
+                  className="w-full h-full object-contain" 
+                />
               </div>
             </div>
           </div>
