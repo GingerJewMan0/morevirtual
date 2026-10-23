@@ -154,14 +154,11 @@ const resources = {
       noSavedTeachings: 'Aún no has guardado ninguna enseñanza',
       clickBookmarkPrompt: 'Haz clic en el ícono de marcador al final de cualquier respuesta de Rabino Virtual para guardarla aquí',
       
-      // banner de versión lite
       liteVersionBanner: 'Versión Lite con anuncios',
       unlockAdsBtn: 'Quitar anuncios ($10 USD)',
-      // disclaimer
       disclaimerNotice: 'Aviso: Propósito pedagógico y de Limud Torá. La IA puede cometer errores (Ver Giluy Da\'at)',
-      disclaimerSubtext: 'Para decisiones prácticas individuales, consulta al rabino de tu comunidad.',
+      consultRabbiNotice: 'Para decisiones prácticas individuales, consulta al rabino de tu comunidad.',
 
-      // Modal de Pagos (PaymentModal)
       paymentModalTitle: 'Apoyo Internacional & Premium',
       tabVersionPremium: 'Versión Premium ($10 USD / $200 MXN)',
       tabFreeDonation: 'Donativo Libre',
@@ -181,7 +178,6 @@ const resources = {
       localPesoSupport: 'Aportación local en pesos',
       secureGlobalTransactions: 'Transacciones seguras a nivel global. ¡Gracias por tu apoyo!',
 
-      //citiesZmanim (Ciudades Globales)
       city_cdmx_name: 'Ciudad de México',
       city_cdmx_country: 'México',
       city_cdmx_flavor: 'Sede de las históricas Comunidades Maguen David (Jalabí) y Monte Sinai (Shamí), además de Sefaradí, Ashkenazí y Beit Jabad.',
@@ -381,14 +377,11 @@ const resources = {
       noSavedTeachings: 'טרם שמרת תורות',
       clickBookmarkPrompt: 'לחץ על סמל הסימנייה בתחתית כל תשובה כדי לשמור אותה',
       
-      // banner de versión lite
       liteVersionBanner: 'גרסת לייט עם פרסומות',
       unlockAdsBtn: 'הסר פרסומות ($10 USD)',
-      // disclaimer
       disclaimerNotice: 'הודעה: מטרה חינוכית ולימוד תורה. הבינה המלאכותית עלולה לטעות (ראה גילוי דעת)',
-      disclaimerSubtext: 'להחלטות מעשיות אישיות, התייעץ עם רב הקהילה שלך.',
+      consultRabbiNotice: 'להלכות ומנהגים למעשה, יש להתייעץ עם רב מוסמך.',
 
-      // Modal de Pagos (PaymentModal)
       paymentModalTitle: 'תמיכה בינלאומית ופרימיום',
       tabVersionPremium: 'גרסת פרימיום ($10 USD / $200 MXN)',
       tabFreeDonation: 'תרומה חופשית',
@@ -408,7 +401,6 @@ const resources = {
       localPesoSupport: 'תרומה מקומית בפזוס',
       secureGlobalTransactions: 'עסקאות מאובטחות ברחבי העולם. תודה על תמיכתך!',
 
-      //citiesZmanim
       city_cdmx_name: 'מקסיקו סיטי',
       city_cdmx_country: 'מקסיקו',
       city_cdmx_flavor: 'מושב הקהילות ההיסטוריות מגן דוד ומונטה סיני, לצד קהילות ספרדיות, אשכנזיות ובית חב"ד.',
@@ -608,14 +600,11 @@ const resources = {
       noSavedTeachings: 'You have not saved any teachings yet',
       clickBookmarkPrompt: 'Click the bookmark icon at the end of any Virtual Rabbi answer to save it here',
       
-      // banner de versión lite
       liteVersionBanner: 'Lite Version with ads',
       unlockAdsBtn: 'Remove ads ($10 USD)',
-      // disclaimer
       disclaimerNotice: 'Notice: Pedagogical and Limud Torah purpose. AI may make mistakes (See Giluy Da\'at)',
-      disclaimerSubtext: 'For individual practical decisions, consult your community rabbi.',
+      consultRabbiNotice: 'For individual practical decisions, consult your community rabbi.',
 
-      // Modal de Pagos (PaymentModal)
       paymentModalTitle: 'International Support & Premium',
       tabVersionPremium: 'Premium Version ($10 USD / $200 MXN)',
       tabFreeDonation: 'Free Donation',
@@ -635,7 +624,6 @@ const resources = {
       localPesoSupport: 'Local contribution in pesos',
       secureGlobalTransactions: 'Secure global transactions. Thank you for your support!',
 
-      //citiesZmanim
       city_cdmx_name: 'Mexico City',
       city_cdmx_country: 'Mexico',
       city_cdmx_flavor: 'Home to the historic Maguen David (Jalabi) and Monte Sinai (Shami) communities, as well as Sephardic, Ashkenazi, and Beit Chabad.',
@@ -835,14 +823,11 @@ const resources = {
       noSavedTeachings: 'Vous n\'avez pas encore sauvegardé d\'enseignement',
       clickBookmarkPrompt: 'Cliquez sur l\'icône de marque-page sous une réponse pour la sauvegarder',
       
-      // banner de versión lite
       liteVersionBanner: 'Version Lite avec annonces',
       unlockAdsBtn: 'Supprimer les annonces ($10 USD)',
-      // disclaimer
       disclaimerNotice: 'Avis : Objectif pédagogique et de Limud Torah. L\'IA peut commettre des erreurs (Voir Giluy Da\'at)',
-      disclaimerSubtext: 'Pour les décisions pratiques individuelles, consultez le rabbin de votre communauté.',
+      consultRabbiNotice: 'Pour des décisions pratiques individuelles, consultez le rabbin de votre communauté.',
 
-      // Modal de Pagos (PaymentModal)
       paymentModalTitle: 'Soutien International & Premium',
       tabVersionPremium: 'Version Premium ($10 USD / $200 MXN)',
       tabFreeDonation: 'Don Libre',
@@ -862,7 +847,6 @@ const resources = {
       localPesoSupport: 'Contribution locale en pesos',
       secureGlobalTransactions: 'Transactions sécurisées à l\'échelle mondiale. Merci pour votre soutien !',
 
-      //citiesZmanim
       city_cdmx_name: 'Mexico',
       city_cdmx_country: 'Mexique',
       city_cdmx_flavor: 'Siège des communautés historiques Maguen David et Monte Sinai, ainsi que séfarade, ashkénaze et Beit Chabad.',
@@ -901,7 +885,7 @@ const resources = {
       
       city_saopaulo_name: 'São Paulo',
       city_saopaulo_country: 'Brésil',
-      city_saopaulo_flavor: 'Le cœur de la communauté juive au Brésil, doté d\'institutions centenaires, de synagogues et d\'écoles communautaires.',
+      city_saopaulo_flavor: 'Le cœur de la communauté juive d\'Europe, avec le quartier historique du Marais et de nombreuses synagogues actives.',
 
       city_riodejaneiro_name: 'Rio de Janeiro',
       city_riodejaneiro_country: 'Brésil',
@@ -1023,7 +1007,7 @@ const resources = {
       giluyDaatTitle: 'Giluy Daat e Aviso Haláchico',
       strictNoticeTitle: 'Aviso estrito:',
       strictNoticeText: 'Este sistema foi criado exclusivamente para fins educacionais.',
-      noPsakNotice: 'Não emite nem substitui sob nenhuma circunstância um Psak Halachá.',
+      noPsakNotice: 'Não emite nem substitui sob nenhuma circunstância un Psak Halachá.',
       whyNoPsakTitle: 'Por que a IA não pode dar um Psak Halachá?',
       caseAssessmentTitle: 'Avaliação pessoal do caso:',
       caseAssessmentDesc: 'Na Halachá, cada decisão considera fatores pessoais únicos.',
@@ -1062,14 +1046,11 @@ const resources = {
       noSavedTeachings: 'Você ainda não salvou nenhum ensinamento',
       clickBookmarkPrompt: 'Clique no ícone de marcador abaixo de qualquer resposta para salvá-la aqui',
       
-      // banner de versión lite
       liteVersionBanner: 'Versão Lite com anúncios',
       unlockAdsBtn: 'Remover anúncios ($10 USD)',
-      // disclaimer
       disclaimerNotice: 'Aviso: Propósito pedagógico e de Limud Torá. A IA pode cometer erros (Ver Giluy Da\'at)',
-      disclaimerSubtext: 'Para decisões prácticas individuais, consulte o rabino da sua comunidade.',
+      consultRabbiNotice: 'Para decisões práticas individuais, consulte o rabino da sua comunidade.',
 
-      // Modal de Pagos (PaymentModal)
       paymentModalTitle: 'Apoio Internacional & Premium',
       tabVersionPremium: 'Versão Premium ($10 USD / $200 MXN)',
       tabFreeDonation: 'Doação Livre',
@@ -1089,7 +1070,6 @@ const resources = {
       localPesoSupport: 'Contribuição local em pesos',
       secureGlobalTransactions: 'Transações seguras em nível global. Obrigado pelo seu apoio!',
 
-      //citiesZmanim
       city_cdmx_name: 'Cidade do México',
       city_cdmx_country: 'México',
       city_cdmx_flavor: 'Sede das históricas Comunidades Maguen David e Monte Sinai, além de Sefaradi, Ashkenazi e Beit Chabad.',
@@ -1120,7 +1100,7 @@ const resources = {
       
       city_panama_name: 'Cidade do Panamá',
       city_panama_country: 'Panamá',
-      city_panama_flavor: 'Grande comunidade judaica jalabi e ashkenazi, com altíssima observância de kashrut e Shabat.',
+      city_panama_flavor: 'Grande comunidade judaica jalabi e ashkenazi, com altísima observância de kashrut e Shabat.',
       
       city_buenosaires_name: 'Buenos Aires',
       city_buenosaires_country: 'Argentina',
