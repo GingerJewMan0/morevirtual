@@ -1011,12 +1011,12 @@ useEffect(() => {
               {t('devSupportText', 'Desarrollador de Rabino Virtual. Apoya el proyecto con un donativo voluntario.')}
             </p>
             <button
-              onClick={() => setIsPaymentModalOpen(true)}
-              className="w-full py-1.5 px-2.5 rounded-lg font-semibold text-[11px] bg-amber-600 hover:bg-amber-500 text-white dark:text-slate-950 transition flex items-center justify-center gap-1.5 shadow-xs cursor-pointer"
+            onClick={() => setIsPaymentModalOpen(true)}
+            className="w-full py-1.5 px-2.5 rounded-lg font-semibold text-[11px] bg-amber-600 hover:bg-amber-500 text-white dark:text-slate-950 transition flex items-center justify-center gap-1.5 shadow-xs cursor-pointer"
             >
               <ExternalLink className="w-3 h-3" />
-              <span>{t('donatePaypal', 'Actualizar a Premium ($200 MXN)')}</span>
-            </button>
+              <span>Donar</span>
+              </button>
           </div>
 
           <p className="text-[10px] text-slate-500 text-center italic">
