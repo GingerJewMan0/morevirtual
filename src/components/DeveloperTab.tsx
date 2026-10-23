@@ -160,11 +160,9 @@ export const DeveloperTab: React.FC<DeveloperTabProps> = ({ onOpenPaymentModal }
             </button>
           </div>
 
-          <p 
-          className="mt-6 text-center text-xs italic text-slate-500 dark:text-slate-400 font-serif"
-          >
-            "Kol ha-osek betzorjei tzibur be-emuná..." — Pirkei Avot
-            </p>
+          <p className="mt-6 text-center text-xs italic text-slate-500 dark:text-slate-400 font-serif">
+  {t('quotePirkeiAvot', '"Kol ha-osek betzorjei tzibur be-emuná..." — Pirkei Avot')}
+</p>
         </div>
 
       </div>
