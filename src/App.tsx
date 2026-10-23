@@ -38,7 +38,7 @@ import { FormattedRabbiResponse } from './components/FormattedRabbiResponse.tsx'
 import { TraditionsGuideModal } from './components/TraditionsGuideModal.tsx';
 import { HalachaLevelsModal } from './components/HalachaLevelsModal.tsx';
 import { SavedNotesModal } from './components/SavedNotesModal.tsx';
-import { PaymentModal } from './components/PaymentModal.tsx'; // <--- Importamos el modal de pagos
+import { PaymentModal } from './components/PaymentModal.tsx';
 import { CalendarZmanimTab } from './components/CalendarZmanimTab.tsx';
 import { ParashaTab } from './components/ParashaTab.tsx';
 import { GiluyDaatTab } from './components/GiluyDaatTab.tsx';
@@ -1569,7 +1569,7 @@ export function App() {
               >
                 <ShieldAlert className="w-3.5 h-3.5" />
                 <span className="font-medium">
-                  {t('pedagogicalNotice', "Aviso: Propósito pedagógico y de Limud Torá (Ver Giluy Da'at)")}
+                  {t('disclaimerNotice')}
                 </span>
               </button>
               <span className="hidden sm:inline italic">
@@ -1585,12 +1585,12 @@ export function App() {
         <footer className="shrink-0 z-20 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 p-3">
           <div className="w-full px-4 sm:px-6">
             <div className="w-full bg-amber-50 dark:bg-slate-800/90 py-1.5 px-3 rounded-xl text-center text-xs text-slate-600 dark:text-slate-300 border border-amber-200 dark:border-slate-700 flex items-center justify-between gap-2 shadow-xs">
-              <span className="truncate">Versión Lite con anuncios — Desbloquea Premium por sólo $200 MXN</span>
+              <span className="truncate">{t('liteVersionBanner')}</span>
               <button 
                 onClick={() => setIsPaymentModalOpen(true)} 
                 className="px-2.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-semibold text-[11px] shrink-0 cursor-pointer transition"
               >
-                Quitar anuncios ($200 MXN)
+                {t('unlockAdsBtn')}
               </button>
             </div>
           </div>
