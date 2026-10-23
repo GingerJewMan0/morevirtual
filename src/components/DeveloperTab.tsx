@@ -41,7 +41,7 @@ export const DeveloperTab: React.FC<DeveloperTabProps> = ({ onOpenPaymentModal }
             </h2>
             <p className="text-sm flex items-center gap-2 text-slate-600 dark:text-slate-400">
               <Code className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-              {t('devSubtitle', 'Desarrollo de Tecnología, Educación Judía e Inteligencia Artificial')}
+              {t('devSubtitle', 'Desarrollo de Tecnologías para la Educación Judía con Juegos e Inteligencia Artificial')}
             </p>
           </div>
         </div>
