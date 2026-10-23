@@ -1579,6 +1579,16 @@ useEffect(() => {
           </div>
         </footer>
       )}
+{/* Eliminar en la versión final para vender (no se te vaya a olvidar quitarlo)*/}
+<button 
+  onClick={() => {
+    localStorage.setItem('isPremium', 'true');
+    window.location.reload();
+  }}
+  style={{ background: 'gold', color: 'black', padding: '10px', fontWeight: 'bold', margin: '10px' }}
+>
+  ⭐ Activar Premium de Prueba
+</button>
 
       {/* Pie de Página / Footer Estático Abajo (Para otras pestañas) */}
       {activeMainTab !== 'chat' && !isPremium && (
