@@ -21,13 +21,24 @@ interface ParashaTabProps {
 }
 
 /**
+ * Función auxiliar para calcular de forma automática la Parashá de la semana actual.
+ */
+function getCurrentParashaId(): string {
+  const today = new Date();
+  const startYearDate = new Date(today.getFullYear(), 0, 1);
+  const weekNumber = Math.ceil(((today.getTime() - startYearDate.getTime()) / 86400000 + startYearDate.getDay() + 1) / 7);
+  const index = weekNumber % PARASHOT_DATA.length;
+  return PARASHOT_DATA[index]?.id || 'bereshit';
+}
+
+/**
  * Componente principal ParashaTab para la visualización y estudio del Limud Torá Semanal.
  */
 export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
   const { t, i18n } = useTranslation();
   
-  // Estado local para la Parashá seleccionada por su identificador único
-  const [selectedParashaId, setSelectedParashaId] = useState<string>('noaj');
+  // Estado local para la Parashá seleccionada automáticamente según la semana en curso
+  const [selectedParashaId, setSelectedParashaId] = useState<string>(() => getCurrentParashaId());
   
   // Estado local para la subpestaña activa dentro de la vista de la Parashá
   const [activeSubTab, setActiveSubTab] = useState<'resumen' | 'aliyot' | 'rashi' | 'chabad' | 'maqam'>('resumen');
