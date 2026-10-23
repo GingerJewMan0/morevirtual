@@ -142,7 +142,7 @@ export function CalendarZmanimTab() {
   }, [selectedCityId]);
 
   return (
-    <div className="max-w-5xl mx-auto py-4 px-3 sm:px-6 space-y-6 animate-fadeIn">
+    <div className="max-w-7xl mx-auto py-4 px-3 sm:px-6 space-y-6 animate-fadeIn">
       
       {/* BANNER SUPERIOR */}
       <div className="p-5 sm:p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-amber-950/80 to-slate-900 text-white border border-amber-500/35 shadow-xl flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
@@ -154,7 +154,7 @@ export function CalendarZmanimTab() {
           <h2 className="text-xl sm:text-2xl lg:text-3xl font-serif font-bold text-amber-200 leading-tight">
             {t('zmanimTitle')}
           </h2>
-          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl">
+          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-3xl">
             {t(`city_${city.id}_flavor`)} {shabbatData?.parashah && `• ${shabbatData.parashah}`}
           </p>
         </div>
@@ -228,7 +228,7 @@ export function CalendarZmanimTab() {
             </div>
           </div>
 
-          <div className="pt-3 border-t border-amber-200/60 dark:border-slate-800 text-[11px] text-amber-800 dark:text-amber-300 font-semibold flex items-center gap-1.5">
+          <div className="pt-3 border-t border-amber-200/60 dark:border-slate-800 text-[11px] text-amber-800 dark:text-amber-300 font-semibold flex items-center gap-1.5 mt-4">
             <span>🔴 {t('mandatoryTitle')}: {t('mitzvahDerabanan', 'Mitzvá Derabanan (Shalom Bait y Kavod Shabat)')}</span>
           </div>
         </div>
@@ -277,7 +277,7 @@ export function CalendarZmanimTab() {
             </div>
           </div>
 
-          <div className="pt-3 border-t border-indigo-200/60 dark:border-slate-800 text-[11px] text-indigo-800 dark:text-indigo-300 font-semibold flex items-center gap-1.5">
+          <div className="pt-3 border-t border-indigo-200/60 dark:border-slate-800 text-[11px] text-indigo-800 dark:text-indigo-300 font-semibold flex items-center gap-1.5 mt-4">
             <span>🔴 {t('mandatoryTitle')}: {t('mitzvahDeoraita', 'Mitzvá Deoraita / Derabanan')}</span>
           </div>
         </div>
@@ -296,7 +296,7 @@ export function CalendarZmanimTab() {
           <span className="text-xs text-slate-400">{t('realTimeHebcal', 'Tiempo Real (Hebcal)')}</span>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 text-xs">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-9 gap-3 text-xs">
           <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 text-center">
             <span className="text-slate-400 block text-[11px]">{t('alotHaShajar', 'Alot HaShajar')}</span>
             <span className="font-mono font-bold text-sm text-slate-800 dark:text-slate-200 mt-1 block">
