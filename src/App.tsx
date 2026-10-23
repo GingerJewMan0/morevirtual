@@ -1573,7 +1573,7 @@ export function App() {
                 </span>
               </button>
               <span className="hidden sm:inline italic">
-                {t('consultRabbiNotice', 'Para decisiones prácticas individuales, consulta al rabino de tu comunidad.')}
+                {t('consultRabbiNotice')}
               </span>
             </div>
           </div>
