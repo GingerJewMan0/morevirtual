@@ -96,14 +96,14 @@ export function App() {
   return localStorage.getItem('isPremium') === 'true';
 });
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('activate_premium') === 'true') {
-      localStorage.setItem('rabino_virtual_premium', 'true');
-      setIsPremium(true);
-      alert("¡Felicidades! Tu cuenta ha sido actualizada a Premium con éxito.");
-    }
-  }, []);
+useEffect(() => {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('activate_premium') === 'true') {
+    localStorage.setItem('isPremium', 'true'); // <--- Usar la misma llave aquí
+    setIsPremium(true);
+    alert("¡Felicidades! Tu cuenta ha sido actualizada a Premium con éxito.");
+  }
+}, []);
 
   const MAX_FREE_QUERIES = 12;
 
