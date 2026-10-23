@@ -76,7 +76,7 @@ function cleanFriendlyError(raw: string): string {
   } catch {}
   return raw.replace(/\{[\s\S]*\}/g, '').trim() || 'Dificultad de conexión temporal al consultar las fuentes. Por favor, reintenta.';
 }
-const { t } = useTranslation(); 
+
 const LANGUAGES = [
   { code: 'es', label: 'Español', flag: '🇪🇸', nativeLabel: 'Español' },
   { code: 'he', label: 'Hebreo', flag: '🇮🇱', nativeLabel: 'עברית' },
