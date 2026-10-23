@@ -161,6 +161,26 @@ const resources = {
       disclaimerNotice: 'Aviso: Propósito pedagógico y de Limud Torá. La IA puede cometer errores (Ver Giluy Da\'at)',
       disclaimerSubtext: 'Para decisiones prácticas individuales, consulta al rabino de tu comunidad.',
 
+      // Modal de Pagos (PaymentModal)
+      paymentModalTitle: 'Apoyo Internacional & Premium',
+      tabVersionPremium: 'Versión Premium ($10 USD / $200 MXN)',
+      tabFreeDonation: 'Donativo Libre',
+      premiumDesc: 'Desbloquea acceso ilimitado y sin anuncios a nivel mundial por',
+      paypalGlobalTitle: 'PayPal / Tarjeta Internacional',
+      paypalGlobalSub: 'Pago global de $10 USD',
+      mercadoPagoTitle: 'Mercado Pago',
+      onlyMexico: 'Solo México',
+      mercadoPagoSub: 'Tarjetas o efectivo en pesos ($200 MXN)',
+      speiTitle: 'Transferencia SPEI (México - $200 MXN)',
+      copyClabeBtn: 'Copiar CLABE',
+      copiedText: '¡Copiado!',
+      donationDesc: 'Apoya voluntariamente el mantenimiento del proyecto global eligiendo el monto de tu preferencia (USD):',
+      selectAmountLabel: 'Selecciona un monto (USD):',
+      donateWithPaypal: 'Donar con PayPal',
+      secureInternationalSupport: 'Aportación internacional segura',
+      localPesoSupport: 'Aportación local en pesos',
+      secureGlobalTransactions: 'Transacciones seguras a nivel global. ¡Gracias por tu apoyo!',
+
       //citiesZmanim (Ciudades Globales)
       city_cdmx_name: 'Ciudad de México',
       city_cdmx_country: 'México',
@@ -368,6 +388,26 @@ const resources = {
       disclaimerNotice: 'הודעה: מטרה חינוכית ולימוד תורה. הבינה המלאכותית עלולה לטעות (ראה גילוי דעת)',
       disclaimerSubtext: 'להחלטות מעשיות אישיות, התייעץ עם רב הקהילה שלך.',
 
+      // Modal de Pagos (PaymentModal)
+      paymentModalTitle: 'תמיכה בינלאומית ופרימיום',
+      tabVersionPremium: 'גרסת פרימיום ($10 USD / $200 MXN)',
+      tabFreeDonation: 'תרומה חופשית',
+      premiumDesc: 'פתח גישה בלתי מוגבלת ללא פרסומות ברחבי העולם עבור',
+      paypalGlobalTitle: 'PayPal / כרטיס אשראי בינלאומי',
+      paypalGlobalSub: 'תשלום גלובלי של $10 USD',
+      mercadoPagoTitle: 'Mercado Pago',
+      onlyMexico: 'מקסיקו בלבד',
+      mercadoPagoSub: 'כרטיסים או מזומן בפזוס ($200 MXN)',
+      speiTitle: 'העברה בנקאית SPEI (מקסיקו - $200 MXN)',
+      copyClabeBtn: 'העתק CLABE',
+      copiedText: 'הועתק!',
+      donationDesc: 'תמוך מרצון בתחזוקה של הפרויקט הגלובלי על ידי בחירת הסכום המועדף עליך (USD):',
+      selectAmountLabel: 'בחר סכום (USD):',
+      donateWithPaypal: 'תרום באמצעות PayPal',
+      secureInternationalSupport: 'תרומה בינלאומית מאובטחת',
+      localPesoSupport: 'תרומה מקומית בפזוס',
+      secureGlobalTransactions: 'עסקאות מאובטחות ברחבי העולם. תודה על תמיכתך!',
+
       //citiesZmanim
       city_cdmx_name: 'מקסיקו סיטי',
       city_cdmx_country: 'מקסיקו',
@@ -415,7 +455,7 @@ const resources = {
 
       city_paris_name: 'פריז',
       city_paris_country: 'צרפת',
-      city_paris_flavor: 'הקהילה היהודית הגדולה באירופה, הכוללת את רובע לה מארה ההיסטורי وبתי כנסת פעילים רבים.',
+      city_paris_flavor: 'הקהילה היהודית הגדולה באירופה, הכוללת את רובע לה מארה ההיסטורי ובתי כנסת פעילים רבים.',
       
       city_madrid_name: 'מדריד',
       city_madrid_country: 'ספרד',
@@ -430,8 +470,6 @@ const resources = {
       besamimDesc: "בשמים להשיב את הנפש.",
       nerDesc: "נר קלוע.",
       hamavdilDesc: "ברכת המבדיל בין קודש לחול."
-
-
     }
   },
 
@@ -577,6 +615,26 @@ const resources = {
       disclaimerNotice: 'Notice: Pedagogical and Limud Torah purpose. AI may make mistakes (See Giluy Da\'at)',
       disclaimerSubtext: 'For individual practical decisions, consult your community rabbi.',
 
+      // Modal de Pagos (PaymentModal)
+      paymentModalTitle: 'International Support & Premium',
+      tabVersionPremium: 'Premium Version ($10 USD / $200 MXN)',
+      tabFreeDonation: 'Free Donation',
+      premiumDesc: 'Unlock worldwide unlimited ad-free access for',
+      paypalGlobalTitle: 'PayPal / International Card',
+      paypalGlobalSub: '$10 USD global payment',
+      mercadoPagoTitle: 'Mercado Pago',
+      onlyMexico: 'Mexico Only',
+      mercadoPagoSub: 'Cards or cash in pesos ($200 MXN)',
+      speiTitle: 'SPEI Transfer (Mexico - $200 MXN)',
+      copyClabeBtn: 'Copy CLABE',
+      copiedText: 'Copied!',
+      donationDesc: 'Voluntarily support the maintenance of the global project by choosing your preferred amount (USD):',
+      selectAmountLabel: 'Select an amount (USD):',
+      donateWithPaypal: 'Donate with PayPal',
+      secureInternationalSupport: 'Secure international contribution',
+      localPesoSupport: 'Local contribution in pesos',
+      secureGlobalTransactions: 'Secure global transactions. Thank you for your support!',
+
       //citiesZmanim
       city_cdmx_name: 'Mexico City',
       city_cdmx_country: 'Mexico',
@@ -639,8 +697,6 @@ const resources = {
       besamimDesc: "Aromatic spices.",
       nerDesc: "Braided candle.",
       hamavdilDesc: "Blessing of distinction."
-
-
     }
   },
 
@@ -778,13 +834,33 @@ const resources = {
       savedTeachingsSubtitle: 'Vos réponses et sujets préférés',
       noSavedTeachings: 'Vous n\'avez pas encore sauvegardé d\'enseignement',
       clickBookmarkPrompt: 'Cliquez sur l\'icône de marque-page sous une réponse pour la sauvegarder',
-
+      
       // banner de versión lite
       liteVersionBanner: 'Version Lite avec annonces',
       unlockAdsBtn: 'Supprimer les annonces ($10 USD)',
       // disclaimer
       disclaimerNotice: 'Avis : Objectif pédagogique et de Limud Torah. L\'IA peut commettre des erreurs (Voir Giluy Da\'at)',
       disclaimerSubtext: 'Pour les décisions pratiques individuelles, consultez le rabbin de votre communauté.',
+
+      // Modal de Pagos (PaymentModal)
+      paymentModalTitle: 'Soutien International & Premium',
+      tabVersionPremium: 'Version Premium ($10 USD / $200 MXN)',
+      tabFreeDonation: 'Don Libre',
+      premiumDesc: 'Débloquez un accès illimité sans publicité dans le monde entier pour',
+      paypalGlobalTitle: 'PayPal / Carte Internationale',
+      paypalGlobalSub: 'Paiement mondial de 10 $ USD',
+      mercadoPagoTitle: 'Mercado Pago',
+      onlyMexico: 'Mexique Uniquement',
+      mercadoPagoSub: 'Cartes ou espèces en pesos (200 MXN)',
+      speiTitle: 'Virement SPEI (Mexique - 200 MXN)',
+      copyClabeBtn: 'Copier le CLABE',
+      copiedText: 'Copié !',
+      donationDesc: 'Soutenez volontairement la maintenance du projet mondial en choisissant le montant de votre choix (USD) :',
+      selectAmountLabel: 'Sélectionnez un montant (USD) :',
+      donateWithPaypal: 'Faire un don avec PayPal',
+      secureInternationalSupport: 'Contribution internationale sécurisée',
+      localPesoSupport: 'Contribution locale en pesos',
+      secureGlobalTransactions: 'Transactions sécurisées à l\'échelle mondiale. Merci pour votre soutien !',
 
       //citiesZmanim
       city_cdmx_name: 'Mexico',
@@ -841,7 +917,7 @@ const resources = {
 
       city_barcelona_name: 'Barcelone',
       city_barcelona_country: 'Espagne',
-      city_barcelona_flavor: 'Communauté juive active en Catalogne, dotée d\'un riche patrimoine historique dans l\'ancien Call Jueu.',
+      city_barcelona_flavor: 'Communauté juive active en Catalogne, doté d\'un riche patrimoine historique dans l\'ancien Call Jueu.',
 
       shabbatIn: "Shabbat à",
       yayinDesc: "Verre de vin ou jus de raisin.",
@@ -993,6 +1069,26 @@ const resources = {
       disclaimerNotice: 'Aviso: Propósito pedagógico e de Limud Torá. A IA pode cometer erros (Ver Giluy Da\'at)',
       disclaimerSubtext: 'Para decisões prácticas individuais, consulte o rabino da sua comunidade.',
 
+      // Modal de Pagos (PaymentModal)
+      paymentModalTitle: 'Apoio Internacional & Premium',
+      tabVersionPremium: 'Versão Premium ($10 USD / $200 MXN)',
+      tabFreeDonation: 'Doação Livre',
+      premiumDesc: 'Desbloqueie acesso ilimitado sem anúncios em todo o mundo por',
+      paypalGlobalTitle: 'PayPal / Cartão Internacional',
+      paypalGlobalSub: 'Pagamento global de $10 USD',
+      mercadoPagoTitle: 'Mercado Pago',
+      onlyMexico: 'Apenas México',
+      mercadoPagoSub: 'Cartões ou dinheiro em pesos ($200 MXN)',
+      speiTitle: 'Transferência SPEI (México - $200 MXN)',
+      copyClabeBtn: 'Copiar CLABE',
+      copiedText: 'Copiado!',
+      donationDesc: 'Apoie voluntariamente a manutenção do projeto global escolhendo o valor de sua preferência (USD):',
+      selectAmountLabel: 'Selecione um valor (USD):',
+      donateWithPaypal: 'Doar com PayPal',
+      secureInternationalSupport: 'Contribuição internacional segura',
+      localPesoSupport: 'Contribuição local em pesos',
+      secureGlobalTransactions: 'Transações seguras em nível global. Obrigado pelo seu apoio!',
+
       //citiesZmanim
       city_cdmx_name: 'Cidade do México',
       city_cdmx_country: 'México',
@@ -1032,7 +1128,7 @@ const resources = {
       
       city_saopaulo_name: 'São Paulo',
       city_saopaulo_country: 'Brasil',
-      city_saopaulo_flavor: 'O coração da comunidade judaica no Brasil, com instituições centenárias, sinagogas e escolas comunitárias.',
+      city_saopaulo_flavor: 'O coração da comunidade judaica no Brasil, com instituições centenarias, sinagogas e escolas comunitárias.',
 
       city_riodejaneiro_name: 'Río de Janeiro',
       city_riodejaneiro_country: 'Brasil',
@@ -1062,6 +1158,7 @@ const resources = {
     }
   }
 };
+
 /**
  * ============================================================================
  * INICIALIZACIÓN DEL MOTOR i18next
