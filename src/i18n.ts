@@ -243,7 +243,8 @@ const resources = {
 
       giluySubtitle: 'Giluy Da\'at y advertencia halájica',
       aiErrorWarning: 'El Rabino Virtual es una inteligencia artificial y puede cometer errores. Verifica siempre los textos y la halajá con fuentes autorizadas.',
-      followUpPracticeQuery: '¿Te gustaría saber cómo se maneja esta misma práctica en otras comunidades (como Ashkenazí, Sefaradí, Maguen David, Monte Sinai o Jabad)?'
+      followUpPracticeQuery: '¿Te gustaría saber cómo se maneja esta misma práctica en otras comunidades (como Ashkenazí, Sefaradí, Maguen David, Monte Sinai o Jabad)?', 
+      quotePirkeiAvot: 'Kol ha-osek betzorjei tzibur be-emuná..." — Pirkei Avot',
     }
   },
 
@@ -472,6 +473,7 @@ const resources = {
       giluySubtitle: 'גילוי דעת ואזהרה הלכתית',
       aiErrorWarning: 'הרב הווירטואלי הוא בינה מלאכותית ועלול לשגות. בדוק תמיד את המקורות וההלכה מול מוסמכים.',
       followUpPracticeQuery: 'האם תרצה לדעת כיצד נונהגת פרקטיקה זו בקהילות אחרות (כגון אשכנז, ספרד, מגן דוד, מוונטה סיני או חב"ד)?',
+      quotePirkeiAvot: 'כל העוסקים בצרכי ציבור באמונה..." — פרקי אבות',
     }
   },
 

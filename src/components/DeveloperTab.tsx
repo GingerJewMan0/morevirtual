@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next';
 interface DeveloperTabProps {
   onOpenPaymentModal: () => void;
 }
+const { t, i18n } = useTranslation();
 
 export const DeveloperTab: React.FC<DeveloperTabProps> = ({ onOpenPaymentModal }) => {
   const { t } = useTranslation();
@@ -159,9 +160,12 @@ export const DeveloperTab: React.FC<DeveloperTabProps> = ({ onOpenPaymentModal }
             </button>
           </div>
 
-          <p className="mt-6 text-center text-xs italic text-slate-500 dark:text-slate-400 font-serif">
-            "Kol ha-osek betzorjei tzibur be-emuná..." — Pirkei Avot
-          </p>
+          <p 
+          className="mt-6 text-center text-xs italic text-slate-500 dark:text-slate-400 font-serif"
+          dir={i18n.language === 'he' ? 'rtl' : 'ltr'}
+          >
+            {t('quotePirkeiAvot', '"Kol ha-osek betzorjei tzibur be-emuná..." — Pirkei Avot')}
+            </p>
         </div>
 
       </div>
