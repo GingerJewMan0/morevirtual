@@ -37,8 +37,37 @@ function getCurrentParashaId(): string {
 export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
   const { t, i18n } = useTranslation();
   
-  // Estado local para la Parashá seleccionada automáticamente según la semana en curso
-  const [selectedParashaId, setSelectedParashaId] = useState<string>(() => getCurrentParashaId());
+  // Estado inicial temporal por defecto (mientras consulta internet)
+  const [selectedParashaId, setSelectedParashaId] = useState<string>('lej_lejá');
+
+  // Consulta automática por internet de la Parashá actual de la semana
+  useEffect(() => {
+    async function fetchWeeklyParasha() {
+      try {
+        const response = await fetch('https://www.hebcal.com/hebcal?v=1&cfg=json&geonameid=3530597&m=on&s=on');
+        const data = await response.json();
+        
+        const parashaItem = data.items?.find((item: any) => item.category === 'parashat');
+        
+        if (parashaItem && parashaItem.title) {
+          const rawTitle = parashaItem.title.replace('Parashat ', '').toLowerCase().trim();
+          
+          const matchedParasha = PARASHOT_DATA.find(p => 
+            p.name.toLowerCase().includes(rawTitle) || 
+            p.id.toLowerCase().includes(rawTitle.replace(/\s+/g, '_'))
+          );
+
+          if (matchedParasha) {
+            setSelectedParashaId(matchedParasha.id);
+          }
+        }
+      } catch (error) {
+        console.error('Error al obtener la Parashá de internet:', error);
+      }
+    }
+
+    fetchWeeklyParasha();
+  }, []);
   
   // Estado local para la subpestaña activa dentro de la vista de la Parashá
   const [activeSubTab, setActiveSubTab] = useState<'resumen' | 'aliyot' | 'rashi' | 'chabad' | 'maqam'>('resumen');
