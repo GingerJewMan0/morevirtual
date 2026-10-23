@@ -1580,15 +1580,27 @@ useEffect(() => {
         </footer>
       )}
 {/* Eliminar en la versión final para vender (no se te vaya a olvidar quitarlo)*/}
-<button 
-  onClick={() => {
-    localStorage.setItem('isPremium', 'true');
-    window.location.reload();
-  }}
-  style={{ background: 'gold', color: 'black', padding: '10px', fontWeight: 'bold', margin: '10px' }}
->
-  ⭐ Activar Premium de Prueba
-</button>
+<div style={{ display: 'flex', gap: '10px', margin: '15px', justifyContent: 'center', zIndex: 9999, position: 'relative' }}>
+  <button 
+    onClick={() => {
+      localStorage.setItem('isPremium', 'true');
+      window.location.reload();
+    }}
+    style={{ background: '#ffd700', color: '#000', padding: '10px 15px', fontWeight: 'bold', borderRadius: '8px', border: 'none', cursor: 'pointer', boxShadow: '0 2px 5px rgba(0,0,0,0.2)' }}
+  >
+    ⭐ Activar Premium
+  </button>
+
+  <button 
+    onClick={() => {
+      localStorage.setItem('isPremium', 'false');
+      window.location.reload();
+    }}
+    style={{ background: '#e0e0e0', color: '#333', padding: '10px 15px', fontWeight: 'bold', borderRadius: '8px', border: 'none', cursor: 'pointer', boxShadow: '0 2px 5px rgba(0,0,0,0.2)' }}
+  >
+    🔄 Cambiar a Lite
+  </button>
+</div>
 
       {/* Pie de Página / Footer Estático Abajo (Para otras pestañas) */}
       {activeMainTab !== 'chat' && !isPremium && (
