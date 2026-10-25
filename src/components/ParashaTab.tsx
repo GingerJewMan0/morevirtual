@@ -3,7 +3,7 @@
  * COMPONENTE DE PESTAÑA DE PARASHÁ (ParashaTab.tsx)
  * ============================================================================
  * Propósito: Muestra el contenido detallado de la porción semanal de la Torá (Parashá),
- * organizando la información en subpestañas (Resumen, Aliyot, Rashi, Jasidut/Jabad y Maqam).
+ * organizando la información en subpestañas (Resumen, Aliyot, Rashi y Jasidut/Jabad).
  * Incluye traducción dinámica asistida por IA según el idioma activo del usuario.
  */
 
@@ -70,7 +70,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
   }, []);
   
   // Estado local para la subpestaña activa dentro de la vista de la Parashá
-  const [activeSubTab, setActiveSubTab] = useState<'resumen' | 'aliyot' | 'rashi' | 'chabad' | 'maqam'>('resumen');
+  const [activeSubTab, setActiveSubTab] = useState<'resumen' | 'aliyot' | 'rashi' | 'chabad'>('resumen');
 
   // Búsqueda de la Parashá actual basada en el ID seleccionado (con respaldo a la primera por defecto)
   const parasha = PARASHOT_DATA.find((p) => p.id === selectedParashaId) || PARASHOT_DATA[0];
@@ -108,7 +108,6 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
             rashiInsight: parasha.rashiInsight,
             chabadInsight: parasha.chabadInsight,
             aliyot: parasha.aliyot,
-            maqamHalabi: parasha.maqamHalabi,
           } as any)
         });
         const json = await res.json();
@@ -237,17 +236,6 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
         >
           🔥 {t('chabadTab', 'Jasidut (Jabad)')}
         </button>
-
-        <button
-          onClick={() => setActiveSubTab('maqam')}
-          className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition cursor-pointer ${
-            activeSubTab === 'maqam'
-              ? 'bg-amber-600 text-white shadow-xs'
-              : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
-          }`}
-        >
-          🎵 {t('maqamTab', 'Maqam Semanal')}
-        </button>
       </div>
 
       {/* ==================================================================== */}
@@ -352,25 +340,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
             </div>
           </div>
         )}
-
-        {/* Subpestaña: Maqam Semanal */}
-        {activeSubTab === 'maqam' && (
-          <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <span className="text-2xl">🎵</span>
-              <h3 className="text-xl font-serif font-bold text-slate-900 dark:text-white">
-                {t('maqamTitle', 'El Maqam Semanal en Alepo (Maguen David) y Damasco (Monte Sinai)')}
-              </h3>
-            </div>
-            <div className="p-5 rounded-2xl bg-emerald-50/80 dark:bg-slate-800/80 border border-emerald-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-sm leading-relaxed space-y-3">
-              <div className="flex items-center gap-2 text-emerald-900 dark:text-emerald-300 font-bold text-base flex-wrap">
-                <Music className="w-5 h-5 text-emerald-600 shrink-0" />
-                <span className="break-words">{t('assignedMaqam', 'Maqam asignado')}: {isTranslating ? '✨ Traduciendo...' : (translatedContent?.maqamHalabi || parasha.maqamHalabi)}</span>
-              </div>
-            </div>
-          </div>
-        )}
-
+        
         {/* Botón de consulta directa al Rabino */}
         <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
           <span className="text-xs text-slate-500 text-center sm:text-left">
