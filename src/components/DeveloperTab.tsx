@@ -20,9 +20,10 @@ interface DeveloperTabProps {
 
 export const DeveloperTab: React.FC<DeveloperTabProps> = ({ onOpenPaymentModal }) => {
   const { t, i18n } = useTranslation();
+  const isHebrew = i18n.language === 'he';
 
   return (
-    <div className="max-w-4xl mx-auto p-4 md:p-6 space-y-6 animate-fadeIn">
+    <div className="max-w-4xl mx-auto p-4 md:p-6 space-y-6 animate-fadeIn" dir={isHebrew ? 'rtl' : 'ltr'}>
       <div className="rounded-2xl border p-6 md:p-8 transition-colors bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 shadow-lg">
         
         {/* ==================================================================== */}
@@ -37,7 +38,7 @@ export const DeveloperTab: React.FC<DeveloperTabProps> = ({ onOpenPaymentModal }
               {t('creatorRole', 'Creador y Desarrollador')}
             </span>
             <h2 className="text-2xl sm:text-3xl font-bold font-serif text-slate-900 dark:text-amber-400">
-            {i18n.language === 'he' ? 'ליאור פישר לובטון' : 'Lior Fisher Lobaton'}
+              {isHebrew ? 'ליאור פישר לובטון' : 'Lior Fisher Lobaton'}
             </h2>
             <p className="text-sm flex items-center gap-2 text-slate-600 dark:text-slate-400">
               <Code className="w-4 h-4 text-amber-600 dark:text-amber-400" />
@@ -62,40 +63,48 @@ export const DeveloperTab: React.FC<DeveloperTabProps> = ({ onOpenPaymentModal }
           <div className="p-4 rounded-xl border transition-colors bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700/60">
             <h3 className="font-bold text-sm sm:text-base flex items-center gap-2 mb-1 text-slate-900 dark:text-amber-400">
               <Building2 className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-              Maguen David & Monte Sinai
+              {isHebrew ? 'מגן דוד & מונטה סיני' : 'Maguen David & Monte Sinai'}
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-              {t('sirianDesc', 'Preservación de las sagradas usanzas judeo-sirias (Halabí y Shamí), sus Maqamat y sabios.')}
+              {isHebrew 
+                ? 'שימור מנהגי יהדות סוריה (חלבי ושמי), המקامات וחכמי הדור.'
+                : t('sirianDesc', 'Preservación de las sagradas usanzas judeo-sirias (Halabí y Shamí), sus Maqamat y sabios.')}
             </p>
           </div>
 
           <div className="p-4 rounded-xl border transition-colors bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700/60">
             <h3 className="font-bold text-sm sm:text-base flex items-center gap-2 mb-1 text-slate-900 dark:text-amber-400">
               <BookOpen className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-              Sefaradí & Ashkenazí
+              {isHebrew ? 'ספרדי & אשכנזי' : 'Sefaradí & Ashkenazí'}
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-              {t('sefaradiAshkenaziDesc', 'Integración fiel del Shulján Aruj de Maran y las glosas del Ramá con sus códigos legales.')}
+              {isHebrew
+                ? 'שילוב נאמן של שולחן ערוך מרן והגהות הרמ\"א עם הקודדים ההלכתיים.'
+                : t('sefaradiAshkenaziDesc', 'Integración fiel del Shulján Aruj de Maran y las glosas del Ramá con sus códigos legales.')}
             </p>
           </div>
 
           <div className="p-4 rounded-xl border transition-colors bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700/60">
             <h3 className="font-bold text-sm sm:text-base flex items-center gap-2 mb-1 text-slate-900 dark:text-amber-400">
               <Flame className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-              Jabad Lubavitch
+              {isHebrew ? 'חב\"ד ליובאוויטש' : 'Jabad Lubavitch'}
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-              {t('chabadDesc', 'Enseñanza del Shulján Aruj HaRav y la dimensión mística e intelectual del jasidismo.')}
+              {isHebrew
+                ? 'לימוד שולחן ערוך האדמו\"ר הזקן והממד החסידי-פנימי של תורת החסידות.'
+                : t('chabadDesc', 'Enseñanza del Shulján Aruj HaRav y la dimensión mística e intelectual del jasidismo.')}
             </p>
           </div>
 
           <div className="p-4 rounded-xl border transition-colors bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700/60">
             <h3 className="font-bold text-sm sm:text-base flex items-center gap-2 mb-1 text-slate-900 dark:text-amber-400">
               <Scale className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-              {t('pedagogicalClassification', 'Clasificación Halájica Pedagógica')}
+              {isHebrew ? 'סיווג הלכתי חינוכי' : t('pedagogicalClassification', 'Clasificación Halájica Pedagógica')}
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-              {t('clarityDesc', 'Claridad entre lo Deoraita/Derabanan (🔴), Minhag (🟡) y Humrá piadosa (🟢).')}
+              {isHebrew
+                ? 'בהירות בין דאורייתא/דרבנן (🔴), מנהג (🟡) וחומרא (🟢).'
+                : t('clarityDesc', 'Claridad entre lo Deoraita/Derabanan (🔴), Minhag (🟡) y Humrá piadosa (🟢).')}
             </p>
           </div>
 
@@ -107,10 +116,12 @@ export const DeveloperTab: React.FC<DeveloperTabProps> = ({ onOpenPaymentModal }
         <div className="p-6 sm:p-8 rounded-2xl border transition-colors bg-slate-50 dark:bg-slate-800/30 border-slate-200 dark:border-slate-700 mb-6">
           <h3 className="text-lg sm:text-xl font-bold font-serif flex items-center gap-2 mb-2 text-slate-900 dark:text-amber-400">
             <MessageCircle className="w-5 h-5 text-amber-600 dark:text-amber-400" />
-            Ayuda y Soporte Técnico
+            {isHebrew ? 'עזרה ותמיכה טכנית' : 'Ayuda y Soporte Técnico'}
           </h3>
           <p className="text-xs sm:text-sm leading-relaxed text-slate-700 dark:text-slate-300 mb-6">
-            ¿Tienes alguna duda, comentario o necesitas asistencia con la aplicación? Comunícate directamente con nosotros a través de los siguientes canales:
+            {isHebrew
+              ? 'יש לך שאלה, הערה או זקוק לעזרה עם האפליקציה? צור איתנו קשר ישירות דרך הערוצים הבאים:'
+              : '¿Tienes alguna duda, comentario o necesitas asistencia con la aplicación? Comunícate directamente con nosotros a través de los siguientes canales:'}
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -122,7 +133,7 @@ export const DeveloperTab: React.FC<DeveloperTabProps> = ({ onOpenPaymentModal }
               className="flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-medium text-white bg-emerald-600 hover:bg-emerald-700 transition-colors shadow-sm text-sm"
             >
               <MessageCircle className="w-4 h-4" />
-              Escríbenos por WhatsApp
+              {isHebrew ? 'כתוב לנו בווטסאפ' : 'Escríbenos por WhatsApp'}
             </a>
 
             {/* Botón de Correo */}
@@ -131,7 +142,7 @@ export const DeveloperTab: React.FC<DeveloperTabProps> = ({ onOpenPaymentModal }
               className="flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-medium text-white bg-blue-600 hover:bg-blue-700 transition-colors shadow-sm text-sm"
             >
               <Mail className="w-4 h-4" />
-              Enviar un Correo
+              {isHebrew ? 'שלח לנו אימייל' : 'Enviar un Correo'}
             </a>
           </div>
         </div>
@@ -159,9 +170,9 @@ export const DeveloperTab: React.FC<DeveloperTabProps> = ({ onOpenPaymentModal }
             </button>
           </div>
 
-          <p className="text-[10px] text-slate-500 text-center italic" dir={i18n.language === 'he' ? 'rtl' : 'ltr'}>
+          <p className="text-[10px] text-slate-500 text-center italic mt-4" dir={isHebrew ? 'rtl' : 'ltr'}>
             {t('quotePirkeiAvot', '"Ase leja Rav, ukne leja Javer" — Pirkei Avot 1:6')}
-            </p>
+          </p>
         </div>
 
       </div>
