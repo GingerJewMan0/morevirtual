@@ -1,5 +1,5 @@
 import React from 'react';
-import { Info, HelpCircle, Shield, RefreshCw, Smartphone } from 'lucide-react';
+import { Info, HelpCircle, Shield, RefreshCw, Smartphone, Scale, Layers, Bookmark } from 'lucide-react';
 
 export function QATab() {
   return (
@@ -51,6 +51,36 @@ export function QATab() {
             </div>
             <p className="text-xs sm:text-sm leading-relaxed text-slate-600 dark:text-slate-400">
               La aplicación detecta las coordenadas de tu ubicación actual y calcula con absoluta precisión la entrada y salida del Shabat y festividades judías (Yom Tov) para pausar la interacción activa de acuerdo con los lineamientos de la halajá.
+            </p>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-amber-50/60 dark:bg-slate-800/60 border border-amber-200/80 dark:border-slate-700 space-y-2">
+            <div className="flex items-center gap-2 font-bold text-amber-900 dark:text-amber-300">
+              <Scale className="w-4 h-4 text-amber-600 shrink-0" />
+              <h3>¿Qué significan los círculos de colores (🔴 🟡 🟢) en las respuestas?</h3>
+            </div>
+            <p className="text-xs sm:text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+              Indican el nivel halájico de cada norma: 🔴 para obligaciones estrictas de la Torá (Deoraita) o decretos rabínicos, 🟡 para costumbres comunitarias arraigadas (Minhag), y 🟢 para prácticas opcionales, piadosas o exigencias personales (Humrá).
+            </p>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-amber-50/60 dark:bg-slate-800/60 border border-amber-200/80 dark:border-slate-700 space-y-2">
+            <div className="flex items-center gap-2 font-bold text-amber-900 dark:text-amber-300">
+              <Layers className="w-4 h-4 text-amber-600 shrink-0" />
+              <h3>¿Puedo usar la aplicación para consultar dudas sobre cualquier tradición judía?</h3>
+            </div>
+            <p className="text-xs sm:text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+              Sí. La aplicación está diseñada para integrar y respetar las fuentes y matices de distintas tradiciones comunitarias, ofreciendo una guía cálida adaptada al estudio y la práctica de la Torá.
+            </p>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-amber-50/60 dark:bg-slate-800/60 border border-amber-200/80 dark:border-slate-700 space-y-2">
+            <div className="flex items-center gap-2 font-bold text-amber-900 dark:text-amber-300">
+              <Bookmark className="w-4 h-4 text-amber-600 shrink-0" />
+              <h3>¿Mis preguntas guardadas se sincronizan en otros dispositivos?</h3>
+            </div>
+            <p className="text-xs sm:text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+              Las enseñanzas y notas que guardas se almacenan de manera local y segura en tu dispositivo actual para proteger totalmente tu privacidad durante el estudio y las festividades.
             </p>
           </div>
 
