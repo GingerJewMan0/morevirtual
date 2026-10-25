@@ -821,10 +821,12 @@ useEffect(() => {
         />
       )}
 
-      {/* Barra Lateral / Sidebar */}
+      {/* Barra Lateral / Sidebar (Dinámica: Derecha en Hebreo, Izquierda en otros idiomas) */}
       <aside
-        className={`fixed top-0 left-0 bottom-0 z-50 w-72 sm:w-80 bg-white dark:bg-slate-900 border-r border-amber-200/80 dark:border-amber-500/30 text-slate-900 dark:text-white shadow-2xl flex flex-col justify-between transition-transform duration-300 ease-in-out ${
-          isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`fixed top-0 bottom-0 z-50 w-72 sm:w-80 bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xl flex flex-col justify-between transition-transform duration-300 ease-in-out ${
+          i18n.language === 'he'
+            ? `right-0 border-l border-amber-200/80 dark:border-amber-500/30 ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full'}`
+            : `left-0 border-r border-amber-200/80 dark:border-amber-500/30 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`
         }`}
       >
         <div className="flex-1 flex flex-col overflow-y-auto">
