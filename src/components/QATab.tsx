@@ -85,6 +85,16 @@ export function QATab() {
             <p className="text-xs sm:text-sm leading-relaxed text-slate-600 dark:text-slate-400">
               {t('qa_a6', 'Las enseñanzas y notas que guardas se almacenan de manera local y segura...')}
             </p>
+
+            <div className="p-4 rounded-2xl bg-amber-50/60 dark:bg-slate-800/60 border border-amber-200/80 dark:border-slate-700 space-y-2">
+            <div className="flex items-center gap-2 font-bold text-amber-900 dark:text-amber-300">
+              <Smartphone className="w-4 h-4 text-amber-600 shrink-0" />
+              <h3>{t('qa_q7', '¿Está disponible la app en la App Store de iOS?')}</h3>
+            </div>
+            <p className="text-xs sm:text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+              {t('qa_a7', 'De momento no, pero próximamente estará disponible para iOS.')}
+            </p>
+          </div>
           </div>
 
         </div>

@@ -247,7 +247,7 @@ const resources = {
       qaTitle: 'Preguntas Frecuentes (Q&A)',
       qaSubtitle: 'Aclaraciones sobre tu cuenta, suscripciones, restauración y funcionamiento de la aplicación.',
       qa_q1: '¿Qué pasa si formateo mi teléfono o cambio de dispositivo? ¿Pierdo mi suscripción?',
-      qa_a1: 'No. Las compras y suscripciones prémium están vinculadas directamente a tu cuenta personal de la tienda de aplicaciones (Apple ID en iOS o Google Play en Android). Al reinstalar la aplicación e iniciar sesión con la misma cuenta, tu acceso prémium se recupera de manera automática.',
+      qa_a1: 'No. Las compras y suscripciones prémium están vinculadas directamente a tu cuenta personal de la tienda de aplicaciones (Google Play en Android). Al reinstalar la aplicación e iniciar sesión con la misma cuenta, tu acceso prémium se recupera de manera automática.',
       qa_q2: '¿Cómo puedo restaurar mis compras si la app no reconoce mi estatus prémium?',
       qa_a2: 'Puedes utilizar la opción de "Restaurar compras" integrada en los ajustes o en la pasarela de pago de la aplicación para sincronizar de inmediato tu cuenta con los servidores oficiales de la tienda.',
       qa_q3: '¿Cómo funciona el bloqueo automático de Shabat?',
@@ -258,6 +258,8 @@ const resources = {
       qa_a5: 'Sí. La aplicación está diseñada para integrar y respetar las fuentes y matices de distintas tradiciones comunitarias, ofreciendo una guía cálida adaptada al estudio y la práctica de la Torá.',
       qa_q6: '¿Mis preguntas guardadas se sincronizan en otros dispositivos?',
       qa_a6: 'Las enseñanzas y notas que guardas se almacenan de manera local y segura en tu dispositivo actual para proteger totalmente tu privacidad durante el estudio y las festividades.',
+      qa_q7: '¿Está disponible la app en la App Store de iOS?',
+      qa_a7: 'De momento no, pero próximamente estará disponible para iOS.',
     }
   },
 
@@ -489,8 +491,7 @@ const resources = {
       qaTitle: 'שאלות ותשובות (Q&A)',
       qaSubtitle: 'הבהרות לגבי החשבון שלך, מנויים, שחזור ותפקוד האפליקציה.',
       qa_q1: 'מה קורה אם אני מאפס את הטלפון או מחליף מכשיר? האם אאבד את המנוי שלי?',
-      qa_a1: 'לא. רכישות ומנויי פרימיום קשורים ישירות לחשבון בחנות האפליקציות האישית שלך (Apple ID ב-iOS או Google Play ב-אנדרואיד). התקנה מחדש של האפליקציה וכניסה עם אותו חשבון משחזרת את הגישה שלך באופן אוטומטי.',
-      qa_q2: 'איך אני יכול לשחזר את הרכישות שלי אם האפליקציה לא מזהה את סטטוס הפרימיום שלי?',
+      qa_a1: 'לא. רכישות ומנויי פרימיום קשורים ישירות לחשבון בחנות האפליקציות האישית שלך (Google Play ב-אנדרואיד). התקנה מחדש של האפליקציה וכניסה עם אותו חשבון משחזרת את הגישה שלך באופן אוטומטי.',      qa_q2: 'איך אני יכול לשחזר את הרכישות שלי אם האפליקציה לא מזהה את סטטוס הפרימיום שלי?',
       qa_a2: 'באפשרותך להשתמש באפשרות "שחזור רכישות" המובנית בהגדרות או בשער התשלום של האפליקציה כדי לסנכרן מחדש את החשבון שלך מיידית עם שרתי החנות הרשמיים.',
       qa_q3: 'כיצד פועלת נעילת השבת האוטומטית?',
       qa_a3: 'האפליקציה מזהה את קואורדינטות המיקום הנוכחי שלך ומחשבת בדיוק רב את כניסת ויציאת השבת והחגים (יום טוב) כדי להשהות פעילות פעילה בהתאם להלכה.',
@@ -500,6 +501,8 @@ const resources = {
       qa_a5: 'כן. האפליקציה נועדה לשלב ולכבד את המקורות והדקויות של מסורות קהילתיות שונות, ומציעה הדרכה חמה המותאמת ללימוד תורה.',
       qa_q6: 'האם השאלות וההערות השמורות שלי מסתנכרנות במכשירים אחרים?',
       qa_a6: 'התורות וההערות שאתה שומר מאוחסנות באופן מקומי ומאובטח במכשיר הנוכחי שלך כדי להגן לחלוטין על פרטיותך בזמן הלימוד והחגים.',
+      qa_q7: 'האם האפליקציה זמינה בחנות App Store של iOS?',
+      qa_a7: 'כרגע לא, אך בקרוב היא תהיה זמינה עבור iOS.',
     }
   },
 
@@ -731,7 +734,7 @@ const resources = {
       qaTitle: 'Frequently Asked Questions (Q&A)',
       qaSubtitle: 'Clarifications regarding your account, subscriptions, restoration, and app functionality.',
       qa_q1: 'What happens if I format my phone or change devices? Do I lose my subscription?',
-      qa_a1: 'No. Premium purchases and subscriptions are directly linked to your personal app store account (Apple ID on iOS or Google Play on Android). By reinstalling the app and logging in with the same account, your premium access is automatically recovered.',
+      qa_a1: 'No. Premium purchases and subscriptions are directly linked to your personal app store account (Google Play on Android). By reinstalling the app and logging in with the same account, your premium access is automatically recovered.',
       qa_q2: 'How can I restore my purchases if the app does not recognize my premium status?',
       qa_a2: 'You can use the "Restore Purchases" option integrated in the app\'s settings or payment gateway to instantly sync your account with the official store servers.',
       qa_q3: 'How does the automatic Shabbat lock work?',
@@ -742,6 +745,8 @@ const resources = {
       qa_a5: 'Yes. The app is designed to integrate and respect the sources and nuances of different community traditions, offering a warm guide tailored to Torah study and practice.',
       qa_q6: 'Do my saved questions sync across other devices?',
       qa_a6: 'The teachings and notes you save are stored locally and securely on your current device to fully protect your privacy during study and holidays.',
+      qa_q7: 'Is the app available on the iOS App Store?',
+      qa_a7: 'Not at the moment, but it will soon be available for iOS.',
     }
   },
 
@@ -972,7 +977,7 @@ const resources = {
       qaTitle: 'Questions Fréquentes (Q&A)',
       qaSubtitle: 'Clarifications concernant votre compte, vos abonnements, la restauration et le fonctionnement de l\'application.',
       qa_q1: 'Que se passe-t-il si je formate mon téléphone ou change d\'appareil ? Perds-je mon abonnement ?',
-      qa_a1: 'Non. Les achats et abonnements premium sont directement liés à votre compte personnel de boutique d\'applications (Apple ID sur iOS ou Google Play sur Android). En réinstallant l\'application et en vous connectant avec le même compte, votre accès premium est récupéré automatiquement.',
+      qa_a1: 'Non. Les achats et abonnements premium sont directement liés à votre compte personnel de boutique d\'applications (Google Play sur Android). En réinstallant l\'application et en vous connectant avec le même compte, votre accès premium est récupéré automatiquement.',
       qa_q2: 'Comment puis-je restaurer mes achats si l\'application ne reconnaît pas mon statut premium ?',
       qa_a2: 'Vous pouvez utiliser l\'option "Restaurer les achats" intégrée dans les paramètres ou la passerelle de paiement de l\'application pour synchroniser immédiatement votre compte avec les serveurs officiels de la boutique.',
       qa_q3: 'Comment fonctionne le verrouillage automatique de Chabbat ?',
@@ -983,6 +988,8 @@ const resources = {
       qa_a5: 'Oui. L\'application est conçue pour intégrer et respecter les sources et nuances des différentes traditions communautaires, offrant un guide chaleureux adapté à l\'étude de la Torah.',
       qa_q6: 'Mes questions enregistrées se synchronisent-elles sur d\'autres appareils ?',
       qa_a6: 'Les enseignements et notes que vous enregistrez sont stockés localement et en toute sécurité sur votre appareil actuel pour protéger totalement votre confidentialité pendant l\'étude et les fêtes.',
+      qa_q7: 'L\'application est-elle disponible sur l\'App Store iOS ?',
+      qa_a7: 'Pas pour le moment, mais elle sera bientôt disponible pour iOS.',
     }
   },
 
@@ -1218,7 +1225,7 @@ const resources = {
       qaTitle: 'Perguntas Frequentes (Q&A)',
       qaSubtitle: 'Esclarecimentos sobre sua conta, assinaturas, restauração e funcionamento do aplicativo.',
       qa_q1: 'O que acontece se eu formatar meu celular ou trocar de dispositivo? Perderei minha assinatura?',
-      qa_a1: 'Não. As compras e assinaturas premium estão vinculadas diretamente à sua conta pessoal da loja de aplicativos (Apple ID no iOS ou Google Play no Android). Ao reinstalar o aplicativo e fazer login com a mesma conta, seu acesso premium é recuperado automaticamente.',
+      qa_a1: 'Não. As compras e assinaturas premium estão vinculadas diretamente à sua conta pessoal da loja de aplicativos (Google Play no Android). Ao reinstalar o aplicativo e fazer login com a mesma conta, seu acesso premium é recuperado automaticamente.',
       qa_q2: 'Como posso restaurar minhas compras se o aplicativo não reconhece meu status premium?',
       qa_a2: 'Você pode usar a opção de "Restaurar compras" integrada nas configurações ou no gateway de pagamento do aplicativo para sincronizar imediatamente sua conta com os servidores oficiais da loja.',
       qa_q3: 'Como funciona o bloqueio automático de Shabat?',
@@ -1229,6 +1236,8 @@ const resources = {
       qa_a5: 'Sim. O aplicativo foi desenhado para integrar e respeitar as fontes e nuances de diferentes tradições comunitárias, oferecendo um guia acolhedor adaptado ao estudo e à prática da Torá.',
       qa_q6: 'Minhas perguntas salvas são sincronizadas em outros dispositivos?',
       qa_a6: 'Os ensinamentos e notas que você salva são armazenados de forma local e segura no seu dispositivo atual para proteger totalmente sua privacidade durante o estudo e as festividades.',
+      qa_q7: 'O aplicativo está disponível na App Store do iOS?',
+      qa_a7: 'Por enquanto não, mas em breve estará disponível para iOS.'
     }
   }
 };
