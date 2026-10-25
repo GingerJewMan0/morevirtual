@@ -1012,7 +1012,7 @@ useEffect(() => {
         <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/70 space-y-3">
           <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-500/30 text-xs">
             <div className="flex items-center justify-between text-amber-900 dark:text-amber-300 font-bold mb-1">
-              <span>Lior Fisher Lobaton</span>
+              <span>{i18n.language === 'he' ? 'ליאור פישר לובטון' : 'Lior Fisher Lobaton'}</span>
               <Heart className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
             </div>
             <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-tight mb-2">
@@ -1027,9 +1027,9 @@ useEffect(() => {
               </button>
           </div>
 
-          <p className="text-[10px] text-slate-500 text-center italic">
-            "Ase leja Rav, ukne leja Javer" — Pirkei Avot 1:6
-          </p>
+          <p className="text-[10px] text-slate-500 text-center italic" dir={i18n.language === 'he' ? 'rtl' : 'ltr'}>
+            {t('quotePirkeiAvot', '"Ase leja Rav, ukne leja Javer" — Pirkei Avot 1:6')}
+            </p>
         </div>
       </aside>
 
