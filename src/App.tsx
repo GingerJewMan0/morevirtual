@@ -43,6 +43,7 @@ import { CalendarZmanimTab } from './components/CalendarZmanimTab.tsx';
 import { ParashaTab } from './components/ParashaTab.tsx';
 import { GiluyDaatTab } from './components/GiluyDaatTab.tsx';
 import { DeveloperTab } from './components/DeveloperTab.tsx';
+import { QATab } from './components/QATab';
 import { useTranslation } from 'react-i18next';
 import { checkIsShabbatOrYomTov } from './shabbatGuard.ts';
 import { ShabbatLockScreen } from './ShabbatLockScreen.tsx';
@@ -177,7 +178,7 @@ useEffect(() => {
   // 4. ESTADOS DE NAVEGACIÓN Y UI GENERAL
   // ==========================================================================
   const [activeMainTab, setActiveMainTab] = useState<
-    'chat' | 'calendar' | 'parasha' | 'giluy_daat' | 'developer'
+    'chat' | 'calendar' | 'parasha' | 'giluy_daat' | 'qa' | 'developer'
   >('chat');
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -780,6 +781,13 @@ useEffect(() => {
       accentColor: 'text-amber-400',
     },
     {
+      id: 'qa' as const,
+      label: t('tabQa', 'Q&A (Preguntas Frecuentes)'),
+      icon: Info,
+      desc: t('tabQaDesc', 'Suscripciones, restauración y funcionamiento'),
+      accentColor: 'text-amber-500',
+    },
+    {
       id: 'developer' as const,
       label: t('tabDeveloper', 'Desarrollador'),
       icon: Code,
@@ -1187,9 +1195,11 @@ useEffect(() => {
           <GiluyDaatTab onAcknowledge={() => setActiveMainTab('chat')} />
         )}
 
+        {activeMainTab === 'qa' && <QATab />}
+
         {activeMainTab === 'developer' && (
           <DeveloperTab onOpenPaymentModal={() => setIsPaymentModalOpen(true)} />
-          )}
+        )}
 
         {activeMainTab === 'chat' && (
           <>
