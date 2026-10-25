@@ -18,6 +18,8 @@ interface DeveloperTabProps {
   onOpenPaymentModal: () => void;
 }
 
+const { i18n } = useTranslation();
+
 export const DeveloperTab: React.FC<DeveloperTabProps> = ({ onOpenPaymentModal }) => {
   const { t } = useTranslation();
 
@@ -37,7 +39,7 @@ export const DeveloperTab: React.FC<DeveloperTabProps> = ({ onOpenPaymentModal }
               {t('creatorRole', 'Creador y Desarrollador')}
             </span>
             <h2 className="text-2xl sm:text-3xl font-bold font-serif text-slate-900 dark:text-amber-400">
-              Lior Fisher Lobaton
+            {i18n.language === 'he' ? 'ליאור פישר לובטון' : 'Lior Fisher Lobaton'}
             </h2>
             <p className="text-sm flex items-center gap-2 text-slate-600 dark:text-slate-400">
               <Code className="w-4 h-4 text-amber-600 dark:text-amber-400" />
@@ -159,9 +161,9 @@ export const DeveloperTab: React.FC<DeveloperTabProps> = ({ onOpenPaymentModal }
             </button>
           </div>
 
-          <p className="mt-6 text-center text-xs italic text-slate-500 dark:text-slate-400 font-serif">
-  "Kol ha-osek betzorjei tzibur be-emuná..." — Pirkei Avot
-</p>
+          <p className="text-[10px] text-slate-500 text-center italic" dir={i18n.language === 'he' ? 'rtl' : 'ltr'}>
+            {t('quotePirkeiAvot', '"Ase leja Rav, ukne leja Javer" — Pirkei Avot 1:6')}
+            </p>
         </div>
 
       </div>
