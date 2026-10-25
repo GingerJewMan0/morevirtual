@@ -18,7 +18,7 @@ interface DeveloperTabProps {
   onOpenPaymentModal: () => void;
 }
 
-const { i18n } = useTranslation();
+const { t, i18n } = useTranslation();
 
 export const DeveloperTab: React.FC<DeveloperTabProps> = ({ onOpenPaymentModal }) => {
   const { t } = useTranslation();
