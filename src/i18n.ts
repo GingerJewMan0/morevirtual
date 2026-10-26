@@ -52,7 +52,8 @@ const resources = {
       tabGiluyDaat: 'Giluy Da\'at (Deslinde)',
       tabGiluyDaatDesc: 'Propósito pedagógico y deslinde halájico',
       tabDeveloper: 'Desarrollador',
-      tabDeveloperDesc: 'Lior Fisher Lobaton y Donativos PayPal',
+      tabDeveloperDesc: 'Ohr Mobile Studios y Donativos',
+      ceoAndProgrammer: 'CEO y Programador de OHR Mobile Studio:',
 
       welcomeTitle: '¡Shalom Alejem! Te doy la bienvenida',
       welcomeDesc: 'Soy tu Rabino Virtual, un educador y guía rabínico concebido para acompañarte con calidez, paciencia y profundidad. Pregúntame con total confianza sobre halajá, Torá, festividades, kashrut, rezos o ética de la vida diaria.',
@@ -299,7 +300,8 @@ const resources = {
       tabGiluyDaat: 'גילוי דעת (הסתייגות)',
       tabGiluyDaatDesc: 'מטרה פדגוגית והסתייגות הלכתית',
       tabDeveloper: 'מפתח',
-      tabDeveloperDesc: 'ליאור פישר לובטון ותרומות פייפאל',
+      tabDeveloperDesc: 'Ohr Mobile Studios ותרומות',
+      ceoAndProgrammer: 'מנכ"ל ומפתח ראשי של OHR Mobile Studio:',
 
       welcomeTitle: 'שלום עליכם! ברוכים הבאים',
       welcomeDesc: 'אני הרב הוירטואלי שלך, מחנך ומורה דרך רוחני שנועד ללוות אותך בחום, בסבלנות ובעומק.',
@@ -547,7 +549,8 @@ const resources = {
       tabGiluyDaat: 'Giluy Da\'at (Disclaimer)',
       tabGiluyDaatDesc: 'Pedagogical purpose and halachic disclaimer',
       tabDeveloper: 'Developer',
-      tabDeveloperDesc: 'Lior Fisher Lobaton & PayPal Donations',
+      tabDeveloperDesc: 'Ohr Mobile Studios & Donations',
+      ceoAndProgrammer: 'CEO and Lead Developer of OHR Mobile Studio:',
 
       welcomeTitle: 'Shalom Aleichem! Welcome',
       welcomeDesc: 'I am your Virtual Rabbi, an educator and spiritual guide designed to accompany you with warmth, patience, and depth.',
@@ -795,7 +798,8 @@ const resources = {
       tabGiluyDaat: 'Gilouy Da\'at (Avertissement)',
       tabGiluyDaatDesc: 'Objectif pédagogique et avertissement halachique',
       tabDeveloper: 'Développeur',
-      tabDeveloperDesc: 'Lior Fisher Lobaton & Dons PayPal',
+      tabDeveloperDesc: 'Ohr Mobile Studios et Dons',
+      ceoAndProgrammer: 'PDG et Développeur Principal d\'OHR Mobile Studio :',
 
       welcomeTitle: 'Shalom Aleikhem ! Bienvenue',
       welcomeDesc: 'Je suis votre Rabbin Virtuel, un éducateur conçu pour vous accompagner avec bienveillance, patience et profondeur.',
@@ -1042,7 +1046,8 @@ const resources = {
       tabGiluyDaat: 'Giluy Da\'at (Isenção)',
       tabGiluyDaatDesc: 'Propósito pedagógico e isenção haláchica',
       tabDeveloper: 'Desenvolvedor',
-      tabDeveloperDesc: 'Lior Fisher Lobaton e Doações PayPal',
+      tabDeveloperDesc: 'Ohr Mobile Studios e Doações',
+      ceoAndProgrammer: 'CEO e Desenvolvedor Principal da OHR Mobile Studio:',
 
       welcomeTitle: 'Shalom Aleichem! Bem-vindo',
       welcomeDesc: 'Sou o seu Rabino Virtual, un educador concebido para acompanhá-lo com paciência e profundidade.',
