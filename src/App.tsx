@@ -30,6 +30,7 @@ import {
   Loader2,
   Check,
   Upload,
+  ShieldCheck,
 } from 'lucide-react';
 import { ChatMessage, TraditionId, SavedNote } from './types.ts';
 import { TRADITIONS } from './data/traditions.ts';
@@ -44,6 +45,7 @@ import { ParashaTab } from './components/ParashaTab.tsx';
 import { GiluyDaatTab } from './components/GiluyDaatTab.tsx';
 import { DeveloperTab } from './components/DeveloperTab.tsx';
 import { QATab } from './components/QATab';
+import { KosherCheckerTab } from './components/KosherCheckerTab.tsx';
 import { useTranslation } from 'react-i18next';
 import { checkIsShabbatOrYomTov } from './shabbatGuard.ts';
 import { ShabbatLockScreen } from './ShabbatLockScreen.tsx';
@@ -178,7 +180,7 @@ useEffect(() => {
   // 4. ESTADOS DE NAVEGACIÓN Y UI GENERAL
   // ==========================================================================
   const [activeMainTab, setActiveMainTab] = useState<
-    'chat' | 'calendar' | 'parasha' | 'giluy_daat' | 'qa' | 'developer'
+    'chat' | 'calendar' | 'parasha' | 'giluy_daat' | 'qa' | 'developer' | 'kosher'
   >('chat');
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -760,6 +762,13 @@ useEffect(() => {
       accentColor: 'text-amber-500',
     },
     {
+      id: 'kosher' as const,
+      label: t('tabKosher', 'Verificador Kosher'),
+      icon: ShieldCheck,
+      desc: t('tabKosherDesc', 'Directorio global de KMD, OU, OK, Badatz y más'),
+      accentColor: 'text-emerald-500',
+    },
+    {
       id: 'calendar' as const,
       label: t('tabZmanim', 'Calendario & Velas'),
       icon: Flame,
@@ -1204,6 +1213,8 @@ useEffect(() => {
         {activeMainTab === 'developer' && (
           <DeveloperTab onOpenPaymentModal={() => setIsPaymentModalOpen(true)} />
         )}
+
+        {activeMainTab === 'kosher' && <KosherCheckerTab />}
 
         {activeMainTab === 'chat' && (
           <>

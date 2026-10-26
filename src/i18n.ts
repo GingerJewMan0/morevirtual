@@ -260,6 +260,9 @@ const resources = {
       qa_a6: 'Las enseñanzas y notas que guardas se almacenan de manera local y segura en tu dispositivo actual para proteger totalmente tu privacidad durante el estudio y las festividades.',
       qa_q7: '¿Está disponible la app en la App Store de iOS?',
       qa_a7: 'De momento no, pero próximamente estará disponible para iOS.',
+      //KosherTab
+      tabKosher: "Verificador Kosher",
+      tabKosherDesc: "Directorio global de KMD, OU, OK, Badatz y más"
     }
   },
 
@@ -504,6 +507,10 @@ const resources = {
       qa_a6: 'התורות וההערות שאתה שומר מאוחסנות באופן מקומי ומאובטח במכשיר הנוכחי שלך כדי להגן לחלוטין על פרטיותך בזמן הלימוד והחגים.',
       qa_q7: 'האם האפליקציה זמינה בחנות App Store של iOS?',
       qa_a7: 'כרגע לא, אך בקרוב היא תהיה זמינה עבור iOS.',
+
+      //Kosher Tab
+      tabKosher: "בדיקת כשרות",
+      tabKosherDesc: "מדריך כשרות עולמי: KMD, OU, OK, בד\"ץ ועוד"
     }
   },
 
@@ -748,6 +755,10 @@ const resources = {
       qa_a6: 'The teachings and notes you save are stored locally and securely on your current device to fully protect your privacy during study and holidays.',
       qa_q7: 'Is the app available on the iOS App Store?',
       qa_a7: 'Not at the moment, but it will soon be available for iOS.',
+
+      //Kosher Tab
+      tabKosher: "Kosher Checker",
+      tabKosherDesc: "Global directory for KMD, OU, OK, Badatz and more"
     }
   },
 
@@ -991,6 +1002,10 @@ const resources = {
       qa_a6: 'Les enseignements et notes que vous enregistrez sont stockés localement et en toute sécurité sur votre appareil actuel pour protéger totalement votre confidentialité pendant l\'étude et les fêtes.',
       qa_q7: 'L\'application est-elle disponible sur l\'App Store iOS ?',
       qa_a7: 'Pas pour le moment, mais elle sera bientôt disponible pour iOS.',
+
+      //Kosher Tab
+      tabKosher: "Vérificateur Casher",
+      tabKosherDesc: "Répertoire mondial pour KMD, OU, OK, Badatz et plus"
     }
   },
 
@@ -1238,7 +1253,11 @@ const resources = {
       qa_q6: 'Minhas perguntas salvas são sincronizadas em outros dispositivos?',
       qa_a6: 'Os ensinamentos e notas que você salva são armazenados de forma local e segura no seu dispositivo atual para proteger totalmente sua privacidade durante o estudo e as festividades.',
       qa_q7: 'O aplicativo está disponível na App Store do iOS?',
-      qa_a7: 'Por enquanto não, mas em breve estará disponível para iOS.'
+      qa_a7: 'Por enquanto não, mas em breve estará disponível para iOS.',
+
+      //Kosher Tab
+      tabKosher: "Verificador Kosher",
+      tabKosherDesc: "Diretório global de KMD, OU, OK, Badatz e mais"
     }
   }
 };
