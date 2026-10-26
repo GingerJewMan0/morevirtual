@@ -125,7 +125,7 @@ const resources = {
       understandAndContinue: 'Entendido, ir al Diálogo Rabínico',
 
       creatorRole: 'Creador y Desarrollador',
-      devSubtitle: 'Desarrollo de Tecnologías para la Educación Judía con Juegos e Inteligencia Artificial',
+      devSubtitle: 'Desarrollo de Aplicaciones, Videojuegos y Herramientas Inteligentes para Android e iOS',
       devMainDesc: 'fue concebido y desarrollado con el propósito de poner la riqueza de la sabiduría milenaria judía al alcance de todos:',
       sirianDesc: 'Preservación de las sagradas usanzas judeo-sirias (Halabí y Shamí).',
       sefaradiAshkenaziDesc: 'Integración fiel del Shulján Aruj de Maran y las glosas del Ramá.',
@@ -372,7 +372,7 @@ const resources = {
       understandAndContinue: 'הבנתי, עבור לשיחה עם הרב',
 
       creatorRole: 'יוצר ומפתח',
-      devSubtitle: 'פיתוח טכנולוגיות חינוך יהודי באמצעות משחקים בינה מלאכותית',
+      devSubtitle: 'פיתוח אפליקציות, משחקי וידאו וכלים חכמים לאנדרואיד ו-iOS',
       devMainDesc: 'נוצר ופותח במטרה להנגיש את עושר החכמה היהודית.',
       sirianDesc: 'שימור מנהגי יהדות סוריה.',
       sefaradiAshkenaziDesc: 'שילוב נאמן של שולחן ערוך מרן והגהות הרמא.',
@@ -620,7 +620,7 @@ const resources = {
       understandAndContinue: 'Understood, go to Rabbinic Dialogue',
 
       creatorRole: 'Creator & Developer',
-      devSubtitle: 'Technology Development for Jewish Education with Games and Artificial Intelligence',
+      devSubtitle: 'Development of Applications, Video Games and Smart Tools for Android and iOS',
       devMainDesc: 'was conceived and built to bring the wealth of Jewish wisdom to every seeker:',
       sirianDesc: 'Preserving Syrian-Jewish traditions (Halabi & Shami).',
       sefaradiAshkenaziDesc: 'Faithful integration of Maran\'s Shulchan Aruch and Rama\'s glosses.',
@@ -868,7 +868,7 @@ const resources = {
       understandAndContinue: 'Compris, aller au dialogue rabbinique',
 
       creatorRole: 'Créateur & Développeur',
-      devSubtitle: "Développement de technologies pour l'éducation juive avec des jeux et de l'intelligence artificielle",
+      devSubtitle: 'Développement d\'Applications, de Jeux Vidéo et d\'Outils Intelligents pour Android et iOS',
       devMainDesc: 'a été conçu pour partager la sagesse juive dans le respect des traditions :',
       sirianDesc: 'Préservation des coutumes syriennes (Halabi et Shami).',
       sefaradiAshkenaziDesc: 'Intégration du Choulchan Aroukh et du Rama.',
@@ -1115,7 +1115,7 @@ const resources = {
       understandAndContinue: 'Entendido, ir para o diálogo rabínico',
 
       creatorRole: 'Criador e Desenvolvedor',
-      devSubtitle: 'Desenvolvimento de Tecnologias para a Educação Judaica com Jogos e Inteligência Artificial',
+      devSubtitle: 'Desenvolvimento de Aplicativos, Jogos e Ferramentas Inteligentes para Android e iOS',
       devMainDesc: 'foi criado para compartilhar a sabedoria judaica respeitando todas as tradições:',
       sirianDesc: 'Preservação dos costumes judaico-sírios (Halabi e Shami).',
       sefaradiAshkenaziDesc: 'Integração do Shulchan Aruch e do Rama.',
