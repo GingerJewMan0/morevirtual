@@ -144,7 +144,7 @@ export function CalendarZmanimTab() {
   return (
     <div className="max-w-7xl mx-auto py-4 px-3 sm:px-6 space-y-6 animate-fadeIn">
       
-      {/* CUADRO PRINCIPAL CON GRID Y MARGEN INFERIOR EXPLÍCITO */}
+      {/* CUADRO PRINCIPAL CON GRID Y EMPUJE INFERIOR (MT-20) PARA ALINEARSE AL RECTÁNGULO ROJO */}
       <div className="p-5 sm:p-8 rounded-3xl bg-gradient-to-br from-slate-900 via-amber-950/80 to-slate-900 text-white border border-amber-500/35 shadow-xl grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
         
         {/* Columna de textos */}
@@ -161,8 +161,8 @@ export function CalendarZmanimTab() {
           </p>
         </div>
 
-        {/* Columna del Selector de Ciudad con xl:mt-12 para bajarlo exactamente a la altura del rectángulo rojo */}
-        <div className="xl:col-span-5 flex flex-col gap-2 bg-slate-950/90 p-4 rounded-2xl border border-amber-500/50 shadow-inner w-full xl:mt-12">
+        {/* Columna del Selector con xl:mt-20 para ubicarlo exactamente en la posición del rectángulo rojo */}
+        <div className="xl:col-span-5 flex flex-col gap-2 bg-slate-950/90 p-4 rounded-2xl border border-amber-500/50 shadow-inner w-full xl:mt-20">
           <label className="text-xs text-amber-300 font-medium flex items-center gap-1.5 whitespace-nowrap">
             <MapPin className="w-3.5 h-3.5 text-amber-400" />
             <span>{t('selectCity', 'Ciudad:')}</span>
