@@ -1214,7 +1214,14 @@ useEffect(() => {
           <DeveloperTab onOpenPaymentModal={() => setIsPaymentModalOpen(true)} />
         )}
 
-        {activeMainTab === 'kosher' && <KosherCheckerTab />}
+        {activeMainTab === 'kosher' && (
+          <KosherCheckerTab 
+          onAskRabbi={(questionText) => {
+            setActiveMainTab('chat');
+            handleSendMessage(questionText);
+          }} 
+          />
+          )}
 
         {activeMainTab === 'chat' && (
           <>
