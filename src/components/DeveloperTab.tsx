@@ -11,6 +11,7 @@ import {
   UserCircle
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import ohrLogo from '../assets/ohr-logo.jpg';
 
 interface DeveloperTabProps {
   onOpenPaymentModal: () => void;
@@ -32,11 +33,11 @@ export const DeveloperTab: React.FC<DeveloperTabProps> = ({ onOpenPaymentModal }
           {/* Contenedor de la Imagen del Logo */}
           <div className="w-32 h-32 sm:w-40 sm:h-40 shrink-0">
             <img 
-              src="/assets/ohr-logo.png" /* <-- Asegúrate de poner la ruta correcta de tu imagen aquí */
-              alt="Ohr Mobile Studios Logo" 
-              className="w-full h-full object-cover rounded-2xl shadow-lg border-2 border-slate-200 dark:border-slate-700/50"
+            src={ohrLogo} 
+            alt="Ohr Mobile Studios Logo" 
+            className="w-full h-full object-cover rounded-2xl shadow-lg border-2 border-slate-200 dark:border-slate-700/50"
             />
-          </div>
+            </div>
 
           {/* Textos y Etiquetas complementarias */}
           <div className="space-y-3 flex-1 min-w-0">
