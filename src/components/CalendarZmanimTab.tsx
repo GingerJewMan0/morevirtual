@@ -144,11 +144,11 @@ export function CalendarZmanimTab() {
   return (
     <div className="max-w-7xl mx-auto py-4 px-3 sm:px-6 space-y-6 animate-fadeIn">
       
-      {/* CUADRO PRINCIPAL: DISEÑO FLEX CON EMPUJE INFERIOR (MT-AUTO) */}
-      <div className="p-5 sm:p-8 rounded-3xl bg-gradient-to-br from-slate-900 via-amber-950/80 to-slate-900 text-white border border-amber-500/35 shadow-xl flex flex-col xl:flex-row xl:justify-between gap-6">
+      {/* CUADRO PRINCIPAL CON GRID Y MARGEN INFERIOR EXPLÍCITO */}
+      <div className="p-5 sm:p-8 rounded-3xl bg-gradient-to-br from-slate-900 via-amber-950/80 to-slate-900 text-white border border-amber-500/35 shadow-xl grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
         
         {/* Columna de textos */}
-        <div className="space-y-2 flex-1 min-w-0">
+        <div className="xl:col-span-7 space-y-2 min-w-0">
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-400">
             <Calendar className="w-4 h-4 shrink-0" />
             <span>{t('zmanimBannerTitle')}</span>
@@ -156,13 +156,13 @@ export function CalendarZmanimTab() {
           <h2 className="text-xl sm:text-2xl lg:text-3xl font-serif font-bold text-amber-200 leading-tight">
             {t('zmanimTitle')}
           </h2>
-          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl">
+          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
             {t(`city_${city.id}_flavor`)} {shabbatData?.parashah && `• ${shabbatData.parashah}`}
           </p>
         </div>
 
-        {/* Columna del Selector de Ciudad con mt-auto para bajarlo exactamente al nivel del rectángulo rojo */}
-        <div className="flex flex-col gap-2 bg-slate-950/90 p-4 rounded-2xl border border-amber-500/50 shadow-inner shrink-0 w-full xl:w-96 xl:mt-auto">
+        {/* Columna del Selector de Ciudad con xl:mt-12 para bajarlo exactamente a la altura del rectángulo rojo */}
+        <div className="xl:col-span-5 flex flex-col gap-2 bg-slate-950/90 p-4 rounded-2xl border border-amber-500/50 shadow-inner w-full xl:mt-12">
           <label className="text-xs text-amber-300 font-medium flex items-center gap-1.5 whitespace-nowrap">
             <MapPin className="w-3.5 h-3.5 text-amber-400" />
             <span>{t('selectCity', 'Ciudad:')}</span>
