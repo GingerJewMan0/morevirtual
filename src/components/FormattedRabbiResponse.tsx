@@ -166,6 +166,10 @@ export function FormattedRabbiResponse({
    * identificando encabezados, listas, insignias comunitarias y bloques halájicos.
    * @returns Elementos JSX estructurados para el renderizado del mensaje.
    */
+  const formatTextWithSafeLayout = (text: string, defaultDir: 'ltr' | 'rtl' = 'ltr') => {
+    return <span dir={defaultDir} className="inline-block w-full text-left">{text}</span>;
+  };
+
   const renderFormattedContent = () => {
     const reflectionMatch = content.match(
       /(?:(?:Pregunta|Preguntas)\s+para\s+reflexionar|שאלה\s+למחשבה|Question\s+(?:for\s+reflection|to\s+reflect\s+on)|Pergunta\s+para\s+reflexão|Question\s+pour\s+réfléchir)[\s\S]*$/i
@@ -182,67 +186,62 @@ export function FormattedRabbiResponse({
     const lines = mainText.split('\n');
 
     return (
-      <div className="space-y-3.5 text-slate-800 dark:text-slate-200 text-[14.5px] leading-relaxed">
+      <div className="space-y-3.5 text-slate-800 dark:text-slate-200 text-[14.5px] leading-relaxed text-left">
         {lines.map((line, idx) => {
           const trimmed = line.trim();
           if (!trimmed) return <div key={idx} className="h-2" />;
 
-          // Bloque Obligatorio dinámico (Soporta español e hebreo)
+          // Bloque Obligatorio dinámico
           if (trimmed.match(/🔴\s*(OBLIGATORIO|חובה)/i)) {
-            const isHebrewLine = /[\u0590-\u05FF]/.test(trimmed);
             return (
               <div
                 key={idx}
-                className="my-3 p-3.5 rounded-xl border-l-4 border-l-red-600 bg-red-50/80 dark:bg-red-950/30 border border-red-200/60 dark:border-red-900/40 shadow-xs"
-                dir={isHebrewLine ? 'rtl' : 'ltr'}
+                className="my-3 p-3.5 rounded-xl border-l-4 border-l-red-600 bg-red-50/80 dark:bg-red-950/30 border border-red-200/60 dark:border-red-900/40 shadow-xs text-left"
+                dir="ltr"
               >
-                <div className={`flex items-center gap-2 text-red-900 dark:text-red-300 font-bold text-sm ${isHebrewLine ? 'flex-row-reverse text-right' : ''}`}>
+                <div className="flex items-center gap-2 text-red-900 dark:text-red-300 font-bold text-sm">
                   <span>🔴</span>
-                  <span>{isHebrewLine ? 'חובה (OBLIGATORIO)' : `${t('mandatoryTitle', 'OBLIGATORIO')} (Deoraita / Derabanan)`}</span>
+                  <span>{t('mandatoryTitle', 'OBLIGATORIO')} (Deoraita / Derabanan)</span>
                 </div>
-                <div className={`text-xs text-red-950 dark:text-red-200 mt-1 ${isHebrewLine ? 'text-right pr-6' : 'pl-6'}`}>
+                <div className="text-xs text-red-950 dark:text-red-200 mt-1 pl-6">
                   {formatInlineText(trimmed.replace(/🔴\s*(OBLIGATORIO|חובה):?/i, ''))}
                 </div>
               </div>
             );
           }
 
-          // Bloque Costumbre dinámico (Soporta español e hebreo)
+          // Bloque Costumbre dinámico
           if (trimmed.match(/🟡\s*(COSTUMBRE|מנהג)/i)) {
-            const isHebrewLine = /[\u0590-\u05FF]/.test(trimmed);
             return (
               <div
                 key={idx}
-                className="my-3 p-3.5 rounded-xl border-l-4 border-l-amber-500 bg-amber-50/80 dark:bg-amber-950/30 border border-amber-200/60 dark:border-amber-900/40 shadow-xs"
-                dir={isHebrewLine ? 'rtl' : 'ltr'}
+                className="my-3 p-3.5 rounded-xl border-l-4 border-l-amber-500 bg-amber-50/80 dark:bg-amber-950/30 border border-amber-200/60 dark:border-amber-900/40 shadow-xs text-left"
+                dir="ltr"
               >
-                <div className={`flex items-center gap-2 text-amber-900 dark:text-amber-300 font-bold text-sm ${isHebrewLine ? 'flex-row-reverse text-right' : ''}`}>
+                <div className="flex items-center gap-2 text-amber-900 dark:text-amber-300 font-bold text-sm">
                   <span>🟡</span>
-                  <span>{isHebrewLine ? 'מנהג (COSTUMBRE)' : `${t('customTitle', 'COSTUMBRE (MINHAG)')}`}</span>
+                  <span>{t('customTitle', 'COSTUMBRE (MINHAG)')}</span>
                 </div>
-                <div className={`text-xs text-amber-950 dark:text-amber-200 mt-1 ${isHebrewLine ? 'text-right pr-6' : 'pl-6'}`}>
+                <div className="text-xs text-amber-950 dark:text-amber-200 mt-1 pl-6">
                   {formatInlineText(trimmed.replace(/🟡\s*(COSTUMBRE(\s*\(MINHAG\))?|מנהג):?/i, ''))}
                 </div>
               </div>
             );
           }
 
-          // Bloque Opcional / Humrá dinámico (Soporta español e hebreo)
-          if (
-            trimmed.match(/🟢\s*(OPCIONAL|HUMRA|JUMRÁ|הידור|רשות)/i)
-          ) {
-            const isHebrewLine = /[\u0590-\u05FF]/.test(trimmed);
+          // Bloque Opcional / Humrá dinámico
+          if (trimmed.match(/🟢\s*(OPCIONAL|HUMRA|JUMRÁ|הידור|רשות)/i)) {
             return (
               <div
                 key={idx}
-                className="my-3 p-3.5 rounded-xl border-l-4 border-l-emerald-500 bg-emerald-50/80 dark:bg-emerald-950/30 border border-emerald-200/60 dark:border-emerald-900/40 shadow-xs"
-                dir={isHebrewLine ? 'rtl' : 'ltr'}
+                className="my-3 p-3.5 rounded-xl border-l-4 border-l-emerald-500 bg-emerald-50/80 dark:bg-emerald-950/30 border border-emerald-200/60 dark:border-emerald-900/40 shadow-xs text-left"
+                dir="ltr"
               >
-                <div className={`flex items-center gap-2 text-emerald-900 dark:text-emerald-300 font-bold text-sm ${isHebrewLine ? 'flex-row-reverse text-right' : ''}`}>
+                <div className="flex items-center gap-2 text-emerald-900 dark:text-emerald-300 font-bold text-sm">
                   <span>🟢</span>
-                  <span>{isHebrewLine ? 'הידור / רשות (OPCIONAL)' : `${t('optionalTitle', 'OPCIONAL / HUMRÁ')} (Midat Jasidut)`}</span>
+                  <span>{t('optionalTitle', 'OPCIONAL / HUMRÁ')} (Midat Jasidut)</span>
                 </div>
-                <div className={`text-xs text-emerald-950 dark:text-emerald-200 mt-1 ${isHebrewLine ? 'text-right pr-6' : 'pl-6'}`}>
+                <div className="text-xs text-emerald-950 dark:text-emerald-200 mt-1 pl-6">
                   {formatInlineText(trimmed.replace(/🟢\s*(OPCIONAL\s*\/?\s*HUMRA|JUMRÁ|הידור|רשות):?/i, ''))}
                 </div>
               </div>
@@ -250,12 +249,11 @@ export function FormattedRabbiResponse({
           }
 
           if (trimmed.startsWith('### ')) {
-            const isHebrew = /[\u0590-\u05FF]/.test(trimmed);
             return (
               <h4
                 key={idx}
-                className={`text-base font-bold text-amber-900 dark:text-amber-400 font-serif pt-2 border-b border-amber-100 dark:border-slate-800 pb-1 ${isHebrew ? 'text-right' : ''}`}
-                dir={isHebrew ? 'rtl' : 'ltr'}
+                className="text-base font-bold text-amber-900 dark:text-amber-400 font-serif pt-2 border-b border-amber-100 dark:border-slate-800 pb-1 text-left"
+                dir="ltr"
               >
                 {formatInlineText(trimmed.replace('### ', ''))}
               </h4>
@@ -263,12 +261,11 @@ export function FormattedRabbiResponse({
           }
 
           if (trimmed.startsWith('## ')) {
-            const isHebrew = /[\u0590-\u05FF]/.test(trimmed);
             return (
               <h3
                 key={idx}
-                className={`text-lg font-bold text-slate-900 dark:text-slate-100 font-serif pt-3 pb-1 ${isHebrew ? 'text-right' : ''}`}
-                dir={isHebrew ? 'rtl' : 'ltr'}
+                className="text-lg font-bold text-slate-900 dark:text-slate-100 font-serif pt-3 pb-1 text-left"
+                dir="ltr"
               >
                 {formatInlineText(trimmed.replace('## ', ''))}
               </h3>
@@ -281,19 +278,18 @@ export function FormattedRabbiResponse({
           const isSefaradi = trimmed.match(/(\*\*|\b)(Sefaradí|Sefardí|Maran)(\*\*|\b)/i);
           const isAshkenazi = trimmed.match(/(\*\*|\b)(Ashkenazí|Asquenazí|Ramá)(\*\*|\b)/i);
           const isChabad = trimmed.match(/(\*\*|\b)(Jabad|Chabad|Lubavitch|Alter Rebe)(\*\*|\b)/i);
-          const isHebrew = /[\u0590-\u05FF]/.test(trimmed);
 
           if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
             return (
               <div 
                 key={idx} 
-                className={`flex items-start gap-2.5 my-1.5 ${isHebrew ? 'flex-row-reverse text-right pr-2' : 'pl-2'}`}
-                dir={isHebrew ? 'rtl' : 'ltr'}
+                className="flex items-start gap-2.5 my-1.5 pl-2 text-left"
+                dir="ltr"
               >
                 <span className="text-amber-600 dark:text-amber-400 font-bold text-sm leading-none mt-1">
                   •
                 </span>
-                <div className="flex-1">
+                <div className="flex-1 text-left">
                   {isMaguenDavid && (
                     <span className="inline-block mx-1.5 px-2 py-0.5 text-[11px] font-semibold rounded-md bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700">
                       🏛️ Maguen David (Jalabí)
@@ -327,8 +323,8 @@ export function FormattedRabbiResponse({
           return (
             <p
               key={idx}
-              className={`${isHebrew ? 'text-right font-serif text-[16px]' : ''}`}
-              dir={isHebrew ? 'rtl' : 'ltr'}
+              className="text-left"
+              dir="ltr"
             >
               {formatInlineText(trimmed)}
             </p>
@@ -337,12 +333,12 @@ export function FormattedRabbiResponse({
 
         {/* Sección de Pregunta para Reflexión */}
         {reflectionText && (
-          <div className="mt-5 p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-amber-50 via-orange-50/50 to-amber-100/50 dark:from-amber-950/30 dark:via-slate-900 dark:to-amber-900/20 border-2 border-amber-300/80 dark:border-amber-700/60 shadow-sm animate-fadeIn">
+          <div className="mt-5 p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-amber-50 via-orange-50/50 to-amber-100/50 dark:from-amber-950/30 dark:via-slate-900 dark:to-amber-900/20 border-2 border-amber-300/80 dark:border-amber-700/60 shadow-sm animate-fadeIn text-left" dir="ltr">
             <div className="flex items-center gap-2 mb-2 text-amber-900 dark:text-amber-300 font-serif font-bold text-sm sm:text-base">
               <Sparkles className="w-4 h-4 text-amber-600 fill-amber-500 animate-pulse" />
               <span>{reflectionTitle}</span>
             </div>
-            <div className="text-sm italic text-slate-800 dark:text-slate-200 leading-relaxed pl-2 border-l-2 border-amber-400">
+            <div className="text-sm italic text-slate-800 dark:text-slate-200 leading-relaxed pl-2 border-l-2 border-amber-400 text-left">
               {formatInlineText(
                 reflectionText.replace(
                   /^(?:###\s*)?(?:(?:Pregunta|Preguntas)\s+para\s+reflexionar|שאלה\s+למחשבה|Question\s+(?:for\s+reflection|to\s+reflect\s+on)|Pergunta\s+para\s+reflexão|Question\s+pour\s+réfléchir):?\s*/i,
