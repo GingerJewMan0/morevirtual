@@ -7,8 +7,7 @@ import {
   Flame, 
   Scale,
   MessageCircle,
-  Mail,
-  Sparkles
+  Mail
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -25,21 +24,26 @@ export const DeveloperTab: React.FC<DeveloperTabProps> = ({ onOpenPaymentModal }
       <div className="rounded-2xl border p-6 md:p-8 transition-colors bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 shadow-lg">
         
         {/* ==================================================================== */}
-        {/* CABECERA DEL ESTUDIO (OHR MOBILE STUDIOS)                            */}
+        {/* CABECERA DEL ESTUDIO CON LOGOTIPO EN IMAGEN                          */}
         {/* ==================================================================== */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 mb-8">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-600 to-amber-400 text-slate-950 font-extrabold flex items-center justify-center text-xl shadow-lg shadow-amber-500/20 shrink-0">
-            OMS
+          
+          {/* Contenedor de la Imagen del Logo */}
+          <div className="w-48 sm:w-64 shrink-0">
+            <img 
+              src="/assets/ohr-logo.png" /* <-- Asegúrate de poner la ruta correcta de tu imagen aquí */
+              alt="Ohr Mobile Studios Logo" 
+              className="w-full h-auto object-contain rounded-xl shadow-md border border-slate-200 dark:border-slate-700/50"
+            />
           </div>
-          <div className="space-y-1">
+
+          {/* Textos y Etiquetas complementarias */}
+          <div className="space-y-2">
             <span className="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-400 border border-amber-300 dark:border-amber-800/50">
               {t('creatorRole', 'Estudio de Desarrollo Móvil (Android & iOS)')}
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold font-serif text-slate-900 dark:text-amber-400">
-              {isHebrew ? 'אור מובייל סטודיוס' : 'Ohr Mobile Studios'}
-            </h2>
-            <p className="text-sm flex items-center gap-2 text-slate-600 dark:text-slate-400">
-              <Code className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+            <p className="text-sm flex items-center gap-2 text-slate-600 dark:text-slate-400 leading-relaxed mt-1">
+              <Code className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0" />
               {t('devSubtitle', 'Desarrollo de Tecnologías para la Educación Judía con Juegos e Inteligencia Artificial')}
             </p>
           </div>
