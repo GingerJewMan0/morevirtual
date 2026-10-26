@@ -4,7 +4,6 @@ import {
   Search, 
   AlertCircle, 
   CheckCircle2, 
-  Info,
   Globe,
   AlertTriangle
 } from 'lucide-react';
@@ -39,7 +38,7 @@ const GLOBAL_KOSHER_DATABASE = [
 
   // Productos de Israel y Europa
   { name: 'Alimentos y Vinos de Israel (Lior / Carmel)', agency: 'Badatz / הרבנות הראשית לישראל', type: 'Parve / Lácteo', notes: 'Cumple con los máximos estándares de kashrut de Badatz Jerusalem.' },
-  { name: 'Galletas y Chocolates importados de Europa', agency: 'KLBD (London Beth Din) / OU Europe', type: 'Variado', notes: 'Común en tiendas de importación kosher.' }
+  { name: 'Galletas y Chocolates importados de Europa', agency: 'KLBD (London Beth Din) / OU Europe', type: 'Variado', notes: 'Común בtiendas de importación kosher.' }
 ];
 
 export const KosherCheckerTab: React.FC = () => {
@@ -88,17 +87,17 @@ export const KosherCheckerTab: React.FC = () => {
           </div>
         </div>
 
-       {/* Alerta importante sobre sellos y vigencia */}
+        {/* Única Alerta Unificada sobre vigencia y uso de cámara */}
         <div className="mb-6 p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700/60 flex items-start gap-3">
           <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
           <div className="text-xs text-slate-700 dark:text-slate-300 space-y-1 leading-relaxed">
             <p className="font-bold text-amber-900 dark:text-amber-200">
-              {isHebrew ? 'הודעת אזהרה חשובה על תוקף כשרות' : 'Aviso importante sobre vigencia de sellos'}
+              {isHebrew ? 'הודעת אזהרה חשובה על תוקף כשרות' : 'Aviso importante sobre vigencia y sellos'}
             </p>
             <p>
               {isHebrew 
-                ? 'רשימות אלו משמשות כהوجایا בלבד. מוצרים רבים עשויים לשנות את ססטוס הכשרות שלהם מעת לעת. תמיד חובה לוודא את חותמת הכשרות המקורית על גבי אריזת המוצר.'
-                : 'Este directorio unifica pautas de KMD, OU, Badatz y agencias globales. Si tienes dudas sobre si un producto mantiene su certificación actual, utiliza la cámara en la pestaña de Diálogo Rabínico para que la IA verifique la etiqueta directamente o consulta con tu rabino de confianza.'}
+                ? 'רשימות אלו משמשות כהوجایا בלבד. אם יש לך ספק לגבי תוקף הכשרות, השתמש במצלמה בלשונית "דיאלוג רבני" או התייעץ עם רב מוסמך.'
+                : 'Este directorio unifica pautas de KMD, OU, Badatz y agencias globales a modo de referencia. Las certificaciones son dinámicas; si tienes dudas sobre la vigencia de un producto, utiliza la cámara en la pestaña de Diálogo Rabínico para que la IA verifique la etiqueta directamente o consulta con tu rabino de confianza.'}
             </p>
           </div>
         </div>
@@ -182,21 +181,6 @@ export const KosherCheckerTab: React.FC = () => {
             )}
           </div>
         )}
-
-        {/* Nota global */}
-        <div className="mt-8 p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-300/60 dark:border-amber-500/30 flex items-start gap-3">
-          <Info className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
-          <div className="text-xs text-slate-700 dark:text-slate-300 space-y-1 leading-relaxed">
-            <p className="font-semibold text-amber-900 dark:text-amber-200">
-              {isHebrew ? 'כיצד לוודא כשרות מוצרים מיובאים?' : '¿Cómo verificar productos importados de todo el mundo?'}
-            </p>
-            <p>
-              {isHebrew 
-                ? 'המערכת משלבת סטנדרטים מכל העולם. תמיד יש לוודא את חותמת הכשרות המקורית המאושרת על ידי הקהילה המקومیות שלך.'
-                : 'Este directorio unifica pautas de KMD, OU, Badatz y agencias globales. Si tienes dudas sobre si un producto mantiene su certificación actual, utiliza la cámara en la pestaña de Diálogo Rabínico para que la IA verifique la etiqueta directamente.'}
-            </p>
-          </div>
-        </div>
 
       </div>
     </div>
