@@ -144,11 +144,11 @@ export function CalendarZmanimTab() {
   return (
     <div className="max-w-7xl mx-auto py-4 px-3 sm:px-6 space-y-6 animate-fadeIn">
       
-      {/* CUADRO PRINCIPAL CON GRID Y EMPUJE INFERIOR (MT-20) PARA ALINEARSE AL RECTÁNGULO ROJO */}
-      <div className="p-5 sm:p-8 rounded-3xl bg-gradient-to-br from-slate-900 via-amber-950/80 to-slate-900 text-white border border-amber-500/35 shadow-xl grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+      {/* CUADRO PRINCIPAL: DISEÑO FLEX COLUMNA PARA QUE EL SELECTOR QUEDE ABAJO NATURALMENTE */}
+      <div className="p-5 sm:p-8 rounded-3xl bg-gradient-to-br from-slate-900 via-amber-950/80 to-slate-900 text-white border border-amber-500/35 shadow-xl space-y-6">
         
-        {/* Columna de textos */}
-        <div className="xl:col-span-7 space-y-2 min-w-0">
+        {/* Textos descriptivos superiores */}
+        <div className="space-y-2">
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-400">
             <Calendar className="w-4 h-4 shrink-0" />
             <span>{t('zmanimBannerTitle')}</span>
@@ -156,28 +156,30 @@ export function CalendarZmanimTab() {
           <h2 className="text-xl sm:text-2xl lg:text-3xl font-serif font-bold text-amber-200 leading-tight">
             {t('zmanimTitle')}
           </h2>
-          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-3xl">
             {t(`city_${city.id}_flavor`)} {shabbatData?.parashah && `• ${shabbatData.parashah}`}
           </p>
         </div>
 
-        {/* Columna del Selector con xl:mt-20 para ubicarlo exactamente en la posición del rectángulo rojo */}
-        <div className="xl:col-span-5 flex flex-col gap-2 bg-slate-950/90 p-4 rounded-2xl border border-amber-500/50 shadow-inner w-full xl:mt-20">
-          <label className="text-xs text-amber-300 font-medium flex items-center gap-1.5 whitespace-nowrap">
-            <MapPin className="w-3.5 h-3.5 text-amber-400" />
-            <span>{t('selectCity', 'Ciudad:')}</span>
-          </label>
-          <select
-            value={selectedCityId}
-            onChange={(e) => setSelectedCityId(e.target.value)}
-            className="w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 text-amber-200 border border-amber-500/40 focus:outline-none focus:ring-2 focus:ring-amber-500/50 cursor-pointer shadow-sm truncate"
-          >
-            {CITIES_ZMANIM.filter(c => c.id !== 'marsella').map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.flag} {t(`city_${c.id}_name`)} ({t(`city_${c.id}_country`)})
-              </option>
-            ))}
-          </select>
+        {/* Selector de Ciudad ubicado abajo, alineado a la derecha en pantallas grandes y ancho completo en móviles */}
+        <div className="flex justify-end pt-2 border-t border-amber-500/20">
+          <div className="flex flex-col gap-2 bg-slate-950/90 p-4 rounded-2xl border border-amber-500/50 shadow-inner w-full sm:w-96">
+            <label className="text-xs text-amber-300 font-medium flex items-center gap-1.5 whitespace-nowrap">
+              <MapPin className="w-3.5 h-3.5 text-amber-400" />
+              <span>{t('selectCity', 'Ciudad:')}</span>
+            </label>
+            <select
+              value={selectedCityId}
+              onChange={(e) => setSelectedCityId(e.target.value)}
+              className="w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 text-amber-200 border border-amber-500/40 focus:outline-none focus:ring-2 focus:ring-amber-500/50 cursor-pointer shadow-sm truncate"
+            >
+              {CITIES_ZMANIM.filter(c => c.id !== 'marsella').map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.flag} {t(`city_${c.id}_name`)} ({t(`city_${c.id}_country`)})
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 
