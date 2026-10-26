@@ -6,25 +6,40 @@ import {
   CheckCircle2, 
   Info,
   Globe,
-  Sparkles
+  AlertTriangle
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
-// Base de datos ampliada con referentes globales de kashrut de todo el mundo
+// Base de datos global ampliada con productos reales y agencias internacionales
 const GLOBAL_KOSHER_DATABASE = [
-  // Globales / USA & América
-  { name: 'Coca-Cola (Regular / Diet)', agency: 'OU (Orthodox Union - USA)', type: 'Parve', notes: 'Aceptado globalmente todo el año (excepto Pésaj sin sello especial).' },
-  { name: 'Nestlé Chocolate Products (Global)', agency: 'OU / OK / KMD', type: 'Lácteo / Parve', notes: 'Verificar la variante específica de lácteos (Chalav Stam / Chalav Yisrael).' },
-  { name: 'Kraft Heinz (Selección)', agency: 'OU / COR / Star-K', type: 'Variado', notes: 'Amplia gama certificada bajo estrictas normas norteamericanas.' },
-  
-  // México & Latinoamérica
-  { name: 'Bimbo (Pan de caja seleccionado)', agency: 'KMD México', type: 'Parve (L’Mehadrin)', notes: 'Bajo la supervisión estricta de la Comunidad Magen David / KMD.' },
-  { name: 'Aceite 123 / Aceites comestibles', agency: 'KMD México', type: 'Parve', notes: 'Apto para uso cotidiano bajo supervisión autorizada.' },
-  { name: 'Productos de Exportación Kosher LATAM', agency: 'C.I.K. / Kosher Alef', type: 'Parve / Lácteo', notes: 'Certificación reconocida en Sudamérica y Centroamérica.' },
+  // Botanas y Snacks
+  { name: 'Papas Sabritas (Original / Sal)', agency: 'KMD México / OU', type: 'Parve', notes: 'Verificar sello KMD o OU en el empaque frontal o posterior.' },
+  { name: 'Sabritas Paketaxo / Crujitos (Selección)', agency: 'KMD México', type: 'Parve / Lácteo', notes: 'Revisar si especifica lácteo en la tabla nutrimental y sello KMD.' },
+  { name: 'Doritos Nacho / Pringles (Original)', agency: 'OU (Orthodox Union - USA)', type: 'Lácteo (Chalav Stam)', notes: 'Contiene sólidos de leche. Certificado por OU Kosher.' },
+  { name: 'Barcel Takis / Chips (Variedades seleccionadas)', agency: 'KMD México', type: 'Parve', notes: 'Bajo supervisión de KMD. Verificar sello en la bolsa.' },
 
-  // Europa & Israel
-  { name: 'Lior / Alimentos importados de Israel', agency: 'Badatz / הרבנות הראשית לישראל', type: 'Parve / Lácteo', notes: 'Cumple con los estándares más rigurosos de supervisión en Israel.' },
-  { name: 'Productos Kosher de Europa (KLBD / OU Europe)', agency: 'KLBD (London Beth Din) / OU', type: 'Variado', notes: 'Muy común en cadenas de distribución europeas.' },
+  // Bebidas
+  { name: 'Coca-Cola (Regular, Light, Zero)', agency: 'OU (Orthodox Union - USA)', type: 'Parve', notes: 'Aceptado globalmente todo el año (no apto para Pésaj sin sello especial K-P).' },
+  { name: 'Pepsi / 7Up / Mirinda', agency: 'OU / OK Kosher', type: 'Parve', notes: 'Certificado kosher year-round bajo supervisión regular.' },
+  { name: 'Jumex (Néctares en lata seleccionados)', agency: 'KMD México', type: 'Parve', notes: 'Variedades de manzana y durazno con supervisión KMD.' },
+  { name: 'Café Nescafé Clásico / Legal', agency: 'KMD México / OU', type: 'Parve', notes: 'Café soluble puro sin aditivos lácteos.' },
+
+  // Abarrotes y Aceites
+  { name: 'Aceite 123 / Aceite Capullo', agency: 'KMD México', type: 'Parve', notes: 'Aceites vegetales puros aptos para uso diario bajo KMD.' },
+  { name: 'Atún Dolores / Tuny (Agua y Aceite)', agency: 'KMD México', type: 'Parve (Beshul Israel / Itkaj)', notes: 'Requiere supervisión estricta de KMD en latas comerciales.' },
+  { name: 'Fórmulas y Harinas de Trigo Selectas', agency: 'KMD México / OU', type: 'Parve', notes: 'Harinas certificadas libres de plagas e insectos (Check Itkaj).' },
+
+  // Panadería y Galletas
+  { name: 'Bimbo (Pan Blanco y Bimbolatín seleccionado)', agency: 'KMD México', type: 'Parve (L’Mehadrin)', notes: 'Líneas especiales bajo supervisión estricta de la Comunidad Magen David.' },
+  { name: 'Galletas Gamesa (Marías / Emperador seleccionadas)', agency: 'KMD México / OU', type: 'Lácteo / Parve', notes: 'Verificar el tipo de sello impreso en la envoltura.' },
+
+  // Chocolates y Dulces
+  { name: 'Nestlé Chocolate Abuelita', agency: 'KMD México / Certificación Internacional', type: 'Lácteo', notes: 'Contiene derivados lácteos. Verificar sello de la comunidad.' },
+  { name: 'Hershey’s (Jarabe de Chocolate / Barras)', agency: 'OU (Orthodox Union)', type: 'Lácteo / Parve', notes: 'Dependiendo de la barra, verificar si es lácteo (Dairy) o parve.' },
+
+  // Productos de Israel y Europa
+  { name: 'Alimentos y Vinos de Israel (Lior / Carmel)', agency: 'Badatz / הרבנות הראשית לישראל', type: 'Parve / Lácteo', notes: 'Cumple con los máximos estándares de kashrut de Badatz Jerusalem.' },
+  { name: 'Galletas y Chocolates importados de Europa', agency: 'KLBD (London Beth Din) / OU Europe', type: 'Variado', notes: 'Común en tiendas de importación kosher.' }
 ];
 
 export const KosherCheckerTab: React.FC = () => {
@@ -41,7 +56,7 @@ export const KosherCheckerTab: React.FC = () => {
     if (!searchTerm.trim() && selectedAgency === 'all') return;
 
     setHasSearched(true);
-    const query = searchTerm.toLowerCase();
+    const query = searchTerm.toLowerCase().trim();
 
     const filtered = GLOBAL_KOSHER_DATABASE.filter((item) => {
       const matchesText = item.name.toLowerCase().includes(query) || item.notes.toLowerCase().includes(query);
@@ -73,6 +88,21 @@ export const KosherCheckerTab: React.FC = () => {
           </div>
         </div>
 
+        {/* Alerta importante sobre sellos y vigencia */}
+        <div className="mb-6 p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700/60 flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+          <div className="text-xs text-slate-700 dark:text-slate-300 space-y-1 leading-relaxed">
+            <p className="font-bold text-amber-900 dark:text-amber-200">
+              {isHebrew ? 'הודעת אזהרה חשובה על תוקף כשרות' : 'Aviso importante sobre vigencia de sellos'}
+            </p>
+            <p>
+              {isHebrew 
+                ? 'רשימות אלו משמשות כהوجایا בלבד. מוצרים רבים עשויים לשנות את ססטוס הכשרות שלהם מעת לעת. תמיד חובה לוודא את חותמת הכשרות המקורית על גבי אריזת המוצר.'
+                : 'Las certificaciones de kashrut son dinámicas y pueden cambiar con el tiempo (pérdida de sello, cambio de planta, etc.). Esta lista es una referencia orientativa; siempre debes verificar físicamente el sello de supervisión vigente en el envase del producto.'}
+            </p>
+          </div>
+        </div>
+
         {/* Formulario */}
         <form onSubmit={handleSearch} className="space-y-4 mb-8">
           <div className="flex flex-col sm:flex-row gap-3">
@@ -82,7 +112,7 @@ export const KosherCheckerTab: React.FC = () => {
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder={isHebrew ? 'חפש מוצר, מותג או רכיב...' : 'Escribe producto, marca o ingrediente en cualquier idioma...'}
+                placeholder={isHebrew ? 'חפש מוצר, מותג או רכיב...' : 'Escribe producto o marca (ej. Sabritas, Coca-Cola, Bimbo)...'}
                 className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 transition"
               />
             </div>
@@ -162,8 +192,8 @@ export const KosherCheckerTab: React.FC = () => {
             </p>
             <p>
               {isHebrew 
-                ? 'המערכת משלבת סטנדרטים מכל העולם. תמיד יש לוודא את חותמת הכשרות המקורית המאושרת על ידי הקהילה המקומית שלך.'
-                : 'Este directorio unifica pautas de KMD, OU, Badatz y agencias globales. Para productos nuevos o importados sin registro previo, utiliza la cámara en la pestaña de Diálogo Rabínico para que la IA verifique el sello.'}
+                ? 'המערכת משלבת סטנדרטים מכל העולם. תמיד יש לוודא את חותמת הכשרות המקורית המאושרת על ידי הקהילה המקومیות שלך.'
+                : 'Este directorio unifica pautas de KMD, OU, Badatz y agencias globales. Si tienes dudas sobre si un producto mantiene su certificación actual, utiliza la cámara en la pestaña de Diálogo Rabínico para que la IA verifique la etiqueta directamente.'}
             </p>
           </div>
         </div>
