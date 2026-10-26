@@ -5,43 +5,34 @@ import {
   AlertCircle, 
   CheckCircle2, 
   Globe,
-  AlertTriangle
+  AlertTriangle,
+  Sparkles,
+  Loader2
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
-// Base de datos global ampliada con productos reales y agencias internacionales
+// Base de datos global de referencia rápida
 const GLOBAL_KOSHER_DATABASE = [
-  // Botanas y Snacks
   { name: 'Papas Sabritas (Original / Sal)', agency: 'KMD México / OU', type: 'Parve', notes: 'Verificar sello KMD o OU en el empaque frontal o posterior.' },
   { name: 'Sabritas Paketaxo / Crujitos (Selección)', agency: 'KMD México', type: 'Parve / Lácteo', notes: 'Revisar si especifica lácteo en la tabla nutrimental y sello KMD.' },
   { name: 'Doritos Nacho / Pringles (Original)', agency: 'OU (Orthodox Union - USA)', type: 'Lácteo (Chalav Stam)', notes: 'Contiene sólidos de leche. Certificado por OU Kosher.' },
   { name: 'Barcel Takis / Chips (Variedades seleccionadas)', agency: 'KMD México', type: 'Parve', notes: 'Bajo supervisión de KMD. Verificar sello en la bolsa.' },
-
-  // Bebidas
   { name: 'Coca-Cola (Regular, Light, Zero)', agency: 'OU (Orthodox Union - USA)', type: 'Parve', notes: 'Aceptado globalmente todo el año (no apto para Pésaj sin sello especial K-P).' },
   { name: 'Pepsi / 7Up / Mirinda', agency: 'OU / OK Kosher', type: 'Parve', notes: 'Certificado kosher year-round bajo supervisión regular.' },
   { name: 'Jumex (Néctares en lata seleccionados)', agency: 'KMD México', type: 'Parve', notes: 'Variedades de manzana y durazno con supervisión KMD.' },
   { name: 'Café Nescafé Clásico / Legal', agency: 'KMD México / OU', type: 'Parve', notes: 'Café soluble puro sin aditivos lácteos.' },
-
-  // Abarrotes y Aceites
   { name: 'Aceite 123 / Aceite Capullo', agency: 'KMD México', type: 'Parve', notes: 'Aceites vegetales puros aptos para uso diario bajo KMD.' },
   { name: 'Atún Dolores / Tuny (Agua y Aceite)', agency: 'KMD México', type: 'Parve (Beshul Israel / Itkaj)', notes: 'Requiere supervisión estricta de KMD en latas comerciales.' },
-  { name: 'Fórmulas y Harinas de Trigo Selectas', agency: 'KMD México / OU', type: 'Parve', notes: 'Harinas certificadas libres de plagas e insectos (Check Itkaj).' },
-
-  // Panadería y Galletas
   { name: 'Bimbo (Pan Blanco y Bimbolatín seleccionado)', agency: 'KMD México', type: 'Parve (L’Mehadrin)', notes: 'Líneas especiales bajo supervisión estricta de la Comunidad Magen David.' },
-  { name: 'Galletas Gamesa (Marías / Emperador seleccionadas)', agency: 'KMD México / OU', type: 'Lácteo / Parve', notes: 'Verificar el tipo de sello impreso en la envoltura.' },
-
-  // Chocolates y Dulces
   { name: 'Nestlé Chocolate Abuelita', agency: 'KMD México / Certificación Internacional', type: 'Lácteo', notes: 'Contiene derivados lácteos. Verificar sello de la comunidad.' },
-  { name: 'Hershey’s (Jarabe de Chocolate / Barras)', agency: 'OU (Orthodox Union)', type: 'Lácteo / Parve', notes: 'Dependiendo de la barra, verificar si es lácteo (Dairy) o parve.' },
-
-  // Productos de Israel y Europa
-  { name: 'Alimentos y Vinos de Israel (Lior / Carmel)', agency: 'Badatz / הרבנות הראשית לישראל', type: 'Parve / Lácteo', notes: 'Cumple con los máximos estándares de kashrut de Badatz Jerusalem.' },
-  { name: 'Galletas y Chocolates importados de Europa', agency: 'KLBD (London Beth Din) / OU Europe', type: 'Variado', notes: 'Común בtiendas de importación kosher.' }
+  { name: 'Heinz (Catsup y Salsas seleccionadas)', agency: 'OU (Orthodox Union)', type: 'Parve', notes: 'La mayoría de catsup Heinz cuenta con certificación OU (verificar sello en la botella).' },
 ];
 
-export const KosherCheckerTab: React.FC = () => {
+interface KosherCheckerTabProps {
+  onAskRabbi?: (question: string) => void;
+}
+
+export const KosherCheckerTab: React.FC<KosherCheckerTabProps> = ({ onAskRabbi }) => {
   const { t, i18n } = useTranslation();
   const isHebrew = i18n.language === 'he';
 
@@ -66,6 +57,12 @@ export const KosherCheckerTab: React.FC = () => {
     setSearchResult(filtered);
   };
 
+  const handleConsultAI = () => {
+    if (onAskRabbi && searchTerm.trim()) {
+      onAskRabbi(`¿El producto o marca "${searchTerm}" cuenta con certificación Kosher vigente y bajo qué supervisión se encuentra a nivel global?`);
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto p-4 md:p-6 space-y-6 animate-fadeIn" dir={isHebrew ? 'rtl' : 'ltr'}>
       <div className="rounded-3xl border p-6 md:p-8 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-xl text-slate-800 dark:text-slate-100">
@@ -87,17 +84,17 @@ export const KosherCheckerTab: React.FC = () => {
           </div>
         </div>
 
-        {/* Única Alerta Unificada sobre vigencia y uso de cámara */}
+        {/* Alerta importante sobre vigencia y fuentes online */}
         <div className="mb-6 p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700/60 flex items-start gap-3">
           <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
           <div className="text-xs text-slate-700 dark:text-slate-300 space-y-1 leading-relaxed">
             <p className="font-bold text-amber-900 dark:text-amber-200">
-              {isHebrew ? 'הודעת אזהרה חשובה על תוקף כשרות' : 'Aviso importante sobre vigencia y sellos'}
+              {isHebrew ? 'הודעת אזהרה חשובה על תוקף כשרות' : 'Aviso importante sobre vigencia y fuentes globales'}
             </p>
             <p>
               {isHebrew 
-                ? 'רשימות אלו משמשות כהوجایا בלבד. אם יש לך ספק לגבי תוקף הכשרות, השתמש במצלמה בלשונית "דיאלוג רבני" או התייעץ עם רב מוסמך.'
-                : 'Este directorio unifica pautas de KMD, OU, Badatz y agencias globales a modo de referencia. Las certificaciones son dinámicas; si tienes dudas sobre la vigencia de un producto, utiliza la cámara en la pestaña de Diálogo Rabínico para que la IA verifique la etiqueta directamente o consulta con tu rabino de confianza.'}
+                ? 'רשימות אלו משמשות כהوجایا בלבד. אם המוצר אינו מופיע, תוכל לבדוק אותו ישירות מול מקורות מוסמכים בעזרת הבינה המלאכותית בלשונית "דיאלוג רבני".'
+                : 'Las certificaciones de kashrut son dinámicas. Este directorio sirve como referencia rápida; si buscas marcas globales (como Heinz u otras) que no aparezcan aquí, puedes consultar su estatus en tiempo real con la IA o mediante fuentes confiables en la pestaña de Diálogo Rabínico.'}
             </p>
           </div>
         </div>
@@ -111,7 +108,7 @@ export const KosherCheckerTab: React.FC = () => {
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder={isHebrew ? 'חפש מוצר, מותג או רכיב...' : 'Escribe producto o marca (ej. Sabritas, Coca-Cola, Bimbo)...'}
+                placeholder={isHebrew ? 'חפש מוצר, מותג או רכיב...' : 'Escribe producto o marca (ej. Heinz, Sabritas, Coca-Cola)...'}
                 className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 transition"
               />
             </div>
@@ -146,11 +143,25 @@ export const KosherCheckerTab: React.FC = () => {
             </h3>
 
             {searchResult.length === 0 ? (
-              <div className="p-6 text-center rounded-2xl bg-amber-50/50 dark:bg-slate-800/40 border border-amber-200 dark:border-amber-900/40 text-slate-600 dark:text-slate-300">
-                <AlertCircle className="w-8 h-8 mx-auto mb-2 text-amber-600" />
+              <div className="p-6 text-center rounded-2xl bg-amber-50/50 dark:bg-slate-800/40 border border-amber-200 dark:border-amber-900/40 text-slate-600 dark:text-slate-300 space-y-3">
+                <AlertCircle className="w-8 h-8 mx-auto text-amber-600" />
                 <p className="text-sm font-semibold">
-                  {isHebrew ? 'המוצר אינו ברשימה המהירה. מומלץ לשאול את הרב בשיחה.' : 'No está en la lista rápida global. Puedes preguntarle directamente al Rabino Virtual en el chat adjuntando una foto de la etiqueta.'}
+                  {isHebrew ? 'המוצר אינו ברשימה המהירה.' : `No se encontró "${searchTerm}" en el directorio rápido local.`}
                 </p>
+                <p className="text-xs text-slate-500">
+                  {isHebrew 
+                    ? 'ניתן לשאול את הרב המדווח לבדוק במקורות מידע מקוונים.'
+                    : 'Puedes consultar su estatus oficial en tiempo real utilizando el buscador inteligente del Rabino Virtual.'}
+                </p>
+                {searchTerm.trim() && onAskRabbi && (
+                  <button
+                    onClick={handleConsultAI}
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold shadow-md transition cursor-pointer"
+                  >
+                    <Sparkles className="w-4 h-4" />
+                    <span>{isHebrew ? 'שאל את הרב בשיחה' : `Consultar estatus global de "${searchTerm}" con IA`}</span>
+                  </button>
+                )}
               </div>
             ) : (
               <div className="grid grid-cols-1 gap-3">
