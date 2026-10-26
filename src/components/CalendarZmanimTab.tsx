@@ -144,8 +144,8 @@ export function CalendarZmanimTab() {
   return (
     <div className="max-w-7xl mx-auto py-4 px-3 sm:px-6 space-y-6 animate-fadeIn">
       
-      {/* CUADRO PRINCIPAL DE TÍTULOS Y HORARIOS QUE INTEGRA EL SELECTOR DE CIUDAD */}
-      <div className="p-5 sm:p-8 rounded-3xl bg-gradient-to-br from-slate-900 via-amber-950/80 to-slate-900 text-white border border-amber-500/35 shadow-xl flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6">
+      {/* CUADRO PRINCIPAL CON ALINEACIÓN VERTICAL (INCLUYE SELECTOR MÁS ANCHO Y ABAJO) */}
+      <div className="p-5 sm:p-8 rounded-3xl bg-gradient-to-br from-slate-900 via-amber-950/80 to-slate-900 text-white border border-amber-500/35 shadow-xl flex flex-col xl:flex-row xl:items-end xl:justify-between gap-6">
         <div className="space-y-2 flex-1 min-w-0">
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-400">
             <Calendar className="w-4 h-4 shrink-0" />
@@ -159,16 +159,16 @@ export function CalendarZmanimTab() {
           </p>
         </div>
 
-        {/* SELECTOR DE CIUDAD UBICADO DENTRO DEL CUADRO PRINCIPAL */}
-        <div className="flex flex-col gap-2 bg-slate-950/80 p-4 rounded-2xl border border-amber-500/40 shrink-0 w-full xl:w-80 shadow-inner">
+        {/* SELECTOR DE CIUDAD AMPLIO Y POSICIONADO MÁS ABAJO DENTRO DEL CUADRO */}
+        <div className="flex flex-col gap-2 bg-slate-950/80 p-4 rounded-2xl border border-amber-500/40 shrink-0 w-full xl:w-96 shadow-inner">
           <label className="text-xs text-amber-300 font-medium flex items-center gap-1.5 whitespace-nowrap">
             <MapPin className="w-3.5 h-3.5 text-amber-400" />
-            <span>{t('selectCity', 'Seleccionar Ciudad / Sede:')}</span>
+            <span>{t('selectCity', 'Ciudad:')}</span>
           </label>
           <select
             value={selectedCityId}
             onChange={(e) => setSelectedCityId(e.target.value)}
-            className="w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 text-amber-200 border border-amber-500/40 focus:outline-none focus:ring-2 focus:ring-amber-500/50 cursor-pointer shadow-sm"
+            className="w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-slate-900 text-amber-200 border border-amber-500/40 focus:outline-none focus:ring-2 focus:ring-amber-500/50 cursor-pointer shadow-sm truncate"
           >
             {CITIES_ZMANIM.filter(c => c.id !== 'marsella').map((c) => (
               <option key={c.id} value={c.id}>
