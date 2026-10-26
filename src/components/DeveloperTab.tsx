@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { 
   Code, 
   Heart, 
-  ExternalLink, 
-  Copy, 
-  Check, 
   Building2, 
   BookOpen, 
   Flame, 
@@ -27,21 +24,26 @@ export const DeveloperTab: React.FC<DeveloperTabProps> = ({ onOpenPaymentModal }
       <div className="rounded-2xl border p-6 md:p-8 transition-colors bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 shadow-lg">
         
         {/* ==================================================================== */}
-        {/* CABECERA DEL CREADOR (LIOR FISHER LOBATON)                           */}
+        {/* CABECERA DEL ESTUDIO CON LOGOTIPO EN IMAGEN                          */}
         {/* ==================================================================== */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 mb-8">
-          <div className="w-16 h-16 rounded-2xl bg-amber-500 text-white font-bold flex items-center justify-center text-2xl shadow-lg shadow-amber-500/20 shrink-0">
-            LF
+          
+          {/* Contenedor de la Imagen del Logo */}
+          <div className="w-48 sm:w-64 shrink-0">
+            <img 
+              src="/assets/ohr-logo.png" /* <-- Asegúrate de poner la ruta correcta de tu imagen aquí */
+              alt="Ohr Mobile Studios Logo" 
+              className="w-full h-auto object-contain rounded-xl shadow-md border border-slate-200 dark:border-slate-700/50"
+            />
           </div>
-          <div className="space-y-1">
+
+          {/* Textos y Etiquetas complementarias */}
+          <div className="space-y-2">
             <span className="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-400 border border-amber-300 dark:border-amber-800/50">
-              {t('creatorRole', 'Creador y Desarrollador')}
+              {t('creatorRole', 'Estudio de Desarrollo Móvil (Android & iOS)')}
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold font-serif text-slate-900 dark:text-amber-400">
-              {isHebrew ? 'ליאור פישר לובטון' : 'Lior Fisher Lobaton'}
-            </h2>
-            <p className="text-sm flex items-center gap-2 text-slate-600 dark:text-slate-400">
-              <Code className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+            <p className="text-sm flex items-center gap-2 text-slate-600 dark:text-slate-400 leading-relaxed mt-1">
+              <Code className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0" />
               {t('devSubtitle', 'Desarrollo de Tecnologías para la Educación Judía con Juegos e Inteligencia Artificial')}
             </p>
           </div>
@@ -79,7 +81,7 @@ export const DeveloperTab: React.FC<DeveloperTabProps> = ({ onOpenPaymentModal }
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
               {isHebrew
-                ? 'שילוב נאמן של שולחן ערוך מרן והגהות הרמ\"א עם הקודדים ההלכתיים.'
+                ? 'שילוב נאמן של שולחן ערוך מרן והגהות הרמ"א עם הקודדים ההלכתיים.'
                 : t('sefaradiAshkenaziDesc', 'Integración fiel del Shulján Aruj de Maran y las glosas del Ramá con sus códigos legales.')}
             </p>
           </div>
@@ -87,11 +89,11 @@ export const DeveloperTab: React.FC<DeveloperTabProps> = ({ onOpenPaymentModal }
           <div className="p-4 rounded-xl border transition-colors bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700/60">
             <h3 className="font-bold text-sm sm:text-base flex items-center gap-2 mb-1 text-slate-900 dark:text-amber-400">
               <Flame className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-              {isHebrew ? 'חב\"ד ליובאוויטש' : 'Jabad Lubavitch'}
+              {isHebrew ? 'חב"ד ליובאוויטש' : 'Jabad Lubavitch'}
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
               {isHebrew
-                ? 'לימוד שולחן ערוך האדמו\"ר הזקן והממד החסידי-פנימי של תורת החסידות.'
+                ? 'לימוד שולחן ערוך האדמו"ר הזקן והממד החסידי-פנימי של תורת החסידות.'
                 : t('chabadDesc', 'Enseñanza del Shulján Aruj HaRav y la dimensión mística e intelectual del jasidismo.')}
             </p>
           </div>
