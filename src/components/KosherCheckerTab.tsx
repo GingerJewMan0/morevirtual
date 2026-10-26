@@ -99,46 +99,44 @@ export const KosherCheckerTab: React.FC<KosherCheckerTabProps> = ({ onAskRabbi }
           </div>
         </div>
 
-        {/* Formulario adaptativo para Portrait y Landscape */}
-        <form onSubmit={handleSearch} className="space-y-4 mb-8">
-          <div className="flex flex-col lg:flex-row gap-3">
-            
-            {/* Campo de texto de búsqueda */}
-            <div className="relative flex-1 min-w-0">
-              <Search className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400 shrink-0" />
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder={isHebrew ? 'חפש מוצר, מותג או רכיב...' : 'Escribe producto o marca (ej. Heinz, Sabritas)...'}
-                className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 transition"
-              />
-            </div>
-
-            {/* Selector de Agencias */}
-            <div className="w-full lg:w-64 shrink-0">
-              <select
-                value={selectedAgency}
-                onChange={(e) => setSelectedAgency(e.target.value)}
-                className="w-full py-3 px-4 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-500/30 truncate"
-              >
-                <option value="all">{isHebrew ? 'כל גופי הכשרות בעולם' : 'Todas las Agencias (Global)'}</option>
-                <option value="kmd">KMD (México)</option>
-                <option value="ou">OU / OK (USA / Global)</option>
-                <option value="badatz">Badatz / הרבנות (Israel)</option>
-                <option value="alef">Kosher Alef & One Kosher</option>
-              </select>
-            </div>
-
-            {/* Botón Buscar */}
-            <button
-              type="submit"
-              className="w-full lg:w-auto px-6 py-3 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-semibold text-sm shadow-md shadow-amber-600/25 transition cursor-pointer flex items-center justify-center gap-2 shrink-0"
-            >
-              <Search className="w-4 h-4" />
-              <span>{isHebrew ? 'חפש' : 'Buscar'}</span>
-            </button>
+        {/* Formulario adaptado en UNA SOLA COLUMNA VERTICAL para Portrait y Landscape */}
+        <form onSubmit={handleSearch} className="space-y-3 mb-8">
+          
+          {/* 1. Campo de texto de búsqueda (Ancho completo) */}
+          <div className="relative w-full">
+            <Search className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400 shrink-0" />
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder={isHebrew ? 'חפש מוצר, מותג או רכיב...' : 'Escribe producto o marca (ej. Heinz, Sabritas)...'}
+              className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 transition shadow-sm"
+            />
           </div>
+
+          {/* 2. Selector de Agencias (Ubicado abajo, ancho completo) */}
+          <div className="w-full">
+            <select
+              value={selectedAgency}
+              onChange={(e) => setSelectedAgency(e.target.value)}
+              className="w-full py-3 px-4 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-amber-500/30 shadow-sm"
+            >
+              <option value="all">{isHebrew ? 'כל גופי הכשרות בעולם' : 'Todas las Agencias (Global)'}</option>
+              <option value="kmd">KMD (México)</option>
+              <option value="ou">OU / OK (USA / Global)</option>
+              <option value="badatz">Badatz / הרבנות (Israel)</option>
+              <option value="alef">Kosher Alef & One Kosher</option>
+            </select>
+          </div>
+
+          {/* 3. Botón Buscar (Ubicado al final, ancho completo) */}
+          <button
+            type="submit"
+            className="w-full py-3 px-6 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-semibold text-sm shadow-md shadow-amber-600/25 transition cursor-pointer flex items-center justify-center gap-2"
+          >
+            <Search className="w-4 h-4" />
+            <span>{isHebrew ? 'חפש' : 'Buscar'}</span>
+          </button>
         </form>
 
         {/* Resultados */}
