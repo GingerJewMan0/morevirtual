@@ -109,13 +109,13 @@ export function App() {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
   const [isPremium, setIsPremium] = useState<boolean>(() => {
-    return localStorage.getItem('isPremium') === 'true';
+    return localStorage.getItem('rabino_virtual_premium') === 'true';
   });
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.get('activate_premium') === 'true') {
-      localStorage.setItem('isPremium', 'true');
+      localStorage.setItem('rabino_virtual_premium', 'true');
       setIsPremium(true);
       alert("¡Felicidades! Tu cuenta ha sido actualizada a Premium con éxito.");
     }
