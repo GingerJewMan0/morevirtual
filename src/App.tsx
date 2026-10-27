@@ -1,6 +1,6 @@
 /**
  * ============================================================================
- * COMPONENTE PRINCIPAL (App.tsx)
+ * COMPONENTE PRINCIPAL (App.tsx) - Control Lite / Premium Robusto para Móvil y Web
  * ============================================================================
  */
 
@@ -108,8 +108,13 @@ const LANGUAGES = [
 export function App() {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
+  // Verificación robusta del estado Premium con la clave unificada en dispositivos
   const [isPremium, setIsPremium] = useState<boolean>(() => {
-    return localStorage.getItem('rabino_virtual_premium') === 'true';
+    try {
+      return localStorage.getItem('rabino_virtual_premium') === 'true';
+    } catch {
+      return false;
+    }
   });
 
   useEffect(() => {
@@ -235,7 +240,6 @@ export function App() {
   const recognitionRef = useRef<any>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
-  const audioFileInputRef = useRef<HTMLInputElement | null>(null);
 
   const [isTraditionsModalOpen, setIsTraditionsModalOpen] = useState(false);
   const [isHalachaModalOpen, setIsHalachaModalOpen] = useState(false);
@@ -586,6 +590,7 @@ export function App() {
     if (!query && !imageFile && !nativeImageBase64) return;
     if (isStreaming) return;
 
+    // Validación estricta Lite / Premium para móvil y web
     if (!isPremium) {
       const today = new Date().toDateString();
       if (dailyQueriesCount >= MAX_FREE_QUERIES) {
@@ -595,8 +600,12 @@ export function App() {
       
       const newCount = dailyQueriesCount + 1;
       setDailyQueriesCount(newCount);
-      localStorage.setItem('rabino_virtual_query_count', newCount.toString());
-      localStorage.setItem('rabino_virtual_query_date', today);
+      try {
+        localStorage.setItem('rabino_virtual_query_count', newCount.toString());
+        localStorage.setItem('rabino_virtual_query_date', today);
+      } catch (e) {
+        console.warn('Storage notice:', e);
+      }
     }
 
     if (activeMainTab !== 'chat') {
@@ -877,7 +886,7 @@ export function App() {
         />
       )}
 
-      {/* Barra Lateral con Secciones Principales arriba, Idiomas en medio, e Historial/Nueva Conversación abajo */}
+      {/* Barra Lateral */}
       <aside
         className={`fixed top-0 bottom-0 z-50 w-72 sm:w-80 bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xl flex flex-col justify-between ${
           isSidebarOpen ? 'transition-transform duration-300 ease-in-out' : 'transition-none'
@@ -905,7 +914,6 @@ export function App() {
             </button>
           </div>
 
-          {/* 1. Secciones Principales */}
           <div className="p-4 space-y-1.5">
             <span className="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block mb-2">
               {t('mainSections', 'Secciones Principales')}
@@ -955,7 +963,6 @@ export function App() {
             })}
           </div>
 
-          {/* 2. Idioma de la Consulta */}
           <div className="p-4 pt-2 border-t border-slate-200 dark:border-slate-800 space-y-2">
             <span className="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block">
               {t('queryLanguage', 'Idioma de la Consulta')}
@@ -984,7 +991,6 @@ export function App() {
             </div>
           </div>
 
-          {/* 3. Botón Nueva Conversación e Historial de Chats (Ubicados abajo de idiomas como solicitaste) */}
           <div className="p-4 pt-2 border-t border-slate-200 dark:border-slate-800 space-y-3 bg-amber-50/40 dark:bg-slate-950/40">
             <button
               onClick={handleNewChat}
