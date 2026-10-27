@@ -183,7 +183,6 @@ export function App() {
     initLocation();
   }, []);
 
-  // La pestaña principal por defecto es ahora directamente el chat ('chat')
   const [activeMainTab, setActiveMainTab] = useState<
     'chat' | 'calendar' | 'parasha' | 'giluy_daat' | 'qa' | 'developer' | 'kosher' | 'settings'
   >('chat');
@@ -203,7 +202,6 @@ export function App() {
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const langMenuRef = useRef<HTMLDivElement | null>(null);
 
-  // Estados del Historial de Conversaciones Estilo Gemini
   const [chatSessions, setChatSessions] = useState<ChatSession[]>(() => {
     try {
       const stored = localStorage.getItem('rabino_virtual_chat_sessions');
@@ -806,11 +804,10 @@ export function App() {
     highlight: q.highlight[activeLangCode as keyof typeof q.highlight] || q.highlight.es,
   }));
 
-  const isTranslatingQuestions = false;
-
   const currentLangObj =
     LANGUAGES.find((l) => l.code === activeLangCode) || LANGUAGES[0];
 
+  // Nota: Quitamos 'settings' de aquí para que no aparezca duplicado en el menú lateral
   const NAV_ITEMS = [
     {
       id: 'chat' as const,
@@ -839,13 +836,6 @@ export function App() {
       icon: Scroll,
       desc: t('tabParashaDesc', 'Limud Torá semanal, Aliyot y Rashi'),
       accentColor: 'text-amber-400',
-    },
-    {
-      id: 'settings' as const,
-      label: i18n.language === 'he' ? 'הגדרות' : 'Configuración',
-      icon: Settings,
-      desc: i18n.language === 'he' ? 'מנהג, רמת ידע ומיקום' : 'Costumbre, nivel de conocimiento y ubicación',
-      accentColor: 'text-amber-500',
     },
     {
       id: 'giluy_daat' as const,
@@ -888,7 +878,7 @@ export function App() {
         />
       )}
 
-      {/* Barra Lateral con Historial Estilo Gemini y Secciones */}
+      {/* Barra Lateral con Historial Estilo Gemini */}
       <aside
         className={`fixed top-0 bottom-0 z-50 w-72 sm:w-80 bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xl flex flex-col justify-between ${
           isSidebarOpen ? 'transition-transform duration-300 ease-in-out' : 'transition-none'
@@ -899,7 +889,6 @@ export function App() {
         }`}
       >
         <div className="flex-1 flex flex-col overflow-y-auto">
-          {/* Cabecera del Sidebar con Botón Nueva Conversación */}
           <div className="p-4 border-b border-slate-200 dark:border-slate-800 space-y-3 bg-amber-50/60 dark:bg-slate-950/60">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
@@ -927,7 +916,6 @@ export function App() {
             </button>
           </div>
 
-          {/* Historial de Chats Estilo Gemini */}
           <div className="p-3 space-y-1 overflow-y-auto max-h-48 border-b border-slate-200 dark:border-slate-800">
             <span className="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block mb-2">
               {i18n.language === 'he' ? 'היסטוריית שיחות' : 'Historial de chats'}
@@ -967,7 +955,6 @@ export function App() {
             )}
           </div>
 
-          {/* Secciones Principales */}
           <div className="p-4 space-y-1.5">
             <span className="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block mb-2">
               {t('mainSections', 'Secciones Principales')}
@@ -1044,52 +1031,6 @@ export function App() {
               })}
             </div>
           </div>
-
-          <div className="p-4 pt-2 border-t border-slate-200 dark:border-slate-800 space-y-1">
-            <span className="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block mb-2">
-              {t('studyTools', 'Herramientas de Estudio')}
-            </span>
-
-            <button
-              onClick={() => {
-                setIsTraditionsModalOpen(true);
-                setIsSidebarOpen(false);
-              }}
-              className="w-full px-3 py-2 rounded-xl text-left text-xs text-slate-700 dark:text-slate-300 hover:bg-amber-50 dark:hover:bg-slate-800 hover:text-amber-800 dark:hover:text-amber-300 transition flex items-center gap-2.5 cursor-pointer"
-            >
-              <Layers className="w-4 h-4 text-amber-600 shrink-0" />
-              <span>{t('traditionsTool', '5 Tradiciones Comunitarias')}</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setIsHalachaModalOpen(true);
-                setIsSidebarOpen(false);
-              }}
-              className="w-full px-3 py-2 rounded-xl text-left text-xs text-slate-700 dark:text-slate-300 hover:bg-amber-50 dark:hover:bg-slate-800 hover:text-amber-800 dark:hover:text-amber-300 transition flex items-center gap-2.5 cursor-pointer"
-            >
-              <Scale className="w-4 h-4 text-amber-600 shrink-0" />
-              <span>{t('halachaLevelsTool', 'Niveles Halájicos (🔴 🟡 🟢)')}</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setIsSavedNotesModalOpen(true);
-                setIsSidebarOpen(false);
-              }}
-              className="w-full px-3 py-2 rounded-xl text-left text-xs text-slate-700 dark:text-slate-300 hover:bg-amber-50 dark:hover:bg-slate-800 hover:text-amber-800 dark:hover:text-amber-300 transition flex items-center justify-between cursor-pointer"
-            >
-              <span className="flex items-center gap-2.5">
-                <Bookmark className="w-4 h-4 text-amber-600 shrink-0" />
-                <span>{t('savedNotesTool', 'Enseñanzas Guardadas')}</span>
-              </span>
-              {savedNotes.length > 0 && (
-                <span className="px-2 py-0.5 text-[10px] rounded-full bg-amber-600 font-bold text-white">
-                  {savedNotes.length}
-                </span>
-              )}
-            </button>
-          </div>
         </div>
 
         <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/70 space-y-3">
@@ -1112,7 +1053,7 @@ export function App() {
         </div>
       </aside>
 
-      {/* Navbar Superior */}
+      {/* Navbar Superior con botón de Ruedita (Configuración) */}
       <header className="shrink-0 z-30 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-amber-200/60 dark:border-slate-800 shadow-xs transition-colors">
         <div className="w-full px-4 sm:px-6 h-16 flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 sm:gap-3 min-w-0">
@@ -1159,6 +1100,19 @@ export function App() {
             >
               <ShieldAlert className="w-3.5 h-3.5 text-amber-600" />
               <span className="hidden md:inline font-semibold">{t('disclaimer', 'Deslinde')}</span>
+            </button>
+
+            {/* Botón de Configuración (Ruedita) ubicado en la barra superior */}
+            <button
+              onClick={() => setActiveMainTab('settings')}
+              className={`p-2 rounded-xl transition cursor-pointer border ${
+                activeMainTab === 'settings'
+                  ? 'bg-amber-600 text-white border-amber-600 shadow-xs'
+                  : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-700 hover:bg-amber-100 dark:hover:bg-slate-700'
+              }`}
+              title="Configuración de Costumbre y Preferencias"
+            >
+              <Settings className="w-4 h-4 text-amber-500" />
             </button>
 
             <button
@@ -1292,7 +1246,6 @@ export function App() {
 
             {messages.length === 0 ? (
               <div className="flex-1 flex flex-col justify-center space-y-6 animate-fadeIn py-2 max-w-5xl mx-auto w-full">
-                {/* Tarjeta de Bienvenida Principal (con diseño idéntico a la 2ª imagen) */}
                 <div className="relative p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-amber-100/70 via-amber-50 to-orange-50/60 dark:from-slate-900 dark:via-amber-950/20 dark:to-slate-900 border border-amber-200 dark:border-amber-900/40 shadow-sm text-center space-y-4">
                   <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-tr from-amber-700 to-amber-500 flex items-center justify-center text-white shadow-lg shadow-amber-900/20">
                     <span className="text-3xl">📜</span>
@@ -1305,7 +1258,6 @@ export function App() {
                   </p>
                 </div>
 
-                {/* Accesos directos añadidos (Parashá, Videos, Preguntas Clave) */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <button
                     onClick={() => setActiveMainTab('parasha')}
@@ -1341,7 +1293,6 @@ export function App() {
                   </button>
                 </div>
 
-                {/* Parrilla de Preguntas Sugeridas (2ª Imagen) */}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between text-xs text-slate-500 font-semibold uppercase tracking-wider px-1">
                     <span className="flex items-center gap-1.5">
