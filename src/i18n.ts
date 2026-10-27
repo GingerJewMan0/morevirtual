@@ -303,7 +303,7 @@ const resources = {
       tabGiluyDaatDesc: 'מטרה פדגוגית והסתייגות הלכתית',
       tabDeveloper: 'מפתח',
       tabDeveloperDesc: 'Ohr Mobile Studios ותרומות',
-      ceoAndProgrammer: 'מנכ"ל ומפתח ראשי של OHR Mobile Studio: ליאור פישר לובטון',
+      ceoAndProgrammer: 'מנכ"ל ומפתח ראשי של OHR Mobile Studio:',
       footerDevTitle: 'Ohr Mobile Studios',
       footerDevDesc: 'סטודיו פיתוח תוכנה וטכנולוגיות מתקדמות. תמוך בפרויקט בתרומה מרצון.',
 
