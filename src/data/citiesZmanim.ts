@@ -16,7 +16,7 @@ export const CITIES_DATABASE: CityLocation[] = [
   // --- MÉXICO (Principales comunidades) ---
   {
     id: 'mexico_city',
-    name: 'Ciudad de México / Tecamachalco',
+    name: 'Ciudad de México',
     country: 'México',
     geonameid: 3530597,
     latitude: 19.4326,
@@ -215,7 +215,7 @@ function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: numbe
 
 /**
  * Función para determinar la ciudad por defecto utilizando la Geolocalización del navegador,
- * respaldada por la configuración regional o Tecamachalco / CDMX por defecto.
+ * respaldada por la configuración regional o / CDMX por defecto.
  */
 export async function getDefaultCity(): Promise<CityLocation> {
   return new Promise((resolve) => {
@@ -270,5 +270,5 @@ function fallbackByLanguage(): CityLocation {
     if (mexicoDefault) return mexicoDefault;
   }
 
-  return CITIES_DATABASE[0]; // Por defecto global (Ciudad de México / Tecamachalco)
+  return CITIES_DATABASE[0]; // Por defecto global (Ciudad de México)
 }
