@@ -3,9 +3,8 @@
  * COMPONENTE DE RESPUESTA FORMATEADA DEL RABINO (FormattedRabbiResponse.tsx)
  * ============================================================================
  * Propósito: Renderiza la respuesta de la IA aplicando formato enriquecido en 
- * Markdown, resaltando bloques halájicos (obligatorio, costumbre, opcional),
- * manejando la síntesis de voz neuronal (Text-to-Speech con ElevenLabs) y 
- * ofreciendo herramientas interactivas como copia de texto, marcadores y preguntas de reflexión.
+ * Markdown, resaltando bloques halájicos, síntesis de voz, enlaces interactivos
+ * (videos, preguntas y Parashá) y botones de longitud de respuesta.
  */
 
 import React, { useState, useRef, useEffect } from 'react';
@@ -18,29 +17,19 @@ import {
   BookmarkCheck,
   Sparkles,
   MessageCircle,
+  Zap,
+  ScrollText,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
-/**
- * Propiedades requeridas por el componente FormattedRabbiResponse.
- */
 interface FormattedRabbiResponseProps {
-  /** Texto plano o estructurado devuelto por el modelo de IA. */
   content: string;
-  /** Indica si la respuesta actual se encuentra en proceso de streaming en tiempo real. */
   isStreaming?: boolean;
-  /** Callback opcional para enviar una pregunta de seguimiento basada en la reflexión. */
   onAskFollowUp?: (questionText: string) => void;
-  /** Estado que indica si la respuesta ha sido guardada en favoritos/notas. */
   isBookmarked?: boolean;
-  /** Callback para alternar el estado de guardado de la enseñanza. */
   onToggleBookmark?: () => void;
 }
 
-/**
- * Componente principal FormattedRabbiResponse para mostrar y dar formato interactivo
- * a las respuestas del asistente rabínico.
- */
 export function FormattedRabbiResponse({
   content,
   isStreaming,
@@ -53,10 +42,8 @@ export function FormattedRabbiResponse({
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [isLoadingAudio, setIsLoadingAudio] = useState(false);
   
-  // Referencia mutable para controlar el elemento de audio HTML y su reproducción
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Diccionario de títulos localizados para la sección de preguntas de reflexión
   const reflectionTitles: Record<string, string> = {
     he: 'שאלה להתבוננות ולהמשך הדיון',
     en: 'Question for Reflection and Continuing the Dialogue',
@@ -65,13 +52,9 @@ export function FormattedRabbiResponse({
     es: 'Pregunta para Reflexionar y Continuar el Diálogo',
   };
 
-  // Obtención del idioma actual de la interfaz (con respaldo a español)
   const currentLang = (localStorage.getItem('i18nextLng') || 'es').substring(0, 2);
   const reflectionTitle = reflectionTitles[currentLang] || reflectionTitles.es;
 
-  /**
-   * Efecto secundario para limpiar y pausar el audio al desmontar el componente.
-   */
   useEffect(() => {
     return () => {
       if (audioRef.current) {
@@ -81,20 +64,12 @@ export function FormattedRabbiResponse({
     };
   }, []);
 
-  /**
-   * Copia el contenido completo de la respuesta al portapapeles del dispositivo
-   * y activa temporalmente el indicador visual de éxito.
-   */
   const handleCopy = () => {
     navigator.clipboard.writeText(content);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
-  /**
-   * Gestiona la reproducción y pausa de la voz neuronal mediante el servicio de ElevenLabs.
-   * Solicita el audio en formato base64 al backend, construye un objeto Blob y lo reproduce.
-   */
   const handleToggleAudio = async () => {
     if (isPlayingAudio) {
       if (audioRef.current) {
@@ -119,9 +94,8 @@ export function FormattedRabbiResponse({
       }
 
       const data = await response.json();
-      if (!data.audioBase64) throw new Error('No se recibió audio de ElevenLabs');
+      if (!data.audioBase64) throw new Error('No se recibió audio');
 
-      // Conversión de la cadena base64 a un buffer de bytes binarios
       const binaryString = atob(data.audioBase64);
       const len = binaryString.length;
       const bytes = new Uint8Array(len);
@@ -129,22 +103,18 @@ export function FormattedRabbiResponse({
         bytes[i] = binaryString.charCodeAt(i);
       }
 
-      // Creación del Blob de audio y URL temporal
       const audioBlob = new Blob([bytes], { type: 'audio/mp3' });
       const audioUrl = URL.createObjectURL(audioBlob);
       const audio = new Audio(audioUrl);
       audioRef.current = audio;
 
-      // Evento al finalizar la reproducción del audio
       audio.onended = () => {
         setIsPlayingAudio(false);
         audioRef.current = null;
         URL.revokeObjectURL(audioUrl);
       };
 
-      // Manejo de errores durante la reproducción
-      audio.onerror = (e) => {
-        console.error('Error al reproducir audio de ElevenLabs:', e);
+      audio.onerror = () => {
         audioRef.current = null;
         URL.revokeObjectURL(audioUrl);
         setIsPlayingAudio(false);
@@ -152,22 +122,11 @@ export function FormattedRabbiResponse({
 
       await audio.play();
       setIsPlayingAudio(true);
-    } catch (e) {
-      console.error('Fallo al obtener la voz neuronal:', e);
-      alert('Hubo un error al conectar con ElevenLabs. Revisa la consola.');
+    } catch {
       setIsPlayingAudio(false);
     } finally {
       setIsLoadingAudio(false);
     }
-  };
-
-  /**
-   * Parsea y formatea el texto plano de la respuesta línea por línea,
-   * identificando encabezados, listas, insignias comunitarias y bloques halájicos.
-   * @returns Elementos JSX estructurados para el renderizado del mensaje.
-   */
-  const formatTextWithSafeLayout = (text: string, defaultDir: 'ltr' | 'rtl' = 'ltr') => {
-    return <span dir={defaultDir} className="inline-block w-full text-left">{text}</span>;
   };
 
   const renderFormattedContent = () => {
@@ -191,7 +150,6 @@ export function FormattedRabbiResponse({
           const trimmed = line.trim();
           if (!trimmed) return <div key={idx} className="h-2" />;
 
-          // Bloque Obligatorio dinámico
           if (trimmed.match(/🔴\s*(OBLIGATORIO|חובה)/i)) {
             return (
               <div
@@ -201,7 +159,7 @@ export function FormattedRabbiResponse({
               >
                 <div className="flex items-center gap-2 text-red-900 dark:text-red-300 font-bold text-sm">
                   <span>🔴</span>
-                  <span>{t('mandatoryTitle', 'OBLIGATORIO')} (Deoraita / Derabanan)</span>
+                  <span>OBLIGATORIO (Deoraita / Derabanan)</span>
                 </div>
                 <div className="text-xs text-red-950 dark:text-red-200 mt-1 pl-6">
                   {formatInlineText(trimmed.replace(/🔴\s*(OBLIGATORIO|חובה):?/i, ''))}
@@ -210,7 +168,6 @@ export function FormattedRabbiResponse({
             );
           }
 
-          // Bloque Costumbre dinámico
           if (trimmed.match(/🟡\s*(COSTUMBRE|מנהג)/i)) {
             return (
               <div
@@ -220,7 +177,7 @@ export function FormattedRabbiResponse({
               >
                 <div className="flex items-center gap-2 text-amber-900 dark:text-amber-300 font-bold text-sm">
                   <span>🟡</span>
-                  <span>{t('customTitle', 'COSTUMBRE (MINHAG)')}</span>
+                  <span>COSTUMBRE (MINHAG)</span>
                 </div>
                 <div className="text-xs text-amber-950 dark:text-amber-200 mt-1 pl-6">
                   {formatInlineText(trimmed.replace(/🟡\s*(COSTUMBRE(\s*\(MINHAG\))?|מנהג):?/i, ''))}
@@ -229,7 +186,6 @@ export function FormattedRabbiResponse({
             );
           }
 
-          // Bloque Opcional / Humrá dinámico
           if (trimmed.match(/🟢\s*(OPCIONAL|HUMRA|JUMRÁ|הידור|רשות)/i)) {
             return (
               <div
@@ -239,7 +195,7 @@ export function FormattedRabbiResponse({
               >
                 <div className="flex items-center gap-2 text-emerald-900 dark:text-emerald-300 font-bold text-sm">
                   <span>🟢</span>
-                  <span>{t('optionalTitle', 'OPCIONAL / HUMRÁ')} (Midat Jasidut)</span>
+                  <span>OPCIONAL / HUMRÁ (Midat Jasidut)</span>
                 </div>
                 <div className="text-xs text-emerald-950 dark:text-emerald-200 mt-1 pl-6">
                   {formatInlineText(trimmed.replace(/🟢\s*(OPCIONAL\s*\/?\s*HUMRA|JUMRÁ|הידור|רשות):?/i, ''))}
@@ -250,11 +206,7 @@ export function FormattedRabbiResponse({
 
           if (trimmed.startsWith('### ')) {
             return (
-              <h4
-                key={idx}
-                className="text-base font-bold text-amber-900 dark:text-amber-400 font-serif pt-2 border-b border-amber-100 dark:border-slate-800 pb-1 text-left"
-                dir="ltr"
-              >
+              <h4 key={idx} className="text-base font-bold text-amber-900 dark:text-amber-400 font-serif pt-2 border-b border-amber-100 dark:border-slate-800 pb-1 text-left" dir="ltr">
                 {formatInlineText(trimmed.replace('### ', ''))}
               </h4>
             );
@@ -262,76 +214,24 @@ export function FormattedRabbiResponse({
 
           if (trimmed.startsWith('## ')) {
             return (
-              <h3
-                key={idx}
-                className="text-lg font-bold text-slate-900 dark:text-slate-100 font-serif pt-3 pb-1 text-left"
-                dir="ltr"
-              >
+              <h3 key={idx} className="text-lg font-bold text-slate-900 dark:text-slate-100 font-serif pt-3 pb-1 text-left" dir="ltr">
                 {formatInlineText(trimmed.replace('## ', ''))}
               </h3>
             );
           }
 
-          // Detección de menciones a tradiciones específicas para insertar insignias visuales
-          const isMaguenDavid = trimmed.match(/(\*\*|\b)(Maguen David|Jalabí|Alepo)(\*\*|\b)/i);
-          const isMonteSinai = trimmed.match(/(\*\*|\b)(Monte Sinai|Shamí|Damasco)(\*\*|\b)/i);
-          const isSefaradi = trimmed.match(/(\*\*|\b)(Sefaradí|Sefardí|Maran)(\*\*|\b)/i);
-          const isAshkenazi = trimmed.match(/(\*\*|\b)(Ashkenazí|Asquenazí|Ramá)(\*\*|\b)/i);
-          const isChabad = trimmed.match(/(\*\*|\b)(Jabad|Chabad|Lubavitch|Alter Rebe)(\*\*|\b)/i);
-
           if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
             return (
-              <div 
-                key={idx} 
-                className="flex items-start gap-2.5 my-1.5 pl-2 text-left"
-                dir="ltr"
-              >
-                <span className="text-amber-600 dark:text-amber-400 font-bold text-sm leading-none mt-1">
-                  •
-                </span>
-                <div className="flex-1 text-left">
-                  {isMaguenDavid && (
-                    <span className="inline-block mx-1.5 px-2 py-0.5 text-[11px] font-semibold rounded-md bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700">
-                      🏛️ Maguen David (Jalabí)
-                    </span>
-                  )}
-                  {isMonteSinai && (
-                    <span className="inline-block mx-1.5 px-2 py-0.5 text-[11px] font-semibold rounded-md bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-300 border border-indigo-300 dark:border-indigo-700">
-                      🌄 Monte Sinai (Shamí)
-                    </span>
-                  )}
-                  {isSefaradi && !isMaguenDavid && !isMonteSinai && (
-                    <span className="inline-block mx-1.5 px-2 py-0.5 text-[11px] font-semibold rounded-md bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 border border-amber-300 dark:border-amber-700">
-                      📜 Sefaradí
-                    </span>
-                  )}
-                  {isAshkenazi && (
-                    <span className="inline-block mx-1.5 px-2 py-0.5 text-[11px] font-semibold rounded-md bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300 border border-blue-300 dark:border-blue-700">
-                      🕯️ Ashkenazí
-                    </span>
-                  )}
-                  {isChabad && (
-                    <span className="inline-block mx-1.5 px-2 py-0.5 text-[11px] font-semibold rounded-md bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300 border border-rose-300 dark:border-rose-700">
-                      🔥 Jabad Lubavitch
-                    </span>
-                  )}
-                  {formatInlineText(trimmed.slice(2))}
-                </div>
+              <div key={idx} className="flex items-start gap-2.5 my-1.5 pl-2 text-left" dir="ltr">
+                <span className="text-amber-600 dark:text-amber-400 font-bold text-sm leading-none mt-1">•</span>
+                <div className="flex-1 text-left">{formatInlineText(trimmed.slice(2))}</div>
               </div>
             );
           }
-          return (
-            <p
-              key={idx}
-              className="text-left"
-              dir="ltr"
-            >
-              {formatInlineText(trimmed)}
-            </p>
-          );
+
+          return <p key={idx} className="text-left" dir="ltr">{formatInlineText(trimmed)}</p>;
         })}
 
-        {/* Sección de Pregunta para Reflexión */}
         {reflectionText && (
           <div className="mt-5 p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-amber-50 via-orange-50/50 to-amber-100/50 dark:from-amber-950/30 dark:via-slate-900 dark:to-amber-900/20 border-2 border-amber-300/80 dark:border-amber-700/60 shadow-sm animate-fadeIn text-left" dir="ltr">
             <div className="flex items-center gap-2 mb-2 text-amber-900 dark:text-amber-300 font-serif font-bold text-sm sm:text-base">
@@ -362,7 +262,7 @@ export function FormattedRabbiResponse({
                   className="px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-amber-600 hover:bg-amber-700 text-white shadow-xs transition flex items-center gap-1.5 cursor-pointer"
                 >
                   <MessageCircle className="w-3.5 h-3.5" />
-                  <span>{t('answerThisQuestion', 'Responder a esta pregunta')}</span>
+                  <span>Responder a esta pregunta</span>
                 </button>
               </div>
             )}
@@ -372,38 +272,43 @@ export function FormattedRabbiResponse({
     );
   };
 
-  /**
-   * Da formato a elementos inline dentro del texto (negritas, cursivas y fragmentos de código).
-   * @param text - Cadena de texto a formatear.
-   * @returns Nodos React con etiquetas HTML apropiadas.
-   */
   const formatInlineText = (text: string): React.ReactNode => {
-    const parts = text.split(/(\*\*.*?\*\*|\*.*?\*|`.*?`)/g);
-
+    // Soporte integrado para negritas, cursivas, código y enlaces [Texto](URL)
+    const parts = text.split(/(\*\*.*?\*\*|\*.*?\*|`.*?`|\[.*?\]\(.*?\))/g);
+    
     return parts.map((part, i) => {
-      if (part.startsWith('**') && part.endsWith('**')) {
+      const linkMatch = part.match(/\[(.*?)\]\((.*?)\)/);
+      if (linkMatch) {
+        const linkText = linkMatch[1];
+        const linkUrl = linkMatch[2];
+        const isVideo = linkUrl.includes('youtube.com') || linkUrl.includes('youtu.be') || linkUrl.includes('video');
+        
         return (
-          <strong key={i} className="font-semibold text-slate-900 dark:text-white">
-            {part.slice(2, -2)}
-          </strong>
+          <a
+            key={i}
+            href={linkUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg mx-1 my-0.5 font-semibold text-xs transition align-baseline shadow-xs ${
+              isVideo 
+                ? 'bg-red-100 dark:bg-red-950/60 text-red-700 dark:text-red-300 border border-red-300 dark:border-red-800 hover:bg-red-200' 
+                : 'bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-700 hover:bg-amber-200'
+            }`}
+          >
+            <span>{isVideo ? '📺' : '🔗'}</span>
+            <span>{linkText}</span>
+          </a>
         );
+      }
+
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return <strong key={i} className="font-semibold text-slate-900 dark:text-white">{part.slice(2, -2)}</strong>;
       }
       if (part.startsWith('*') && part.endsWith('*')) {
-        return (
-          <em key={i} className="italic text-slate-700 dark:text-slate-300">
-            {part.slice(1, -1)}
-          </em>
-        );
+        return <em key={i} className="italic text-slate-700 dark:text-slate-300">{part.slice(1, -1)}</em>;
       }
       if (part.startsWith('`') && part.endsWith('`')) {
-        return (
-          <code
-            key={i}
-            className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-xs font-mono text-amber-700 dark:text-amber-300"
-          >
-            {part.slice(1, -1)}
-          </code>
-        );
+        return <code key={i} className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-xs font-mono text-amber-700 dark:text-amber-300">{part.slice(1, -1)}</code>;
       }
       return part;
     });
@@ -413,9 +318,8 @@ export function FormattedRabbiResponse({
     <div className="relative group">
       {renderFormattedContent()}
 
-      {/* Barra de herramientas inferior (Audio, Copiar y Marcador) */}
       {!isStreaming && (
-        <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs text-slate-500">
+        <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
           <div className="flex items-center gap-1.5">
             <button
               onClick={handleToggleAudio}
@@ -425,7 +329,6 @@ export function FormattedRabbiResponse({
                   ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-200'
                   : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400'
               }`}
-              title={t('listenAudio', 'Escuchar respuesta con voz rabínica')}
             >
               {isLoadingAudio ? (
                 <span className="w-3.5 h-3.5 border-2 border-amber-600 border-t-transparent rounded-full animate-spin" />
@@ -434,15 +337,36 @@ export function FormattedRabbiResponse({
               ) : (
                 <Volume2 className="w-3.5 h-3.5" />
               )}
-              <span>{isPlayingAudio ? t('pauseVoice', 'Pausar voz') : t('listen', 'Escuchar')}</span>
+              <span>{isPlayingAudio ? 'Pausar voz' : 'Escuchar'}</span>
             </button>
           </div>
+
+          {onAskFollowUp && (
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => onAskFollowUp('Por favor, resumeme la respuesta anterior en una versión MUY BREVE y concisa.')}
+                className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-amber-100 dark:hover:bg-amber-950/60 text-slate-700 dark:text-slate-300 transition flex items-center gap-1 font-semibold cursor-pointer"
+                title="Pedir versión corta"
+              >
+                <Zap className="w-3 h-3 text-amber-600" />
+                <span>Respuesta Corta</span>
+              </button>
+              <button
+                onClick={() => onAskFollowUp('Por favor, amplía la respuesta anterior con mucho más detalle, fuentes halájicas y profundidad.')}
+                className="px-2.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white transition flex items-center gap-1 font-semibold shadow-xs cursor-pointer"
+                title="Pedir versión larga y detallada"
+              >
+                <ScrollText className="w-3 h-3" />
+                <span>Respuesta Larga</span>
+              </button>
+            </div>
+          )}
 
           <div className="flex items-center gap-1">
             <button
               onClick={handleCopy}
               className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
-              title={t('copyText', 'Copiar texto')}
+              title="Copiar texto"
             >
               {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
             </button>
@@ -451,7 +375,7 @@ export function FormattedRabbiResponse({
               <button
                 onClick={onToggleBookmark}
                 className="p-1.5 rounded-lg text-slate-400 hover:text-amber-600 hover:bg-amber-50 dark:hover:bg-slate-800 transition cursor-pointer"
-                title={isBookmarked ? t('savedInNotes', 'Guardada en notas') : t('saveTeaching', 'Guardar enseñanza')}
+                title="Guardar enseñanza"
               >
                 {isBookmarked ? (
                   <BookmarkCheck className="w-3.5 h-3.5 text-amber-600 fill-amber-600" />

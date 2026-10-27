@@ -152,3 +152,18 @@ export const TRADITIONS: TraditionInfo[] = [
     ],
   },
 ];
+//filtro por pais.
+export const getAvailableTraditions = (userCountry?: string): TraditionInfo[] => {
+  const isMexico = 
+    userCountry === 'México' || 
+    userCountry === 'Mexico' || 
+    userCountry === 'MX' || 
+    navigator.language.includes('es-MX');
+
+  if (isMexico) {
+    return TRADITIONS; // Devuelve las 5 tradiciones
+  }
+
+  // Si no está en México, filtramos y excluimos Maguen David y Monte Sinai
+  return TRADITIONS.filter(t => t.id !== 'maguen_david' && t.id !== 'monte_sinai');
+};

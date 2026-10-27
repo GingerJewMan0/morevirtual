@@ -31,6 +31,52 @@ export interface Parasha {
 
 /**
  * ============================================================================
+ * OBTENER LA PARASHÁ ACTUAL DE LA SEMANA (HEBCAL API)
+ * ============================================================================
+ * Propósito: Consultar el calendario actual y cruzarlo con PARASHOT_DATA 
+ * para devolver por defecto la porción semanal correspondiente.
+ */
+export const fetchCurrentParsha = async (): Promise<Parasha | null> => {
+  try {
+    // Consultamos la API de Hebcal para la porción de la Torá de la semana actual (idioma español)
+    const response = await fetch('https://www.hebcal.com/hebcal?v=1&cfg=json&M=on&lg=s');
+    const data = await response.json();
+    
+    // Buscamos el ítem correspondiente a la categoría 'parashat'
+    const parshaItem = data.items?.find((item: any) => item.category === 'parashat');
+    
+    if (!parshaItem || !parshaItem.title) return null;
+
+    // Limpiamos el título que regresa Hebcal (ej. "Parashat Bereshit" -> "bereshit")
+    // O hacemos una coincidencia por nombre o ID aproximado
+    const cleanTitle = parshaItem.title
+      .replace('Parashat ', '')
+      .replace('Parashá ', '')
+      .toLowerCase()
+      .trim();
+
+    // Buscamos la parashá equivalente dentro de tu base de datos local PARASHOT_DATA
+    const matchedParsha = PARASHOT_DATA.find(p => 
+      p.name.toLowerCase().includes(cleanTitle) || 
+      cleanTitle.includes(p.name.toLowerCase())
+    );
+
+    // Si la encuentra en tu base de datos local, la devuelve con todo su contenido rico
+    if (matchedParsha) {
+      return matchedParsha;
+    }
+
+    // Fallback: Si no hay coincidencia exacta por texto, devuelve por defecto la primera de la lista
+    return PARASHOT_DATA[0];
+  } catch (error) {
+    console.error('Error al obtener la parashá actual de la semana:', error);
+    // Fallback seguro en caso de fallo de red
+    return PARASHOT_DATA[0];
+  }
+};
+
+/**
+ * ============================================================================
  * BASE DE DATOS DE LAS 54 PARASHOT (PARASHOT_DATA)
  * ============================================================================
  * Catálogo completo que alimenta las pestañas de estudio, lecturas y consultas

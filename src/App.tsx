@@ -1,3 +1,9 @@
+/**
+ * ============================================================================
+ * COMPONENTE PRINCIPAL (App.tsx)
+ * ============================================================================
+ */
+
 import React, { useState, useRef, useEffect } from 'react';
 import {
   Send,
@@ -31,6 +37,11 @@ import {
   Check,
   Upload,
   ShieldCheck,
+  Home,
+  Settings,
+  Plus,
+  Trash2,
+  MessageCircle,
 } from 'lucide-react';
 import { ChatMessage, TraditionId, SavedNote } from './types.ts';
 import { TRADITIONS } from './data/traditions.ts';
@@ -46,6 +57,7 @@ import { GiluyDaatTab } from './components/GiluyDaatTab.tsx';
 import { DeveloperTab } from './components/DeveloperTab.tsx';
 import { QATab } from './components/QATab';
 import { KosherCheckerTab } from './components/KosherCheckerTab.tsx';
+import { SettingsTab } from './components/SettingsTab.tsx';
 import { useTranslation } from 'react-i18next';
 import { checkIsShabbatOrYomTov } from './shabbatGuard.ts';
 import { ShabbatLockScreen } from './ShabbatLockScreen.tsx';
@@ -54,9 +66,13 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Geolocation } from '@capacitor/geolocation';
 import iconImage from './icon.jpg';
 
-// ============================================================================
-// 1. UTILIDADES Y MANEJO DE ERRORES AMIGABLES
-// ============================================================================
+interface ChatSession {
+  id: string;
+  title: string;
+  messages: ChatMessage[];
+  createdAt: number;
+}
+
 function cleanFriendlyError(raw: string): string {
   if (
     raw.includes('503') ||
@@ -90,24 +106,20 @@ const LANGUAGES = [
 ];
 
 export function App() {
-
-  // ==========================================================================
-  // 2. PASARELA DE PAGOS Y CONTROL FREEMIUM (LITE VS. PREMIUM)
-  // ==========================================================================
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
   const [isPremium, setIsPremium] = useState<boolean>(() => {
-  return localStorage.getItem('isPremium') === 'true';
-});
+    return localStorage.getItem('isPremium') === 'true';
+  });
 
-useEffect(() => {
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('activate_premium') === 'true') {
-    localStorage.setItem('isPremium', 'true');
-    setIsPremium(true);
-    alert("¡Felicidades! Tu cuenta ha sido actualizada a Premium con éxito.");
-  }
-}, []);
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('activate_premium') === 'true') {
+      localStorage.setItem('isPremium', 'true');
+      setIsPremium(true);
+      alert("¡Felicidades! Tu cuenta ha sido actualizada a Premium con éxito.");
+    }
+  }, []);
 
   const MAX_FREE_QUERIES = 12;
 
@@ -126,10 +138,6 @@ useEffect(() => {
 
   const { i18n, t } = useTranslation(); 
 
-
-  // ==========================================================================
-  // 3. BLOQUEO AUTOMÁTICO DE SHABAT Y YOM TOV
-  // ==========================================================================
   const [isRestDay, setIsRestDay] = useState(false);
   const [isChecking, setIsChecking] = useState(true);
 
@@ -175,13 +183,9 @@ useEffect(() => {
     initLocation();
   }, []);
 
-
-  // ==========================================================================
-  // 4. ESTADOS DE NAVEGACIÓN Y UI GENERAL
-  // ==========================================================================
   const [activeMainTab, setActiveMainTab] = useState<
-    'chat' | 'calendar' | 'parasha' | 'giluy_daat' | 'qa' | 'developer' | 'kosher'
-  >('chat');
+    'home' | 'chat' | 'calendar' | 'parasha' | 'giluy_daat' | 'qa' | 'developer' | 'kosher' | 'settings'
+  >('home');
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -197,6 +201,20 @@ useEffect(() => {
 
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const langMenuRef = useRef<HTMLDivElement | null>(null);
+
+  // Estados del Historial de Conversaciones Estilo Gemini
+  const [chatSessions, setChatSessions] = useState<ChatSession[]>(() => {
+    try {
+      const stored = localStorage.getItem('rabino_virtual_chat_sessions');
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  const [currentSessionId, setCurrentSessionId] = useState<string>(() => {
+    return `session-${Date.now()}`;
+  });
 
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputText, setInputText] = useState('');
@@ -236,10 +254,69 @@ useEffect(() => {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
+  // Guardar sesiones en localStorage automáticamente
+  useEffect(() => {
+    try {
+      localStorage.setItem('rabino_virtual_chat_sessions', JSON.stringify(chatSessions));
+    } catch (e) {
+      console.warn('Error saving chat sessions:', e);
+    }
+  }, [chatSessions]);
 
-  // ==========================================================================
-  // 5. MANEJADORES DE IMÁGENES Y CÁMARA
-  // ==========================================================================
+  // Actualizar la sesión actual de chat al escribir mensajes
+  useEffect(() => {
+    if (messages.length > 0) {
+      const firstUserMsg = messages.find(m => m.role === 'user')?.content || 'Nueva conversación';
+      const title = firstUserMsg.length > 32 ? firstUserMsg.slice(0, 32) + '...' : firstUserMsg;
+
+      setChatSessions(prev => {
+        const existingIndex = prev.findIndex(s => s.id === currentSessionId);
+        if (existingIndex >= 0) {
+          const updated = [...prev];
+          updated[existingIndex] = {
+            ...updated[existingIndex],
+            title,
+            messages,
+          };
+          return updated;
+        } else {
+          return [{
+            id: currentSessionId,
+            title,
+            messages,
+            createdAt: Date.now(),
+          }, ...prev];
+        }
+      });
+    }
+  }, [messages, currentSessionId]);
+
+  const handleNewChat = () => {
+    const newId = `session-${Date.now()}`;
+    setCurrentSessionId(newId);
+    setMessages([]);
+    setActiveMainTab('chat');
+    setIsSidebarOpen(false);
+  };
+
+  const handleSelectSession = (sessionId: string) => {
+    const session = chatSessions.find(s => s.id === sessionId);
+    if (session) {
+      setCurrentSessionId(session.id);
+      setMessages(session.messages);
+      setActiveMainTab('chat');
+      setIsSidebarOpen(false);
+    }
+  };
+
+  const handleDeleteSession = (e: React.MouseEvent, sessionId: string) => {
+    e.stopPropagation();
+    setChatSessions(prev => prev.filter(s => s.id !== sessionId));
+    if (currentSessionId === sessionId) {
+      handleNewChat();
+    }
+  };
+
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file && file.type.startsWith('image/')) {
@@ -301,10 +378,6 @@ useEffect(() => {
     }
   };
 
-
-  // ==========================================================================
-  // 6. GESTIÓN DE IDIOMAS Y TRADUCCIÓN DINÁMICA
-  // ==========================================================================
   const handleLanguageChange = async (langCode: string) => {
     setSelectedLanguage(langCode);
     i18n.changeLanguage(langCode);
@@ -351,10 +424,6 @@ useEffect(() => {
     setMessages(updatedMessages);
   };
 
-
-  // ==========================================================================
-  // 7. EFECTOS DE TEMA, DIRECCIÓN Y LISTENERS GLOBALES
-  // ==========================================================================
   useEffect(() => {
     try {
       if (isDarkMode) {
@@ -412,10 +481,6 @@ useEffect(() => {
     }
   };
 
-
-  // ==========================================================================
-  // 8. DICTADO POR VOZ Y RECONOCIMIENTO DE AUDIO
-  // ==========================================================================
   const stopVoiceDictation = () => {
     if (recognitionRef.current) {
       try {
@@ -519,10 +584,6 @@ useEffect(() => {
     }
   };
 
-
-  // ==========================================================================
-  // 9. LÓGICA DE ENVÍO DE MENSAJES Y COMUNICACIÓN CON LA IA
-  // ==========================================================================
   const handleSendMessage = async (textToSend?: string) => {
     const query = (textToSend || inputText).trim();
     if (!query && !imageFile && !nativeImageBase64) return;
@@ -582,6 +643,7 @@ useEffect(() => {
 
     const assistantMessageId = `assistant-${Date.now()}`;
     const activeLang = i18n.language?.substring(0, 2) || selectedLanguage;
+    const configuredLength = localStorage.getItem('rabino_virtual_response_length') || 'normal';
 
     const assistantMessage: ChatMessage = {
       id: assistantMessageId,
@@ -607,6 +669,7 @@ useEffect(() => {
           })),
           traditionFocus: 'all',
           language: activeLang,
+          responseLength: configuredLength,
           imageBase64,
           imageMimeType,
         }),
@@ -755,6 +818,13 @@ useEffect(() => {
 
   const NAV_ITEMS = [
     {
+      id: 'home' as const,
+      label: i18n.language === 'he' ? 'דף הבית' : 'Inicio / Homepage',
+      icon: Home,
+      desc: i18n.language === 'he' ? 'חזרה למסך הבית' : 'Pantalla principal de bienvenida',
+      accentColor: 'text-amber-500',
+    },
+    {
       id: 'chat' as const,
       label: t('tabAskRabbi', 'Diálogo Rabínico'),
       icon: MessageSquare,
@@ -783,6 +853,13 @@ useEffect(() => {
       accentColor: 'text-amber-400',
     },
     {
+      id: 'settings' as const,
+      label: i18n.language === 'he' ? 'הגדרות' : 'Configuración',
+      icon: Settings,
+      desc: i18n.language === 'he' ? 'מנהג, רמת ידע ומיקום' : 'Costumbre, nivel de conocimiento y ubicación',
+      accentColor: 'text-amber-500',
+    },
+    {
       id: 'giluy_daat' as const,
       label: t('tabGiluyDaat', "Giluy Da'at (Deslinde)"),
       icon: ShieldAlert,
@@ -805,9 +882,6 @@ useEffect(() => {
     },
   ];
 
-  const currentTabLabel =
-    NAV_ITEMS.find((item) => item.id === activeMainTab)?.label || t('tabAskRabbi', 'Diálogo Rabínico');
-
   if (isChecking) {
     return null;
   }
@@ -816,10 +890,6 @@ useEffect(() => {
     return <ShabbatLockScreen />;
   }
 
-
-  // ==========================================================================
-  // 10. RENDERIZADO DE LA INTERFAZ PRINCIPAL
-  // ==========================================================================
   return (
     <div className={`flex flex-col h-screen w-full overflow-hidden ${isDarkMode ? 'dark bg-slate-950 text-slate-100' : 'bg-stone-50/70 text-slate-800'} font-sans transition-colors duration-200`}>
       {isSidebarOpen && (
@@ -830,7 +900,7 @@ useEffect(() => {
         />
       )}
 
-      {/* Barra Lateral / Sidebar (Dinámica: Derecha en Hebreo, Izquierda en otros idiomas) */}
+      {/* Barra Lateral con Historial Estilo Gemini */}
       <aside
         className={`fixed top-0 bottom-0 z-50 w-72 sm:w-80 bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xl flex flex-col justify-between ${
           isSidebarOpen ? 'transition-transform duration-300 ease-in-out' : 'transition-none'
@@ -841,31 +911,72 @@ useEffect(() => {
         }`}
       >
         <div className="flex-1 flex flex-col overflow-y-auto">
-          <div className="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-amber-50/60 dark:bg-slate-950/60">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl overflow-hidden shadow-sm shrink-0 flex items-center justify-center bg-slate-900 border border-amber-500/40 p-0.5">
-              <img 
-              src={iconImage} 
-              alt="Rabino Virtual" 
-              className="w-full h-full object-contain" 
-              />
-              </div>
-              <div>
-                <h2 className="font-serif font-bold text-base text-slate-900 dark:text-white tracking-wide">
+          {/* Cabecera del Sidebar con botón de Nueva Conversación */}
+          <div className="p-4 border-b border-slate-200 dark:border-slate-800 space-y-3 bg-amber-50/60 dark:bg-slate-950/60">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-xl overflow-hidden shadow-sm shrink-0 flex items-center justify-center bg-slate-900 border border-amber-500/40 p-0.5">
+                  <img src={iconImage} alt="Rabino Virtual" className="w-full h-full object-contain" />
+                </div>
+                <h2 className="font-serif font-bold text-sm text-slate-900 dark:text-white tracking-wide">
                   {t('appName', 'Rabino Virtual')}
                 </h2>
-                <p className="text-[11px] text-amber-700 dark:text-amber-300/90 font-medium">
-                  {t('tagline', 'Guía Rabínico & Limud Torá')}
-                </p>
               </div>
+              <button
+                onClick={() => setIsSidebarOpen(false)}
+                className="p-1.5 rounded-lg text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
+
             <button
-              onClick={() => setIsSidebarOpen(false)}
-              className="p-1.5 rounded-lg text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
-              title={t('closeSidebar', 'Cerrar barra lateral')}
+              onClick={handleNewChat}
+              className="w-full py-2.5 px-3 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-semibold text-xs shadow-md transition flex items-center gap-2 cursor-pointer"
             >
-              <X className="w-5 h-5" />
+              <Plus className="w-4 h-4" />
+              <span>{i18n.language === 'he' ? 'שיחה חדשה' : 'Nueva conversación'}</span>
             </button>
+          </div>
+
+          {/* Historial de Preguntas / Chats anteriores */}
+          <div className="p-3 space-y-1 overflow-y-auto flex-1 border-b border-slate-200 dark:border-slate-800">
+            <span className="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block mb-2">
+              {i18n.language === 'he' ? 'היסטוריית שיחות' : 'Historial de chats'}
+            </span>
+
+            {chatSessions.length === 0 ? (
+              <p className="text-xs text-slate-400 dark:text-slate-500 px-3 italic">
+                {i18n.language === 'he' ? 'אין שיחות קודמות' : 'No hay conversaciones previas'}
+              </p>
+            ) : (
+              chatSessions.map((session) => {
+                const isActive = session.id === currentSessionId;
+                return (
+                  <div
+                    key={session.id}
+                    onClick={() => handleSelectSession(session.id)}
+                    className={`group flex items-center justify-between px-3 py-2.5 rounded-xl text-xs cursor-pointer transition ${
+                      isActive
+                        ? 'bg-amber-100/80 dark:bg-amber-950/60 text-amber-950 dark:text-amber-200 font-bold border-l-4 border-amber-600'
+                        : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2 min-w-0 flex-1">
+                      <MessageCircle className="w-3.5 h-3.5 shrink-0 opacity-70" />
+                      <span className="truncate">{session.title}</span>
+                    </div>
+                    <button
+                      onClick={(e) => handleDeleteSession(e, session.id)}
+                      className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-red-100 dark:hover:bg-red-950 text-slate-400 hover:text-red-600 transition"
+                      title="Eliminar chat"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                );
+              })
+            )}
           </div>
 
           <div className="p-4 space-y-1.5">
@@ -945,36 +1056,6 @@ useEffect(() => {
             </div>
           </div>
 
-          <div className="p-4 pt-2 border-t border-slate-200 dark:border-slate-800 space-y-2">
-            <span className="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block">
-              {t('visualAppearance', 'Apariencia Visual')}
-            </span>
-            <div className="flex gap-2 px-1">
-              <button
-                onClick={() => setIsDarkMode(false)}
-                className={`flex-1 py-2 px-3 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 border cursor-pointer transition ${
-                  !isDarkMode
-                    ? 'bg-amber-100 text-amber-900 border-amber-400 shadow-xs'
-                    : 'bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:bg-slate-100'
-                }`}
-              >
-                <Sun className="w-4 h-4 text-amber-600" />
-                <span>{t('lightMode', 'Modo Claro')}</span>
-              </button>
-              <button
-                onClick={() => setIsDarkMode(true)}
-                className={`flex-1 py-2 px-3 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 border cursor-pointer transition ${
-                  isDarkMode
-                    ? 'bg-amber-950 text-amber-300 border-amber-700 shadow-xs'
-                    : 'bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:bg-slate-100'
-                }`}
-              >
-                <Moon className="w-4 h-4 text-amber-400" />
-                <span>{t('darkMode', 'Modo Oscuro')}</span>
-              </button>
-            </div>
-          </div>
-
           <div className="p-4 pt-2 border-t border-slate-200 dark:border-slate-800 space-y-1">
             <span className="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 block mb-2">
               {t('studyTools', 'Herramientas de Estudio')}
@@ -1032,21 +1113,20 @@ useEffect(() => {
               {t('devSupportText', 'Ohr Mobile Studios. Apoya el proyecto con un donativo voluntario.')}
             </p>
             <button
-            onClick={() => setIsPaymentModalOpen(true)}
-            className="w-full py-1.5 px-2.5 rounded-lg font-semibold text-[11px] bg-amber-600 hover:bg-amber-500 text-white dark:text-slate-950 transition flex items-center justify-center gap-1.5"
+              onClick={() => setIsPaymentModalOpen(true)}
+              className="w-full py-1.5 px-2.5 rounded-lg font-semibold text-[11px] bg-amber-600 hover:bg-amber-500 text-white dark:text-slate-950 transition flex items-center justify-center gap-1.5"
             >
               <ExternalLink className="w-3 h-3" />
               <span>{t('donateButton', 'Donar')}</span>
-              </button>
+            </button>
           </div>
 
           <p className="text-[10px] text-slate-500 text-center italic" dir={i18n.language === 'he' ? 'rtl' : 'ltr'}>
             {t('quotePirkeiAvot', '"Ase leja Rav, ukne leja Javer" — Pirkei Avot 1:6')}
-            </p>
+          </p>
         </div>
       </aside>
 
-      {/* Cabecera Superior / Navbar */}
       <header className="shrink-0 z-30 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-amber-200/60 dark:border-slate-800 shadow-xs transition-colors">
         <div className="w-full px-4 sm:px-6 h-16 flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 sm:gap-3 min-w-0">
@@ -1059,16 +1139,29 @@ useEffect(() => {
               <span className="hidden sm:inline text-xs font-semibold">{t('menu', 'Menú')}</span>
             </button>
 
+            <button
+              onClick={() => setActiveMainTab('home')}
+              className={`p-2 rounded-xl text-xs font-semibold transition flex items-center gap-1.5 cursor-pointer border ${
+                activeMainTab === 'home'
+                  ? 'bg-amber-600 text-white border-amber-600 shadow-xs'
+                  : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-slate-200 dark:border-slate-700 hover:bg-amber-100'
+              }`}
+              title={i18n.language === 'he' ? 'דף הבית' : 'Inicio'}
+            >
+              <Home className="w-4 h-4 text-amber-500" />
+              <span className="hidden md:inline">{i18n.language === 'he' ? 'בית' : 'Inicio'}</span>
+            </button>
+
             <div
               className="flex items-center gap-2.5 cursor-pointer min-w-0"
-              onClick={() => setActiveMainTab('chat')}
+              onClick={() => setActiveMainTab('home')}
             >
               <div className="w-10 h-10 rounded-xl overflow-hidden shadow-sm shrink-0 flex items-center justify-center bg-slate-900 border border-amber-500/40 p-0.5">
-              <img 
-              src={iconImage} 
-              alt="Rabino Virtual" 
-              className="w-full h-full object-contain" 
-              />
+                <img 
+                  src={iconImage} 
+                  alt="Rabino Virtual" 
+                  className="w-full h-full object-contain" 
+                />
               </div>
             </div>
           </div>
@@ -1115,16 +1208,6 @@ useEffect(() => {
                 <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-amber-600 animate-pulse" />
               )}
             </button>
-
-            {messages.length > 0 && activeMainTab === 'chat' && (
-              <button
-                onClick={handleRestartChat}
-                className="p-2 rounded-xl text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
-                title={t('restartChat', 'Reiniciar conversación')}
-              >
-                <RotateCcw className="w-4 h-4 text-slate-500 hover:text-amber-600" />
-              </button>
-            )}
 
             <div className="relative" ref={langMenuRef}>
               <button
@@ -1191,18 +1274,107 @@ useEffect(() => {
         </div>
       </header>
 
-      {/* Área Central con Scroll Independiente */}
       <main className="flex-1 w-full px-4 sm:px-6 py-6 overflow-y-auto flex flex-col">
+        {activeMainTab === 'home' && (
+          <div className="max-w-4xl mx-auto py-8 px-4 space-y-6 animate-fadeIn">
+            <div className="p-8 rounded-3xl bg-gradient-to-br from-amber-500/10 via-amber-100/40 to-slate-900/5 border border-amber-500/30 shadow-xl text-center space-y-4">
+              <div className="w-20 h-20 mx-auto rounded-2xl overflow-hidden bg-slate-900 border-2 border-amber-500/40 shadow-lg shadow-amber-900/20 p-1 flex items-center justify-center">
+                <img 
+                  src={iconImage} 
+                  alt="Logo Rabino Virtual" 
+                  className="w-full h-full object-contain" 
+                />
+              </div>
+              <h1 className="text-3xl sm:text-4xl font-serif font-bold text-slate-900 dark:text-amber-400">
+                {i18n.language === 'he' ? 'ברוכים הבאים לרב הוירטואלי' : '¡Shalom Alejem! Te doy la bienvenida'}
+              </h1>
+              <p className="text-base text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
+                {i18n.language === 'he' 
+                  ? 'הפלטפורמה המקיפה שלך ללימוד תורה, שאלות הלכתיות, זמני היום, כשרות ועוד.' 
+                  : 'Soy tu Rabino Virtual, un educador y guía rabínico concebido para acompañarte con calidez, paciencia y profundidad. Pregúntame con total confianza sobre halajá, Torá, festividades, kashrut, rezos o ética de la vida diaria.'}
+              </p>
+              
+              <div className="pt-2 flex flex-wrap justify-center gap-3">
+                <button
+                  onClick={() => {
+                    handleNewChat();
+                  }}
+                  className="px-6 py-3 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-semibold shadow-md transition cursor-pointer flex items-center gap-2"
+                >
+                  <MessageSquare className="w-5 h-5" />
+                  <span>{i18n.language === 'he' ? 'שאל את הרב' : 'Iniciar Diálogo Rabínico'}</span>
+                </button>
+                <button
+                  onClick={() => setActiveMainTab('calendar')}
+                  className="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-200 font-semibold shadow-md transition cursor-pointer flex items-center gap-2"
+                >
+                  <Calendar className="w-5 h-5 text-amber-400" />
+                  <span>{i18n.language === 'he' ? 'זמני היום ושבת' : 'Zmanim y Shabat'}</span>
+                </button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+              <button
+                onClick={() => setActiveMainTab('parasha')}
+                className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-amber-200 dark:border-amber-900/40 hover:border-amber-400 transition text-left shadow-sm flex items-center gap-3 cursor-pointer group"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-950/60 flex items-center justify-center text-amber-700 dark:text-amber-400 shrink-0 font-bold text-xl">
+                  📜
+                </div>
+                <div>
+                  <h4 className="font-serif font-bold text-sm text-slate-900 dark:text-white">Parashá de la Semana</h4>
+                  <p className="text-[11px] text-slate-500">Estudio, Aliyot y Rashi</p>
+                </div>
+              </button>
+
+              <button
+                onClick={() => {
+                  handleNewChat();
+                  handleSendMessage('Muéstrame clases en video recomendadas y conferencias sobre la Torá y festividades.');
+                }}
+                className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-amber-200 dark:border-amber-900/40 hover:border-amber-400 transition text-left shadow-sm flex items-center gap-3 cursor-pointer group"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-red-100 dark:bg-red-950/60 flex items-center justify-center text-red-600 dark:text-red-400 shrink-0 font-bold text-xl">
+                  📺
+                </div>
+                <div>
+                  <h4 className="font-serif font-bold text-sm text-slate-900 dark:text-white">Clases en Video</h4>
+                  <p className="text-[11px] text-slate-500">Shiurim y conferencias</p>
+                </div>
+              </button>
+
+              <button
+                onClick={() => {
+                  handleNewChat();
+                  handleSendMessage('¿Cuáles son las preguntas frecuentes más consultadas en halajá?');
+                }}
+                className="p-4 rounded-3xl bg-white dark:bg-slate-900 border border-amber-200 dark:border-amber-900/40 hover:border-amber-400 transition text-left shadow-sm flex items-center gap-3 cursor-pointer group"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-emerald-100 dark:bg-emerald-950/60 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0 font-bold text-xl">
+                  ❓
+                </div>
+                <div>
+                  <h4 className="font-serif font-bold text-sm text-slate-900 dark:text-white">Preguntas Clave</h4>
+                  <p className="text-[11px] text-slate-500">Guía rápida de consultas</p>
+                </div>
+              </button>
+            </div>
+          </div>
+        )}
+
         {activeMainTab === 'calendar' && <CalendarZmanimTab />}
 
         {activeMainTab === 'parasha' && (
           <ParashaTab
             onAskAboutParasha={(questionText) => {
-              setActiveMainTab('chat');
+              handleNewChat();
               handleSendMessage(questionText);
             }}
           />
         )}
+
+        {activeMainTab === 'settings' && <SettingsTab />}
 
         {activeMainTab === 'giluy_daat' && (
           <GiluyDaatTab onAcknowledge={() => setActiveMainTab('chat')} />
@@ -1216,12 +1388,12 @@ useEffect(() => {
 
         {activeMainTab === 'kosher' && (
           <KosherCheckerTab 
-          onAskRabbi={(questionText) => {
-            setActiveMainTab('chat');
-            handleSendMessage(questionText);
-          }} 
+            onAskRabbi={(questionText) => {
+              handleNewChat();
+              handleSendMessage(questionText);
+            }} 
           />
-          )}
+        )}
 
         {activeMainTab === 'chat' && (
           <>
@@ -1265,38 +1437,6 @@ useEffect(() => {
                   <p className="max-w-3xl mx-auto text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
                     {t('welcomeDesc', 'Soy tu Rabino Virtual, un educador y guía rabínico concebido para acompañarte con calidez, paciencia y profundidad. Pregúntame con total confianza sobre halajá, Torá, festividades, kashrut, rezos o ética de la vida diaria.')}
                   </p>
-
-                  <div className="mt-6 pt-5 border-t border-amber-200/80 dark:border-slate-800 grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
-                    <div className="p-3 rounded-xl bg-white/80 dark:bg-slate-800/80 border border-red-200/60 dark:border-red-900/30">
-                      <div className="flex items-center gap-1.5 font-bold text-xs text-red-900 dark:text-red-300 mb-1">
-                        <span>🔴</span>
-                        <span>{t('mandatoryTitle', 'OBLIGATORIO')}</span>
-                      </div>
-                      <p className="text-[11px] text-slate-600 dark:text-slate-400">
-                        {t('mandatoryDesc', 'Mitzvá de la Torá (Deoraita) o Decreto Rabínico vinculante (Derabanan).')}
-                      </p>
-                    </div>
-
-                    <div className="p-3 rounded-xl bg-white/80 dark:bg-slate-800/80 border border-amber-200/60 dark:border-amber-900/30">
-                      <div className="flex items-center gap-1.5 font-bold text-xs text-amber-900 dark:text-amber-300 mb-1">
-                        <span>🟡</span>
-                        <span>{t('customTitle', 'COSTUMBRE (MINHAG)')}</span>
-                      </div>
-                      <p className="text-[11px] text-slate-600 dark:text-slate-400">
-                        {t('customDesc', 'Tradición venerada y arraigada en cada comunidad a lo largo de los siglos.')}
-                      </p>
-                    </div>
-
-                    <div className="p-3 rounded-xl bg-white/80 dark:bg-slate-800/80 border border-emerald-200/60 dark:border-emerald-900/30">
-                      <div className="flex items-center gap-1.5 font-bold text-xs text-emerald-900 dark:text-emerald-300 mb-1">
-                        <span>🟢</span>
-                        <span>{t('optionalTitle', 'OPCIONAL / HUMRÁ')}</span>
-                      </div>
-                      <p className="text-[11px] text-slate-600 dark:text-slate-400">
-                        {t('optionalDesc', 'Costumbre piadosa, elevación espiritual o preferencia personal opcional.')}
-                      </p>
-                    </div>
-                  </div>
                 </div>
 
                 <div className="space-y-3">
@@ -1431,12 +1571,9 @@ useEffect(() => {
         )}
       </main>
 
-      {/* Pie de Página / Footer Estático Abajo (Para el Chat) */}
       {activeMainTab === 'chat' && (
         <footer className="shrink-0 z-20 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 p-3 sm:p-4">
           <div className="w-full px-4 sm:px-6 space-y-2">
-            
-           {/* Banner publicitario Lite con precio de Premium explícito */}
             {!isPremium && (
               <div className="w-full bg-amber-50 dark:bg-slate-800/90 py-1.5 px-3 rounded-xl text-center text-xs text-slate-600 dark:text-slate-300 border border-amber-200 dark:border-slate-700 flex items-center justify-between gap-2 shadow-xs">
                 <span className="truncate">{t('liteVersionBanner')}</span>
@@ -1607,8 +1744,7 @@ useEffect(() => {
           </div>
         </footer>
       )}
-      
-      {/* Pie de Página / Footer Estático Abajo (Para otras pestañas) */}
+
       {activeMainTab !== 'chat' && !isPremium && (
         <footer className="shrink-0 z-20 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 p-3">
           <div className="w-full px-4 sm:px-6">
@@ -1625,7 +1761,6 @@ useEffect(() => {
         </footer>
       )}
 
-      {/* Modales de la aplicación */}
       <TraditionsGuideModal
         isOpen={isTraditionsModalOpen}
         onClose={() => setIsTraditionsModalOpen(false)}
@@ -1657,7 +1792,6 @@ useEffect(() => {
         }}
       />
 
-      {/* Modal de Opciones de Pago (PayPal, Mercado Pago, SPEI/OXXO) */}
       <PaymentModal
         isOpen={isPaymentModalOpen}
         onClose={() => setIsPaymentModalOpen(false)}

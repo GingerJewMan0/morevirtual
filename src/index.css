@@ -20,6 +20,13 @@
   direction: rtl;
   unicode-bidi: isolate;
 }
+
+.hebrew-text {
+  direction: rtl;
+  text-align: right;
+  font-family: 'Segoe UI', Arial, sans-serif; /* O una fuente que soporte hebreo limpio */
+}
+
 }
 
 /* ============================================================================ */
