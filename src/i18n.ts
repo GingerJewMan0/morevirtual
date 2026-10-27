@@ -805,7 +805,7 @@ const resources = {
       tabGiluyDaatDesc: 'Objectif pédagogique et avertissement halachique',
       tabDeveloper: 'Développeur',
       tabDeveloperDesc: 'Ohr Mobile Studios et Dons',
-      ceoAndProgrammer: 'PDG et Développeur Principal d\'OHR Mobile Studio :',
+      ceoAndProgrammer: 'PDG et Développeur Principal d\'OHR Mobile Studio:',
       footerDevTitle: 'Ohr Mobile Studios',
       footerDevDesc: 'Studio de développement de logiciels et de technologies avancées. Soutenez le projet avec un don volontaire.',
 
