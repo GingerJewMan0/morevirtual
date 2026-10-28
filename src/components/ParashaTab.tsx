@@ -170,12 +170,6 @@ export function ParashaTab({ onAskAboutParasha, israel = false }: ParashaTabProp
               </span>
               <p className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed">{cleanText(parasha.halachaFocus)}</p>
             </div>
-            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 space-y-2">
-              <span className="text-xs font-bold uppercase text-amber-700 dark:text-amber-400 block">
-                {ui('maqamHalabiTitle', 'Maqam Halabí')}
-              </span>
-              <p className="text-sm text-slate-700 dark:text-slate-200">{cleanText(parasha.maqamHalabi)}</p>
-            </div>
             <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between flex-wrap gap-3">
               <span className="text-xs text-slate-500 italic">
                 {ui('askAboutParashaPrompt', '¿Deseas profundizar en algún pasuk, halajá o comentario de esta Parashá?')}

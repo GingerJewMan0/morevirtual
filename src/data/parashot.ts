@@ -5,7 +5,7 @@
  * Propósito: Proveer la estructura de tipos e interfaces de TypeScript junto con
  * la base de datos completa de las 54 parashot (porciones semanales de la Torá),
  * abarcando los 5 libros de Moisés (Sefer Bereshit, Shemot, Vayikra, Bamidbar y Devarim),
- * con sus respectivas lecturas de Haftará, maqamat halabíes, resúmenes, divisiones 
+ * con sus respectivas lecturas de Haftará, resúmenes, divisiones 
  * de aliyot, perlas de Rashi, enseñanzas jasídicas (Chabad) y enfoques halájicos.
  */
 
@@ -17,7 +17,6 @@ export interface Parasha {
   bookSpanish: string;                 // Nombre del libro en español (Génesis, Éxodo, etc.)
   reference: string;                   // Citas bíblicas del Tanaj (capítulos y versículos)
   haftarah: string;                    // Lectura profética correspondiente (Neviim)
-  maqamHalabi: string;                 // Maqam musical tradicional de Alepo (Siria) asignado
   summary: string;                     // Resumen temático general de la porción
   aliyot: {
     number: number;                    // Número de la Aliá (del 1 al 7)
@@ -141,7 +140,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Génesis',
     reference: 'Génesis 1:1 – 6:8',
     haftarah: 'Isaías 42:5 – 43:10',
-    maqamHalabi: 'Rast (el principio, la creación y la cabeza de los Maqamat)',
     summary: 'La creación del universo en seis días y el descanso de Shabat. La creación del ser humano, el Jardín del Edén, la transgresión del árbol del conocimiento, Caín y Hével, y las diez generaciones hasta Noaj.',
     aliyot: [
       { number: 1, reference: '1:1 - 2:3', description: 'Los seis días de la Creación divina y la santificación del séptimo día: Shabat.' },
@@ -164,7 +162,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Génesis',
     reference: 'Génesis 6:9 – 11:32',
     haftarah: 'Isaías 54:1 – 55:5',
-    maqamHalabi: 'Sigah (melodía de súplica, salvación del arca y nuevo pacto)',
     summary: 'La rectitud de Noaj en su generación, la construcción de la Tebá (arca), el gran diluvio que cubrió la tierra, el pacto del arco iris, los siete preceptos de los hijos de Noaj (Mitzvot Bnei Noaj) y la dispersión tras la Torre de Babel.',
     aliyot: [
       { number: 1, reference: '6:9 - 6:22', description: 'Noaj hombre justo; Dios ordena construir el Arca con sus medidas exactas.' },
@@ -187,7 +184,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Génesis',
     reference: 'Génesis 12:1 – 17:27',
     haftarah: 'Isaías 40:27 – 41:16',
-    maqamHalabi: 'Saba (melodía de Brit Milá y fidelidad al pacto eterno)',
     summary: 'La orden divina a Abraham de abandonar su tierra y familia hacia la tierra prometida. La promesa de descendencia, la estancia en Egipto, la separación de Lot, la batalla de los cuatro reyes contra los cinco, el Brit Bein HaBetarim (Pacto entre las partes) y el Brit Milá a los 99 años.',
     aliyot: [
       { number: 1, reference: '12:1 - 12:13', description: '"Vete de tu tierra, de tu parentela..."; Abraham y Sarai parten a Canaán y luego a Egipto por la hambruna.' },
@@ -210,7 +206,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Génesis',
     reference: 'Génesis 18:1 – 22:24',
     haftarah: 'II Reyes 4:1 – 4:37',
-    maqamHalabi: 'Nahawand (melodía de hospitalidad y gracia)',
     summary: 'Dios se aparece a Abraham en las encinas de Mamré. La hospitalidad con los tres ángeles, el anuncio del nacimiento de Itzjak, la súplica por Sodoma y Gomorra, la salvación de Lot, el nacimiento de Itzjak, la expulsión de Hagar e Ishmael, y la Akedat Itzjak (el sacrificio de Isaac) en el Monte Moriá.',
     aliyot: [
       { number: 1, reference: '18:1 - 18:14', description: 'Abraham recibe a los tres viajeros en el calor del día; anuncio del nacimiento de un hijo a Sará.' },
@@ -233,7 +228,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Génesis',
     reference: 'Génesis 23:1 – 25:18',
     haftarah: 'I Reyes 1:1 – 1:31',
-    maqamHalabi: 'Ajam (melodía de dignidad, realeza y continuidad patriarcal)',
     summary: 'Fallecimiento de Sará en Hebrón y compra de la Cueva de Majpelá a Efrón el hitita. El envío del mayordomo Eliezer a Jarán para buscar esposa para Itzjak, el encuentro con Rivká junto al pozo, el matrimonio, y el fallecimiento de Abraham.',
     aliyot: [
       { number: 1, reference: '23:1 - 23:16', description: 'Fallecimiento de Sará; negociación de Abraham con los hijos Het para comprar Majpelá.' },
@@ -256,7 +250,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Génesis',
     reference: 'Génesis 25:19 – 28:9',
     haftarah: 'Malaquías 1:1 – 2:7',
-    maqamHalabi: 'Husseini (melodía de ternura familiar y bendiciones)',
     summary: 'Nacimiento de los mellizos Yaakov y Esav tras las plegarias de Itzjak y Rivká. La venta de la primogenitura por un plato de lentejas, la estancia en Guerar con Avimelej, el conflicto por los pozos de agua, y Yaakov recibiendo las bendiciones primogénitas disfrazado de Esav.',
     aliyot: [
       { number: 1, reference: '25:19 - 25:34', description: 'Nacimiento de Yaakov y Esav; Esav vende su primogenitura a cambio de guiso rojo.' },
@@ -279,7 +272,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Génesis',
     reference: 'Génesis 28:10 – 32:3',
     haftarah: 'Oseas 12:13 – 14:10 (o I Samuel 19:11)',
-    maqamHalabi: 'Bayati (melodía de viaje, protección divina y refugio)',
     summary: 'El sueño de la escalera de Yaakov con los ángeles subiendo y bajando en Bet El. La llegada a Jarán, el encuentro con Rajel junto al pozo, los 20 años de servicio con Labán, los matrimonios con Leá y Rajel, el nacimiento de las doce tribus (excepto Biniamin), y la huida pacífica de Labán.',
     aliyot: [
       { number: 1, reference: '28:10 - 28:22', description: 'El sueño de la escalera de Yaakov en Bet El y su promesa a Dios (*Maaser*).' },
@@ -302,7 +294,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Génesis',
     reference: 'Génesis 32:4 – 36:43',
     haftarah: 'Oseas 11:7 – 12:12 (o Abdías 1)',
-    maqamHalabi: 'Sikah o Ajam (melodía de lucha nocturna, triunfo y reconciliación)',
     summary: 'Preparativos de Yaakov para encontrarse con Esav. La lucha nocturna con el ángel de Esav y el cambio de nombre a *Israel*. El reencuentro pacífico con Esav, el trágico suceso de Diná en Shejem, el fallecimiento de Rivká y Rajel dando a luz a Biniamin.',
     aliyot: [
       { number: 1, reference: '32:4 - 32:33', description: 'Yaakov envía mensajeros a Esav; oración de protección y la lucha con el misterioso ángel al atardecer.' },
@@ -325,7 +316,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Génesis',
     reference: 'Génesis 37:1 – 40:23',
     haftarah: 'Amós 2:6 – 3:8',
-    maqamHalabi: 'Hajaz (melodía de prueba, contraste y esperanza profunda)',
     summary: 'Yosef y sus túnicas de colores, sus sueños proféticos de grandeza, la envidia de sus hermanos que lo venden a una caravana rumbo a Egipto. El episodio de Yehudá y Tamar. Yosef en la casa de Potifar, falsamente acusado y encarcelado, donde interpreta los sueños del copero y el panadero.',
     aliyot: [
       { number: 1, reference: '37:1 - 37:11', description: 'Yosef comparte sus sueños juveniles con sus hermanos, desatando celos profundos.' },
@@ -348,7 +338,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Génesis',
     reference: 'Génesis 41:1 – 44:17',
     haftarah: 'I Reyes 3:15 – 4:1',
-    maqamHalabi: 'Ajam o Rast (melodía de ascenso providencial, Janucá y luz)',
     summary: 'Tras dos años, Faraón sueña con las vacas y las espigas. Yosef es sacado de la prisión, interpreta los sueños vaticinando 7 años de abundancia y 7 de hambre, y es nombrado virrey de Egipto. Los hermanos bajan a comprar víveres, sin reconocerlo. Las pruebas con la copa de plata en el costal de Biniamin.',
     aliyot: [
       { number: 1, reference: '41:1 - 41:14', description: 'Faraón sueña con las vacas flacas y las espigas marchitas; el copero recuerda a Yosef.' },
@@ -370,7 +359,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Génesis',
     reference: 'Génesis 44:18 – 47:27',
     haftarah: 'Ezequiel 37:15 – 37:28',
-    maqamHalabi: 'Nahawand o Hijaz (melodía de reencuentro emotivo y revelación)',
     summary: 'Yehudá se aproxima valientemente a Yosef intercediendo por Biniamin y ofreciéndose como esclavo en su lugar. Yosef se revela emocionado ante sus hermanos: "¡Yo soy Yosef!". Reencuentro histórico con su padre Yaakov en la tierra de Goshen.',
     aliyot: [
       { number: 1, reference: '44:18 - 45:7', description: 'Apasionado alegato de Yehudá defendiendo a Biniamin frente al virrey.' },
@@ -391,7 +379,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Génesis',
     reference: 'Génesis 47:28 – 50:26',
     haftarah: 'I Reyes 2:1 – 2:12',
-    maqamHalabi: 'Sikah o Rast (melodía de bendición final, paz y legado)',
     summary: 'Los últimos 17 años de Yaakov en Egipto. Adopta a los hijos de Yosef (Efrayim y Menashé) y bendice a todos sus hijos antes de fallecer. Su solemne cortejo fúnebre hasta la Cueva de Majpelá en Hebrón. Yosef tranquiliza a sus hermanos antes de su propio fallecimiento.',
     aliyot: [
       { number: 1, reference: '47:28 - 48:22', description: 'Yaakov enfermo hace jurar a Yosef enterrarlo en Hebrón y bendice a Efrayim y Menashé cruzando las manos.' },
@@ -414,7 +401,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Éxodo',
     reference: 'Éxodo 1:1 – 6:1',
     haftarah: 'Isaías 27:6 – 28:13 / Jeremías 1:1 – 2:3',
-    maqamHalabi: 'Saba (melodía de opresión en el exilio y clamor hacia la libertad)',
     summary: 'Inicio del dramático cautiverio en Egipto bajo un nuevo Faraón. Nacimiento y salvación de Moshé en el río Nilo. Su huida a Madián tras defender a un esclavo hebreo. La revelación divina en la Zarza Ardiendo en el Monte Horeb y el inicio de la misión libertadora.',
     aliyot: [
       { number: 1, reference: '1:1 - 1:17', description: 'Multiplicación de los hijos de Israel; decretos crueles del nuevo Faraón y heroísmo de las parteras Shifrá y Puá.' },
@@ -437,7 +423,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Éxodo',
     reference: 'Éxodo 6:2 – 9:35',
     haftarah: 'Ezequiel 28:25 – 29:21',
-    maqamHalabi: 'Husseini (melodía de promesas divinas de redención y las plagas)',
     summary: 'Dios reafirma el pacto con Moshé usando las cuatro expresiones de redención. Presentación de la vara de Aarón convertida en serpiente ante Faraón. Las primeras siete plagas de Egipto (Sangre, Ranas, Piojos, Bestias salvajes, Peste, Úlceras y Granizo).',
     aliyot: [
       { number: 1, reference: '6:2 - 6:13', description: 'Dios se revela como Shaday y promete sacar a Israel con las cuatro copas de redención.' },
@@ -460,7 +445,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Éxodo',
     reference: 'Éxodo 10:1 – 13:16',
     haftarah: 'Jeremías 46:13 – 46:28',
-    maqamHalabi: 'Ajam o Rast (melodía de libertad, éxodo triunfal y la Pascua)',
     summary: 'Las últimas tres plagas: Langostas, Oscuridad total y la fatídica Muerte de los primogénitos. Establecimiento del calendario judío (*Rodesh*), la ofrenda del Cordero Pascual (*Korban Pésaj*), el éxodo apresurado de Egipto, y las mitzvot de Tefilin y consagración de los primogénitos.',
     aliyot: [
       { number: 1, reference: '10:1 - 10:11', description: 'Dios ordena a Moshé ir ante Faraón por las langostas; resistencia de los ministros egipcios.' },
@@ -483,7 +467,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Éxodo',
     reference: 'Éxodo 13:17 – 17:16',
     haftarah: 'Jueces 4:4 – 5:31 (Cántico de Déborah)',
-    maqamHalabi: 'Nawa (melodía de triunfo, apertura del mar y el Cántico del Mar)',
     summary: 'La salida guiada por la columna de nube y fuego. Faraón persigue a los israelitas; la milagrosa apertura del Mar Rojo (*Kriat Yam Suf*) y destrucción de los egipcios. El Cántico del Mar (*Shirat Hayam*). El agua amarga de Mará endulzada, el Man celestial diario, la codorniz, y la guerra defensiva contra Amalek.',
     aliyot: [
       { number: 1, reference: '13:17 - 14:8', description: 'Ruta por el desierto; Faraón se arrepiente y persigue a Israel con seiscientos carros.' },
@@ -506,7 +489,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Éxodo',
     reference: 'Éxodo 18:1 – 20:23',
     haftarah: 'Isaías 6:1 – 7:6 y 9:5-6',
-    maqamHalabi: 'Sikah o Ajam (melodía solemne de la entrega de la Torá en el Sinaí)',
     summary: 'Yitro (Jetро), suegro de Moshé, visita el campamento y aconseja establecer un sistema judicial jerárquico de jueces. La llegada al Monte Sinaí y la preparación de tres días. La solemne Entrega de la Torá y la proclamación de los **Diez Mandamientos** ante todo el pueblo.',
     aliyot: [
       { number: 1, reference: '18:1 - 18:12', description: 'Llegada de Yitro con la esposa e hijos de Moshé; banquete de alabanza al Dios de Israel.' },
@@ -529,7 +511,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Éxodo',
     reference: 'Éxodo 21:1 – 24:18',
     haftarah: 'Jeremías 34:8 – 34:22 y 33:25-26',
-    maqamHalabi: 'Nahawand (melodía de justicia social, ética civil y pacto)',
     summary: 'Un extenso código de leyes civiles, penales y morales: trato a esclavos hebreos, daños a terceros, indemnizaciones, leyes de custodia, préstamos, honestidad, las festividades anuales de peregrinaje (Pésaj, Shavuot, Sucot). La aceptación del pacto: *"Naasé VeNishmá"* ("Haremos y escucharemos").',
     aliyot: [
       { number: 1, reference: '21:1 - 21:19', description: 'Leyes sobre siervos hebreos y siervas, castigos por homicidio y agresiones físicas.' },
@@ -552,7 +533,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Éxodo',
     reference: 'Éxodo 25:1 – 27:19',
     haftarah: 'I Reyes 5:26 – 6:13',
-    maqamHalabi: 'Ajam o Rast (melodía de ofrendas del corazón y construcción del Santuario)',
     summary: 'Dios ordena recolectar la *Terumá* (ofrenda voluntaria de materiales preciosos) para construir el *Mishkán* (Santuario portátil). Diseños detallados del Arca de la Alianza con los Keruvim, la Mesa de los Panes de la Proposición, la Menorá de oro puro, y las cortinas y estructuras del Tabernáculo.',
     aliyot: [
       { number: 1, reference: '25:1 - 25:16', description: 'Ofrendas del corazón para construir el Santuario y planos detallados del Arca de la Alianza.' },
@@ -574,7 +554,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Éxodo',
     reference: 'Éxodo 27:20 – 30:10',
     haftarah: 'Ezequiel 43:10 – 43:27',
-    maqamHalabi: 'Husseini o Bayati (melodía sacerdotal y encendido de la luz eterna)',
     summary: 'El mandato de mantener encendida la *Ner Tamid* (Lámpara Eterna) usando aceite puro de oliva triturado. Confección de las vestimentas sagradas de los sacerdotes (*Kohanim*): el pectoral con las 12 piedras, el efod, la tiara y la placa de oro puro. Ceremonia de consagración sacerdotal de 7 días.',
     aliyot: [
       { number: 1, reference: '27:20 - 28:12', description: 'Mandato del aceite puro de oliva para la Menorá y diseño de las vestimentas del Sumo Sacerdote (*Kohen Gadol*).' },
@@ -596,7 +575,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Éxodo',
     reference: 'Éxodo 30:11 – 34:35',
     haftarah: 'I Reyes 18:20 – 18:39 (Elías en el Monte Carmelo)',
-    maqamHalabi: 'Saba o Nahawand (melodía de perdón, el becerro de oro y los trece atributos de misericordia)',
     summary: 'Censo mediante el impuesto del medio shéquel de plata. Construcción de la Pila de Bronce y la fórmula del aceite de unción sagrada y el incienso. El pecado del Becerro de Oro y las Tablas de la Ley rotas por Moshé. Petición de Moshé: *"Muéstrame Tu gloria"* y la revelación de los Trece Atributos de Misericordia divina. Las segundas tablas.',
     aliyot: [
       { number: 1, reference: '30:11 - 30:16', description: 'Censo de Israel mediante la donación obligatoria del medio shéquel de plata.' },
@@ -618,7 +596,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Éxodo',
     reference: 'Éxodo 35:1 – 38:20',
     haftarah: 'I Reyes 7:13 – 7:26',
-    maqamHalabi: 'Ajam (melodía de congregación comunitaria y labor artesanal)',
     summary: 'Moshé convoca a toda la asamblea de Israel para reiterar la estricta prohibición de trabajar en Shabat antes de iniciar los trabajos. Recolección de los materiales y magnifica labor artesanal de Bezalel, Oholiab y todo el pueblo sabio de corazón para construir el Santuario y sus utensilios.',
     aliyot: [
       { number: 1, reference: '35:1 - 35:29', description: 'Reiteración de las leyes del Shabat y donación generosa y voluntaria de materiales.' },
@@ -640,7 +617,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Éxodo',
     reference: 'Éxodo 38:21 – 40:38',
     haftarah: 'I Reyes 7:51 – 8:21',
-    maqamHalabi: 'Rast o Nahawand (melodía de rendición de cuentas e inauguración del Santuario)',
     summary: 'Auditoría detallada y rendición de cuentas de todos los metales y materiales recolectados por orden de Itamar. Confección final de las vestimentas sacerdotales. Ensamblaje completo del Santuario. La nube de la Gloria divina desciende y llena el Mishkán, guiando los viajes de Israel.',
     aliyot: [
       { number: 1, reference: '38:21 - 39:1', description: 'Inventario minucioso y transparente de oro, plata y bronce supervisado por Itamar.' },
@@ -663,7 +639,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Levítico',
     reference: 'Vayikra 1:1 – 5:26',
     haftarah: 'Isaías 43:21 – 44:23',
-    maqamHalabi: 'Hajaz o Husseini (melodía de ofrendas, expiación y llamada divina)',
     summary: 'Dios llama a Moshé desde la Tienda de Reunión para enseñarle las complejas leyes de los sacrificios (*Korbanot*): el holocausto (*Olá*), la ofrenda vegetal (*Minjá*), el sacrificio de paz (*Shelamim*), y las ofrendas por transgresiones involuntarias (*Jatat* y *Asham*).',
     aliyot: [
       { number: 1, reference: '1:1 - 1:13', description: 'Leyes del holocausto animal (*Olá*) presentado voluntariamente ante el altar.' },
@@ -686,7 +661,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Levítico',
     reference: 'Vayikra 6:1 – 8:36',
     haftarah: 'Jeremías 7:21 – 8:3 y 9:22-23',
-    maqamHalabi: 'Ajam (melodía de mandatos sacerdotales y fuego perpetuo en el altar)',
     summary: 'Instrucciones adicionales para los sacerdotes sobre el cuidado del fuego perpetuo en el altar, la ofrenda de agradecimiento (*Todá*), la prohibición de comer grasa y sangre, y la solemne ceremonia de investidura sacerdotal de siete días dirigida por Moshé.',
     aliyot: [
       { number: 1, reference: '6:1 - 6:11 (Heb 6:8-18)', description: 'Reglas del fuego perpetuo en el altar y la vestimenta de lino del sacerdote al limpiar las cenizas.' },
@@ -709,7 +683,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Levítico',
     reference: 'Vayikra 9:1 – 11:47',
     haftarah: 'II Samuel 6:1 – 7:17',
-    maqamHalabi: 'Sikah o Hijaz (melodía de solemne asombro, alegría y leyes de Kashrut)',
     summary: 'El octavo día de inauguración del Santuario. Fuego divino desciende y consume las ofrendas. Trágica muerte de Nadav y Avihu, hijos de Aarón, por ofrecer un fuego extraño (*Esh Zarah*). Leyes dietéticas de animales puros e impuros (*Kashrut*): mamíferos terrestres, aves y criaturas marinas.',
     aliyot: [
       { number: 1, reference: '9:1 - 9:24', description: 'Aarón y Moshé bendicen al pueblo; fuego celestial desciende y consume los sacrificios.' },
@@ -732,7 +705,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Levítico',
     reference: 'Vayikra 12:1 – 13:59',
     haftarah: 'II Reyes 4:42 – 5:19',
-    maqamHalabi: 'Bayati o Husseini (melodía de pureza familiar, salud y renovación)',
     summary: 'Leyes de pureza ritual tras el alumbramiento (varón y hembra) y el precepto del Brit Milá al octavo día. Leyes sobre la afección cutánea espiritual llamada *Tzaraat* (erróneamente traducida como lepra) en personas, ropas y paredes, y los protocolos de cuarentena.',
     aliyot: [
       { number: 1, reference: '12:1 - 12:8', description: 'Leyes de impureza y purificación tras el nacimiento de un hijo varón o una hija.' },
@@ -753,7 +725,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Levítico',
     reference: 'Vayikra 14:1 – 15:33',
     haftarah: 'II Reyes 7:3 – 7:20',
-    maqamHalabi: 'Saba o Rast (melodía de purificación y sanación del leproso espiritual)',
     summary: 'Procedimiento detallado de purificación para el sanado de *Tzaraat* mediante dos pájaros vivos, madera de cedro, hilo escarlata e hisopo. Leyes de purificación para casas afectadas por plagas en las paredes. Leyes sobre flujos corporales (*Zav*, *Zavá* y *Nidá*).',
     aliyot: [
       { number: 1, reference: '14:1 - 14:20', description: 'El complejo ritual de purificación fuera del campamento con dos aves y agua de vertiente.' },
@@ -774,7 +745,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Levítico',
     reference: 'Vayikra 16:1 – 18:30',
     haftarah: 'Ezequiel 22:1 – 22:19 (o Amós 9:7-15)',
-    maqamHalabi: 'Hajaz o Nahawand (melodía solemne de Iom Kipur y expiación)',
     summary: 'Leyes para el servicio del Sumo Sacerdote en el Santuario durante el día más sagrado del año: **Iom Kipur**. El sorteo de los dos machos cabrios (uno para Dios y otro para *Azazel*). Prohibición estricta del consumo de sangre y enumeración de las relaciones prohibidas de parentesco (*Arayot*).',
     aliyot: [
       { number: 1, reference: '16:1 - 16:17', description: 'Protocolo solemne de Iom Kipur: el Kohen Gadol entra al Sancta Sanctorum con incienso y sangre.' },
@@ -796,7 +766,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Levítico',
     reference: 'Vayikra 19:1 – 20:27',
     haftarah: 'Amós 9:7 – 9:15 (o Ezequiel 20:2-20)',
-    maqamHalabi: 'Ajam o Rast (melodía de santidad, ética suprema y amor al prójimo)',
     summary: 'El llamado central de la Torá: *"Sed santos, porque Yo, el Eterno vuestro Dios, soy santo"*. El Código de Santidad: honrar a los padres, respetar el Shabat, prohibición de la idolatría, dejar esquinas de los campos para los pobres, prohibición de robar, mentir, retener salarios, chismear, y el precepto supremo: **"Amarás a tu prójimo como a ti mismo"**.',
     aliyot: [
       { number: 1, reference: '19:1 - 19:14', description: 'Mandato de santidad, reverencia a padres, Shabat, prohibición de falsos ídolos, caridad agrícola y honestidad laboral.' },
@@ -816,7 +785,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Levítico',
     reference: 'Vayikra 21:1 – 24:23',
     haftarah: 'Ezequiel 44:15 – 44:31',
-    maqamHalabi: 'Husseini o Bayati (melodía de festividades sagradas y el ciclo anual)',
     summary: 'Leyes de pureza sacerdotal especial (prohibición de contaminarse con cadáveres salvo parientes cercanos). Lista completa de las **Festividades del Calendario Judío** (*Moadim*): Shabat, Pésaj, Omer, Shavuot, Rosh Hashaná, Iom Kipur y Sucot. Leyes de la Menorá y los Panes de la Proposición, y el juicio sobre el blasfemo.',
     aliyot: [
       { number: 1, reference: '21:1 - 21:24', description: 'Restricciones de impureza para los Kohanim y exclusión del servicio de sacerdotes con defectos físicos.' },
@@ -839,7 +807,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Levítico',
     reference: 'Vayikra 25:1 – 26:2',
     haftarah: 'Jeremías 32:6 – 32:27',
-    maqamHalabi: 'Saba o Rast (melodía de libertad agraria, Shmitá y el Jubileo)',
     summary: 'Leyes dadas en el Monte Sinaí sobre el **Año Sabático (*Shmitá*)** agrícola cada siete años, donde la tierra descansa y las deudas se perdonan. El **Año de Jubileo (*Yovel*)** cada 50 años, con la liberación de esclavos hebreos y la restitución de propiedades ancestrales. Prohibición de fraude comercial (*Onaat Devarim*).',
     aliyot: [
       { number: 1, reference: '25:1 - 25:13', description: 'El precepto del Shmitá (descanso de la tierra cada 7 años) y el Jubileo cada 50 años proclamado con Shofar.' },
@@ -859,7 +826,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Levítico',
     reference: 'Vayikra 26:3 – 27:34',
     haftarah: 'Jeremías 16:19 – 17:14',
-    maqamHalabi: 'Hajaz o Nahawand (melodía de bendiciones, advertencias y conclusión de Levítico)',
     summary: 'Promesas de bendición material y espiritual si Israel cumple los preceptos de la Torá (*Berajot*). Severas advertencias y admoniciones ante el alejamiento y desobediencia (*Tochejá*). Leyes sobre las valoraciones de promesas y ofrendas dedicadas al Templo (*Arakjin*), y conclusión del libro de Levítico.',
     aliyot: [
       { number: 1, reference: '26:3 - 26:13', description: 'Promesas de abundancia de lluvias, paz territorial, cosechas y presencia divina si se cumple la Torá.' },
@@ -882,7 +848,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Números',
     reference: 'Bamidbar 1:1 – 4:20',
     haftarah: 'Oseas 2:1 – 2:22',
-    maqamHalabi: 'Ajam o Rast (melodía de orden, censo y estandartes en el desierto)',
     summary: 'Censo general de todos los varones aptos para la milicia (mayores de 20 años) tribu por tribu, sumando más de 600,000 hombres. Organización del campamento en el desierto alrededor del Santuario y asignación de las tareas de transporte a los clanes de los levitas (Gershon, Kehat y Merari).',
     aliyot: [
       { number: 1, reference: '1:1 - 1:54', description: 'Orden divina de realizar un censo general de los israelites varones aptos para la guerra.' },
@@ -904,7 +869,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Números',
     reference: 'Bamidbar 4:21 – 7:89',
     haftarah: 'Jueces 13:2 – 13:25 (Nacimiento de Shimshón)',
-    maqamHalabi: 'Husseini o Bayati (melodía larga, la Bendición Sacerdotal y ofrendas de los príncipes)',
     summary: 'Censo de los clanes levitas de Guershon y Merari. Leyes sobre el aislamiento de personas impuras, la restitución en robos, la prueba de la mujer infiel (*Sotá*), las restricciones del nazareno (*Nazir*), la sublime **Bendición Sacerdotal (*Birkat Kohanim*)**, y las opulentas ofrendas de los príncipes de las tribus para la inauguración del altar.',
     aliyot: [
       { number: 1, reference: '4:21 - 4:49', description: 'Censo y tareas de transporte asignadas a los clanes levitas de Guershon y Merari.' },
@@ -927,7 +891,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Números',
     reference: 'Bamidbar 8:1 – 12:16',
     haftarah: 'Zacarías 2:14 – 4:7',
-    maqamHalabi: 'Sikah o Rast (melodía de las luces de la Menorá, quejas y los exploradores)',
     summary: 'Encendido de las lámparas de la Menorá por Aarón. Celebración del segundo Pésaj (*Pésaj Sheni*) para quienes estaban impuros. Los viajes guiados por la nube divina. Las quejas por la carne y el nombramiento de los 70 ancianos. Miriam y Aarón critican a Moshé, y Miriam es afectada temporalmente con *Tzaraat*.',
     aliyot: [
       { number: 1, reference: '8:1 - 8:26', description: 'Instrucciones sobre el encendido de los brazos de la Menorá y consagración de los levitas.' },
@@ -949,7 +912,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Números',
     reference: 'Bamidbar 13:1 – 15:41',
     haftarah: 'Josué 2:1 – 2:24',
-    maqamHalabi: 'Saba o Nahawand (melodía de los exploradores, temor y el precepto de los Tzitzit)',
     summary: 'Moshé envía a doce príncipes a explorar la Tierra Prometida de Canaán. A su regreso, diez traen un reporte desalentador y siembran pánico asegurando que es imposible conquistarla, salvo Calev y Yehoshúa. El pueblo llora y es condenado a vagar 40 años en el desierto. Rebelión de Kora, leyes de ofrendas y el precepto de los **Tzitzit** (flecos).',
     aliyot: [
       { number: 1, reference: '13:1 - 13:20', description: 'Moshé envía a doce líderes exploradores a inspeccionar la tierra de Canaán.' },
@@ -971,7 +933,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Números',
     reference: 'Bamidbar 16:1 – 18:32',
     haftarah: 'I Samuel 11:14 – 12:22',
-    maqamHalabi: 'Hajaz o Husseini (melodía de rebelión, la vara floreciente y jerarquía sacerdotal)',
     summary: 'Koraj, primo de Moshé, encabeza una grave rebelión junto a Datan, Aviram y 250 líderes cuestionando el liderazgo de Moshé y el sacerdocio de Aarón. La tierra se abre y los traga. Prueba milagrosa de las varas de las tribus: la vara de Aarón florece milagrosamente con almendras. Reglas de sustento para los levitas y sacerdotes (*Terumot y Maaserot*).',
     aliyot: [
       { number: 1, reference: '16:1 - 16:13', description: 'Koraj y doscientos cincuenta líderes desafían la autoridad de Moshé y Aarón.' },
@@ -992,7 +953,7 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Números',
     reference: 'Bamidbar 19:1 – 22:1',
     haftarah: 'Jueces 11:1 – 11:33',
-    maqamHalabi: 'Ajam o Nahawand (melodía de la Vaca Roja, aguas de Meribá y victoria)',
+    
     summary: 'El misterioso ritual de la **Vaca Roja (*Para Adumá*)** para la purificación de la impureza de muerte. Fallecimiento de Miriam y carencia de agua en Cadés. El pecado de Moshé al golpear la roca en lugar de hablarle, perdiendo su entrada a la tierra. Fallecimiento de Aarón en el Monte Hor. Victorias militares sobre Sehón y Og.',
     aliyot: [
       { number: 1, reference: '19:1 - 19:22', description: 'Leyes detalladas del rito purificador de las cenizas de la Vaca Roja (*Para Adumá*).' },
@@ -1013,7 +974,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Números',
     reference: 'Bamidbar 22:2 – 25:9',
     haftarah: 'Miqueas 5:6 – 6:8',
-    maqamHalabi: 'Sikah o Hijaz (melodía de profecías, la asna parlante y las bendiciones)',
     summary: 'Balak, rey de Moab, aterrorizado por Israel, contrata al celebre profeta pagano Bilam para maldecir al pueblo. La asna de Bilam habla milagrosamente para advertirle. En lugar de maldiciones, de su boca brotan hermosas bendiciones eternas (como el *"Mah tovu ohalécha Yaakov"*). Pecado con las mujeres de Moab en Shitim y celos heroicos de Pinjas.',
     aliyot: [
       { number: 1, reference: '22:2 - 22:12', description: 'Balak contrata a Bilam; Dios prohíbe al profeta ir a maldecir al pueblo bendito.' },
@@ -1035,7 +995,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Números',
     reference: 'Bamidbar 25:10 – 30:1',
     haftarah: 'I Reyes 18:46 – 19:21',
-    maqamHalabi: 'Ajam o Rast (melodía de celo sagrado, heredad y festividades)',
     summary: 'Dios premia el celo heroico de Pinjas con el "pacto de paz" y el sacerdocio eterno. Nuevo censo general en el desierto. Las hijas de Zelofjad reclaman su derecho a recibir herencia de tierras en la tierra de Israel. Sucesor designado para Moshé: Yehoshúa (Josué). Listado detallado de todas las ofrendas festivas del año.',
     aliyot: [
       { number: 1, reference: '25:10 - 26:4', description: 'Dios recompensa a Pinjas con el pacto sacerdotal eterno y ordena un nuevo censo general.' },
@@ -1057,7 +1016,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Números',
     reference: 'Bamidbar 30:2 – 32:42',
     haftarah: 'Jeremías 1:1 – 2:3',
-    maqamHalabi: 'Hajaz o Husseini (melodía de votos solemnes, batallas y asentamiento)',
     summary: 'Leyes sobre la validez, cumplimiento y anulación de votos y promesas (*Nedarim*) por parte de padres o esposos. Guerra santa y justa contra el pueblo de Midián por su instigación. Las tribus de Reuven y Gad solicitan establecerse en las fértiles tierras ganaderas del este del Jordán.',
     aliyot: [
       { number: 1, reference: '30:2 - 30:17 (Heb 30:1-16)', description: 'Leyes sobre la rigurosidad de los votos verbales y la anulación legítima por el padre o esposo.' },
@@ -1077,7 +1035,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Números',
     reference: 'Bamidbar 33:1 – 36:13',
     haftarah: 'Jeremías 2:4 – 2:28 (o 3:4)',
-    maqamHalabi: 'Ajam o Rast (melodía de las 42 travesías en el desierto y conclusión de Números)',
     summary: 'Resumen cronológico de las **42 estaciones y travesías** realizadas por los israelitas desde Egipto hasta las llanuras de Moab. Límites geográficos de la Tierra Prometida. Establecimiento de las **Ciudades de Refugio (*Arei Miklat*)** para homicidas involuntarios. Conclusión del libro de Números (*Bamidbar*).',
     aliyot: [
       { number: 1, reference: '33:1 - 33:49', description: 'Listado exhaustivo de las 42 paradas y campamentos del pueblo durante los 40 años en el desierto.' },
@@ -1100,7 +1057,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Deuteronomio',
     reference: 'Devarim 1:1 – 3:22',
     haftarah: 'Isaías 1:1 – 1:27 (Hazon)',
-    maqamHalabi: 'Saba o Nahawand (melodía solemne de reprensión, recuerdo y despedida de Moshé)',
     summary: 'Inicio del último discurso de despedida de Moshé al pueblo en los llanos de Moab antes de su fallecimiento. Moshé repasa con sabiduría los errores históricos de Israel en el desierto (los espías, las quejas, las guerras contra Sehón y Og) como lección de advertencia y amor.',
     aliyot: [
       { number: 1, reference: '1:1 - 1:11', description: 'Moshé comienza sus palabras de reproche y aliento recordando el nombramiento de jueces.' },
@@ -1121,7 +1077,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Deuteronomio',
     reference: 'Devarim 3:23 – 7:11',
     haftarah: 'Isaías 40:1 – 40:26 (Najamu)',
-    maqamHalabi: 'Husseini o Bayati (melodía del Shemá Israel, los Diez Mandamientos y consuelo)',
     summary: 'Moshé relata su ruego (*Vaetjanán*) a Dios para entrar a la tierra, siendo denegado y ordenado subir al monte Pisgá. Repetición de los **Diez Mandamientos**. Proclamación del **Shemá Israel**: *"Escucha Israel, el Eterno es nuestro Dios, el Eterno es Uno"*. Advertencia contra la asimilación y mandato de amar a Dios.',
     aliyot: [
       { number: 1, reference: '3:23 - 4:4', description: 'Moshé ruega entrar a la tierra; Dios le ordena contemplarla desde la cima y designar a Yehoshúa.' },
@@ -1144,7 +1099,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Deuteronomio',
     reference: 'Devarim 7:12 – 11:25',
     haftarah: 'Isaías 49:14 – 51:3',
-    maqamHalabi: 'Ajam o Rast (melodía de recompensa, gratitud tras comer y fidelidad)',
     summary: 'Promesas de bendición, salud y prosperidad material si el pueblo cumple los preceptos de la Torá. Recordatorio de las pruebas del desierto (el Maná, la ropa que no se desgastó). Advertencia contra el orgullo y el olvido de Dios tras la abundancia en la tierra ("No digas: *Mi fuerza y el poder de mi mano me han dado esta riqueza*"). La bendición del Birkat Hamazon.',
     aliyot: [
       { number: 1, reference: '7:12 - 8:10', description: 'Promesas de bendición por la observancia de la Torá, el maná del desierto y la bondad de la Tierra Prometida (*Zavat lechev udevash*).' },
@@ -1166,7 +1120,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Deuteronomio',
     reference: 'Devarim 11:26 – 16:17',
     haftarah: 'Isaías 54:11 – 55:5',
-    maqamHalabi: 'Sikah o Hijaz (melodía de bendición y maldición, caridad y las tres fiestas)',
     summary: 'Moshé presenta ante el pueblo la disyuntiva entre la bendición (si obedecen) y la maldición (si se desvían), que proclamarán en los montes Guerizim y Eval. Mandato de centralizar el culto en el Lugar Elegido (Jerusalén). Leyes de caridad generosa con los pobres, leyes de animales Kosher, prohibición de consumir sangre y las tres festividades de peregrinaje.',
     aliyot: [
       { number: 1, reference: '11:26 - 12:10', description: 'Bendición y maldición ante los montes Guerizim y Eval; mandato de centralizar el culto en el Templo de Jerusalén.' },
@@ -1188,7 +1141,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Deuteronomio',
     reference: 'Devarim 16:18 – 21:9',
     haftarah: 'Isaías 51:12 – 52:12',
-    maqamHalabi: 'Nahawand o Ajam (melodía de justicia, tribunales, reyes y rectitud)',
     summary: 'Establecimiento de tribunales de justicia honestos y jueces íntegros en cada ciudad: *"Tzedek, tzedek tirdof"* ("Justicia, justicia perseguirás"). Prohibición de idolatría y árboles de Aserá. Leyes sobre el nombramiento de un rey judío, deberes de los sacerdotes levitas, prohibición de la adivinación pagana, leyes de ciudades de refugio y el misterioso ritual de la *Eglá Arufá* ante un asesinato sin resolver.',
     aliyot: [
       { number: 1, reference: '16:18 - 17:13', description: 'Mandato de establecer jueces y policías íntegros; prohibición de soborno, ídolos y exigencia de testigos confiables en juicios.' },
@@ -1211,7 +1163,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Deuteronomio',
     reference: 'Devarim 21:10 – 25:19',
     haftarah: 'Isaías 54:1 – 54:10',
-    maqamHalabi: 'Husseini o Bayati (melodía de leyes éticas detalladas, respeto y memoria de Amalek)',
     summary: 'Un extenso y profundo código de **74 mitzvot** que abarcan la ética social, familiar y civil más detallada de la Torá: trato a la cautiva de guerra, leyes de primogenitura, el hijo rebelde, leyes de construcción con barandas protectoras en techos, prohibición de mezclas prohibidas (*Shaatnez*), leyes de matrimonio, divorcio, salarios justos, caridad agrícola en la cosecha, y la obligación eterna de borrar la memoria del malvado Amalek.',
     aliyot: [
       { number: 1, reference: '21:10 - 21:21', description: 'Leyes sobre la cautiva de guerra, herencia del primogénito y el castigo del hijo incorregible rebelde.' },
@@ -1234,7 +1185,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Deuteronomio',
     reference: 'Devarim 26:1 – 29:8',
     haftarah: 'Isaías 60:1 – 60:22',
-    maqamHalabi: 'Sikah o Hijaz (melodía de las primicias, bendiciones y advertencias profundas)',
     summary: 'Leyes sobre la entrega de las **Primicias (*Bikurim*)** en el Templo con la hermosa declaración de gratitud histórica (*"Mi padre era un arameo errante"*). Declaración de cumplimiento de los diezmos anuales. Renovación del solemne pacto en Moab. La larga y dolorosa lista de advertencias y maldiciones (*Tochejá*) que preceden al exilio.',
     aliyot: [
       { number: 1, reference: '26:1 - 26:11', description: 'Ceremonia de entrega de las Primicias agrícolas (*Bikurim*) en Jerusalén y la declaración de gratitud histórica.' },
@@ -1256,7 +1206,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Deuteronomio',
     reference: 'Devarim 29:9 – 30:20',
     haftarah: 'Isaías 61:10 – 63:9 (Shabat Shuvá)',
-    maqamHalabi: 'Ajam o Rast (melodía de unidad, el pacto eterno y el retorno al Creador)',
     summary: 'Moshé reúne a todo el pueblo ("desde vuestros cabecillas hasta vuestros leñadores") ante el pacto divino. La promesa profética de que, aun tras el exilio y la dispersión mundial, el pueblo retornará a Dios con todo el corazón (*Teshuvá*). El famoso versículo: *"Porque este mandamiento no está lejos de ti... está en tu boca y en tu corazón para hacerlo"*. Vida y muerte puestas ante el hombre.',
     aliyot: [
       { number: 1, reference: '29:9 - 29:14 (Heb 29:8-13)', description: 'Moshé congrega a todos los estratos del pueblo, desde ancianos hasta niños, para renovar el pacto sagrado.' },
@@ -1276,7 +1225,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Deuteronomio',
     reference: 'Devarim 31:1 – 31:30',
     haftarah: 'Oseas 14:2 – 14:10 / Isaías 55:6 – 56:8 (Shabat Shuvá)',
-    maqamHalabi: 'Husseini o Bayati (melodía de transición, liderazgo y el mandamiento de escribir la Torá)',
     summary: 'Moshé, a la edad de 120 años, anuncia que ya no puede salir ni entrar, confirmando a Yehoshúa como su sucesor oficial ante todo Israel. Mandato de la **Lectura pública de la Torá cada siete años (*Hakhel*)**. Dios predice que el pueblo se desviará, y ordena escribir el **Cántico final de Haazinu** como testimonio perpetuo.',
     aliyot: [
       { number: 1, reference: '31:1 - 31:6', description: 'Moshé anima a Israel y a Yehoshúa ante la inminente transición de liderazgo: *"Esforzaos y cobrad ánimo"*.' },
@@ -1295,7 +1243,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Deuteronomio',
     reference: 'Devarim 32:1 – 32:52',
     haftarah: 'II Samuel 22:1 – 22:51 (Cántico de David)',
-    maqamHalabi: 'Sikah o Hijaz (melodía poética solemne, los cielos y la tierra como testigos)',
     summary: 'El hermoso y poético **Cántico de Haazinu**: Moshé invoca a los cielos y a la tierra como testigos eternos de la relación de alianza entre Dios e Israel. Canto que repasa la fidelidad divina, la ingratitud y apostasía del pueblo, los consiguientes castigos del exilio, y la redención final y consolación de las naciones.',
     aliyot: [
       { number: 1, reference: '32:1 - 32:12', description: 'Invocación poética a los cielos y la tierra; alabanza a la perfección y justicia del Creador.' },
@@ -1316,7 +1263,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Deuteronomio',
     reference: 'Devarim 33:1 – 34:12',
     haftarah: 'Josué 1:1 – 1:18',
-    maqamHalabi: 'Ajam o Rast (melodía festiva de Simjat Torá, bendiciones finales y culminación)',
     summary: 'La última bendición profética que Moshé, el hombre de Dios, pronuncia sobre cada una de las tribus de Israel antes de su fallecimiento. Moshé sube a la cima del Monte Nebo (Pisgá), contempla la Tierra Prometida en todo su esplendor, y fallece *"por boca de Dios"* (beshilá). Sepultura anónima en el valle. Luto de 30 días y transición definitiva del liderazgo a Yehoshúa. Conclusión de toda la Torá.',
     aliyot: [
       { number: 1, reference: '33:1 - 33:7', description: 'Introducción a las bendiciones de Moshé y bendiciones para las tribus de Reuven y Yehudá.' },
@@ -2018,7 +1964,6 @@ export function translateParasha(
     bookSpanish: tr('bookSpanish', parasha.bookSpanish),
     reference: tr('reference', parasha.reference),
     haftarah: tr('haftarah', parasha.haftarah),
-    maqamHalabi: tr('maqamHalabi', parasha.maqamHalabi),
     summary: tr('summary', parasha.summary),
     rashiInsight: tr('rashiInsight', parasha.rashiInsight),
     chabadInsight: tr('chabadInsight', parasha.chabadInsight),
