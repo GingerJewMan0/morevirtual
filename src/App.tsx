@@ -1277,12 +1277,8 @@ export function App() {
                   >
                     <div className="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-950/60 flex items-center justify-center text-amber-700 dark:text-amber-400 shrink-0 font-bold text-xl">📜</div>
                     <div>
-                      <h4 className="font-serif font-bold text-sm text-slate-900 dark:text-white">
-                        {t('quickParashaTitle', 'Parashá de la Semana')}
-                      </h4>
-                      <p className="text-[11px] text-slate-500">
-                        {t('quickParashaSubtitle', 'Estudio, Aliyot y Rashi')}
-                      </p>
+                      <h4 className="font-serif font-bold text-sm text-slate-900 dark:text-white">Parashá de la Semana</h4>
+                      <p className="text-[11px] text-slate-500">Estudio, Aliyot y Rashi</p>
                     </div>
                   </button>
 
@@ -1292,12 +1288,8 @@ export function App() {
                   >
                     <div className="w-12 h-12 rounded-2xl bg-red-100 dark:bg-red-950/60 flex items-center justify-center text-red-600 dark:text-red-400 shrink-0 font-bold text-xl">📺</div>
                     <div>
-                      <h4 className="font-serif font-bold text-sm text-slate-900 dark:text-white">
-                        {t('quickVideosTitle', 'Clases en Video')}
-                      </h4>
-                      <p className="text-[11px] text-slate-500">
-                        {t('quickVideosSubtitle', 'Shiurim y conferencias')}
-                      </p>
+                      <h4 className="font-serif font-bold text-sm text-slate-900 dark:text-white">Clases en Video</h4>
+                      <p className="text-[11px] text-slate-500">Shiurim y conferencias</p>
                     </div>
                   </button>
 
@@ -1307,12 +1299,8 @@ export function App() {
                   >
                     <div className="w-12 h-12 rounded-2xl bg-emerald-100 dark:bg-emerald-950/60 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0 font-bold text-xl">❓</div>
                     <div>
-                      <h4 className="font-serif font-bold text-sm text-slate-900 dark:text-white">
-                        {t('quickQuestionsTitle', 'Preguntas Clave')}
-                      </h4>
-                      <p className="text-[11px] text-slate-500">
-                        {t('quickQuestionsSubtitle', 'Guía rápida de consultas')}
-                      </p>
+                      <h4 className="font-serif font-bold text-sm text-slate-900 dark:text-white">Preguntas Clave</h4>
+                      <p className="text-[11px] text-slate-500">Guía rápida de consultas</p>
                     </div>
                   </button>
                 </div>
