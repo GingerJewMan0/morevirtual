@@ -263,9 +263,18 @@ const resources = {
       qa_a6: 'Las enseñanzas y notas que guardas se almacenan de manera local y segura en tu dispositivo actual para proteger totalmente tu privacidad durante el estudio y las festividades.',
       qa_q7: '¿Está disponible la app en la App Store de iOS?',
       qa_a7: 'De momento no, pero próximamente estará disponible para iOS.',
-      //KosherTab
-      tabKosher: "Verificador Kosher",
-      tabKosherDesc: "Directorio global de KMD, OU, OK, Badatz y más",
+      // Kosher Tab
+      tabKosher: 'Verificador Kosher',
+      tabKosherDesc: 'Directorio global de KMD, OU, OK, Badatz y más',
+      kosherHeaderTitle: 'Verificador y Buscador Kosher Global',
+      kosherHeaderSubtitle: 'Consulta directamente en los buscadores oficiales de las principales agencias de kashrut (incluyendo KMD, One Kosher, K-Alef, OU y más) o pregúntale al Rabino Virtual.',
+      kosherSearchSection: 'CONSULTA INTELIGENTE DE PRODUCTOS',
+      kosherSearchPlaceholder: '¿Qué producto buscas? (ej. chocolate, vino, leche, galletas)...',
+      kosherSearchBtn: 'Buscar con el Rabino',
+      kosherDirectoriesTitle: 'Páginas y Directorios Oficiales de Certificación',
+      kosherDirectoriesSubtitle: 'Accede con un clic a los buscadores oficiales de KMD, One Kosher, K-Alef y agencias globales.',
+      kosherOpenWeb: 'Abrir Web',
+      kosherOfficialSite: 'Sitio Oficial',
       //quick
       quickParashaTitle: 'Parashá de la Semana',
       quickParashaSubtitle: 'Estudio, Aliyot y Rashi',
@@ -521,9 +530,18 @@ const resources = {
       qa_q7: 'האם האפליקציה זמינה בחנות App Store של iOS?',
       qa_a7: 'כרגע לא, אך בקרוב היא תהיה זמינה עבור iOS.',
 
-      //Kosher Tab
-      tabKosher: "בדיקת כשרות",
-      tabKosherDesc: "מדריך כשרות עולמי: KMD, OU, OK, בד\"ץ ועוד",
+      // Kosher Tab
+      tabKosher: 'בודק כשרות',
+      tabKosherDesc: 'מדריך גלובלי של KMD, OU, OK, בד"ץ ועוד',
+      kosherHeaderTitle: 'בודק ומנוע חיפוש כשר גלובלי',
+      kosherHeaderSubtitle: 'חפש ישירות במנועי החיפוש הרשמיים של סוכנויות הכשרות המובילות (כולל KMD, One Kosher, K-Alef, OU ועוד) או שאל את הרב הווירטואלי.',
+      kosherSearchSection: 'חיפוש מוצרים חכם',
+      kosherSearchPlaceholder: 'איזה מוצר אתה מחפש? (למשל: שוקולד, יין, חלב, עוגיות)...',
+      kosherSearchBtn: 'חפש עם הרב',
+      kosherDirectoriesTitle: 'אתרים ומדריכים רשמיים של כשרות',
+      kosherDirectoriesSubtitle: 'גש בלחיצה אחת למנועי החיפוש הרשמיים של KMD, One Kosher, K-Alef וסוכנויות גלובליות.',
+      kosherOpenWeb: 'פתח אתר',
+      kosherOfficialSite: 'אתר רשמי',
 
       //quick
       quickParashaTitle: 'פרשת השבוע',
@@ -780,9 +798,18 @@ const resources = {
       qa_q7: 'Is the app available on the iOS App Store?',
       qa_a7: 'Not at the moment, but it will soon be available for iOS.',
 
-      //Kosher Tab
-      tabKosher: "Kosher Checker",
-      tabKosherDesc: "Global directory for KMD, OU, OK, Badatz and more",
+      // Kosher Tab
+      tabKosher: 'Kosher Checker',
+      tabKosherDesc: 'Global directory of KMD, OU, OK, Badatz and more',
+      kosherHeaderTitle: 'Global Kosher Checker & Search Engine',
+      kosherHeaderSubtitle: 'Search directly in the official directories of top kashrut agencies (including KMD, One Kosher, K-Alef, OU, and more) or ask the Virtual Rabbi.',
+      kosherSearchSection: 'SMART PRODUCT SEARCH',
+      kosherSearchPlaceholder: 'What product are you looking for? (e.g., chocolate, wine, milk, cookies)...',
+      kosherSearchBtn: 'Ask the Rabbi',
+      kosherDirectoriesTitle: 'Official Certification Pages & Directories',
+      kosherDirectoriesSubtitle: 'Access the official search engines of KMD, One Kosher, K-Alef, and global agencies with one click.',
+      kosherOpenWeb: 'Open Web',
+      kosherOfficialSite: 'Official Site',
       //quick
       quickParashaTitle: 'Weekly Parasha',
       quickParashaSubtitle: 'Study, Aliyot & Rashi',
@@ -1037,9 +1064,18 @@ const resources = {
       qa_q7: 'L\'application est-elle disponible sur l\'App Store iOS ?',
       qa_a7: 'Pas pour le moment, mais elle sera bientôt disponible pour iOS.',
 
-      //Kosher Tab
-      tabKosher: "Vérificateur Casher",
-      tabKosherDesc: "Répertoire mondial pour KMD, OU, OK, Badatz et plus",
+      // Kosher Tab
+      tabKosher: 'Vérificateur Kosher',
+      tabKosherDesc: 'Annuaire global de KMD, OU, OK, Badatz et plus',
+      kosherHeaderTitle: 'Vérificateur et Moteur de Recherche Kosher Global',
+      kosherHeaderSubtitle: 'Consultez directement les moteurs de recherche officiels des principales agences de cacheroute (y compris KMD, One Kosher, K-Alef, OU et plus) ou demandez au Rabbin Virtuel.',
+      kosherSearchSection: 'RECHERCHE INTELLIGENTE DE PRODUITS',
+      kosherSearchPlaceholder: 'Quel produit recherchez-vous ? (ex : chocolat, vin, lait, biscuits)...',
+      kosherSearchBtn: 'Demander au Rabbin',
+      kosherDirectoriesTitle: 'Pages et Annuaires Officiels de Certification',
+      kosherDirectoriesSubtitle: 'Accédez en un clic aux moteurs de recherche officiels de KMD, One Kosher, K-Alef et des agences mondiales.',
+      kosherOpenWeb: 'Ouvrir le Web',
+      kosherOfficialSite: 'Site Officiel',
 
       //quick
       quickParashaTitle: 'Paracha de la Semaine',
@@ -1300,9 +1336,18 @@ const resources = {
       qa_q7: 'O aplicativo está disponível na App Store do iOS?',
       qa_a7: 'Por enquanto não, mas em breve estará disponível para iOS.',
 
-      //Kosher Tab
-      tabKosher: "Verificador Kosher",
-      tabKosherDesc: "Diretório global de KMD, OU, OK, Badatz e mais",
+      // Kosher Tab
+      tabKosher: 'Verificador Kosher',
+      tabKosherDesc: 'Diretório global de KMD, OU, OK, Badatz e mais',
+      kosherHeaderTitle: 'Verificador e Buscador Kosher Global',
+      kosherHeaderSubtitle: 'Consulte diretamente nos buscadores oficiais das principais agências de kashrut (incluindo KMD, One Kosher, K-Alef, OU e mais) ou pergunte ao Rabino Virtual.',
+      kosherSearchSection: 'CONSULTA INTELIGENTE DE PRODUTOS',
+      kosherSearchPlaceholder: 'Qual produto você procura? (ex: chocolate, vinho, leite, biscoitos)...',
+      kosherSearchBtn: 'Buscar com o Rabino',
+      kosherDirectoriesTitle: 'Páginas e Diretórios Oficiais de Certificação',
+      kosherDirectoriesSubtitle: 'Acesse com um clique os buscadores oficiais de KMD, One Kosher, K-Alef e agências globais.',
+      kosherOpenWeb: 'Abrir Web',
+      kosherOfficialSite: 'Site Oficial',
 
       //quick
       quickParashaTitle: 'Parashá da Semana',
