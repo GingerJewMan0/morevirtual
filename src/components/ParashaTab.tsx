@@ -6,7 +6,7 @@
  * ============================================================================
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Scroll, BookOpen, Flame, Sparkles, MessageSquare, ChevronRight, Layers } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -1159,7 +1159,7 @@ interface ParashaTabProps {
 }
 
 export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
-  const { i18n } = useTranslation();
+  const { t } = useTranslation();
   const [selectedParashaKey, setSelectedParashaKey] = useState<string>(() => getCurrentParashaKey());
   const [activeSubTab, setActiveSubTab] = useState<'summary' | 'aliyot' | 'rashi' | 'jasidut'>('summary');
 
@@ -1187,14 +1187,14 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
               </span>
             </div>
             <p className="text-xs sm:text-sm text-slate-300 pt-1">
-              <strong>Lectura:</strong> {cleanText(parasha.reading)} &nbsp;|&nbsp; <strong>Haftará:</strong> {cleanText(parasha.haftarah)}
+              <strong>{t('readParasha', 'Lectura')}:</strong> {cleanText(parasha.reading)} &nbsp;|&nbsp; <strong>{t('haftarah', 'Haftará')}:</strong> {cleanText(parasha.haftarah)}
             </p>
           </div>
 
           {/* Selector Completo con las 54 Parashot */}
           <div className="bg-slate-900/90 p-3 rounded-2xl border border-amber-500/40 space-y-1.5 shrink-0">
             <label className="block text-[11px] font-bold uppercase tracking-wider text-amber-400">
-              Seleccionar Parashá:
+              {t('selectParasha', 'Seleccionar Parashá:')}
             </label>
             <select
               value={selectedParashaKey}
@@ -1272,10 +1272,10 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
       {/* Pestañas internas de la Parashá */}
       <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-slate-200 dark:border-slate-800">
         {[
-          { id: 'summary', label: 'Resumen y Temas', icon: BookOpen },
-          { id: 'aliyot', label: '7 Aliyot (Lectura)', icon: Layers },
-          { id: 'rashi', label: 'Perla de Rashi', icon: Sparkles },
-          { id: 'jasidut', label: 'Dimensión Jasídica', icon: Flame },
+          { id: 'summary', label: t('summaryTab', 'Resumen y Temas'), icon: BookOpen },
+          { id: 'aliyot', label: t('aliyotTab', '7 Aliyot (Lectura)'), icon: Layers },
+          { id: 'rashi', label: t('rashiTab', 'Perla de Rashi'), icon: Sparkles },
+          { id: 'jasidut', label: t('chabadTab', 'Jasidut (Jabad)'), icon: Flame },
         ].map((tab) => {
           const Icon = tab.icon;
           const isActive = activeSubTab === tab.id;
@@ -1302,7 +1302,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
         {activeSubTab === 'summary' && (
           <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-6 animate-fadeIn">
             <h2 className="text-xl font-serif font-bold text-slate-900 dark:text-white">
-              Resumen de {cleanText(parasha.nameEs)}
+              {t('summaryOf', 'Resumen de Parashat')} {cleanText(parasha.nameEs)}
             </h2>
             <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
               {cleanText(parasha.summary)}
@@ -1310,7 +1310,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
 
             <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700/50 space-y-2">
               <span className="text-xs font-bold uppercase tracking-wider text-amber-800 dark:text-amber-400 block">
-                Punto Central de Halajá y Vida Judía:
+                {t('halachaCentralPoint', 'Punto Central de Halajá y Vida Judía:')}
               </span>
               <p className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed">
                 {cleanText(parasha.halachaPoint)}
@@ -1319,14 +1319,14 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
 
             <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between flex-wrap gap-3">
               <span className="text-xs text-slate-500 italic">
-                ¿Deseas profundizar en algún pasuk, halajá o comentario de esta Parashá?
+                {t('askAboutParashaPrompt', '¿Deseas profundizar en algún pasuk, halajá o comentario de esta Parashá?')}
               </span>
               <button
                 onClick={() => onAskAboutParasha(`Explícame con mayor profundidad los detalles y enseñanzas centrales de ${parasha.nameEs}.`)}
                 className="px-5 py-2.5 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-semibold text-xs sm:text-sm shadow transition flex items-center gap-2 cursor-pointer"
               >
                 <MessageSquare className="w-4 h-4" />
-                <span>Consultar al Rabino sobre {cleanText(parasha.nameEs)}</span>
+                <span>{t('consultRabbiParasha', 'Consultar al Rabino sobre')} {cleanText(parasha.nameEs)}</span>
               </button>
             </div>
           </div>
@@ -1337,7 +1337,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
           <div className="space-y-4 animate-fadeIn">
             <div className="flex items-center justify-between px-1">
               <h2 className="text-lg font-serif font-bold text-slate-900 dark:text-white">
-                División de las 7 Aliyot en Shabat por la Mañana
+                {t('aliyotBreakdown', 'División de las 7 Aliyot en Shabat por la Mañana')}
               </h2>
             </div>
 
@@ -1391,7 +1391,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
               </div>
               <div>
                 <h2 className="text-xl font-serif font-bold text-slate-900 dark:text-white">
-                  Enseñanza de Rashi (Rabí Shelomó Itzjaki)
+                  {t('rashiInsightTitle', "Enseñanza de Rashi (Rabí Shelomó Itzjakí)")}
                 </h2>
                 <p className="text-xs text-slate-500">Comentario clásico sobre el texto sagrado</p>
               </div>
@@ -1416,13 +1416,13 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
           </div>
         )}
 
-        {/* SUBPESTAÑA 4: Dimensión Espiritual y Jasídica (Solo las 10 tarjetas) */}
+        {/* SUBPESTAÑA 4: Dimensión Espiritual y Jasídica */}
         {activeSubTab === 'jasidut' && (
           <div className="space-y-4 animate-fadeIn">
             <div className="flex items-center justify-between px-1">
               <h2 className="text-lg font-serif font-bold text-slate-900 dark:text-white flex items-center gap-2">
                 <Sparkles className="w-5 h-5 text-amber-500" />
-                <span>10 Enseñanzas Jasídicas de {cleanText(parasha.nameEs)}</span>
+                <span>{t('chabadInsightTitle', 'Dimensión Espiritual y Jasídica (Jabad Lubavitch)')} de {cleanText(parasha.nameEs)}</span>
               </h2>
             </div>
 
