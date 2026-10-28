@@ -265,7 +265,14 @@ const resources = {
       qa_a7: 'De momento no, pero próximamente estará disponible para iOS.',
       //KosherTab
       tabKosher: "Verificador Kosher",
-      tabKosherDesc: "Directorio global de KMD, OU, OK, Badatz y más"
+      tabKosherDesc: "Directorio global de KMD, OU, OK, Badatz y más",
+      //quick
+      quickParashaTitle: 'Parashá de la Semana',
+      quickParashaSubtitle: 'Estudio, Aliyot y Rashi',
+      quickVideosTitle: 'Clases en Video',
+      quickVideosSubtitle: 'Shiurim y conferencias',
+      quickQuestionsTitle: 'Preguntas Clave',
+      quickQuestionsSubtitle: 'Guía rápida de consultas',
     }
   },
 
@@ -516,7 +523,15 @@ const resources = {
 
       //Kosher Tab
       tabKosher: "בדיקת כשרות",
-      tabKosherDesc: "מדריך כשרות עולמי: KMD, OU, OK, בד\"ץ ועוד"
+      tabKosherDesc: "מדריך כשרות עולמי: KMD, OU, OK, בד\"ץ ועוד",
+
+      //quick
+      quickParashaTitle: 'פרשת השבוע',
+      quickParashaSubtitle: 'לימוד, עליות ורש"י',
+      quickVideosTitle: 'שיעורי וידאו',
+      quickVideosSubtitle: 'שיעורים והרצאות',
+      quickQuestionsTitle: 'שאלות מפתח',
+      quickQuestionsSubtitle: 'מדריך מהיר לבירורים',
     }
   },
 
@@ -767,7 +782,14 @@ const resources = {
 
       //Kosher Tab
       tabKosher: "Kosher Checker",
-      tabKosherDesc: "Global directory for KMD, OU, OK, Badatz and more"
+      tabKosherDesc: "Global directory for KMD, OU, OK, Badatz and more",
+      //quick
+      quickParashaTitle: 'Weekly Parasha',
+      quickParashaSubtitle: 'Study, Aliyot & Rashi',
+      quickVideosTitle: 'Video Classes',
+      quickVideosSubtitle: 'Shiurim & lectures',
+      quickQuestionsTitle: 'Key Questions',
+      quickQuestionsSubtitle: 'Quick inquiry guide',
     }
   },
 
@@ -1017,7 +1039,15 @@ const resources = {
 
       //Kosher Tab
       tabKosher: "Vérificateur Casher",
-      tabKosherDesc: "Répertoire mondial pour KMD, OU, OK, Badatz et plus"
+      tabKosherDesc: "Répertoire mondial pour KMD, OU, OK, Badatz et plus",
+
+      //quick
+      quickParashaTitle: 'Paracha de la Semaine',
+      quickParashaSubtitle: 'Étude, Aliyot et Rachi',
+      quickVideosTitle: 'Cours en Vidéo',
+      quickVideosSubtitle: 'Shiourim et conférences',
+      quickQuestionsTitle: 'Questions Clés',
+      quickQuestionsSubtitle: 'Guide rapide de consultation',
     }
   },
 
@@ -1272,7 +1302,15 @@ const resources = {
 
       //Kosher Tab
       tabKosher: "Verificador Kosher",
-      tabKosherDesc: "Diretório global de KMD, OU, OK, Badatz e mais"
+      tabKosherDesc: "Diretório global de KMD, OU, OK, Badatz e mais",
+
+      //quick
+      quickParashaTitle: 'Parashá da Semana',
+      quickParashaSubtitle: 'Estudo, Aliyot e Rashi',
+      quickVideosTitle: 'Aulas em Vídeo',
+      quickVideosSubtitle: 'Shiurim e palestras',
+      quickQuestionsTitle: 'Perguntas Chave',
+      quickQuestionsSubtitle: 'Guia rápido de consultas',
     }
   }
 };
