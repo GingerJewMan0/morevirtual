@@ -15,8 +15,6 @@ import LanguageDetector from 'i18next-browser-languagedetector';
  * ============================================================================
  * RECURSOS DE TRADUCCIÓN POR IDIOMA
  * ============================================================================
- * Almacena todas las cadenas de texto, etiquetas, títulos de pestañas, guías
- * comunitarias y advertencias haláchicas traducidas para cada cultura soportada.
  */
 const resources = {
   // --------------------------------------------------------------------------
@@ -58,7 +56,7 @@ const resources = {
       footerDevDesc: 'Estudio de desarrollo de software y tecnologías avanzadas. Apoya el proyecto con un donativo voluntario.',
 
       welcomeTitle: '¡Shalom Alejem! Te doy la bienvenida',
-      welcomeDesc: 'Soy tu Rabino Virtual, un educador y guía rabínico concebido para acompañarte con calidez, paciencia y profundidad. Pregúntame con total confianza sobre halajá, Torá, festividades, kashrut, rezos o ética de la vida diaria.',
+      welcomeDesc: 'Soy tu Rabino Virtual, un educador y guía rabínico concebido para acompañarte con calidez, paciencia y profundidad.',
       mandatoryTitle: 'OBLIGATORIO',
       mandatoryDesc: 'Mitzvá de la Torá (Deoraita) o Decreto Rabínico vinculante (Derabanan).',
       customTitle: 'COSTUMBRE (MINHAG)',
@@ -69,9 +67,6 @@ const resources = {
       typeMessagePlaceholder: 'Escribe o dicta tu consulta sobre halajá, festividades o Torá...',
       send: 'Enviar',
 
-      // ======================================================================
-      // 📅 CALENDAR & ZMANIM TAB (BLOQUE AGRUPADO)
-      // ======================================================================
       tabZmanimTitle: 'Verificador Kosher',
       zmanimBannerTitle: 'Calendario Judío & Tiempos Halájicos (Zmanim)',
       zmanimHeaderTitle: 'Tiempos Halájicos y Velas de Shabat',
@@ -80,7 +75,6 @@ const resources = {
       selectCity: 'Ciudad:',
       zmanimCityLabel: 'Ciudad:',
       
-      // Bloque de Velas (Candle Lighting)
       shabbatCandles: 'Encendido de Velas',
       candleLightingTitle: 'Encendido de Velas',
       candleLightingSubtitle: 'Encendido de velas de Shabat',
@@ -91,11 +85,10 @@ const resources = {
       communityNuanceTitle: 'Matiz Comunitario:',
       communityNuanceText1: '• Sefaradí, Jalabí y Shamí: La mujer recita la bendición primero y luego enciende las velas.',
       communityNuanceText2: '• Ashkenazí y Jabad: Las velas se encienden primero, se cubren los ojos y luego se recita la bendición.',
-      sefaradiCandleRule: 'La mujer primero pronuncia la bendición y luego enciende las velas (Over Laasitan).',
+      sefaradiCandleRule: 'La mujer primero pronuncia la bendición y luego enciende las velas.',
       ashkenaziCandleRule: 'Primero se encienden las velas, luego se cubren los ojos y se recita la bendición.',
       mandatoryDerabanan: 'OBLIGATORIO: Mitzvá Derabanan (Shalom Bait y Kevod Shabat)',
 
-      // Bloque de Havdalá
       havdalah: 'Havdalá / Salida de Shabat',
       havdalahTitle: 'Havdalá / Salida de Shabat',
       havdalahSubtitle: 'Salida de Shabat y Havdalá',
@@ -114,7 +107,6 @@ const resources = {
       havdalahMandatoryNotice: 'Mitzvá Deoraita / Derabanan al terminar Shabat',
       mandatoryDeoraita: 'OBLIGATORIO: Mitzvá Deoraita / Derabanan',
 
-      // Bloque de Zmanim Diarios
       dailyZmanimTitle: 'Tiempos del Día (Zmanim Halajiim)',
       realtimeHebcal: 'Tiempo Real (Hebcal)',
       localTime: 'Horario Local',
@@ -299,7 +291,6 @@ const resources = {
       qa_q7: '¿Está disponible la app en la App Store de iOS?',
       qa_a7: 'De momento no, pero próximamente estará disponible para iOS.',
       
-      // Kosher Tab
       tabKosher: 'Verificador Kosher',
       tabKosherDesc: 'Directorio global de KMD, OU, OK, Badatz y más',
       kosherHeaderTitle: 'Verificador y Buscador Kosher Global',
@@ -308,7 +299,7 @@ const resources = {
       kosherSearchPlaceholder: '¿Qué producto buscas? (ej. chocolate, vino, leche, galletas)...',
       kosherSearchBtn: 'Buscar con el Rabino',
       kosherDirectoriesTitle: 'Páginas y Directorios Oficiales de Certificación',
-      kosherDirectoriesSubtitle: 'Accede con un clic a los buscadores oficiales de KMD, One Kosher, K-Alef y agencias globales.',
+      kosherDirectoriesSubtitle: 'Accede con un clic a los buscadores oficiales de KMD, One Kosher, K-Alef y agências globales.',
       kosherOpenWeb: 'Abrir Web',
       kosherOfficialSite: 'Sitio Oficial',
       kmdBadge: 'MÉXICO / LATAM',
@@ -337,7 +328,6 @@ const resources = {
       starKIdeal: 'Medicamentos, vitaminas y abarrotes',
       idealForLabel: 'Ideal para:',
 
-      //quick
       quickParashaTitle: 'Parashá de la Semana',
       quickParashaSubtitle: 'Estudio, Aliyot y Rashi',
       quickVideosTitle: 'Clases en Video',
@@ -348,7 +338,7 @@ const resources = {
   },
 
   // --------------------------------------------------------------------------
-  // HEBREO (Idioma con soporte especial de dirección RTL)
+  // HEBREO (RTL)
   // --------------------------------------------------------------------------
   he: {
     translation: {
@@ -623,7 +613,6 @@ const resources = {
       qa_q7: 'האם האפליקציה זמינה בחנות App Store של iOS?',
       qa_a7: 'כרגע לא, אך בקרוב היא תהיה זמינה עבור iOS.',
 
-      // Kosher Tab
       tabKosher: 'בודק כשרות',
       tabKosherDesc: 'מדריך גלובלי של KMD, OU, OK, בד"ץ ועוד',
       kosherHeaderTitle: 'בודק ומנוע חיפוש כשר גלובלי',
@@ -661,7 +650,6 @@ const resources = {
       starKIdeal: 'תרופות, ויטמינים ומצרכים',
       idealForLabel: 'אידיאלי עבור:',
 
-      //quick
       quickParashaTitle: 'פרשת השבוע',
       quickParashaSubtitle: 'לימוד, עליות ורש"י',
       quickVideosTitle: 'שיעורי וידאו',
@@ -1349,7 +1337,7 @@ const resources = {
       tabDeveloperDesc: 'Ohr Mobile Studios e Doações',
       ceoAndProgrammer: 'CEO e Desenvolvedor Principal da OHR Mobile Studio:',
       footerDevTitle: 'Ohr Mobile Studios',
-      footerDevDesc: 'Estúdio de desenvolvimento de software e tecnologias avanzadas. Apoie o projeto com uma doação voluntária.',
+      footerDevDesc: 'Estúdio de desenvolvimento de software e tecnologias avançadas. Apoie o projeto com uma doação voluntária.',
 
       welcomeTitle: 'Shalom Aleichem! Bem-vindo',
       welcomeDesc: 'Sou o seu Rabino Virtual, um educador concebido para acompanhá-lo com paciência e profundidade.',
@@ -1437,7 +1425,7 @@ const resources = {
       halachaCentralPoint: 'Ponto Central de Halachá:',
       aliyotBreakdown: 'Divisão das 7 Aliyot na Manhã de Shabat',
       rashiInsightTitle: 'Ensinamento de Rashi',
-      chabadInsightTitle: 'Dimensión Espiritual (Chabad)',
+      chabadInsightTitle: 'Dimensão Espiritual (Chabad)',
       askAboutParashaPrompt: 'Deseja aprofundar em algum versículo ou halachá desta Parashá?',
       consultRabbiParasha: 'Consultar o Rabino sobre',
 
@@ -1584,7 +1572,7 @@ const resources = {
       qa_q3: 'Como funciona o bloqueio automático de Shabat?',
       qa_a3: 'O aplicativo detecta as coordenadas da sua localização atual e calcula com absoluta precisão a entrada e a saída do Shabat e festividades judias (Yom Tov) para pausar a interação ativa de acordo com as diretrizes da halachá.',
       qa_q4: 'O que significam os círculos coloridos (🔴 🟡 🟢) nas respostas?',
-      qa_a4: 'Eles indicam o nível haláchico de cada regra: 🔴 para obrigações estritas da Torá (Deoraita) ou decretos rabínicos, 🟡 para costumes comunitários enraizados (Minhag), e 🟢 para práticas opcionais, piedosas ou exigências pessoais (Humrá).',
+      qa_a4: 'Eles indicam o nível haláchico de كل regra: 🔴 para obrigações estritas da Torá (Deoraita) ou decretos rabínicos, 🟡 para costumes comunitários enraizados (Minhag), e 🟢 para práticas opcionais, piedosas ou exigências pessoais (Humrá).',
       qa_q5: 'Posso usar o aplicativo para consultar dúvidas sobre qualquer tradição judaica?',
       qa_a5: 'Sim. O aplicativo foi desenhado para integrar e respeitar as fontes e nuances de diferentes tradições comunitarias, oferecendo um guia acolhedor adaptado ao estudo e à prática da Torá.',
       qa_q6: 'Minhas perguntas salvas são sincronizadas em outros dispositivos?',
@@ -1609,7 +1597,7 @@ const resources = {
       kmdIdeal: 'Doces, tequilas, laticínios e alimentos no México',
       oneKosherBadge: 'MÉXICO / INTERNACIONAL',
       oneKosherTitle: 'One Kosher International',
-      oneKosherDesc: 'Agência de certificação de grande prestígio em Polanco, CDMX, com buscador direto de produtos e banquetes certificados.',
+      oneKosherDesc: 'Agencia de certificação de grande prestígio em Polanco, CDMX, com buscador direto de produtos e banquetes certificados.',
       oneKosherIdeal: 'Alimentos, restaurantes e serviços de buffet',
       klefBadge: 'INTERNACIONAL / UK',
       klefTitle: 'K-Alef / KF Kosher',
@@ -1643,8 +1631,6 @@ const resources = {
  * ============================================================================
  * INICIALIZACIÓN DEL MOTOR i18next
  * ============================================================================
- * Configura los detectores de idioma del navegador, vincula React y deshabilita
- * el uso de Suspense para evitar pantallas en blanco durante la carga de componentes.
  */
 i18n
   .use(LanguageDetector)
