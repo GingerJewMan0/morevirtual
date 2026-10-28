@@ -297,7 +297,7 @@ export function CalendarZmanimTab() {
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-9 gap-3 text-xs">
           <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 text-center">
-            <span className="text-slate-400 block text-[11px]">Alot HaShachar</span>
+            <span className="text-slate-400 block text-[11px]">{t('alotHaShachar', 'Alot HaShachar')}</span>
             <span className="font-mono font-bold text-sm text-slate-800 dark:text-slate-200 mt-1 block">
               {zmanimDaily?.alotHaShajar || '--:--'}
             </span>
