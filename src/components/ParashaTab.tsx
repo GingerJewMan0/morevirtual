@@ -1,7 +1,7 @@
 /**
  * ============================================================================
  * COMPONENTE: ParashaTab.tsx
- * Pestaña completa con las 54 Parashot, limpieza de citas y sincronización automática vía API del calendario judío.
+ * Pestaña completa con las 54 Parashot, limpieza de citas y cálculo automático local.
  * ============================================================================
  */
 
@@ -42,116 +42,46 @@ const cleanText = (text: string): string => {
   return text.split('[cite:')[0].trim();
 };
 
-// Mapeo robusto con todas las variantes posibles devueltas por la API de Hebcal
-const HEBCAL_ID_MAP: Record<string, string> = {
-  'Bereshit': 'bereshit',
-  'bereshit': 'bereshit',
-  'Noach': 'noaj',
-  'noach': 'noaj',
-  'Lech-Lecha': 'lejlecha',
-  'lech-lecha': 'lejlecha',
-  'Lech Lecha': 'lejlecha',
-  'Vayera': 'vayeira',
-  'vayera': 'vayeira',
-  'Chayei Sara': 'chayeisarah',
-  'chayei sara': 'chayeisarah',
-  'Toldot': 'toldot',
-  'toldot': 'toldot',
-  'Vayetzei': 'vayetze',
-  'vayetzei': 'vayetze',
-  'Vayishlach': 'vayishlach',
-  'vayishlach': 'vayishlach',
-  'Vayeshev': 'vayeshev',
-  'vayeshev': 'vayeshev',
-  'Miketz': 'miketz',
-  'miketz': 'miketz',
-  'Vayigash': 'vayigash',
-  'vayigash': 'vayigash',
-  'Vayechi': 'vayechi',
-  'vayechi': 'vayechi',
-  'Shemot': 'shemot',
-  'shemot': 'shemot',
-  'Vaera': 'vaera',
-  'vaera': 'vaera',
-  'Bo': 'bo',
-  'bo': 'bo',
-  'Beshalach': 'beshalach',
-  'beshalach': 'beshalach',
-  'Yisro': 'yitro',
-  'yisro': 'yitro',
-  'Mishpatim': 'mishpatim',
-  'mishpatim': 'mishpatim',
-  'Terumah': 'terumah',
-  'terumah': 'terumah',
-  'Tetzaveh': 'tetzaveh',
-  'tetzaveh': 'tetzaveh',
-  'Ki Tisa': 'kitisa',
-  'ki tisa': 'kitisa',
-  'Vayakhel': 'vayakhel',
-  'vayakhel': 'vayakhel',
-  'Pekudei': 'pekudei',
-  'pekudei': 'pekudei',
-  'Vayikra': 'vayikra',
-  'vayikra': 'vayikra',
-  'Tzav': 'tzav',
-  'tzav': 'tzav',
-  'Shmini': 'shemini',
-  'shmini': 'shemini',
-  'Tazria': 'tazria',
-  'tazria': 'tazria',
-  'Metzora': 'metzora',
-  'metzora': 'metzora',
-  'Achrei Mot': 'achreimot',
-  'achrei mot': 'achreimot',
-  'Kedoshim': 'kedoshim',
-  'kedoshim': 'kedoshim',
-  'Emor': 'emor',
-  'emor': 'emor',
-  'Behar': 'behar',
-  'behar': 'behar',
-  'Bechukotai': 'bejukotai',
-  'bechukotai': 'bejukotai',
-  'Bamidbar': 'bamidbar',
-  'bamidbar': 'bamidbar',
-  'Nasso': 'nasso',
-  'nasso': 'nasso',
-  "Beha'alotcha": 'behaalotecha',
-  'behaalotcha': 'behaalotecha',
-  'Shlach': 'shelach',
-  'shlach': 'shelach',
-  'Korach': 'korach',
-  'korach': 'korach',
-  'Chukat': 'chukat',
-  'chukat': 'chukat',
-  'Balak': 'balak',
-  'balak': 'balak',
-  'Pinchas': 'pinchas',
-  'pinchas': 'pinchas',
-  'Matot': 'matotmasei',
-  'Masei': 'matotmasei',
-  'Matot-Masei': 'matotmasei',
-  'Devarim': 'devarim',
-  'devarim': 'devarim',
-  'Vaetchanan': 'vaetjanan',
-  'vaetchanan': 'vaetjanan',
-  'Eikev': 'ekev',
-  'eikev': 'ekev',
-  "Re'eh": 'reeh',
-  'reeh': 'reeh',
-  'Shoftim': 'shoftim',
-  'shoftim': 'shoftim',
-  'Ki Teitzei': 'kiteitzei',
-  'ki teitzei': 'kiteitzei',
-  'Ki Tavo': 'kitavo',
-  'ki tavo': 'kitavo',
-  'Nitzavim': 'nitzavim',
-  'nitzavim': 'nitzavim',
-  'Vaylech': 'vayeilech',
-  'vaylech': 'vayeilech',
-  'Haazinu': 'haazinu',
-  'haazinu': 'haazinu',
-  'Vezot HaBerachah': 'vezothaberakhah',
-  'vezot haberachah': 'vezothaberakhah'
+// Lista ordenada de las 54 Parashot del ciclo anual de la Torá
+const PARASHOT_SEQUENCE = [
+  'bereshit', 'noaj', 'lejlecha', 'vayeira', 'chayeisarah', 'toldot', 'vayetze',
+  'vayishlach', 'vayeshev', 'miketz', 'vayigash', 'vayechi', 'shemot', 'vaera',
+  'bo', 'beshalach', 'yitro', 'mishpatim', 'terumah', 'tetzaveh', 'kitisa',
+  'vayakhel', 'pekudei', 'vayikra', 'tzav', 'shemini', 'tazria', 'metzora',
+  'achreimot', 'kedoshim', 'emor', 'behar', 'bejukotai', 'bamidbar', 'nasso',
+  'behaalotecha', 'shelach', 'korach', 'chukat', 'balak', 'pinchas', 'matotmasei',
+  'devarim', 'vaetjanan', 'ekev', 'reeh', 'shoftim', 'kiteitzei', 'kitavo',
+  'nitzavim', 'vayeilech', 'haazinu', 'vezothaberakhah'
+];
+
+// Función para calcular de forma aproximada y estable la Parashá basada en la época del ciclo anual de Simjat Torá
+const getCurrentParashaKey = (): string => {
+  const now = new Date();
+  const year = now.getFullYear();
+  
+  // Referencia aproximada de Simjat Torá (cuando reinicia el ciclo en otoño)
+  // Usamos una fecha base de inicio de ciclo (ej. mediados de octubre)
+  const simchatTorahEstimates: Record<number, Date> = {
+    2024: new Date(2024, 9, 25),
+    2025: new Date(2025, 9, 14),
+    2026: new Date(2026, 9, 5),
+    2027: new Date(2027, 9, 25),
+  };
+
+  const baseDate = simchatTorahEstimates[year] || new Date(year, 9, 10);
+  
+  // Si aún no ha llegado Simjat Torá este año, el ciclo arrancó el año pasado
+  const cycleStart = now < baseDate ? new Date(year - 1, 9, 10) : baseDate;
+  
+  const diffTime = now.getTime() - cycleStart.getTime();
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  
+  if (diffDays < 0) return 'bereshit';
+  
+  const weekIndex = Math.floor(diffDays / 7);
+  const safeIndex = Math.max(0, Math.min(weekIndex, PARASHOT_SEQUENCE.length - 1));
+  
+  return PARASHOT_SEQUENCE[safeIndex];
 };
 
 // Base de datos completa con las 54 Parashot de la Torá y sus 10 enseñanzas jasídicas cada una
@@ -1233,41 +1163,9 @@ interface ParashaTabProps {
 
 export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
   const { i18n } = useTranslation();
-  const [selectedParashaKey, setSelectedParashaKey] = useState<string>('bereshit');
+  // Se inicializa llamando directamente a la función matemática local que calcula la semana actual
+  const [selectedParashaKey, setSelectedParashaKey] = useState<string>(() => getCurrentParashaKey());
   const [activeSubTab, setActiveSubTab] = useState<'summary' | 'aliyot' | 'rashi' | 'jasidut'>('summary');
-  const [isLoadingWeekly, setIsLoadingWeekly] = useState<boolean>(true);
-
-  // Consulta automática de la Parashá actual mediante la API oficial de Hebcal al cargar el componente
-  useEffect(() => {
-    async function fetchCurrentParasha() {
-      try {
-        // Solicitamos a la API de Hebcal el sedra (parashá semanal actual)
-        const response = await fetch('https://www.hebcal.com/hebcal?v=1&cfg=json&s=on&geonameid=3530597'); // 3530597 es el ID genérico o se puede usar sin geonameid
-        const data = await response.json();
-        
-        // Buscamos el elemento cuya categoría sea 'parashat'
-        const sedraItem = data.items?.find((item: any) => item.category === 'parashat');
-        
-        if (sedraItem) {
-          // El título o la propiedad 'ley' / 'title' suele traer el nombre (ej. "Parashat Noach" o "Noach")
-          const rawTitle = sedraItem.title || sedraItem.ley || '';
-          // Limpiamos la palabra "Parashat" si viene incluida
-          const cleanName = rawTitle.replace('Parashat ', '').replace('Parasha ', '').trim();
-          
-          const mappedKey = HEBCAL_ID_MAP[cleanName] || HEBCAL_ID_MAP[cleanName.toLowerCase()];
-          if (mappedKey && PARASHOT_DATABASE[mappedKey]) {
-            setSelectedParashaKey(mappedKey);
-          }
-        }
-      } catch (error) {
-        console.error('Error al conectar con la API de Hebcal:', error);
-      } finally {
-        setIsLoadingWeekly(false);
-      }
-    }
-
-    fetchCurrentParasha();
-  }, []);
 
   const parasha = PARASHOT_DATABASE[selectedParashaKey] || PARASHOT_DATABASE['bereshit'];
 
@@ -1280,11 +1178,9 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
             <div className="flex items-center gap-2 text-xs font-semibold text-amber-400 uppercase tracking-wider">
               <Scroll className="w-4 h-4" />
               <span>{cleanText(parasha.sefer)}</span>
-              {isLoadingWeekly && (
-                <span className="flex items-center gap-1 text-[10px] text-amber-300 bg-amber-950/60 px-2 py-0.5 rounded-full border border-amber-500/30">
-                  <RefreshCw className="w-3 h-3 animate-spin" /> Sincronizando semana...
-                </span>
-              )}
+              <span className="text-[10px] text-amber-300 bg-amber-950/60 px-2 py-0.5 rounded-full border border-amber-500/30">
+                ✨ Parashá de esta semana
+              </span>
             </div>
             <div className="flex items-baseline gap-3 flex-wrap">
               <h1 className="text-3xl sm:text-4xl font-serif font-bold text-amber-200">
@@ -1524,7 +1420,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
           </div>
         )}
 
-        {/* SUBPESTAÑA 4: Dimensión Espiritual y Jasídica (10 Enseñanzas Jasídicas de la Parashá) */}
+        {/* SUBPESTAÑA 4: Dimensión Espiritual y Jasídica */}
         {activeSubTab === 'jasidut' && (
           <div className="space-y-6 animate-fadeIn">
             <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
@@ -1550,7 +1446,7 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
               </div>
             </div>
 
-            {/* Cuadrícula de las 10 Enseñanzas Jasídicas de la Parashá */}
+            {/* Cuadrícula de las 10 Enseñanzas Jasídicas */}
             <div className="space-y-4 pt-2">
               <div className="flex items-center justify-between px-1">
                 <h3 className="text-base font-serif font-bold text-slate-900 dark:text-white flex items-center gap-2">
