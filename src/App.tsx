@@ -1256,16 +1256,19 @@ export function App() {
             {messages.length === 0 ? (
               <div className="flex-1 flex flex-col justify-center space-y-6 animate-fadeIn py-2 max-w-5xl mx-auto w-full">
                 <div className="relative p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-amber-100/70 via-amber-50 to-orange-50/60 dark:from-slate-900 dark:via-amber-950/20 dark:to-slate-900 border border-amber-200 dark:border-amber-900/40 shadow-sm text-center space-y-4">
-                  <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-tr from-amber-700 to-amber-500 flex items-center justify-center text-white shadow-lg shadow-amber-900/20">
-                    <span className="text-3xl">📜</span>
-                  </div>
-                  <h1 className="text-2xl sm:text-3xl font-serif font-bold text-slate-900 dark:text-white tracking-wide">
-                    {t('welcomeTitle', '¡Shalom Alejem! Te doy la bienvenida')}
+                
+                {/* Reemplazamos el contenedor del pergamino por el logo oficial */}
+                <div className="w-16 h-16 mx-auto rounded-2xl overflow-hidden shadow-lg shadow-amber-900/20 flex items-center justify-center bg-slate-900 border border-amber-500/40 p-0.5">
+                <img src={iconImage} alt="Rabino Virtual" className="w-full h-full object-contain" />
+                </div>
+                
+                <h1 className="text-2xl sm:text-3xl font-serif font-bold text-slate-900 dark:text-white tracking-wide">
+                  {t('welcomeTitle', '¡Shalom Alejem! Te doy la bienvenida')}
                   </h1>
                   <p className="max-w-3xl mx-auto text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
                     {t('welcomeDesc', 'Soy tu Rabino Virtual, un educador y guía rabínico concebido para acompañarte con calidez, paciencia y profundidad. Pregúntame con total confianza sobre halajá, Torá, festividades, kashrut, rezos o ética de la vida diaria.')}
-                  </p>
-                </div>
+                    </p>
+                    </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <button
