@@ -6,7 +6,7 @@
  */
 
 import React, { useState } from 'react';
-import { Search, ShieldCheck, ExternalLink, Sparkles, Globe, ArrowRight, Building, CheckCircle2 } from 'lucide-react';
+import { Search, ShieldCheck, ExternalLink, Sparkles, Globe, ArrowRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface KosherAgency {
@@ -67,7 +67,7 @@ interface KosherCheckerTabProps {
 }
 
 export function KosherCheckerTab({ onAskRabbi }: KosherCheckerTabProps) {
-  const { i18n } = useTranslation();
+  const { t } = useTranslation();
   const [productQuery, setProductQuery] = useState('');
 
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -84,10 +84,10 @@ export function KosherCheckerTab({ onAskRabbi }: KosherCheckerTabProps) {
           <ShieldCheck className="w-7 h-7" />
         </div>
         <h1 className="text-2xl sm:text-3xl font-serif font-bold text-slate-900 dark:text-emerald-400">
-          {i18n.language === 'he' ? 'בדיקת כשרות בינלאומית' : 'Verificador y Buscador Kosher Global'}
+          {t('kosherHeaderTitle')}
         </h1>
         <p className="text-sm text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
-          Consulta directamente en los buscadores oficiales de las principales agencias de kashrut (incluyendo <strong>KMD</strong>, <strong>One Kosher</strong>, <strong>K-Alef</strong>, <strong>OU</strong> y más) o pregúntale al Rabino Virtual.
+          {t('kosherHeaderSubtitle')}
         </p>
       </div>
 
@@ -95,7 +95,7 @@ export function KosherCheckerTab({ onAskRabbi }: KosherCheckerTabProps) {
       <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border-2 border-amber-300/80 dark:border-amber-600/50 shadow-md space-y-4">
         <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-700 dark:text-amber-400">
           <Sparkles className="w-4 h-4" />
-          <span>Consulta inteligente de productos</span>
+          <span>{t('kosherSearchSection')}</span>
         </div>
         <form onSubmit={handleSearchSubmit} className="flex flex-col sm:flex-row gap-3">
           <div className="relative flex-1">
@@ -106,7 +106,7 @@ export function KosherCheckerTab({ onAskRabbi }: KosherCheckerTabProps) {
               type="text"
               value={productQuery}
               onChange={(e) => setProductQuery(e.target.value)}
-              placeholder="¿Qué producto buscas? (ej. chocolate, vino, leche, galletas)..."
+              placeholder={t('kosherSearchPlaceholder')}
               className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-amber-500 text-sm"
             />
           </div>
@@ -119,7 +119,7 @@ export function KosherCheckerTab({ onAskRabbi }: KosherCheckerTabProps) {
                 : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed'
             }`}
           >
-            <span>Buscar con el Rabino</span>
+            <span>{t('kosherSearchBtn')}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>
@@ -129,10 +129,10 @@ export function KosherCheckerTab({ onAskRabbi }: KosherCheckerTabProps) {
       <div className="space-y-4">
         <div>
           <h3 className="font-serif font-bold text-lg text-slate-900 dark:text-white">
-            Páginas y Directorios Oficiales de Certificación
+            {t('kosherDirectoriesTitle')}
           </h3>
           <p className="text-xs text-slate-500">
-            Accede con un clic a los buscadores oficiales de KMD, One Kosher, K-Alef y agencias globales.
+            {t('kosherDirectoriesSubtitle')}
           </p>
         </div>
 
@@ -161,14 +161,14 @@ export function KosherCheckerTab({ onAskRabbi }: KosherCheckerTabProps) {
               </div>
 
               <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                <span className="text-[11px] text-slate-400 font-medium">Sitio Oficial</span>
+                <span className="text-[11px] text-slate-400 font-medium">{t('kosherOfficialSite')}</span>
                 <a
                   href={agency.baseUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-3.5 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-semibold text-xs transition flex items-center gap-1.5 shadow-xs cursor-pointer"
                 >
-                  <span>Abrir Web</span>
+                  <span>{t('kosherOpenWeb')}</span>
                   <ExternalLink className="w-3.5 h-3.5" />
                 </a>
               </div>
