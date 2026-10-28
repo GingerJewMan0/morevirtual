@@ -1,7 +1,7 @@
 /**
  * ============================================================================
  * COMPONENTE: ParashaTab.tsx
- * Pestaña completa con las 54 Parashot de la Torá, sin citas y con 10 enseñanzas jasídicas por parashá
+ * Pestaña completa con las 54 Parashot, limpieza de citas y cálculo automático de la Parashá semanal.
  * ============================================================================
  */
 
@@ -36,10 +36,39 @@ interface ParashaData {
   aliyot: Aliyah[];
 }
 
-// Función auxiliar simple y a prueba de errores para limpiar texto
+// Función auxiliar para limpiar texto de citas
 const cleanText = (text: string): string => {
   if (!text) return '';
   return text.split('[cite:')[0].trim();
+};
+
+// Secuencia ordenada de las 54 Parashot a lo largo del ciclo anual judío
+const PARASHA_SEQUENCE: string[] = [
+  'bereshit', 'noaj', 'lejlecha', 'vayeira', 'chayeisarah', 'toldot', 'vayetze', 
+  'vayishlach', 'vayeshev', 'miketz', 'vayigash', 'vayechi',
+  'shemot', 'vaera', 'bo', 'beshalach', 'yitro', 'mishpatim', 'terumah', 
+  'tetzaveh', 'kitisa', 'vayakhel', 'pekudei',
+  'vayikra', 'tzav', 'shemini', 'tazria', 'metzora', 'achreimot', 'kedoshim', 
+  'emor', 'behar', 'bejukotai',
+  'bamidbar', 'nasso', 'behaalotecha', 'shelach', 'korach', 'chukat', 'balak', 
+  'pinchas', 'matotmasei',
+  'devarim', 'vaetjanan', 'ekev', 'reeh', 'shoftim', 'kiteitzei', 'kitavo', 
+  'nitzavim', 'vayeilech', 'haazinu', 'vezothaberakhah'
+];
+
+/**
+ * Función para calcular la Parashá de la semana actual de forma dinámica.
+ * Toma como referencia aproximada el ciclo anual basado en el número de semana del año.
+ */
+const getCurrentParashaKey = (): string => {
+  const now = new Date();
+  const startOfYear = new Date(now.getFullYear(), 0, 1);
+  const diffDays = Math.floor((now.getTime() - startOfYear.getTime()) / (1000 * 60 * 60 * 24));
+  const weekNumber = Math.floor(diffDays / 7);
+  
+  // Asocia la semana del año con el ciclo de 54 parashot (ajustando el índice de inicio cíclico)
+  const index = Math.abs(weekNumber + 3) % PARASHA_SEQUENCE.length;
+  return PARASHA_SEQUENCE[index] || 'bereshit';
 };
 
 // Base de datos completa con las 54 Parashot de la Torá y sus 10 enseñanzas jasídicas cada una
@@ -1121,10 +1150,12 @@ interface ParashaTabProps {
 
 export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
   const { i18n } = useTranslation();
-  const [selectedParashaKey, setSelectedParashaKey] = useState<string>('vaetjanan');
+  
+  // AQUÍ ESTÁ EL CAMBIO: Inicializa por defecto con la Parashá calculada para la semana actual
+  const [selectedParashaKey, setSelectedParashaKey] = useState<string>(getCurrentParashaKey());
   const [activeSubTab, setActiveSubTab] = useState<'summary' | 'aliyot' | 'rashi' | 'jasidut'>('summary');
 
-  const parasha = PARASHOT_DATABASE[selectedParashaKey] || PARASHOT_DATABASE['vaetjanan'];
+  const parasha = PARASHOT_DATABASE[selectedParashaKey] || PARASHOT_DATABASE['bereshit'];
 
   return (
     <div className="max-w-5xl mx-auto py-6 px-4 space-y-6 animate-fadeIn">
