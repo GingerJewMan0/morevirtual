@@ -42,63 +42,116 @@ const cleanText = (text: string): string => {
   return text.split('[cite:')[0].trim();
 };
 
-// Mapeo de los nombres en inglés devueltos por la API de Hebcal a las claves de nuestra base de datos
+// Mapeo robusto con todas las variantes posibles devueltas por la API de Hebcal
 const HEBCAL_ID_MAP: Record<string, string> = {
   'Bereshit': 'bereshit',
+  'bereshit': 'bereshit',
   'Noach': 'noaj',
+  'noach': 'noaj',
   'Lech-Lecha': 'lejlecha',
+  'lech-lecha': 'lejlecha',
+  'Lech Lecha': 'lejlecha',
   'Vayera': 'vayeira',
+  'vayera': 'vayeira',
   'Chayei Sara': 'chayeisarah',
+  'chayei sara': 'chayeisarah',
   'Toldot': 'toldot',
+  'toldot': 'toldot',
   'Vayetzei': 'vayetze',
+  'vayetzei': 'vayetze',
   'Vayishlach': 'vayishlach',
+  'vayishlach': 'vayishlach',
   'Vayeshev': 'vayeshev',
+  'vayeshev': 'vayeshev',
   'Miketz': 'miketz',
+  'miketz': 'miketz',
   'Vayigash': 'vayigash',
+  'vayigash': 'vayigash',
   'Vayechi': 'vayechi',
+  'vayechi': 'vayechi',
   'Shemot': 'shemot',
+  'shemot': 'shemot',
   'Vaera': 'vaera',
+  'vaera': 'vaera',
   'Bo': 'bo',
+  'bo': 'bo',
   'Beshalach': 'beshalach',
+  'beshalach': 'beshalach',
   'Yisro': 'yitro',
+  'yisro': 'yitro',
   'Mishpatim': 'mishpatim',
+  'mishpatim': 'mishpatim',
   'Terumah': 'terumah',
+  'terumah': 'terumah',
   'Tetzaveh': 'tetzaveh',
+  'tetzaveh': 'tetzaveh',
   'Ki Tisa': 'kitisa',
+  'ki tisa': 'kitisa',
   'Vayakhel': 'vayakhel',
+  'vayakhel': 'vayakhel',
   'Pekudei': 'pekudei',
+  'pekudei': 'pekudei',
   'Vayikra': 'vayikra',
+  'vayikra': 'vayikra',
   'Tzav': 'tzav',
+  'tzav': 'tzav',
   'Shmini': 'shemini',
+  'shmini': 'shemini',
   'Tazria': 'tazria',
+  'tazria': 'tazria',
   'Metzora': 'metzora',
+  'metzora': 'metzora',
   'Achrei Mot': 'achreimot',
+  'achrei mot': 'achreimot',
   'Kedoshim': 'kedoshim',
+  'kedoshim': 'kedoshim',
   'Emor': 'emor',
+  'emor': 'emor',
   'Behar': 'behar',
+  'behar': 'behar',
   'Bechukotai': 'bejukotai',
+  'bechukotai': 'bejukotai',
   'Bamidbar': 'bamidbar',
+  'bamidbar': 'bamidbar',
   'Nasso': 'nasso',
+  'nasso': 'nasso',
   "Beha'alotcha": 'behaalotecha',
+  'behaalotcha': 'behaalotecha',
   'Shlach': 'shelach',
+  'shlach': 'shelach',
   'Korach': 'korach',
+  'korach': 'korach',
   'Chukat': 'chukat',
+  'chukat': 'chukat',
   'Balak': 'balak',
+  'balak': 'balak',
   'Pinchas': 'pinchas',
+  'pinchas': 'pinchas',
   'Matot': 'matotmasei',
   'Masei': 'matotmasei',
   'Matot-Masei': 'matotmasei',
   'Devarim': 'devarim',
+  'devarim': 'devarim',
   'Vaetchanan': 'vaetjanan',
+  'vaetchanan': 'vaetjanan',
   'Eikev': 'ekev',
+  'eikev': 'ekev',
   "Re'eh": 'reeh',
+  'reeh': 'reeh',
   'Shoftim': 'shoftim',
+  'shoftim': 'shoftim',
   'Ki Teitzei': 'kiteitzei',
+  'ki teitzei': 'kiteitzei',
   'Ki Tavo': 'kitavo',
+  'ki tavo': 'kitavo',
   'Nitzavim': 'nitzavim',
+  'nitzavim': 'nitzavim',
   'Vaylech': 'vayeilech',
+  'vaylech': 'vayeilech',
   'Haazinu': 'haazinu',
-  'Vezot HaBerachah': 'vezothaberakhah'
+  'haazinu': 'haazinu',
+  'Vezot HaBerachah': 'vezothaberakhah',
+  'vezot haberachah': 'vezothaberakhah'
 };
 
 // Base de datos completa con las 54 Parashot de la Torá y sus 10 enseñanzas jasídicas cada una
@@ -1188,22 +1241,26 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
   useEffect(() => {
     async function fetchCurrentParasha() {
       try {
-        const response = await fetch('https://www.hebcal.com/hebcal?v=1&cfg=json&geonameid=0&m=50');
+        // Solicitamos a la API de Hebcal el sedra (parashá semanal actual)
+        const response = await fetch('https://www.hebcal.com/hebcal?v=1&cfg=json&s=on&geonameid=3530597'); // 3530597 es el ID genérico o se puede usar sin geonameid
         const data = await response.json();
         
-        // Buscar el evento de la porción de la Torá (leyendo la semana actual)
+        // Buscamos el elemento cuya categoría sea 'parashat'
         const sedraItem = data.items?.find((item: any) => item.category === 'parashat');
         
-        if (sedraItem && sedraItem.ley) {
-          // El nombre devuelto por la API (ej. "Lech-Lecha" o "Vayera") se mapea a nuestra base de datos
-          const hebcalName = sedraItem.ley;
-          const mappedKey = HEBCAL_ID_MAP[hebcalName];
+        if (sedraItem) {
+          // El título o la propiedad 'ley' / 'title' suele traer el nombre (ej. "Parashat Noach" o "Noach")
+          const rawTitle = sedraItem.title || sedraItem.ley || '';
+          // Limpiamos la palabra "Parashat" si viene incluida
+          const cleanName = rawTitle.replace('Parashat ', '').replace('Parasha ', '').trim();
+          
+          const mappedKey = HEBCAL_ID_MAP[cleanName] || HEBCAL_ID_MAP[cleanName.toLowerCase()];
           if (mappedKey && PARASHOT_DATABASE[mappedKey]) {
             setSelectedParashaKey(mappedKey);
           }
         }
       } catch (error) {
-        console.error('Error al obtener la parashá semanal de la API:', error);
+        console.error('Error al conectar con la API de Hebcal:', error);
       } finally {
         setIsLoadingWeekly(false);
       }
