@@ -58,7 +58,7 @@ const resources = {
       footerDevDesc: 'Estudio de desarrollo de software y tecnologías avanzadas. Apoya el proyecto con un donativo voluntario.',
 
       welcomeTitle: '¡Shalom Alejem! Te doy la bienvenida',
-      welcomeDesc: 'Soy tu Rabino Virtual, un educador y guía rabínico concebido para acompañarte con calidez, patience y profundidad. Pregúntame con total confianza sobre halajá, Torá, festividades, kashrut, rezos o ética de la vida diaria.',
+      welcomeDesc: 'Soy tu Rabino Virtual, un educador y guía rabínico concebido para acompañarte con calidez, paciencia y profundidad. Pregúntame con total confianza sobre halajá, Torá, festividades, kashrut, rezos o ética de la vida diaria.',
       mandatoryTitle: 'OBLIGATORIO',
       mandatoryDesc: 'Mitzvá de la Torá (Deoraita) o Decreto Rabínico vinculante (Derabanan).',
       customTitle: 'COSTUMBRE (MINHAG)',
@@ -588,7 +588,7 @@ const resources = {
 
       city_paris_name: 'פריז',
       city_paris_country: 'צרפת',
-      city_paris_flavor: 'הקהילה היהודית הגדולה באירופה, הכוללת את רובע לה מארה ההיסטורי ובתי כנסת פעילים רבים.',
+      city_paris_flavor: 'הקהילה יהודית הגדולה באירופה, הכוללת את רובע לה מארה ההיסטורי ובתי כנסת פעילים רבים.',
       
       city_madrid_name: 'מדריד',
       city_madrid_country: 'ספרד',
@@ -1349,7 +1349,7 @@ const resources = {
       tabDeveloperDesc: 'Ohr Mobile Studios e Doações',
       ceoAndProgrammer: 'CEO e Desenvolvedor Principal da OHR Mobile Studio:',
       footerDevTitle: 'Ohr Mobile Studios',
-      footerDevDesc: 'Estúdio de desenvolvimento de software e tecnologias avançadas. Apoie o projeto com uma doação voluntária.',
+      footerDevDesc: 'Estúdio de desenvolvimento de software e tecnologias avanzadas. Apoie o projeto com uma doação voluntária.',
 
       welcomeTitle: 'Shalom Aleichem! Bem-vindo',
       welcomeDesc: 'Sou o seu Rabino Virtual, um educador concebido para acompanhá-lo com paciência e profundidade.',
@@ -1395,7 +1395,7 @@ const resources = {
       rabenuTamTitle: 'Rabenu Tam (72 min)',
       rabenuTamLabel: 'Rabenu Tam (72 min):',
       havdalahElements: 'Os 4 Elementos da Habdalá:',
-      havdalahElementsTitle: 'Os 4 Elementos da Havdalá:',
+      havdalahElementsTitle: 'Os 4 Elementos da Habdalá:',
       havdalahEl1: '1. Yayin: Vinho ou suco de uva.',
       havdalahEl2: '2. Besamim: Especiarias aromáticas.',
       havdalahEl3: '3. Ner: Vela trançada de múltiplos pavios.',
@@ -1590,7 +1590,7 @@ const resources = {
       qa_q6: 'Minhas perguntas salvas são sincronizadas em outros dispositivos?',
       qa_a6: 'Os ensinamentos e notas que você salva são armazenados de forma local e segura no seu dispositivo atual para proteger totalmente sua privacidade durante o estudo e as festividades.',
       qa_q7: 'O aplicativo está disponível na App Store do iOS?',
-      qa_a7: 'Por enquanto não, mas em breve estará disponível para iOS.',
+      qa_a7: 'Por enquanto não, אך em breve estará disponível para iOS.',
 
       tabKosher: 'Verificador Kosher',
       tabKosherDesc: 'Diretório global de KMD, OU, OK, Badatz e mais',
