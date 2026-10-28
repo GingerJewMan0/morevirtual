@@ -1,12 +1,12 @@
 /**
  * ============================================================================
  * COMPONENTE: ParashaTab.tsx
- * Pestaña completa con las 54 Parashot, limpieza de citas y cálculo automático de la Parashá semanal.
+ * Pestaña completa con las 54 Parashot, limpieza de citas y sincronización automática vía API del calendario judío.
  * ============================================================================
  */
 
-import React, { useState } from 'react';
-import { Scroll, BookOpen, Flame, Sparkles, MessageSquare, ChevronRight, Layers } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Scroll, BookOpen, Flame, Sparkles, MessageSquare, ChevronRight, Layers, RefreshCw } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface Aliyah {
@@ -42,33 +42,63 @@ const cleanText = (text: string): string => {
   return text.split('[cite:')[0].trim();
 };
 
-// Secuencia ordenada de las 54 Parashot a lo largo del ciclo anual judío
-const PARASHA_SEQUENCE: string[] = [
-  'bereshit', 'noaj', 'lejlecha', 'vayeira', 'chayeisarah', 'toldot', 'vayetze', 
-  'vayishlach', 'vayeshev', 'miketz', 'vayigash', 'vayechi',
-  'shemot', 'vaera', 'bo', 'beshalach', 'yitro', 'mishpatim', 'terumah', 
-  'tetzaveh', 'kitisa', 'vayakhel', 'pekudei',
-  'vayikra', 'tzav', 'shemini', 'tazria', 'metzora', 'achreimot', 'kedoshim', 
-  'emor', 'behar', 'bejukotai',
-  'bamidbar', 'nasso', 'behaalotecha', 'shelach', 'korach', 'chukat', 'balak', 
-  'pinchas', 'matotmasei',
-  'devarim', 'vaetjanan', 'ekev', 'reeh', 'shoftim', 'kiteitzei', 'kitavo', 
-  'nitzavim', 'vayeilech', 'haazinu', 'vezothaberakhah'
-];
-
-/**
- * Función para calcular la Parashá de la semana actual de forma dinámica.
- * Toma como referencia aproximada el ciclo anual basado en el número de semana del año.
- */
-const getCurrentParashaKey = (): string => {
-  const now = new Date();
-  const startOfYear = new Date(now.getFullYear(), 0, 1);
-  const diffDays = Math.floor((now.getTime() - startOfYear.getTime()) / (1000 * 60 * 60 * 24));
-  const weekNumber = Math.floor(diffDays / 7);
-  
-  // Asocia la semana del año con el ciclo de 54 parashot (ajustando el índice de inicio cíclico)
-  const index = Math.abs(weekNumber + 3) % PARASHA_SEQUENCE.length;
-  return PARASHA_SEQUENCE[index] || 'bereshit';
+// Mapeo de los nombres en inglés devueltos por la API de Hebcal a las claves de nuestra base de datos
+const HEBCAL_ID_MAP: Record<string, string> = {
+  'Bereshit': 'bereshit',
+  'Noach': 'noaj',
+  'Lech-Lecha': 'lejlecha',
+  'Vayera': 'vayeira',
+  'Chayei Sara': 'chayeisarah',
+  'Toldot': 'toldot',
+  'Vayetzei': 'vayetze',
+  'Vayishlach': 'vayishlach',
+  'Vayeshev': 'vayeshev',
+  'Miketz': 'miketz',
+  'Vayigash': 'vayigash',
+  'Vayechi': 'vayechi',
+  'Shemot': 'shemot',
+  'Vaera': 'vaera',
+  'Bo': 'bo',
+  'Beshalach': 'beshalach',
+  'Yisro': 'yitro',
+  'Mishpatim': 'mishpatim',
+  'Terumah': 'terumah',
+  'Tetzaveh': 'tetzaveh',
+  'Ki Tisa': 'kitisa',
+  'Vayakhel': 'vayakhel',
+  'Pekudei': 'pekudei',
+  'Vayikra': 'vayikra',
+  'Tzav': 'tzav',
+  'Shmini': 'shemini',
+  'Tazria': 'tazria',
+  'Metzora': 'metzora',
+  'Achrei Mot': 'achreimot',
+  'Kedoshim': 'kedoshim',
+  'Emor': 'emor',
+  'Behar': 'behar',
+  'Bechukotai': 'bejukotai',
+  'Bamidbar': 'bamidbar',
+  'Nasso': 'nasso',
+  "Beha'alotcha": 'behaalotecha',
+  'Shlach': 'shelach',
+  'Korach': 'korach',
+  'Chukat': 'chukat',
+  'Balak': 'balak',
+  'Pinchas': 'pinchas',
+  'Matot': 'matotmasei',
+  'Masei': 'matotmasei',
+  'Matot-Masei': 'matotmasei',
+  'Devarim': 'devarim',
+  'Vaetchanan': 'vaetjanan',
+  'Eikev': 'ekev',
+  "Re'eh": 'reeh',
+  'Shoftim': 'shoftim',
+  'Ki Teitzei': 'kiteitzei',
+  'Ki Tavo': 'kitavo',
+  'Nitzavim': 'nitzavim',
+  'Vaylech': 'vayeilech',
+  'Haazinu': 'haazinu',
+  'Vezot HaBerachah': 'vezothaberakhah'
 };
 
 // Base de datos completa con las 54 Parashot de la Torá y sus 10 enseñanzas jasídicas cada una
@@ -673,7 +703,7 @@ const PARASHOT_DATABASE: Record<string, ParashaData> = {
       { title: '6. Respeto al Sordo y Ciego', snippet: 'No poner tropiezo ante el ciego simboliza la empatía hacia cualquier vulnerabilidad.' },
       { title: '7. Prohibición del Chisme', snippet: 'No andar de chismoso entre tu pueblo para evitar destruir la paz social.' },
       { title: '8. El Amor al Prójimo', snippet: 'La regla de oro formulada por Hillel y Akiva como resumen de la ley divina.' },
-      { title: '9. Respeto a los Ancianos', snippet: 'Ponerse de pie ante las canas honra la sabiduría acumulada de los mayores.' },
+      { title: '9. Respeto al Anciano', snippet: 'Ponerse de pie ante las canas honra la sabiduría acumulada de los mayores.' },
       { title: '10. Leyes de Integridad', snippet: 'Mantener la pureza ética en cada rincón de la vida diaria.' }
     ],
     aliyot: [{ number: 1, name: '1ª Aliyá', verses: '19:1-19:14', summary: 'Santidad.' }, { number: 2, name: '2ª Aliyá', verses: '19:15-19:32', summary: 'Prójimo.' }, { number: 3, name: '3ª Aliyá', verses: '19:33-20:27', summary: 'Castigos.' }]
@@ -1150,10 +1180,37 @@ interface ParashaTabProps {
 
 export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
   const { i18n } = useTranslation();
-  
-  // AQUÍ ESTÁ EL CAMBIO: Inicializa por defecto con la Parashá calculada para la semana actual
-  const [selectedParashaKey, setSelectedParashaKey] = useState<string>(getCurrentParashaKey());
+  const [selectedParashaKey, setSelectedParashaKey] = useState<string>('bereshit');
   const [activeSubTab, setActiveSubTab] = useState<'summary' | 'aliyot' | 'rashi' | 'jasidut'>('summary');
+  const [isLoadingWeekly, setIsLoadingWeekly] = useState<boolean>(true);
+
+  // Consulta automática de la Parashá actual mediante la API oficial de Hebcal al cargar el componente
+  useEffect(() => {
+    async function fetchCurrentParasha() {
+      try {
+        const response = await fetch('https://www.hebcal.com/hebcal?v=1&cfg=json&geonameid=0&m=50');
+        const data = await response.json();
+        
+        // Buscar el evento de la porción de la Torá (leyendo la semana actual)
+        const sedraItem = data.items?.find((item: any) => item.category === 'parashat');
+        
+        if (sedraItem && sedraItem.ley) {
+          // El nombre devuelto por la API (ej. "Lech-Lecha" o "Vayera") se mapea a nuestra base de datos
+          const hebcalName = sedraItem.ley;
+          const mappedKey = HEBCAL_ID_MAP[hebcalName];
+          if (mappedKey && PARASHOT_DATABASE[mappedKey]) {
+            setSelectedParashaKey(mappedKey);
+          }
+        }
+      } catch (error) {
+        console.error('Error al obtener la parashá semanal de la API:', error);
+      } finally {
+        setIsLoadingWeekly(false);
+      }
+    }
+
+    fetchCurrentParasha();
+  }, []);
 
   const parasha = PARASHOT_DATABASE[selectedParashaKey] || PARASHOT_DATABASE['bereshit'];
 
@@ -1166,6 +1223,11 @@ export function ParashaTab({ onAskAboutParasha }: ParashaTabProps) {
             <div className="flex items-center gap-2 text-xs font-semibold text-amber-400 uppercase tracking-wider">
               <Scroll className="w-4 h-4" />
               <span>{cleanText(parasha.sefer)}</span>
+              {isLoadingWeekly && (
+                <span className="flex items-center gap-1 text-[10px] text-amber-300 bg-amber-950/60 px-2 py-0.5 rounded-full border border-amber-500/30">
+                  <RefreshCw className="w-3 h-3 animate-spin" /> Sincronizando semana...
+                </span>
+              )}
             </div>
             <div className="flex items-baseline gap-3 flex-wrap">
               <h1 className="text-3xl sm:text-4xl font-serif font-bold text-amber-200">
