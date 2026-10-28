@@ -8,28 +8,28 @@
  */
 
 export interface SampleQuestion {
-  id: string;                           // Identificador único de la pregunta
-  categoryIcon: string;                 // Ícono emoji que representa la categoría
+  id: string;
+  categoryIcon: string;
   category: {
-    es: string;                         // Nombre de la categoría en español
-    he: string;                         // Nombre de la categoría en hebreo
-    en: string;                         // Nombre de la categoría en inglés
-    pt: string;                         // Nombre de la categoría en portugués
-    fr: string;                         // Nombre de la categoría en francés
+    es: string;
+    he: string;
+    en: string;
+    pt: string;
+    fr: string;
   };
   question: {
-    es: string;                         // Pregunta principal en español
-    he: string;                         // Pregunta principal en hebreo
-    en: string;                         // Pregunta principal en inglés
-    pt: string;                         // Pregunta principal en portugués
-    fr: string;                         // Pregunta principal en francés
+    es: string;
+    he: string;
+    en: string;
+    pt: string;
+    fr: string;
   };
   highlight: {
-    es: string;                         // Información destacada (highlight) en español
-    he: string;                         // Highlight en hebreo
-    en: string;                         // Highlight en inglés
-    pt: string;                         // Highlight en portugués
-    fr: string;                         // Highlight en francés
+    es: string;
+    he: string;
+    en: string;
+    pt: string;
+    fr: string;
   };
 }
 
@@ -48,21 +48,21 @@ export const SAMPLE_QUESTIONS: SampleQuestion[] = [
       he: 'פסח וכשרות',
       en: 'Passover & Kashrut',
       pt: 'Páscoa e Kashrut',
-      fr: 'Pessa’h et Cacheroute',
+      fr: 'Pessa\'h et Cacheroute',
     },
     question: {
       es: '¿Cuál es la diferencia entre Sefaradí, Ashkenazí, Maguen David y Monte Sinai con respecto al arroz y legumbres (kitniyot) en Pésaj?',
-      he: 'מה ההבדל بين ספרדים, אשכנזים, מגן דוד ומונטה סיני לגבי אורז וקטניות בפסח?', // Nota: En hebreo puro, "בין" en lugar de "بین"
+      he: 'מה ההבדל בין ספרדים, אשכנזים, מגן דוד ומונטה סיני לגבי אורז וקטניות בפסח?',
       en: 'What is the difference between Sephardic, Ashkenazi, Maguen David, and Monte Sinai regarding rice and legumes (kitniyot) on Passover?',
       pt: 'Qual é a diferença entre Sefaradi, Asquenazi, Maguen David e Monte Sinai em relação ao arroz e leguminosas (kitniyot) no Pessach?',
-      fr: 'Quelle est la différence entre Séfarade, Ashkénaze, Maguen David et Monte Sinai concernant le riz et les légumineuses (kitniyot) à Pessa’h ?',
+      fr: 'Quelle est la différence entre Séfarade, Ashkénaze, Maguen David et Monte Sinai concernant le riz et les légumineuses (kitniyot) à Pessa\'h ?',
     },
     highlight: {
       es: 'Compara el consumo de arroz, revisión de granos y usanzas culinarias entre comunidades.',
-      he: 'השוואת צריכת אורז, בדיקת גרגרים ומנהגים קולינריים بين عדות.',
+      he: 'השוואת צריכת אורז, בדיקת גרגרים ומנהגים קולינריים בין עדות.',
       en: 'Compares rice consumption, grain inspection, and culinary customs across communities.',
       pt: 'Compara o consumo de arroz, inspeção de grãos e costumes culinários entre comunidades.',
-      fr: 'Compare la consommation de riz, l’examen des grains et les coutumes culinaires entre communautés.',
+      fr: 'Compare la consommation de riz, l\'examen des grains et les coutumes culinaires entre communautés.',
     },
   },
   {
@@ -87,7 +87,7 @@ export const SAMPLE_QUESTIONS: SampleQuestion[] = [
       he: 'הסבר על ברכה לפני או אחרי הדלקה, מספר נרות ומנהג בנות חב"ד.',
       en: 'Explains blessing before/after lighting, candle counts, and Chabad girls customs.',
       pt: 'Explica se a bênção é antes ou depois de acender, quantidade de velas e o costume das meninas em Chabad.',
-      fr: 'Explique si l’on bénit avant ou après l’allumage, le nombre de bougies et la coutume des jeunes filles Habad.',
+      fr: 'Explique si l\'on bénit avant ou après l\'allumage, le nombre de bougies et la coutume des jeunes filles Habad.',
     },
   },
   {
@@ -130,7 +130,7 @@ export const SAMPLE_QUESTIONS: SampleQuestion[] = [
       he: 'מדוע בעדות המזרח, מגן דוד ומונטה סיני אומרים סליחות כל חודש אלול, בעוד באשכנז מתחילים סמוך לראש השנה?',
       en: 'Why do Sephardic, Maguen David, and Monte Sinai communities recite Selichot throughout the month of Elul, while Ashkenazi begin a few days before Rosh Hashanah?',
       pt: 'Por que nas comunidades Sefaradi, Maguen David e Monte Sinai as Selichot são rezadas durante todo o mês de Elul, enquanto os Asquenazes iniciam poucos dias antes de Rosh Hashaná?',
-      fr: 'Pourquoi dans les communautés Séfarade, Maguen David et Monte Sinai dit-on les Selihot tout au long du mois d’Eloul, tandis que les Ashkénazes commencent quelques jours avant Roch Hachana ?',
+      fr: 'Pourquoi dans les communautés Séfarade, Maguen David et Monte Sinai dit-on les Selihot tout au long du mois d\'Eloul, tandis que les Ashkénazes commencent quelques jours avant Roch Hachana ?',
     },
     highlight: {
       es: 'Historia de los 40 días de misericordia de Moshé Rabenu y el origen de cada costumbre.',
@@ -177,7 +177,7 @@ export const SAMPLE_QUESTIONS: SampleQuestion[] = [
     },
     question: {
       es: '¿Cuáles son los Simanim (alimentos simbólicos) en la mesa de Rosh Hashaná en la tradición Jalabí (Maguen David), Shamí (Monte Sinai), Sefaradí y Ashkenazí?',
-      he: 'מהם הסימנים בשולחן ראש השנה לפי מנהג חלב, דمشق, ספרד ואשכנז?',
+      he: 'מהם הסימנים בשולחן ראש השנה לפי מנהג חלב, דמשק, ספרד ואשכנז?',
       en: 'What are the Simanim (symbolic foods) on the Rosh Hashanah table in Halabi, Shami, Sephardic, and Ashkenazi traditions?',
       pt: 'Quais são os Simanim (alimentos simbólicos) na mesa de Rosh Hashaná nas tradições Halabi, Shami, Sefaradi e Asquenazi?',
       fr: 'Quels sont les Simanim (aliments symboliques) sur la table de Roch Hachana dans les traditions Halabi, Shami, Séfarade et Ashkénaze ?',
@@ -186,8 +186,8 @@ export const SAMPLE_QUESTIONS: SampleQuestion[] = [
       es: 'Diferencias en bendiciones, calabaza, ejotes, cabeza de cordero y recetas familiares.',
       he: 'הבדלים בברכות, דלעת, שעועית, ראש כבש ומנהגים משפחתיים.',
       en: 'Differences in blessings, pumpkin, green beans, lamb head, and family recipes.',
-      pt: 'Diferenças nas bênçãos, abóbora, vagem, cabeça de cordero e receitas familiares.',
-      fr: 'Différences dans les bénédictions, citrouille, haricots verts, tête d’agneau et recettes familiales.',
+      pt: 'Diferenças nas bênçãos, abóbora, vagem, cabeça de cordeiro e receitas familiares.',
+      fr: 'Différences dans les bénédictions, citrouille, haricots verts, tête d\'agneau et recettes familiales.',
     },
   },
   {
@@ -202,10 +202,10 @@ export const SAMPLE_QUESTIONS: SampleQuestion[] = [
     },
     question: {
       es: '¿Cuáles son las diferencias principales en el Nusaj de Tefilá y Birkat Kohanim entre Edot Hamizraj, Maguen David, Monte Sinai, Ashkenaz y Jabad?',
-      he: 'מהם ההבדלים העיקריים בין מנהג עדות המזרח, מגן דוד (חלבי), מונטה סיני (שאמי), אשכנז וחב"ד בנוסח התפילה وبرכת כהנים?',
+      he: 'מהם ההבדלים העיקריים בין מנהג עדות המזרח, מגן דוד (חלבי), מונטה סיני (שאמי), אשכנז וחב"ד בנוסח התפילה וברכת כהנים?',
       en: 'What are the main differences in Tefillah Nusach and Birkat Kohanim between Edot Hamizraj, Maguen David, Monte Sinai, Ashkenaz, and Chabad?',
       pt: 'Quais são as principais diferenças no Nusach de Tefilat e Birkat Kohanim entre Edot Hamizraj, Maguen David, Monte Sinai, Asquenaz e Chabad?',
-      fr: 'Quelles sont les principales différences de Nosa’h de Tefila et de Birkat Cohanim entre Edot Hamizraj, Maguen David, Monte Sinai, Ashkénaz et Habad ?',
+      fr: 'Quelles sont les principales différences de Nosa\'h de Tefila et de Birkat Cohanim entre Edot Hamizraj, Maguen David, Monte Sinai, Ashkénaz et Habad ?',
     },
     highlight: {
       es: 'Respuesta profunda en hebreo con fuentes halájicas y clasificación de costumbres.',
@@ -252,10 +252,10 @@ export const SAMPLE_QUESTIONS: SampleQuestion[] = [
     },
     question: {
       es: '¿Cuál es la diferencia entre Deoraita, Derabanan y Minhag en la observancia de Shabat según Sefaradí, Ashkenazí, Maguen David, Monte Sinai y Jabad?',
-      he: 'מה ההבדל بين דאורייתא, דרבנן ومנהג בשבת לפי מנהגי העדות?',
+      he: 'מה ההבדל בין דאורייתא, דרבנן ומנהג בשבת לפי מנהגי העדות?',
       en: 'What is the difference between Deoraita, Derabanan, and Minhag in Shabbat observance across Sephardic, Ashkenazic, Maguen David, Monte Sinai, and Chabad traditions?',
       pt: 'Qual é a diferença entre Deoraita, Derabanan e Minhag na observância do Shabat, e como se aplicam as tradições Sefaradi, Asquenazi, Maguen David, Monte Sinai e Chabad?',
-      fr: 'Quelle est la différence entre Déoraita, Dérabanan et Minhag dans l’observance du Chabbat selon les traditions Séfarade, Ashkénaze, Maguen David, Monte Sinai et Habad ?',
+      fr: 'Quelle est la différence entre Déoraita, Dérabanan et Minhag dans l\'observance du Chabbat selon les traditions Séfarade, Ashkénaze, Maguen David, Monte Sinai et Habad ?',
     },
     highlight: {
       es: 'Clasificación halájica en portugués con un enfoque cercano y cálido.',
@@ -287,7 +287,7 @@ export const SAMPLE_QUESTIONS: SampleQuestion[] = [
       he: 'סדר הדלקת נרות, מיקום הדלקה ומנהגי קהילות.',
       en: 'Candle order, placement location, and community customs.',
       pt: 'Ordem das velas, local de acendimento e costumes comunitários.',
-      fr: 'Ordre des bougies, lieu d’allumage et coutumes communautaires.',
+      fr: 'Ordre des bougies, lieu d\'allumage et coutumes communautaires.',
     },
   },
 ];
