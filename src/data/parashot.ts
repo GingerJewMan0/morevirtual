@@ -17,6 +17,7 @@ export interface Parasha {
   bookSpanish: string;                 // Nombre del libro en español (Génesis, Éxodo, etc.)
   reference: string;                   // Citas bíblicas del Tanaj (capítulos y versículos)
   haftarah: string;                    // Lectura profética correspondiente (Neviim)
+
   summary: string;                     // Resumen temático general de la porción
   aliyot: {
     number: number;                    // Número de la Aliá (del 1 al 7)
@@ -953,7 +954,6 @@ export const PARASHOT_DATA: Parasha[] = [
     bookSpanish: 'Números',
     reference: 'Bamidbar 19:1 – 22:1',
     haftarah: 'Jueces 11:1 – 11:33',
-    
     summary: 'El misterioso ritual de la **Vaca Roja (*Para Adumá*)** para la purificación de la impureza de muerte. Fallecimiento de Miriam y carencia de agua en Cadés. El pecado de Moshé al golpear la roca en lugar de hablarle, perdiendo su entrada a la tierra. Fallecimiento de Aarón en el Monte Hor. Victorias militares sobre Sehón y Og.',
     aliyot: [
       { number: 1, reference: '19:1 - 19:22', description: 'Leyes detalladas del rito purificador de las cenizas de la Vaca Roja (*Para Adumá*).' },

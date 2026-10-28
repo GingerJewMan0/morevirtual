@@ -1,3 +1,4 @@
+import { parashotLocaleResources } from './data/parashotI18n';
 /**
  * ============================================================================
  * MÓDULO DE INTERNACIONALIZACIÓN (i18n.ts) - RABINO VIRTUAL
@@ -22,6 +23,7 @@ const resources = {
   // --------------------------------------------------------------------------
   es: {
     translation: {
+      ...parashotLocaleResources.es,
       appName: 'Rabino Virtual',
       tagline: 'Guía Rabínico & Limud Torá',
       mainSections: 'Secciones Principales',
@@ -342,6 +344,7 @@ const resources = {
   // --------------------------------------------------------------------------
   he: {
     translation: {
+      ...parashotLocaleResources.he,
       appName: 'רב וירטואלי',
       tagline: 'מורה דרך רוחני ולימוד תורה',
       mainSections: 'פונקציות ראשיות',
@@ -664,6 +667,7 @@ const resources = {
   // --------------------------------------------------------------------------
   en: {
     translation: {
+      ...parashotLocaleResources.en,
       appName: 'Virtual Rabbi',
       tagline: 'Rabbinic Guide & Torah Learning',
       mainSections: 'Main Sections',
@@ -985,6 +989,7 @@ const resources = {
   // --------------------------------------------------------------------------
   fr: {
     translation: {
+      ...parashotLocaleResources.fr,
       appName: 'Rabbin Virtuel',
       tagline: 'Guide Rabbinique & Etude de la Torah',
       mainSections: 'Sections Principales',
@@ -1306,6 +1311,7 @@ const resources = {
   // --------------------------------------------------------------------------
   pt: {
     translation: {
+      ...parashotLocaleResources.pt,
       appName: 'Rabino Virtual',
       tagline: 'Guia Rabínico & Estudo de Torá',
       mainSections: 'Seções Principais',
@@ -1653,7 +1659,7 @@ i18n
  */
 i18n.on('languageChanged', (lng) => {
   if (typeof document !== 'undefined' && document.documentElement) {
-    const dir = lng === 'he' ? 'rtl' : 'ltr';
+    const dir = lng.toLowerCase().startsWith('he') ? 'rtl' : 'ltr';
     document.documentElement.dir = dir;
     document.documentElement.lang = lng;
   }

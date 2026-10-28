@@ -1,6 +1,6 @@
 /**
  * Rabino Virtual — ParashaTab
- * Datos: ./parashot.ts (54 parashot, aliyot, Rashi, Jabad y 10 lecciones).
+ * Datos: ../data/parashot.ts (54 parashot, aliyot, Rashi, Jabad y 10 lecciones).
  * i18n: react-i18next; las claves ausentes muestran el texto español original.
  */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
@@ -71,7 +71,7 @@ export function ParashaTab({ onAskAboutParasha, israel = false }: ParashaTabProp
   const nameForAsk = (PARASHOT_DATA.find(p => p.id === selectedId) ?? PARASHOT_DATA[0]).name;
 
   return (
-    <div className="max-w-5xl mx-auto py-6 px-4 space-y-6 animate-fadeIn">
+    <div dir={language.toLowerCase().startsWith('he') ? 'rtl' : 'ltr'} className="max-w-5xl mx-auto py-6 px-4 space-y-6 animate-fadeIn">
       <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-amber-950/40 via-amber-900/20 to-slate-900 border border-amber-500/30 shadow-xl text-white space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
@@ -88,9 +88,9 @@ export function ParashaTab({ onAskAboutParasha, israel = false }: ParashaTabProp
               <h1 className="text-3xl sm:text-4xl font-serif font-bold text-amber-200">
                 {cleanText(parasha.name)}
               </h1>
-              <span className="text-2xl sm:text-3xl font-serif text-amber-400" dir="rtl">
+              {!language.toLowerCase().startsWith('he') && <span className="text-2xl sm:text-3xl font-serif text-amber-400" dir="rtl">
                 {cleanText(parasha.hebrewName)}
-              </span>
+              </span>}
             </div>
             <p className="text-xs sm:text-sm text-slate-300 pt-1">
               <strong>{ui('readParasha', 'Lectura')}:</strong> {cleanText(parasha.reference)}
@@ -122,7 +122,7 @@ export function ParashaTab({ onAskAboutParasha, israel = false }: ParashaTabProp
                 <optgroup key={book} label={ui(`books.${book}`, `Sefer ${book} (${PARASHOT_DATA.find(p => p.book === book)?.bookSpanish ?? book})`)}>
                   {PARASHOT_DATA.filter(p => p.book === book).map(p => (
                     <option key={p.id} value={p.id}>
-                      {t(`parashot.${p.id}.name`, { defaultValue: p.name })} ({p.hebrewName})
+                      {t(`parashot.${p.id}.name`, { defaultValue: p.name })}{!language.toLowerCase().startsWith('he') ? ` (${p.hebrewName})` : ''}
                     </option>
                   ))}
                 </optgroup>
@@ -170,6 +170,7 @@ export function ParashaTab({ onAskAboutParasha, israel = false }: ParashaTabProp
               </span>
               <p className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed">{cleanText(parasha.halachaFocus)}</p>
             </div>
+
             <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between flex-wrap gap-3">
               <span className="text-xs text-slate-500 italic">
                 {ui('askAboutParashaPrompt', '¿Deseas profundizar en algún pasuk, halajá o comentario de esta Parashá?')}
