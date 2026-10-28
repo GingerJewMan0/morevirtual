@@ -37,6 +37,22 @@ export function ParashaTab({ onAskAboutParasha, israel = false }: ParashaTabProp
   // La referencia a i18n.language permite refrescar cuando el usuario cambia idioma.
   const language = i18n.resolvedLanguage ?? i18n.language;
 
+  // Los ordinales de las aliyot se ajustan al idioma seleccionado.
+  const aliyahNumberLabel = (number: number): string => {
+    const lang = language.toLowerCase();
+    if (lang.startsWith('en')) {
+      const suffix = number === 1 ? 'st' : number === 2 ? 'nd' : number === 3 ? 'rd' : 'th';
+      return `${number}${suffix}`;
+    }
+    if (lang.startsWith('fr')) return `${number}${number === 1 ? 're' : 'e'}`;
+    if (lang.startsWith('he')) return String(number);
+    return `${number}ª`;
+  };
+  const aliyahLabel = (number: number): string =>
+    language.toLowerCase().startsWith('he')
+      ? `${ui('aliyahName', 'עלייה')} ${number}`
+      : `${aliyahNumberLabel(number)} ${ui('aliyahName', 'Aliyah')}`;
+
   const parasha = useMemo(() => {
     const source = PARASHOT_DATA.find(p => p.id === selectedId) ?? PARASHOT_DATA[0];
     return translateParasha(source, (key, fallback) => t(key, { defaultValue: fallback }));
@@ -69,6 +85,20 @@ export function ParashaTab({ onAskAboutParasha, israel = false }: ParashaTabProp
 
   const ask = (message: string) => onAskAboutParasha(message);
   const nameForAsk = (PARASHOT_DATA.find(p => p.id === selectedId) ?? PARASHOT_DATA[0]).name;
+
+  // El ordinal se adapta al idioma; evita mezclar «1ª» (español) con «Aliyah» (inglés).
+  const aliyahTitle = (number: number): string => {
+    const lng = language.toLowerCase().split('-')[0];
+    const term = ui('aliyahName', 'Aliyá');
+    if (lng === 'he') return `${term} ${number}`;
+    if (lng === 'en') {
+      const suffix = number % 100 >= 11 && number % 100 <= 13 ? 'th'
+        : ({ 1: 'st', 2: 'nd', 3: 'rd' } as Record<number, string>)[number % 10] ?? 'th';
+      return `${number}${suffix} ${term}`;
+    }
+    if (lng === 'fr') return `${number === 1 ? '1re' : `${number}e`} ${term}`;
+    return `${number}ª ${term}`;
+  };
 
   return (
     <div dir={language.toLowerCase().startsWith('he') ? 'rtl' : 'ltr'} className="max-w-5xl mx-auto py-6 px-4 space-y-6 animate-fadeIn">
@@ -189,7 +219,10 @@ export function ParashaTab({ onAskAboutParasha, israel = false }: ParashaTabProp
         {activeSubTab === 'aliyot' && (
           <div className="space-y-4 animate-fadeIn">
             <h2 className="text-lg font-serif font-bold text-slate-900 dark:text-white">
-              {ui('aliyotBreakdown', 'División de las Aliyot')} ({parasha.aliyot.length})
+              {parasha.aliyot.length === 7
+                ? ui('aliyotBreakdown', 'División de las 7 Aliyot')
+                : ui('aliyotBreakdownActual', 'Aliyot disponibles de esta parashá')}
+              ({parasha.aliyot.length})
             </h2>
             <div className="grid grid-cols-1 gap-3">
               {parasha.aliyot.map(aliyah => (
@@ -197,7 +230,7 @@ export function ParashaTab({ onAskAboutParasha, israel = false }: ParashaTabProp
                   <div className="space-y-1.5 flex-1">
                     <div className="flex items-center gap-2.5">
                       <span className="px-2.5 py-1 rounded-lg bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-300 font-bold text-xs">
-                        {aliyah.number}ª {ui('aliyahName', 'Aliyá')}
+                        {aliyahLabel(aliyah.number)}
                       </span>
                     </div>
                     <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed pl-1">{cleanText(aliyah.description)}</p>
