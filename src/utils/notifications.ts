@@ -1,19 +1,29 @@
 import { LocalNotifications } from '@capacitor/local-notifications';
 
+// 1. Pedir permisos
 export async function requestNotificationPermissions() {
   const permission = await LocalNotifications.requestPermissions();
   return permission.display === 'granted';
 }
 
-// Función para programar el aviso de Shabat (por ejemplo, 2 horas antes del encendido)
+// 2. Programar la alerta real de Shabat
 export async function scheduleShabbatAlert(shabatDate: Date, parashaName: string) {
   const hasPermission = await requestNotificationPermissions();
   if (!hasPermission) return;
 
-  // Calculamos 2 horas antes de la entrada de Shabat
-  const alertTime = new Date(shabatDate.getTime() - (2 * 60 * 60 * 1000));
+  // Crear canal por si acaso
+  try {
+    await LocalNotifications.createChannel({
+      id: 'shabbat_channel',
+      name: 'Avisos de Shabat',
+      description: 'Canal para notificaciones de entrada de Shabat',
+      importance: 5,
+      sound: 'default',
+      vibration: true,
+    });
+  } catch (e) {}
 
-  // Si la hora de la alerta ya pasó, no la programamos
+  const alertTime = new Date(shabatDate.getTime() - (2 * 60 * 60 * 1000));
   if (alertTime.getTime() <= Date.now()) return;
 
   await LocalNotifications.schedule({
@@ -24,32 +34,46 @@ export async function scheduleShabbatAlert(shabatDate: Date, parashaName: string
         id: 101,
         schedule: { at: alertTime },
         sound: 'default',
-        extra: {
-          route: 'calendar'
-        }
+        channelId: 'shabbat_channel',
+        extra: { route: 'calendar' }
       }
     ]
   });
 }
 
-//prueba temporal
+// 3. Función de prueba instantánea (para el botón de 1 minuto en tu Xiaomi)
 export async function testInstantNotification() {
   const hasPermission = await requestNotificationPermissions();
-  if (!hasPermission) return;
+  if (!hasPermission) {
+    alert("No se concedieron los permisos de notificación.");
+    return;
+  }
 
-  // Programar la alerta para dentro de 1 minuto para probar ya mismo
+  try {
+    await LocalNotifications.createChannel({
+      id: 'shabbat_channel',
+      name: 'Avisos de Shabat',
+      description: 'Canal para notificaciones de prueba',
+      importance: 5,
+      sound: 'default',
+      vibration: true,
+    });
+  } catch (e) {}
+
   const alertTime = new Date(Date.now() + (60 * 1000));
 
   await LocalNotifications.schedule({
     notifications: [
       {
-        title: '🕯️ Prueba de Notificación',
-        body: '¡Las notificaciones locales de Shabat están funcionando perfectamente!',
+        title: '🕯️ Prueba del Rabino Virtual',
+        body: '¡Las notificaciones locales de Shabat funcionan perfectamente!',
         id: 999,
         schedule: { at: alertTime },
-        sound: 'default'
+        sound: 'default',
+        channelId: 'shabbat_channel',
       }
     ]
   });
+  
   console.log('Notificación de prueba programada para dentro de 1 minuto.');
 }
