@@ -56,6 +56,7 @@ const resources = {
       ceoAndProgrammer: 'CEO y Programador de OHR Mobile Studio:',
       footerDevTitle: 'Ohr Mobile Studios',
       footerDevDesc: 'Estudio de desarrollo de software y tecnologías avanzadas. Apoya el proyecto con un donativo voluntario.',
+      tabHebrewConverter: "Convertidor Hebreo",
 
       welcomeTitle: '¡Shalom Alejem! Te doy la bienvenida',
       welcomeDesc: 'Soy tu Rabino Virtual, un educador y guía rabínico concebido para acompañarte con calidez, paciencia y profundidad.',
@@ -391,6 +392,7 @@ const resources = {
       ceoAndProgrammer: 'מנכ"ל ומפתח ראשי של OHR Mobile Studio:',
       footerDevTitle: 'Ohr Mobile Studios',
       footerDevDesc: 'סטודיו פיתוח תוכנה וטכנולוגיות מתקדמות. תמוך בפרויקט בתרומה מרצון.',
+      tabHebrewConverter: "ממיר תאריכים עבריים",
 
       welcomeTitle: 'שלום עליכם! ברוכים הבאים',
       welcomeDesc: 'אני הרב הוירטואלי שלך, מחנך ומורה דרך רוחני שנועד ללוות אותך בחום, בסבלנות ובעומק.',
@@ -729,6 +731,7 @@ const resources = {
       ceoAndProgrammer: 'CEO and Lead Developer of OHR Mobile Studio:',
       footerDevTitle: 'Ohr Mobile Studios',
       footerDevDesc: 'Software and advanced technology development studio. Support the project with a voluntary donation.',
+      tabHebrewConverter: "Hebrew Date Converter",
 
       welcomeTitle: 'Shalom Aleichem! Welcome',
       welcomeDesc: 'I am your Virtual Rabbi, an educator and spiritual guide designed to accompany you with warmth, patience, and depth.',
@@ -1066,6 +1069,7 @@ const resources = {
       ceoAndProgrammer: 'PDG et Développeur Principal d\'OHR Mobile Studio:',
       footerDevTitle: 'Ohr Mobile Studios',
       footerDevDesc: 'Studio de développement de logiciels et de technologies avancées. Soutenez le projet avec un don volontaire.',
+      tabHebrewConverter: "Convertisseur Hébreu",
 
       welcomeTitle: 'Shalom Aleikhem ! Bienvenue',
       welcomeDesc: 'Je suis votre Rabbin Virtuel, un éducateur conçu pour vous accompagner avec bienveillance, patience et profondeur.',
@@ -1403,6 +1407,7 @@ const resources = {
       ceoAndProgrammer: 'CEO e Desenvolvedor Principal da OHR Mobile Studio:',
       footerDevTitle: 'Ohr Mobile Studios',
       footerDevDesc: 'Estúdio de desenvolvimento de software e tecnologias avançadas. Apoie o projeto com uma doação voluntária.',
+      tabHebrewConverter: "Conversor Hebraico",
 
       welcomeTitle: 'Shalom Aleichem! Bem-vindo',
       welcomeDesc: 'Sou o seu Rabino Virtual, um educador concebido para acompanhá-lo com paciência e profundidade.',
