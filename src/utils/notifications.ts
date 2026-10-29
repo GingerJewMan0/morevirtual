@@ -60,23 +60,18 @@ export async function testInstantNotification() {
     });
   } catch (e) {}
 
-  const alertTime = new Date(Date.now() + (60 * 1000));
-
+  // 🌟 Disparamos la notificación de forma inmediata sin esperar tiempo
   await LocalNotifications.schedule({
     notifications: [
       {
-        title: '🕯️ Prueba del Rabino Virtual',
-        body: '¡Las notificaciones locales de Shabat funcionan perfectamente!',
+        title: '🕯️ Prueba Inmediata',
+        body: '¡Si ves esto, el puente nativo con Capacitor funciona!',
         id: 999,
-        schedule: { 
-          at: alertTime,
-          allowWhileIdle: true // 🌟 ESTO ES VITAL: Fuerza al teléfono a despertarse aunque esté en modo ahorro
-        },
         sound: 'default',
         channelId: 'shabbat_channel',
       }
     ]
   });
   
-  console.log('Notificación de prueba programada.');
+  console.log('Notificación inmediata ejecutada.');
 }
