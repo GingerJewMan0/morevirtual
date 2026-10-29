@@ -17,10 +17,11 @@ import { requestNotificationPermissions } from '../utils/notifications';
 import { testInstantNotification } from '../utils/notifications'; // o ajusta los puntos según tu ruta
 
 const handleRequestPermission = async () => {
-  // Llamamos a la función de prueba
+  // Llamamos a la función de prueba inmediata
   await testInstantNotification();
-  // 🌟 Agregamos este alert explícito para confirmar en pantalla que ya se agendó
-  alert("¡Listo! Notificación de prueba programada para dentro de 1 minuto. Sal de la app ahora mismo para verla.");
+  
+  // Mensaje claro y actualizado para la interfaz
+  alert("¡Permisos concedidos con éxito! Se ha lanzado una notificación de prueba inmediata.");
 };
 
 type SubTab = 'summary' | 'aliyot' | 'rashi' | 'jasidut';

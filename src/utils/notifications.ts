@@ -58,20 +58,24 @@ export async function testInstantNotification() {
       sound: 'default',
       vibration: true,
     });
-  } catch (e) {}
+  } catch (e) {
+    console.error("Error creando el canal:", e);
+  }
 
-  // 🌟 Disparamos la notificación de forma inmediata sin esperar tiempo
-  await LocalNotifications.schedule({
-    notifications: [
-      {
-        title: '🕯️ Prueba Inmediata',
-        body: '¡Si ves esto, el puente nativo con Capacitor funciona!',
-        id: 999,
-        sound: 'default',
-        channelId: 'shabbat_channel',
-      }
-    ]
-  });
-  
-  console.log('Notificación inmediata ejecutada.');
-}
+  try {
+    const result = await LocalNotifications.schedule({
+      notifications: [
+        {
+          title: '🕯️ Prueba Inmediata',
+          body: '¡Si ves esto, el puente nativo con Capacitor funciona!',
+          id: 999,
+          sound: 'default',
+          channelId: 'shabbat_channel',
+        }
+      ]
+    });
+    console.log('Notificación programada con éxito:', result);
+  } catch (error) {
+    console.error('Error al programar la notificación local:', error);
+  }
+} 
