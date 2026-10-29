@@ -3,8 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { convertGregorianToHebrew, getFutureEvents } from '../utils/hebrewDateUtils';
 
 export default function HebrewDateConverter() {
-  const { t, i18n } = useTranslation();
-  const currentLang = i18n.language?.substring(0, 2) || 'es';
+  const { t } = useTranslation();
 
   const [gregorianDate, setGregorianDate] = useState<string>(new Date().toISOString().split('T')[0]);
   const [isAfterSunset, setIsAfterSunset] = useState<boolean>(false);
@@ -14,11 +13,6 @@ export default function HebrewDateConverter() {
   const [hebMonth, setHebMonth] = useState<string>('Nisan');
   const [hebYear, setHebYear] = useState<number>(5787);
   const [futureEvents, setFutureEvents] = useState<any[]>([]);
-
-  // Formato visual de ayuda según el idioma/región
-  const dateHelpText = currentLang === 'en' 
-    ? 'Format: MM/DD/YYYY (US Standard)' 
-    : 'Formato: DD/MM/AAAA (Estándar local)';
 
   const handleConvert = () => {
     if (!gregorianDate) return;
@@ -58,16 +52,9 @@ export default function HebrewDateConverter() {
 
         {/* SECCIÓN 1: CONVERTIDOR */}
         <div className="bg-white dark:bg-slate-900 border border-amber-200 dark:border-slate-800 p-5 sm:p-6 rounded-3xl shadow-sm space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
-            <h3 className="font-serif font-bold text-base text-slate-900 dark:text-white">
-              {t('gregorianToHebrewTitle', '1. Convertidor: Gregoriano a Hebreo')}
-            </h3>
-            {/* Aviso dinámico de formato según el país/idioma */}
-            <span className="text-[11px] px-2.5 py-1 rounded-full bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 font-semibold border border-amber-200 dark:border-amber-800/50">
-              {dateHelpText}
-            </span>
-          </div>
-
+          <h3 className="font-serif font-bold text-base text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-2">
+            {t('gregorianToHebrewTitle', '1. Convertidor: Gregoriano a Hebreo')}
+          </h3>
           <div className="space-y-1.5">
             <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
               {t('gregorianDateLabel', 'Fecha Gregoriana:')}
