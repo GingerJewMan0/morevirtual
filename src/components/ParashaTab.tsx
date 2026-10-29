@@ -12,6 +12,7 @@ import {
   translateParasha,
   type WeeklyParasha,
 } from '../data/parashot';
+import { requestNotificationPermissions } from '../utils/notifications';
 
 type SubTab = 'summary' | 'aliyot' | 'rashi' | 'jasidut';
 
@@ -99,6 +100,15 @@ export function ParashaTab({ onAskAboutParasha, israel = false }: ParashaTabProp
     if (lng === 'fr') return `${number === 1 ? '1re' : `${number}e`} ${term}`;
     return `${number}ª ${term}`;
   };
+
+  const handleRequestPermission = async () => {
+  const granted = await requestNotificationPermissions();
+  if (granted) {
+    alert("¡Permisos concedidos con éxito! Ahora recibirás avisos para Shabat.");
+  } else {
+    alert("Los permisos fueron denegados. Puedes habilitarlos manualmente en la configuración de tu teléfono.");
+  }
+};
 
   return (
     <div dir={language.toLowerCase().startsWith('he') ? 'rtl' : 'ltr'} className="max-w-5xl mx-auto py-6 px-4 space-y-6 animate-fadeIn">
@@ -311,6 +321,15 @@ export function ParashaTab({ onAskAboutParasha, israel = false }: ParashaTabProp
             </div>
           </div>
         )}
+      </div>
+      {/* 🌟 Botón para activar las notificaciones de Shabat */}
+      <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800">
+        <button 
+          onClick={handleRequestPermission}
+          className="flex items-center justify-center gap-2 bg-amber-600 hover:bg-amber-700 text-white font-medium py-2.5 px-4 rounded-xl shadow transition w-full"
+        >
+          🔔 Activar Notificaciones de Shabat
+        </button>
       </div>
     </div>
   );
