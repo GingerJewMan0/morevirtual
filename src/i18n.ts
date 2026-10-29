@@ -330,12 +330,26 @@ const resources = {
       starKIdeal: 'Medicamentos, vitaminas y abarrotes',
       idealForLabel: 'Ideal para:',
 
+      //Convertidor de fechas
       quickParashaTitle: 'Parashá de la Semana',
       quickParashaSubtitle: 'Estudio, Aliyot y Rashi',
       quickVideosTitle: 'Clases en Video',
       quickVideosSubtitle: 'Shiurim y conferencias',
       quickQuestionsTitle: 'Preguntas Clave',
       quickQuestionsSubtitle: 'Guía rápida de consultas',
+      hebrewConverterTitle: "Conversor y Buscador de Fechas Hebreas",
+      hebrewConverterDesc: "Convierte fechas gregorianas y calcula aniversarios o próximos años de forma segura.",
+      gregorianToHebrewTitle: "1. Convertidor: Gregoriano a Hebreo",
+      gregorianDateLabel: "Fecha Gregoriana:",
+      sunsetCheckbox: "¿Es después del atardecer? (Anochecer - Inicia el siguiente día judío)",
+      convertToHebrewBtn: "Convertir a Hebreo",
+      conversionResult: "Resultado de la conversión:",
+      hebrewSearchTitle: "2. Buscador de Fechas Hebreas (Próximos Años)",
+      dayLabel: "Día:",
+      monthLabel: "Mes (Ej. Nisan, Tishrei):",
+      baseYearLabel: "Año Hebreo Base:",
+      calculateEventsBtn: "Calcular Próximos Años",
+      projectionTitle: "Proyección para los próximos 5 años:"
     }
   },
 
@@ -659,6 +673,21 @@ const resources = {
       quickVideosSubtitle: 'שיעורים והרצאות',
       quickQuestionsTitle: 'שאלות מפתח',
       quickQuestionsSubtitle: 'מדריך מהיר לבירורים',
+
+      //Convertidor de fechas
+      hebrewConverterTitle: "ממיר וחיפוש תאריכים עבריים",
+      hebrewConverterDesc: "המר תאריכים לועזיים וחשב בבטחה ימי שנה או שנים קרובות.",
+      gregorianToHebrewTitle: "1. ממיר: לועזי לעברי",
+      gregorianDateLabel: "תאריך לועזי:",
+      sunsetCheckbox: "האם זה אחרי שקיעת החמה? (בין השמשות - מתחיל היום העברי הבא)",
+      convertToHebrewBtn: "המר לתאריך עברי",
+      conversionResult: "תוצאת ההמרה:",
+      hebrewSearchTitle: "2. חיפוש תאריכים עבריים (שנים קרובות)",
+      dayLabel: "יום:",
+      monthLabel: "חודש (לדוגמה: ניסן, תשרי):",
+      baseYearLabel: "שנה עברית בסיסית:",
+      calculateEventsBtn: "חשב שנים קרובות",
+      projectionTitle: "תחזית ל-5 השנים הבאות:"
     }
   },
 
@@ -981,6 +1010,21 @@ const resources = {
       quickVideosSubtitle: 'Shiurim & lectures',
       quickQuestionsTitle: 'Key Questions',
       quickQuestionsSubtitle: 'Quick inquiry guide',
+
+    //Convertidor de Fechas
+      hebrewConverterTitle: "Hebrew Date Converter & Searcher",
+      hebrewConverterDesc: "Convert Gregorian dates and securely calculate anniversaries or upcoming years.",
+      gregorianToHebrewTitle: "1. Converter: Gregorian to Hebrew",
+      gregorianDateLabel: "Gregorian Date:",
+      sunsetCheckbox: "Is it after sunset? (Nightfall - Starts the next Jewish day)",
+      convertToHebrewBtn: "Convert to Hebrew",
+      conversionResult: "Conversion Result:",
+      hebrewSearchTitle: "2. Hebrew Date Searcher (Upcoming Years)",
+      dayLabel: "Day:",
+      monthLabel: "Month (e.g. Nisan, Tishrei):",
+      baseYearLabel: "Base Hebrew Year:",
+      calculateEventsBtn: "Calculate Upcoming Years",
+      projectionTitle: "Projection for the next 5 years:"
     }
   },
 
@@ -1303,6 +1347,21 @@ const resources = {
       quickVideosSubtitle: 'Shiourim et conférences',
       quickQuestionsTitle: 'Questions Clés',
       quickQuestionsSubtitle: 'Guide rapide de consultation',
+
+      //convertidor de Fechas
+      hebrewConverterTitle: "Convertisseur et Recherche de Dates Hébraïques",
+      hebrewConverterDesc: "Convertissez des dates grégoriennes et calculez en toute sécurité des anniversaires ou les années à venir.",
+      gregorianToHebrewTitle: "1. Convertisseur : Grégorien vers Hébreu",
+      gregorianDateLabel: "Date Grégorienne :",
+      sunsetCheckbox: "Est-ce après le coucher du soleil ? (La nuit tombe - Commence le jour juif suivant)",
+      convertToHebrewBtn: "Convertir en Hébreu",
+      conversionResult: "Résultat de la conversion :",
+      hebrewSearchTitle: "2. Recherche de Dates Hébraïques (Prochaines Années)",
+      dayLabel: "Jour :",
+      monthLabel: "Mois (ex. Nisan, Tishrei) :",
+      baseYearLabel: "Année Hébraïque de Base :",
+      calculateEventsBtn: "Calculer les Prochaines Années",
+      projectionTitle: "Projection pour les 5 prochaines années :"
     }
   },
 
@@ -1629,6 +1688,21 @@ const resources = {
       quickVideosSubtitle: 'Shiurim e palestras',
       quickQuestionsTitle: 'Perguntas Chave',
       quickQuestionsSubtitle: 'Guia rápido de consultas',
+
+      //Convertidor de Fechas
+      hebrewConverterTitle: "Conversor e Pesquisador de Datas Hebraicas",
+      hebrewConverterDesc: "Converta datas gregorianas e calcule com segurança aniversários ou os próximos anos.",
+      gregorianToHebrewTitle: "1. Conversor: Gregoriano para Hebraico",
+      gregorianDateLabel: "Data Gregoriana:",
+      sunsetCheckbox: "É após o pôr do sol? (Anoitecer - Inicia o próximo dia judeu)",
+      convertToHebrewBtn: "Converter para Hebraico",
+      conversionResult: "Resultado da Conversão:",
+      hebrewSearchTitle: "2. Pesquisador de Datas Hebraicas (Próximos Anos)",
+      dayLabel: "Dia:",
+      monthLabel: "Mês (Ex. Nisan, Tishrei):",
+      baseYearLabel: "Ano Hebraico Base:",
+      calculateEventsBtn: "Calcular Próximos Anos",
+      projectionTitle: "Projeção para os próximos 5 anos:"
     }
   }
 };
