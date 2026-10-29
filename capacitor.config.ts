@@ -4,10 +4,7 @@ const config: CapacitorConfig = {
   appId: 'com.morevirtual.app',
   appName: 'RabVirtual',
   webDir: 'dist',
-  server: {
-    url: 'https://rabvirtual.onrender.com',
-    cleartext: true
-  }
+  // 🌟 Quitamos el bloque "server" para que cargue los archivos empaquetados localmente
 };
 
 export default config;
