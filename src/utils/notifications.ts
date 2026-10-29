@@ -68,12 +68,15 @@ export async function testInstantNotification() {
         title: '🕯️ Prueba del Rabino Virtual',
         body: '¡Las notificaciones locales de Shabat funcionan perfectamente!',
         id: 999,
-        schedule: { at: alertTime },
+        schedule: { 
+          at: alertTime,
+          allowWhileIdle: true // 🌟 ESTO ES VITAL: Fuerza al teléfono a despertarse aunque esté en modo ahorro
+        },
         sound: 'default',
         channelId: 'shabbat_channel',
       }
     ]
   });
   
-  console.log('Notificación de prueba programada para dentro de 1 minuto.');
+  console.log('Notificación de prueba programada.');
 }
