@@ -1203,7 +1203,7 @@ export function App() {
       </header>
 
       {/* Contenido Principal */}
-      <main className="flex-1 w-full px-4 sm:px-6 py-6 overflow-y-auto flex flex-col relative">
+      <main className="flex-1 w-full px-4 sm:px-6 pt-24 pb-12 overflow-y-auto flex flex-col">
         {activeMainTab === 'calendar' && <CalendarZmanimTab />}
 
         {activeMainTab === 'parasha' && (

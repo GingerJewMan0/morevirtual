@@ -32,9 +32,9 @@ export default function HebrewDateConverter() {
     }
   };
 
- return (
-    <div className="w-full max-w-4xl mx-auto px-4 pt-24 pb-12 space-y-6 overflow-y-auto">
-      {/* Encabezado visible y bien espaciado */}
+  return (
+    <div className="w-full max-w-4xl mx-auto space-y-6 pb-12">
+      {/* Encabezado visible y completo */}
       <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-amber-200 dark:border-slate-800 shadow-sm space-y-2">
         <h2 className="text-xl sm:text-2xl font-serif font-bold text-slate-900 dark:text-white">
           📅 Conversor y Buscador de Fechas Hebreas
