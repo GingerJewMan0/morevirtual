@@ -840,6 +840,13 @@ export function App() {
       accentColor: 'text-orange-500',
     },
     {
+      id: 'hebrew_converter' as const,
+      label: t('tabHebrewConverter', 'Convertidor Hebreo'),
+      icon: Calendar,
+      desc: t('tabHebrewConverterDesc', 'Fechas hebreas y aniversarios'),
+      accentColor: 'text-blue-500',
+    },
+    {
       id: 'parasha' as const,
       label: t('tabParasha', 'Parashá de la Semana'),
       icon: Scroll,
@@ -859,13 +866,6 @@ export function App() {
       icon: Info,
       desc: t('tabQaDesc', 'Suscripciones, restauración y funcionamiento'),
       accentColor: 'text-amber-500',
-    },
-    {
-      id: 'hebrew_converter' as const,
-      label: t('tabHebrewConverter', 'Convertidor Hebreo'),
-      icon: Calendar,
-      desc: t('tabHebrewConverterDesc', 'Fechas hebreas y aniversarios'),
-      accentColor: 'text-blue-500',
     },
     {
       id: 'developer' as const,
