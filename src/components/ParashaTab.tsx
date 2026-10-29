@@ -14,6 +14,14 @@ import {
 } from '../data/parashot';
 import { requestNotificationPermissions } from '../utils/notifications';
 
+import { testInstantNotification } from '../utils/notifications'; // o ajusta los puntos según tu ruta
+
+const handleRequestPermission = async () => {
+  // Esta función ya pide permisos internamente y programa la prueba de 1 minuto
+  await testInstantNotification();
+  alert("¡Permisos listos! Notificación de prueba programada para dentro de 1 minuto. Sal de la app para verla.");
+};
+
 type SubTab = 'summary' | 'aliyot' | 'rashi' | 'jasidut';
 
 interface ParashaTabProps {
