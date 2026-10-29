@@ -65,6 +65,7 @@ import { SpeechRecognition } from '@capacitor-community/speech-recognition';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Geolocation } from '@capacitor/geolocation';
 import iconImage from './icon.jpg';
+import HebrewDateConverter from './components/HebrewDateConverter';
 
 interface ChatSession {
   id: string;
@@ -189,7 +190,7 @@ export function App() {
   }, []);
 
   const [activeMainTab, setActiveMainTab] = useState<
-    'chat' | 'calendar' | 'parasha' | 'giluy_daat' | 'qa' | 'developer' | 'kosher' | 'settings'
+    'chat' | 'calendar' | 'parasha' | 'giluy_daat' | 'qa' | 'developer' | 'kosher' | 'settings' | 'hebrew_converter'
   >('chat');
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -866,6 +867,13 @@ export function App() {
       desc: t('tabDeveloperDesc', 'Lior Fisher Lobaton y Donativos PayPal'),
       accentColor: 'text-indigo-400',
     },
+    {
+      id: 'hebrew_converter' as const,
+      label: 'Convertidor Hebreo',
+      icon: Calendar,
+      desc: 'Fechas hebreas y aniversarios',
+      accentColor: 'text-blue-500',
+    },
   ];
 
   if (isChecking) {
@@ -1123,6 +1131,8 @@ export function App() {
             >
               <Settings className="w-4 h-4 text-amber-500" />
             </button>
+
+            {activeMainTab === 'hebrew_converter' && <HebrewDateConverter />}
 
             <button
               onClick={() => setIsSavedNotesModalOpen(true)}
