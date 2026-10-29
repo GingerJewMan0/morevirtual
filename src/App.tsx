@@ -66,6 +66,7 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Geolocation } from '@capacitor/geolocation';
 import iconImage from './icon.jpg';
 import HebrewDateConverter from './components/HebrewDateConverter';
+import { scheduleShabbatAlert, requestNotificationPermissions } from './utils/notifications'; // O ajusta los puntos ../ según corresponda
 
 interface ChatSession {
   id: string;
@@ -517,6 +518,19 @@ export function App() {
       textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 180)}px`;
     }
   };
+
+useEffect(() => {
+    requestNotificationPermissions();
+  }, []);
+  
+  const manejarProgramacionAlerta = async (shabbatDate: Date, nombreParasha: string) => {
+  try {
+    await scheduleShabbatAlert(shabbatDate, nombreParasha);
+    console.log('¡Notificación de Shabat programada con éxito!');
+  } catch (error) {
+    console.error('Error al programar la notificación:', error);
+  }
+};
 
   const stopVoiceDictation = () => {
     if (recognitionRef.current) {
