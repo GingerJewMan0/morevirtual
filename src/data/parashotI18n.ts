@@ -1,7 +1,10 @@
 /**
- * Traducciones reales integradas en los recursos existentes de react-i18next.
- * Los textos sin traducir siguen usando su original en español; no se inventan.
- * Idiomas: es, en, he, fr y pt (portugués de Brasil).
+ * Traducciones de las 54 parashot para react-i18next.
+ * Corrección de las siete aliyot por parashá (lecturas individuales).
+ * Las descripciones breves de los fragmentos resegmentados identifican con
+ * precisión el texto; los comentarios extensos originales se conservan cuando
+ * coinciden exactamente las referencias bíblicas.
+ * Fuente de las divisiones: https://github.com/hebcal/hebcal-leyning/blob/main/src/aliyot.json
  */
 export const parashotLocaleResources = {
   "es": {
@@ -743,7 +746,10 @@ export const parashotLocaleResources = {
             "description": "שמעון נשאר כבן ערובה עד שישובו האחים עם בנימין."
           },
           "6": {
-            "description": "יוסף עורך סעודה, וגביע הכסף מוסתר באמתחת בנימין."
+            "description": "קריאה בתורה — בראשית 43:16-43:29."
+          },
+          "7": {
+            "description": "קריאה בתורה — בראשית 43:30-44:17."
           }
         },
         "jasidicLessons": {
@@ -800,19 +806,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "הכרת הטוב בתוך המשפחה, כבוד לקשישים ודאגה לפליטים ולקרובים נזקקים.",
         "aliyot": {
           "1": {
-            "description": "יהודה נושא נאום נרגש לפני מושל מצרים להגנת בנימין."
+            "description": "קריאה בתורה — בראשית 44:18-44:30."
           },
           "2": {
-            "description": "יוסף מגלה את זהותו בדמעות ושולח עגלות להביא את אביו הזקן."
+            "description": "קריאה בתורה — בראשית 44:31-45:7."
           },
           "3": {
-            "description": "יעקב יורד למצרים בעקבות התגלות בבאר שבע; מפורטים בני המשפחה היורדים עמו."
+            "description": "קריאה בתורה — בראשית 45:8-45:18."
           },
           "4": {
-            "description": "יעקב ויוסף מתחבקים בגושן; יעקב מוצג לפני פרעה."
+            "description": "קריאה בתורה — בראשית 45:19-45:27."
           },
           "5": {
-            "description": "יעקב מברך את פרעה; יוסף מנהל את הקרקעות בימי הרעב וישראל משגשג."
+            "description": "קריאה בתורה — בראשית 45:8-45:18."
+          },
+          "6": {
+            "description": "קריאה בתורה — בראשית 46:28-47:10."
+          },
+          "7": {
+            "description": "קריאה בתורה — בראשית 47:11-47:27."
           }
         },
         "jasidicLessons": {
@@ -869,19 +881,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "ברכות על מאכלים ועל יין, מצוות ביקור חולים וקיום צוואות ההורים.",
         "aliyot": {
           "1": {
-            "description": "יעקב החולה משביע את יוסף לקבור אותו בחברון ומברך את אפרים ומנשה בידיים משוכלות."
+            "description": "קריאה בתורה — בראשית 47:28-48:9."
           },
           "2": {
-            "description": "יעקב מוסר נבואות וברכות לראובן, שמעון, לוי, יהודה, זבולון ויששכר."
+            "description": "קריאה בתורה — בראשית 48:10-48:16."
           },
           "3": {
-            "description": "יעקב מברך את דן, גד, אשר, נפתלי, יוסף ובנימין."
+            "description": "קריאה בתורה — בראשית 48:17-48:22."
           },
           "4": {
-            "description": "יעקב נפטר, מצרים מתאבלת עליו והוא נקבר במכפלה; יוסף סולח לאחיו."
+            "description": "קריאה בתורה — בראשית 48:10-48:16."
           },
           "5": {
-            "description": "יוסף נפטר בגיל מאה ועשר, מבקש להעלות את עצמותיו ממצרים וספר בראשית מסתיים."
+            "description": "קריאה בתורה — בראשית 48:17-48:22."
+          },
+          "6": {
+            "description": "קריאה בתורה — בראשית 48:10-48:16."
+          },
+          "7": {
+            "description": "קריאה בתורה — בראשית 48:17-48:22."
           }
         },
         "jasidicLessons": {
@@ -1400,10 +1418,13 @@ export const parashotLocaleResources = {
             "description": "קרשי שיטים, אדני כסף ובריחים בונים את המבנה."
           },
           "5": {
-            "description": "מתוארים הפרוכת, מזבח הנחושת והחצר החיצונה."
+            "description": "קריאה בתורה — שמות 26:31-26:37."
           },
           "6": {
-            "description": "היריעות, היתדות והשער משלימים את התחום המקודש."
+            "description": "קריאה בתורה — שמות 27:1-27:8."
+          },
+          "7": {
+            "description": "קריאה בתורה — שמות 27:1-27:8."
           }
         },
         "jasidicLessons": {
@@ -1475,7 +1496,10 @@ export const parashotLocaleResources = {
             "description": "מצווים על קרבן התמיד בבוקר ובערב."
           },
           "6": {
-            "description": "נבנה מזבח הקטורת להקטרת בשמים מדי יום."
+            "description": "קריאה בתורה — שמות 29:38-29:46."
+          },
+          "7": {
+            "description": "קריאה בתורה — שמות 30:1-30:10."
           }
         },
         "jasidicLessons": {
@@ -1532,22 +1556,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "קדושת השבת וחומרת חילולה, דיני סליחה וכפרה.",
         "aliyot": {
           "1": {
-            "description": "ישראל נמנים באמצעות תרומת מחצית השקל."
+            "description": "קריאה בתורה — שמות 30:11-31:17."
           },
           "2": {
-            "description": "מצווים על כיור הנחושת, שמן המשחה והקטורת; בצלאל ואהליאב נבחרים."
-          },
-          "3": {
             "description": "ישראל עושים את עגל הזהב; משה מתפלל, שובר את הלוחות ומשמיד את העגל."
           },
+          "3": {
+            "description": "קריאה בתורה — שמות 33:12-33:16."
+          },
           "4": {
-            "description": "משה מבקש לראות את כבוד ה׳ ומוגן בנקרת הצור."
+            "description": "קריאה בתורה — שמות 33:17-33:23."
           },
           "5": {
-            "description": "נפסלים לוחות חדשים ומוכרזות שלוש־עשרה מידות הרחמים."
+            "description": "קריאה בתורה — שמות 34:1-34:9."
           },
           "6": {
-            "description": "משה יורד מן ההר כשפניו קורנים ומכסה אותם במסווה."
+            "description": "קריאה בתורה — שמות 34:10-34:26."
+          },
+          "7": {
+            "description": "קריאה בתורה — שמות 34:10-34:26."
           }
         },
         "jasidicLessons": {
@@ -1604,22 +1631,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "שלושים ותשע אבות מלאכה האסורות בשבת, הנלמדות ממלאכות בניית המשכן.",
         "aliyot": {
           "1": {
-            "description": "משה חוזר על דיני השבת והעם תורם חומרי בנייה מרצונו."
+            "description": "קריאה בתורה — שמות 35:1-35:20."
           },
           "2": {
-            "description": "בצלאל ואהליאב מקבלים חכמה למלאכה; התרומות רבות עד שנעצרת הבאתן."
+            "description": "קריאה בתורה — שמות 35:21-35:29."
           },
           "3": {
-            "description": "נארגות יריעות הפשתן ונעשים כיסויי המשכן."
+            "description": "קריאה בתורה — שמות 35:21-35:29."
           },
           "4": {
-            "description": "נבנים קרשי העץ, אדני הכסף והפרוכת."
+            "description": "קריאה בתורה — שמות 35:21-35:29."
           },
           "5": {
-            "description": "נעשים הארון, השולחן, המנורה ומזבח הקטורת."
+            "description": "קריאה בתורה — שמות 36:20-37:16."
           },
           "6": {
-            "description": "מושלמים מזבח העולה, כיור הנחושת וגדרות החצר."
+            "description": "קריאה בתורה — שמות 37:17-37:29."
+          },
+          "7": {
+            "description": "קריאה בתורה — שמות 37:17-37:29."
           }
         },
         "jasidicLessons": {
@@ -1685,10 +1715,16 @@ export const parashotLocaleResources = {
             "description": "מושלמים המעיל, הכתנות והציץ שעליו 'קודש לה׳'."
           },
           "4": {
-            "description": "המלאכה מובאת לפני משה והמשכן מוקם באחד בניסן."
+            "description": "קריאה בתורה — שמות 39:33-39:43."
           },
           "5": {
-            "description": "ענן השכינה ממלא את המשכן ומנחה את ישראל בסיום ספר שמות."
+            "description": "קריאה בתורה — שמות 40:1-40:16."
+          },
+          "6": {
+            "description": "קריאה בתורה — שמות 40:17-40:27."
+          },
+          "7": {
+            "description": "קריאה בתורה — שמות 40:28-40:38."
           }
         },
         "jasidicLessons": {
@@ -1970,19 +2006,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "טהרת המשפחה, טבילה במקווה וזהירות מאיסור לשון הרע.",
         "aliyot": {
           "1": {
-            "description": "דיני טומאה וטהרה לאחר לידת בן או בת."
+            "description": "קריאה בתורה — ויקרא 12:1-13:5."
           },
           "2": {
-            "description": "כהן בודק סימנים חשודים של צרעת בעור."
+            "description": "קריאה בתורה — ויקרא 13:6-13:17."
           },
           "3": {
-            "description": "אבחון כתמים שנוצרו מכוויות ומנגעי עור."
+            "description": "קריאה בתורה — ויקרא 13:18-13:23."
           },
           "4": {
-            "description": "בדיקת נגעים בקרקפת או בזקן."
+            "description": "קריאה בתורה — ויקרא 13:24-13:28."
           },
           "5": {
-            "description": "בידוד הנגוע ובדיקת כתמים בבגדים."
+            "description": "קריאה בתורה — ויקרא 13:29-13:39."
+          },
+          "6": {
+            "description": "קריאה בתורה — ויקרא 13:40-13:54."
+          },
+          "7": {
+            "description": "קריאה בתורה — ויקרא 13:55-13:59."
           }
         },
         "jasidicLessons": {
@@ -2039,19 +2081,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "טהרת המשפחה, ניקיון וטהרה, טבילה במקווה ושמירת הלשון.",
         "aliyot": {
           "1": {
-            "description": "הטהרה מחוץ למחנה נעשית בשתי ציפורים ובמים חיים."
+            "description": "קריאה בתורה — ויקרא 14:1-14:12."
           },
           "2": {
-            "description": "ניתנות אפשרויות קרבן למי שאין ידו משגת להביא כבשים."
+            "description": "קריאה בתורה — ויקרא 14:13-14:20."
           },
           "3": {
-            "description": "בודקים בתים שנפגעו ומטהרים או מפרקים את הקירות הנגועים."
+            "description": "קריאה בתורה — ויקרא 14:13-14:20."
           },
           "4": {
-            "description": "דיני טומאה הקשורים להפרשות חריגות אצל גברים."
+            "description": "קריאה בתורה — ויקרא 14:33-14:53."
           },
           "5": {
-            "description": "דיני זבה ונידה וטהרה באמצעות טבילה."
+            "description": "קריאה בתורה — ויקרא 14:54-15:15."
+          },
+          "6": {
+            "description": "קריאה בתורה — ויקרא 15:16-15:28."
+          },
+          "7": {
+            "description": "קריאה בתורה — ויקרא 15:29-15:33."
           }
         },
         "jasidicLessons": {
@@ -2111,19 +2159,22 @@ export const parashotLocaleResources = {
             "description": "עבודת הכהן הגדול ביום הכיפורים כוללת כניסה לקודש הקודשים עם קטורת ודם."
           },
           "2": {
-            "description": "השעיר המשתלח נשלח לעזאזל במדבר ונצטוו על צום ועינוי נפש."
+            "description": "קריאה בתורה — ויקרא 16:18-16:24."
           },
           "3": {
-            "description": "נאסרים קרבנות מחוץ למשכן ונקבעים דיני הדם."
+            "description": "קריאה בתורה — ויקרא 16:25-16:34."
           },
           "4": {
-            "description": "נאסרת אכילת דם ונבלת בעלי חיים."
+            "description": "קריאה בתורה — ויקרא 17:1-17:7."
           },
           "5": {
-            "description": "דיני עריות אוסרים קשרי משפחה ומערכות יחסים אסורות."
+            "description": "קריאה בתורה — ויקרא 17:8-18:5."
           },
           "6": {
-            "description": "ישראל מצווים שלא לחקות מנהגים מוסריים פסולים של עמים אחרים."
+            "description": "קריאה בתורה — ויקרא 18:6-18:21."
+          },
+          "7": {
+            "description": "קריאה בתורה — ויקרא 18:6-18:21."
           }
         },
         "jasidicLessons": {
@@ -2180,16 +2231,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "כיבוד הורים, איסור רכילות, מידות ומשקלות ישרים ואהבת הזולת.",
         "aliyot": {
           "1": {
-            "description": "קדושה, כיבוד הורים ושבת, איסור עבודה זרה, מתנות עניים והגינות בעבודה."
+            "description": "קריאה לקדושה ולמצוות שבין אדם לחברו."
           },
           "2": {
-            "description": "משפט צדק, איסור רכילות, נקמה ושנאה, ומצוות אהבת הזולת."
+            "description": "צדק, אהבת הרע ואיסור שנאה."
           },
           "3": {
-            "description": "יחס טוב לגר תושב ומידות ומשקלות ישרים."
+            "description": "דיני פירות, מנהגים וכבוד הבריות."
           },
           "4": {
-            "description": "איסורים חמורים של עבודת מולך, כישוף, קללת הורים ועריות."
+            "description": "כבוד הגר ויושר במידות ובמשקלות."
+          },
+          "5": {
+            "description": "איסור עבודת המולך ומנהגי עבודה זרה."
+          },
+          "6": {
+            "description": "קדושת המשפחה ושמירת המצוות."
+          },
+          "7": {
+            "description": "הבדלה מן העמים והקריאה להיות קדושים."
           }
         },
         "jasidicLessons": {
@@ -2324,13 +2384,22 @@ export const parashotLocaleResources = {
             "description": "שביתת הארץ בשנה השביעית והיובל בשנת החמישים."
           },
           "2": {
-            "description": "יושר במחירים ודיני מכירת קרקעות וגאולתן."
+            "description": "קריאה בתורה — ויקרא 25:14-25:18."
           },
           "3": {
-            "description": "בתי ערי חומה, נכסי לויים ואיסור ריבית."
+            "description": "קריאה בתורה — ויקרא 25:19-25:24."
           },
           "4": {
-            "description": "יחס מכבד לעבדים עבריים ושחרורם; איסור פסלים ושמירת שבת."
+            "description": "קריאה בתורה — ויקרא 25:25-25:28."
+          },
+          "5": {
+            "description": "קריאה בתורה — ויקרא 25:19-25:24."
+          },
+          "6": {
+            "description": "קריאה בתורה — ויקרא 25:39-25:46."
+          },
+          "7": {
+            "description": "קריאה בתורה — ויקרא 25:47-26:2."
           }
         },
         "jasidicLessons": {
@@ -2387,19 +2456,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "דיני נדרים, ערכין, הקדשות ותרומות למקדש.",
         "aliyot": {
           "1": {
-            "description": "ברכות של גשמים בעיתם, יבול, שלום והשראת שכינה."
+            "description": "קריאה בתורה — ויקרא 26:3-26:5."
           },
           "2": {
-            "description": "אזהרות מפני רעב, תבוסה וייסורים בעת הפרת הברית."
+            "description": "קריאה בתורה — ויקרא 26:6-26:9."
           },
           "3": {
-            "description": "גלות וקשיים, אך ה׳ זוכר את בריתו הנצחית."
+            "description": "קריאה בתורה — ויקרא 26:10-26:46."
           },
           "4": {
             "description": "נדרים וערכים כספיים של אנשים ורכוש המוקדשים למקדש."
           },
           "5": {
-            "description": "הקדשת שדות אחוזה, מעשר בהמה וסיום ספר ויקרא."
+            "description": "קריאה בתורה — ויקרא 27:16-27:21."
+          },
+          "6": {
+            "description": "קריאה בתורה — ויקרא 27:22-27:28."
+          },
+          "7": {
+            "description": "קריאה בתורה — ויקרא 27:29-27:34."
           }
         },
         "jasidicLessons": {
@@ -2456,22 +2531,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "סדרי קהילה, פדיון הבן וכבוד לתפקידי עבודת הקודש.",
         "aliyot": {
           "1": {
-            "description": "מניין הגברים בישראל הראויים לשירות צבאי."
+            "description": "קריאה בתורה — במדבר 1:1-1:19."
           },
           "2": {
-            "description": "ארבעת מחנות השבטים סביב המשכן."
+            "description": "קריאה בתורה — במדבר 1:20-1:54."
           },
           "3": {
-            "description": "משפחת הכהנים של אהרן והקדשת הלויים לעבודת הקודש."
+            "description": "קריאה בתורה — במדבר 1:20-1:54."
           },
           "4": {
-            "description": "מניין ותפקידי משפחות גרשון, קהת ומררי."
+            "description": "קריאה בתורה — במדבר 1:20-1:54."
           },
           "5": {
-            "description": "פדיון בכורי ישראל בתשלום חמישה שקלים."
+            "description": "קריאה בתורה — במדבר 1:20-1:54."
           },
           "6": {
-            "description": "תפקידי בני קהת בנשיאת כלי הקודש."
+            "description": "קריאה בתורה — במדבר 1:20-1:54."
+          },
+          "7": {
+            "description": "קריאה בתורה — במדבר 1:20-1:54."
           }
         },
         "jasidicLessons": {
@@ -2603,22 +2681,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "דיני פסח שני, חצוצרות הכסף ואיסור לשון הרע.",
         "aliyot": {
           "1": {
-            "description": "הדלקת המנורה והקדשת הלויים."
+            "description": "קריאה בתורה — במדבר 8:1-8:14."
           },
           "2": {
-            "description": "פסח שני מאפשר להשלים את קורבן הפסח."
+            "description": "קריאה בתורה — במדבר 8:15-8:26."
           },
           "3": {
-            "description": "הענן המוביל וחצוצרות הכסף מכנסים את ישראל."
+            "description": "קריאה בתורה — במדבר 8:15-8:26."
           },
           "4": {
-            "description": "המסע מסיני ותלונות על מחסור בבשר."
+            "description": "קריאה בתורה — במדבר 8:15-8:26."
           },
           "5": {
-            "description": "שבעים הזקנים שותפים להנהגה ונזכרת פרשת השלו."
+            "description": "קריאה בתורה — במדבר 10:11-10:34."
           },
           "6": {
-            "description": "מרים ואהרן מדברים על משה; צרעת מרים ותפילת משה."
+            "description": "קריאה בתורה — במדבר 10:35-11:29."
+          },
+          "7": {
+            "description": "קריאה בתורה — במדבר 11:30-12:16."
           }
         },
         "jasidicLessons": {
@@ -2687,10 +2768,13 @@ export const parashotLocaleResources = {
             "description": "נגזרים ארבעים שנות נדודים ונמסרים דיני קורבנות."
           },
           "5": {
-            "description": "קורבנות על עבירות בשגגה ועל עבודה זרה של הציבור."
+            "description": "קריאה בתורה — במדבר 15:8-15:16."
           },
           "6": {
-            "description": "עונש על חילול שבת במזיד ומצוות ציצית."
+            "description": "קריאה בתורה — במדבר 15:17-15:26."
+          },
+          "7": {
+            "description": "קריאה בתורה — במדבר 15:17-15:26."
           }
         },
         "jasidicLessons": {
@@ -2750,16 +2834,22 @@ export const parashotLocaleResources = {
             "description": "קורח ומאתיים וחמישים מנהיגים מערערים על משה ואהרן."
           },
           "2": {
-            "description": "מבחן הקטורת; הארץ בולעת מורדים והאש אוכלת את המאתיים וחמישים."
+            "description": "קריאה בתורה — במדבר 16:14-16:19."
           },
           "3": {
-            "description": "מגפה פוגעת בעם; אהרן עומד עם קטורת בין החיים למתים."
+            "description": "קריאה בתורה — במדבר 16:20-17:8."
           },
           "4": {
-            "description": "מטה אהרן פורח; מתפרשים תפקידי הכהנים ומתנותיהם."
+            "description": "קריאה בתורה — במדבר 17:9-17:15."
           },
           "5": {
-            "description": "הלויים מפרישים מעשר מן המעשר לכהנים."
+            "description": "קריאה בתורה — במדבר 17:16-17:24."
+          },
+          "6": {
+            "description": "קריאה בתורה — במדבר 17:25-18:20."
+          },
+          "7": {
+            "description": "קריאה בתורה — במדבר 17:16-17:24."
           }
         },
         "jasidicLessons": {
@@ -2816,19 +2906,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "דיני טומאת מת והודיה על ניסי המים והפרנסה.",
         "aliyot": {
           "1": {
-            "description": "טהרה באמצעות אפר הפרה האדומה."
+            "description": "קריאה בתורה — במדבר 19:1-19:17."
           },
           "2": {
-            "description": "מות מרים; משה מכה בסלע ונגזר שלא ייכנס לארץ."
+            "description": "קריאה בתורה — במדבר 19:18-20:6."
           },
           "3": {
-            "description": "אדום מסרבת לתת לישראל לעבור בשלום."
+            "description": "קריאה בתורה — במדבר 20:7-20:13."
           },
           "4": {
-            "description": "מות אהרן בהר ההר; נחש הנחושת לאחר מכת הנחשים."
+            "description": "קריאה בתורה — במדבר 20:7-20:13."
           },
           "5": {
-            "description": "שירת הבאר וניצחונות על סיחון ועוג."
+            "description": "קריאה בתורה — במדבר 20:7-20:13."
+          },
+          "6": {
+            "description": "קריאה בתורה — במדבר 21:10-21:20."
+          },
+          "7": {
+            "description": "קריאה בתורה — במדבר 21:21-22:1."
           }
         },
         "jasidicLessons": {
@@ -2891,16 +2987,19 @@ export const parashotLocaleResources = {
             "description": "משלחת שנייה באה; בלעם רשאי ללכת רק לפי דבר ה׳."
           },
           "3": {
-            "description": "מלאך עוצר את אתון בלעם ונאמרת הברכה הראשונה."
+            "description": "קריאה בתורה — במדבר 22:21-22:38."
           },
           "4": {
-            "description": "ניסיון הקללה השני הופך אף הוא לברכה."
+            "description": "קריאה בתורה — במדבר 22:39-23:12."
           },
           "5": {
-            "description": "בלעם רואה את אוהלי ישראל ומשבח: ״מה טובו אהליך״."
+            "description": "קריאה בתורה — במדבר 22:39-23:12."
           },
           "6": {
-            "description": "נבואת הכוכב העתידי, חטא פעור ומעשה פינחס."
+            "description": "קריאה בתורה — במדבר 22:39-23:12."
+          },
+          "7": {
+            "description": "קריאה בתורה — במדבר 22:39-23:12."
           }
         },
         "jasidicLessons": {
@@ -2972,7 +3071,10 @@ export const parashotLocaleResources = {
             "description": "קורבנות התמיד, השבת וראש החודש."
           },
           "6": {
-            "description": "קורבנות פסח, שבועות, הימים הנוראים, סוכות ושמיני עצרת."
+            "description": "קריאה בתורה — במדבר 28:16-29:11."
+          },
+          "7": {
+            "description": "קריאה בתורה — במדבר 29:12-30:1."
           }
         },
         "jasidicLessons": {
@@ -3029,16 +3131,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "התרת נדרים בפני סמכות ראויה והכשרת כלים וטהרתם.",
         "aliyot": {
           "1": {
-            "description": "חיוב נדרים בדיבור והפרתם כדין במקרים מסוימים."
+            "description": "דיני נדרים והבטחות."
           },
           "2": {
-            "description": "מלחמת מדיין וניצחון ישראל."
+            "description": "המלחמה במדיין."
           },
           "3": {
-            "description": "טיהור כלי מתכת ושלל שנלקח במלחמה."
+            "description": "טהרת הלוחמים והכלים."
           },
           "4": {
-            "description": "ראובן וגד מבקשים נחלה בעבר הירדן ומתחייבים להילחם תחילה עם אחיהם."
+            "description": "חלוקת שלל המלחמה."
+          },
+          "5": {
+            "description": "קרבנות תודה של שרי הצבא."
+          },
+          "6": {
+            "description": "ראובן וגד מבקשים נחלה בעבר הירדן."
+          },
+          "7": {
+            "description": "הסכם להשתתף בכיבוש הארץ לפני ההתיישבות."
           }
         },
         "jasidicLessons": {
@@ -3095,19 +3206,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "ערי מקלט, רצח בשגגה ושמירת הנחלות השבטיות.",
         "aliyot": {
           "1": {
-            "description": "רשימת ארבעים ושתיים תחנות ישראל במדבר."
+            "description": "קריאה בתורה — במדבר 33:1-33:10."
           },
           "2": {
-            "description": "סילוק עבודה זרה וגבולות ארץ כנען."
+            "description": "קריאה בתורה — במדבר 33:11-33:49."
           },
           "3": {
-            "description": "מינוי מחלקי הנחלות וארבעים ושמונה ערי לויים."
+            "description": "קריאה בתורה — במדבר 33:11-33:49."
           },
           "4": {
-            "description": "שש ערי מקלט מגינות על הורגים בשגגה."
+            "description": "קריאה בתורה — במדבר 34:16-34:29."
           },
           "5": {
-            "description": "נישואי בנות צלפחד שומרים על הנחלה השבטית וספר במדבר מסתיים."
+            "description": "קריאה בתורה — במדבר 35:1-35:8."
+          },
+          "6": {
+            "description": "קריאה בתורה — במדבר 34:16-34:29."
+          },
+          "7": {
+            "description": "קריאה בתורה — במדבר 35:1-35:8."
           }
         },
         "jasidicLessons": {
@@ -3164,19 +3281,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "בתי דין ללא משוא פנים, כיבוד גבולות הזולת ולמידה משגיאות העבר.",
         "aliyot": {
           "1": {
-            "description": "משה פותח בדברי פרידה ומזכיר מינוי שופטים."
+            "description": "קריאה בתורה — דברים 1:1-1:10."
           },
           "2": {
-            "description": "הוא מזכיר את חטא המרגלים ואת הגזירה על הדור ההוא."
+            "description": "קריאה בתורה — דברים 1:11-1:21."
           },
           "3": {
-            "description": "שנות הנדודים והמסע לעבר הירדן."
+            "description": "קריאה בתורה — דברים 1:22-1:38."
           },
           "4": {
-            "description": "אין לפגוע באדום, מואב ועמון; ניצחון על סיחון."
+            "description": "קריאה בתורה — דברים 1:22-1:38."
           },
           "5": {
-            "description": "ניצחון על עוג, חלוקת נחלות בעבר הירדן ועידוד יהושע."
+            "description": "קריאה בתורה — דברים 1:22-1:38."
+          },
+          "6": {
+            "description": "קריאה בתורה — דברים 2:31-3:14."
+          },
+          "7": {
+            "description": "קריאה בתורה — דברים 3:15-3:22."
           }
         },
         "jasidicLessons": {
@@ -3323,7 +3446,10 @@ export const parashotLocaleResources = {
             "description": "לירא ולאהוב את ה׳, ללכת בדרכיו ולאהוב את הגר."
           },
           "6": {
-            "description": "גשמים בעיתם וברכות הקשורות לשמירת המצוות."
+            "description": "קריאה בתורה — דברים 11:10-11:21."
+          },
+          "7": {
+            "description": "קריאה בתורה — דברים 11:22-11:25."
           }
         },
         "jasidicLessons": {
@@ -3383,19 +3509,22 @@ export const parashotLocaleResources = {
             "description": "ברכה וקללה והעבודה במקום שיבחר ה׳."
           },
           "2": {
-            "description": "אכילת בשר כדין והימנעות מהקרבה במקומות אסורים."
+            "description": "קריאה בתורה — דברים 12:11-12:28."
           },
           "3": {
-            "description": "אזהרות מפני נביאי שקר והסתה לעבודה זרה."
+            "description": "קריאה בתורה — דברים 12:29-13:19."
           },
           "4": {
-            "description": "בעלי חיים מותרים ואסורים, בשר בחלב ומעשרות."
+            "description": "קריאה בתורה — דברים 14:1-14:21."
           },
           "5": {
-            "description": "שמיטת כספים ונדיבות כלפי עניים."
+            "description": "קריאה בתורה — דברים 14:22-14:29."
           },
           "6": {
-            "description": "בכורות בהמה ושלושת הרגלים."
+            "description": "קריאה בתורה — דברים 14:22-14:29."
+          },
+          "7": {
+            "description": "קריאה בתורה — דברים 14:22-14:29."
           }
         },
         "jasidicLessons": {
@@ -3605,19 +3734,22 @@ export const parashotLocaleResources = {
             "description": "הביכורים מובאים לירושלים בליווי הצהרת הודיה."
           },
           "2": {
-            "description": "וידוי מעשרות והכרזה על מחויבות ישראל לה׳."
+            "description": "קריאה בתורה — דברים 26:12-26:15."
           },
           "3": {
-            "description": "דברי התורה נכתבים על אבנים בהר עיבל."
+            "description": "קריאה בתורה — דברים 26:16-26:19."
           },
           "4": {
-            "description": "מוכרזות קללות וברכות הברית."
+            "description": "קריאה בתורה — דברים 26:16-26:19."
           },
           "5": {
-            "description": "אזהרות קשות מפני סבל בעקבות נטישת הברית."
+            "description": "קריאה בתורה — דברים 26:16-26:19."
           },
           "6": {
-            "description": "משה מזכיר את ניסי המדבר ומכנס את העם לברית."
+            "description": "קריאה בתורה — דברים 26:16-26:19."
+          },
+          "7": {
+            "description": "קריאה בתורה — דברים 26:16-26:19."
           }
         },
         "jasidicLessons": {
@@ -3674,16 +3806,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "תשובה, וידוי ובחירה מתמדת בטוב ובחיים.",
         "aliyot": {
           "1": {
-            "description": "כל ישראל ניצבים יחד להיכנס בברית."
+            "description": "כל ישראל ניצבים לפני ה׳ לכריתת הברית."
           },
           "2": {
-            "description": "אזהרה מפני עבודה זרה נסתרת וסטייה מן הברית."
+            "description": "הברית כוללת את כל הדורות."
           },
           "3": {
-            "description": "הבטחת תשובה וקיבוץ גלויות גם ממרחק."
+            "description": "אזהרה מפני עבודה זרה ותוצאותיה."
           },
           "4": {
-            "description": "התורה קרובה ולא בשמים; לבחור בחיים ובברכה."
+            "description": "הבטחה לשיבה ולגאולה לאחר הגלות."
+          },
+          "5": {
+            "description": "ה׳ יחדש את לב ישראל."
+          },
+          "6": {
+            "description": "התורה קרובה: בפיך ובלבבך."
+          },
+          "7": {
+            "description": "הבחירה בין חיים למוות והקריאה לבחור בחיים."
           }
         },
         "jasidicLessons": {
@@ -3740,13 +3881,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "מצוות הקהל וקריאת התורה בציבור לאחר שנת שמיטה, וכתיבת ספר תורה.",
         "aliyot": {
           "1": {
-            "description": "משה מחזק את ישראל ואת יהושע: חזקו ואמצו."
+            "description": "משה מודיע שלא ינהיג עוד את העם ומזכיר שה׳ ילך עמם."
           },
           "2": {
-            "description": "משה מוסר את התורה לכהנים ומצווה על הקהל."
+            "description": "משה מחזק את ישראל ואת יהושע ומצווה עליהם להיות חזקים ואמיצים."
           },
           "3": {
-            "description": "ה׳ מזהיר מפני סטייה עתידית ומצווה לכתוב שירה לעדות."
+            "description": "משה מציג את יהושע לפני ישראל ומוסר את התורה לכוהנים."
+          },
+          "4": {
+            "description": "מצוות הקהל: קריאת התורה בפני העם אחת לשבע שנים."
+          },
+          "5": {
+            "description": "ה׳ מזהיר מפני נטישת הברית בעתיד ומפני הסתר הפנים."
+          },
+          "6": {
+            "description": "משה כותב את השירה לעדות ומשלים את כתיבת התורה."
+          },
+          "7": {
+            "description": "התורה מונחת לצד הארון ומשה מקהיל את הזקנים כדי להזהירם."
           }
         },
         "jasidicLessons": {
@@ -3803,19 +3956,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "זיכרון ההיסטוריה, ביטחון בצדק ה׳ בשעת קושי וכבוד לדברי הנביאים.",
         "aliyot": {
           "1": {
-            "description": "השמים והארץ נקראים לעדות וצדקת ה׳ השלמה מתוארת."
+            "description": "קריאה בתורה — דברים 32:1-32:6."
           },
           "2": {
-            "description": "שפע ישראל מוביל לעתים לכפיות טובה ולעבודה זרה."
+            "description": "קריאה בתורה — דברים 32:7-32:12."
           },
           "3": {
-            "description": "אזהרות מפני הסתר פנים וניסיונות היסטוריים קשים."
+            "description": "קריאה בתורה — דברים 32:7-32:12."
           },
           "4": {
-            "description": "גורל האויבים והכרזה על אחדות ה׳."
+            "description": "קריאה בתורה — דברים 32:7-32:12."
           },
           "5": {
-            "description": "סיום השירה; משה מצווה לעלות להר נבו ולראות את הארץ."
+            "description": "קריאה בתורה — דברים 32:7-32:12."
+          },
+          "6": {
+            "description": "קריאה בתורה — דברים 32:40-32:43."
+          },
+          "7": {
+            "description": "קריאה בתורה — דברים 32:44-32:52."
           }
         },
         "jasidicLessons": {
@@ -3872,16 +4031,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "סיום וחידוש מחזור הקריאה השנתי בשמחת תורה וברכות הודיה.",
         "aliyot": {
           "1": {
-            "description": "משה פותח בברכות לראובן וליהודה."
+            "description": "משה פותח בברכות לישראל, לראובן וליהודה."
           },
           "2": {
-            "description": "ברכות ללוי, בנימין וזרע יוסף."
+            "description": "ברכות ללוי ולבנימין."
           },
           "3": {
-            "description": "ברכות לזבולון, יששכר, גד, דן, נפתלי ואשר."
+            "description": "ברכה ליוסף ולצאצאיו."
           },
           "4": {
-            "description": "משה רואה את הארץ מהר נבו ונפטר בן מאה ועשרים; התורה מעידה על ייחוד נבואתו."
+            "description": "ברכות לזבולון, ליששכר ולגד."
+          },
+          "5": {
+            "description": "ברכות לדן, לנפתלי ולאשר ותחילת שבח ישראל."
+          },
+          "6": {
+            "description": "ההגנה האלוהית ואושרו המיוחד של ישראל."
+          },
+          "7": {
+            "description": "משה רואה את הארץ, נפטר ונזכר כנביא שאין כמותו."
           }
         },
         "jasidicLessons": {
@@ -4649,7 +4817,10 @@ export const parashotLocaleResources = {
             "description": "Simeon remains a hostage while the brothers must return with Benjamin."
           },
           "6": {
-            "description": "Joseph hosts a banquet; his silver cup is secretly placed in Benjamin's sack."
+            "description": "Torah reading — Genesis 43:16-43:29."
+          },
+          "7": {
+            "description": "Torah reading — Genesis 43:30-44:17."
           }
         },
         "jasidicLessons": {
@@ -4706,19 +4877,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Gratitude to one's family, honoring older people, and caring for refugees and relatives in need.",
         "aliyot": {
           "1": {
-            "description": "Judah passionately pleads with Egypt's governor on Benjamin's behalf."
+            "description": "Torah reading — Genesis 44:18-44:30."
           },
           "2": {
-            "description": "Joseph reveals his identity in tears and sends wagons to bring his elderly father."
+            "description": "Torah reading — Genesis 44:31-45:7."
           },
           "3": {
-            "description": "Jacob travels to Egypt after a divine vision at Beersheba; the family members who descend are listed."
+            "description": "Torah reading — Genesis 45:8-45:18."
           },
           "4": {
-            "description": "Jacob and Joseph embrace in Goshen; Jacob is presented to Pharaoh."
+            "description": "Torah reading — Genesis 45:19-45:27."
           },
           "5": {
-            "description": "Jacob blesses Pharaoh; Joseph administers the land during famine and Israel prospers."
+            "description": "Torah reading — Genesis 45:8-45:18."
+          },
+          "6": {
+            "description": "Torah reading — Genesis 46:28-47:10."
+          },
+          "7": {
+            "description": "Torah reading — Genesis 47:11-47:27."
           }
         },
         "jasidicLessons": {
@@ -4775,19 +4952,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Blessings over food and wine, visiting the sick (bikur cholim), and honoring parents' final wishes.",
         "aliyot": {
           "1": {
-            "description": "The ailing Jacob makes Joseph swear to bury him in Hebron, and blesses Ephraim and Manasseh with crossed hands."
+            "description": "Torah reading — Genesis 47:28-48:9."
           },
           "2": {
-            "description": "Jacob gives prophecies and blessings to Reuben, Simeon, Levi, Judah, Zebulun and Issachar."
+            "description": "Torah reading — Genesis 48:10-48:16."
           },
           "3": {
-            "description": "Jacob blesses Dan, Gad, Asher, Naphtali, Joseph and Benjamin."
+            "description": "Torah reading — Genesis 48:17-48:22."
           },
           "4": {
-            "description": "Jacob dies, is mourned in Egypt and buried at Machpelah; Joseph forgives his brothers."
+            "description": "Torah reading — Genesis 48:10-48:16."
           },
           "5": {
-            "description": "Joseph dies at 110, asks that his bones be taken from Egypt, and the book of Genesis ends."
+            "description": "Torah reading — Genesis 48:17-48:22."
+          },
+          "6": {
+            "description": "Torah reading — Genesis 48:10-48:16."
+          },
+          "7": {
+            "description": "Torah reading — Genesis 48:17-48:22."
           }
         },
         "jasidicLessons": {
@@ -5306,10 +5489,13 @@ export const parashotLocaleResources = {
             "description": "Acacia-wood boards, silver sockets and crossbars form the structure."
           },
           "5": {
-            "description": "The separating curtain, bronze altar and outer courtyard are described."
+            "description": "Torah reading — Exodus 26:31-26:37."
           },
           "6": {
-            "description": "Curtains, stakes and the gate complete the sacred enclosure."
+            "description": "Torah reading — Exodus 27:1-27:8."
+          },
+          "7": {
+            "description": "Torah reading — Exodus 27:1-27:8."
           }
         },
         "jasidicLessons": {
@@ -5381,7 +5567,10 @@ export const parashotLocaleResources = {
             "description": "The regular morning and afternoon offerings are prescribed."
           },
           "6": {
-            "description": "The incense altar is built for daily aromatic incense."
+            "description": "Torah reading — Exodus 29:38-29:46."
+          },
+          "7": {
+            "description": "Torah reading — Exodus 30:1-30:10."
           }
         },
         "jasidicLessons": {
@@ -5438,22 +5627,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "The sanctity of Shabbat, the gravity of its violation, and laws and practices of forgiveness and atonement.",
         "aliyot": {
           "1": {
-            "description": "Israel is counted through a required half-shekel donation."
+            "description": "Torah reading — Exodus 30:11-31:17."
           },
           "2": {
-            "description": "The bronze basin, anointing oil and incense are prescribed; Bezalel and Oholiab are appointed."
-          },
-          "3": {
             "description": "Israel makes the golden calf; Moses pleads for them, breaks the tablets and destroys the idol."
           },
+          "3": {
+            "description": "Torah reading — Exodus 33:12-33:16."
+          },
           "4": {
-            "description": "Moses asks to see God's glory and is protected in a cleft of the rock."
+            "description": "Torah reading — Exodus 33:17-33:23."
           },
           "5": {
-            "description": "New tablets are carved and the Thirteen Attributes of Mercy proclaimed."
+            "description": "Torah reading — Exodus 34:1-34:9."
           },
           "6": {
-            "description": "Moses comes down with a radiant face and covers it with a veil."
+            "description": "Torah reading — Exodus 34:10-34:26."
+          },
+          "7": {
+            "description": "Torah reading — Exodus 34:10-34:26."
           }
         },
         "jasidicLessons": {
@@ -5510,22 +5702,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "The thirty-nine categories of creative labor prohibited on Shabbat, derived from the work of constructing the Tabernacle.",
         "aliyot": {
           "1": {
-            "description": "Moses restates the laws of Shabbat and Israel offers materials willingly."
+            "description": "Torah reading — Exodus 35:1-35:20."
           },
           "2": {
-            "description": "Bezalel and Oholiab receive wisdom for the work; the people bring so much that donations must stop."
+            "description": "Torah reading — Exodus 35:21-35:29."
           },
           "3": {
-            "description": "The woven linen curtains and coverings for the Tabernacle are made."
+            "description": "Torah reading — Exodus 35:21-35:29."
           },
           "4": {
-            "description": "Wooden boards, silver bases and the sacred veil are constructed."
+            "description": "Torah reading — Exodus 35:21-35:29."
           },
           "5": {
-            "description": "The Ark, Table, Menorah and incense altar are made."
+            "description": "Torah reading — Exodus 36:20-37:16."
           },
           "6": {
-            "description": "The altar of burnt offerings, bronze basin and courtyard enclosure are completed."
+            "description": "Torah reading — Exodus 37:17-37:29."
+          },
+          "7": {
+            "description": "Torah reading — Exodus 37:17-37:29."
           }
         },
         "jasidicLessons": {
@@ -5591,10 +5786,16 @@ export const parashotLocaleResources = {
             "description": "The robe, tunics and golden plate bearing 'Holy to the Lord' are completed."
           },
           "4": {
-            "description": "The work is brought before Moses and the Tabernacle erected on the first day of Nisan."
+            "description": "Torah reading — Exodus 39:33-39:43."
           },
           "5": {
-            "description": "The divine cloud fills the Tabernacle, guiding Israel as Exodus concludes."
+            "description": "Torah reading — Exodus 40:1-40:16."
+          },
+          "6": {
+            "description": "Torah reading — Exodus 40:17-40:27."
+          },
+          "7": {
+            "description": "Torah reading — Exodus 40:28-40:38."
           }
         },
         "jasidicLessons": {
@@ -5876,19 +6077,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Family purity, ritual immersion (mikveh) and careful avoidance of harmful speech.",
         "aliyot": {
           "1": {
-            "description": "Laws of ritual impurity and purification after the birth of a son or daughter."
+            "description": "Torah reading — Leviticus 12:1-13:5."
           },
           "2": {
-            "description": "A priest examines suspicious signs of tzaraat on the skin."
+            "description": "Torah reading — Leviticus 13:6-13:17."
           },
           "3": {
-            "description": "Diagnosis of spots arising from burns and skin sores."
+            "description": "Torah reading — Leviticus 13:18-13:23."
           },
           "4": {
-            "description": "Examination of conditions affecting the scalp or beard."
+            "description": "Torah reading — Leviticus 13:24-13:28."
           },
           "5": {
-            "description": "The affected person's isolation and the examination of marks on fabric."
+            "description": "Torah reading — Leviticus 13:29-13:39."
+          },
+          "6": {
+            "description": "Torah reading — Leviticus 13:40-13:54."
+          },
+          "7": {
+            "description": "Torah reading — Leviticus 13:55-13:59."
           }
         },
         "jasidicLessons": {
@@ -5945,19 +6152,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Family purity, ritual hygiene, immersion in a mikveh and care in speech.",
         "aliyot": {
           "1": {
-            "description": "Purification outside the camp uses two birds and fresh spring water."
+            "description": "Torah reading — Leviticus 14:1-14:12."
           },
           "2": {
-            "description": "Affordable offerings are provided for those who cannot bring lambs."
+            "description": "Torah reading — Leviticus 14:13-14:20."
           },
           "3": {
-            "description": "Houses with affected walls are examined, cleaned or dismantled."
+            "description": "Torah reading — Leviticus 14:13-14:20."
           },
           "4": {
-            "description": "Laws of ritual impurity associated with irregular male discharges."
+            "description": "Torah reading — Leviticus 14:33-14:53."
           },
           "5": {
-            "description": "Laws relating to female discharges and purification through ritual immersion."
+            "description": "Torah reading — Leviticus 14:54-15:15."
+          },
+          "6": {
+            "description": "Torah reading — Leviticus 15:16-15:28."
+          },
+          "7": {
+            "description": "Torah reading — Leviticus 15:29-15:33."
           }
         },
         "jasidicLessons": {
@@ -6017,19 +6230,22 @@ export const parashotLocaleResources = {
             "description": "The high priest's solemn Yom Kippur service includes entering the Holy of Holies with incense and blood."
           },
           "2": {
-            "description": "The scapegoat is sent to Azazel in the wilderness; fasting and self-denial are commanded."
+            "description": "Torah reading — Leviticus 16:18-16:24."
           },
           "3": {
-            "description": "Offerings outside the Sanctuary are prohibited and blood is regulated."
+            "description": "Torah reading — Leviticus 16:25-16:34."
           },
           "4": {
-            "description": "Eating blood and meat from animals found dead is forbidden."
+            "description": "Torah reading — Leviticus 17:1-17:7."
           },
           "5": {
-            "description": "Laws of family morality prohibit close-kin and other forbidden unions."
+            "description": "Torah reading — Leviticus 17:8-18:5."
           },
           "6": {
-            "description": "Israel is told not to imitate immoral practices of the surrounding nations."
+            "description": "Torah reading — Leviticus 18:6-18:21."
+          },
+          "7": {
+            "description": "Torah reading — Leviticus 18:6-18:21."
           }
         },
         "jasidicLessons": {
@@ -6086,16 +6302,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Honoring parents, avoiding gossip, honest weights and measures, and loving one's fellow.",
         "aliyot": {
           "1": {
-            "description": "Holiness, respect for parents and Shabbat, rejection of idols, gifts to the poor and fair work."
+            "description": "Call to holiness and ethical duties."
           },
           "2": {
-            "description": "Impartial justice; prohibitions of gossip, vengeance and hatred, and the command to love one's neighbor."
+            "description": "Justice, love of neighbor and prohibition of hatred."
           },
           "3": {
-            "description": "Kind treatment of the resident foreigner and honest weights and measures."
+            "description": "Laws about fruit, customs and respect."
           },
           "4": {
-            "description": "Severe prohibitions involving Molech worship, divination, cursing parents and sexual immorality."
+            "description": "Respect for foreigners and honesty in measures."
+          },
+          "5": {
+            "description": "Prohibition of Molech worship and idolatrous practices."
+          },
+          "6": {
+            "description": "Holiness in family life and observance of the commandments."
+          },
+          "7": {
+            "description": "Distinction from other nations and the call to be holy."
           }
         },
         "jasidicLessons": {
@@ -6230,13 +6455,22 @@ export const parashotLocaleResources = {
             "description": "The seventh-year rest of the land and the Jubilee in the fiftieth year."
           },
           "2": {
-            "description": "Honest pricing and the sale and redemption of land."
+            "description": "Torah reading — Leviticus 25:14-25:18."
           },
           "3": {
-            "description": "Laws of houses in walled cities, Levitical property and the ban on interest."
+            "description": "Torah reading — Leviticus 25:19-25:24."
           },
           "4": {
-            "description": "Humane treatment and release of Hebrew servants; rejection of idols and observance of Shabbat."
+            "description": "Torah reading — Leviticus 25:25-25:28."
+          },
+          "5": {
+            "description": "Torah reading — Leviticus 25:19-25:24."
+          },
+          "6": {
+            "description": "Torah reading — Leviticus 25:39-25:46."
+          },
+          "7": {
+            "description": "Torah reading — Leviticus 25:47-26:2."
           }
         },
         "jasidicLessons": {
@@ -6293,19 +6527,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Laws of vows, pledged valuations, sacred donations and contributions.",
         "aliyot": {
           "1": {
-            "description": "Blessings of timely rain, abundant harvest, peace and divine presence."
+            "description": "Torah reading — Leviticus 26:3-26:5."
           },
           "2": {
-            "description": "Warnings of famine, defeat and hardship if the covenant is abandoned."
+            "description": "Torah reading — Leviticus 26:6-26:9."
           },
           "3": {
-            "description": "Exile and suffering, yet God remembers the eternal covenant."
+            "description": "Torah reading — Leviticus 26:10-26:46."
           },
           "4": {
             "description": "Vows and monetary valuations of people and possessions dedicated to the sanctuary."
           },
           "5": {
-            "description": "Consecrated inherited fields, animal tithes and the close of Leviticus."
+            "description": "Torah reading — Leviticus 27:16-27:21."
+          },
+          "6": {
+            "description": "Torah reading — Leviticus 27:22-27:28."
+          },
+          "7": {
+            "description": "Torah reading — Leviticus 27:29-27:34."
           }
         },
         "jasidicLessons": {
@@ -6362,22 +6602,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Community organization, redemption of firstborn sons and respect for responsibilities in sacred service.",
         "aliyot": {
           "1": {
-            "description": "The census of Israelite men eligible for military service."
+            "description": "Torah reading — Numbers 1:1-1:19."
           },
           "2": {
-            "description": "Four tribal camps are arranged around the Tabernacle."
+            "description": "Torah reading — Numbers 1:20-1:54."
           },
           "3": {
-            "description": "Aaron's priestly family and the Levites' dedication to sacred service."
+            "description": "Torah reading — Numbers 1:20-1:54."
           },
           "4": {
-            "description": "Census and duties of the Gershon, Kohath and Merari families."
+            "description": "Torah reading — Numbers 1:20-1:54."
           },
           "5": {
-            "description": "Redemption of firstborn Israelites through the payment of five shekels."
+            "description": "Torah reading — Numbers 1:20-1:54."
           },
           "6": {
-            "description": "The Kohathites' responsibility for carrying sacred vessels."
+            "description": "Torah reading — Numbers 1:20-1:54."
+          },
+          "7": {
+            "description": "Torah reading — Numbers 1:20-1:54."
           }
         },
         "jasidicLessons": {
@@ -6509,22 +6752,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Second Passover observance, silver trumpet blasts and the ban on harmful gossip.",
         "aliyot": {
           "1": {
-            "description": "Lighting the menorah and dedicating the Levites."
+            "description": "Torah reading — Numbers 8:1-8:14."
           },
           "2": {
-            "description": "Pesach Sheni gives another opportunity for the Passover offering."
+            "description": "Torah reading — Numbers 8:15-8:26."
           },
           "3": {
-            "description": "The guiding cloud and silver trumpets assemble Israel."
+            "description": "Torah reading — Numbers 8:15-8:26."
           },
           "4": {
-            "description": "Departure from Sinai and complaints about lack of meat."
+            "description": "Torah reading — Numbers 8:15-8:26."
           },
           "5": {
-            "description": "Seventy elders share prophetic leadership; the quail episode."
+            "description": "Torah reading — Numbers 10:11-10:34."
           },
           "6": {
-            "description": "Miriam and Aaron speak about Moses; Miriam's affliction and Moses' prayer."
+            "description": "Torah reading — Numbers 10:35-11:29."
+          },
+          "7": {
+            "description": "Torah reading — Numbers 11:30-12:16."
           }
         },
         "jasidicLessons": {
@@ -6593,10 +6839,13 @@ export const parashotLocaleResources = {
             "description": "Forty years of wandering are decreed, followed by laws of offerings."
           },
           "5": {
-            "description": "Offerings for unintentional transgressions and communal idolatry."
+            "description": "Torah reading — Numbers 15:8-15:16."
           },
           "6": {
-            "description": "Punishment for deliberate Shabbat violation and the commandment of tzitzit."
+            "description": "Torah reading — Numbers 15:17-15:26."
+          },
+          "7": {
+            "description": "Torah reading — Numbers 15:17-15:26."
           }
         },
         "jasidicLessons": {
@@ -6656,16 +6905,22 @@ export const parashotLocaleResources = {
             "description": "Korach and 250 leaders challenge Moses and Aaron."
           },
           "2": {
-            "description": "The incense test; the earth swallows rebels and fire consumes the 250."
+            "description": "Torah reading — Numbers 16:14-16:19."
           },
           "3": {
-            "description": "A plague strikes; Aaron stands with incense between the living and the dead."
+            "description": "Torah reading — Numbers 16:20-17:8."
           },
           "4": {
-            "description": "Aaron's staff blossoms; priestly duties and gifts are explained."
+            "description": "Torah reading — Numbers 17:9-17:15."
           },
           "5": {
-            "description": "The Levites give a tithe of their own tithe to the priests."
+            "description": "Torah reading — Numbers 17:16-17:24."
+          },
+          "6": {
+            "description": "Torah reading — Numbers 17:25-18:20."
+          },
+          "7": {
+            "description": "Torah reading — Numbers 17:16-17:24."
           }
         },
         "jasidicLessons": {
@@ -6722,19 +6977,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Ritual impurity from contact with the dead and gratitude for water and divine sustenance.",
         "aliyot": {
           "1": {
-            "description": "Purification through the ashes of the red heifer."
+            "description": "Torah reading — Numbers 19:1-19:17."
           },
           "2": {
-            "description": "Miriam dies; Moses strikes the rock and is barred from entering the land."
+            "description": "Torah reading — Numbers 19:18-20:6."
           },
           "3": {
-            "description": "Edom refuses Israel peaceful passage."
+            "description": "Torah reading — Numbers 20:7-20:13."
           },
           "4": {
-            "description": "Aaron dies on Mount Hor; the bronze serpent follows the plague of snakes."
+            "description": "Torah reading — Numbers 20:7-20:13."
           },
           "5": {
-            "description": "Song of the well and victories over Sihon and Og."
+            "description": "Torah reading — Numbers 20:7-20:13."
+          },
+          "6": {
+            "description": "Torah reading — Numbers 21:10-21:20."
+          },
+          "7": {
+            "description": "Torah reading — Numbers 21:21-22:1."
           }
         },
         "jasidicLessons": {
@@ -6797,16 +7058,19 @@ export const parashotLocaleResources = {
             "description": "A second delegation arrives; Balaam may go only under God's direction."
           },
           "3": {
-            "description": "An angel blocks Balaam's donkey; the first blessing is spoken."
+            "description": "Torah reading — Numbers 22:21-22:38."
           },
           "4": {
-            "description": "A second attempt at cursing yields another blessing."
+            "description": "Torah reading — Numbers 22:39-23:12."
           },
           "5": {
-            "description": "Balaam sees Israel's tents and praises them: 'How goodly are your tents.'"
+            "description": "Torah reading — Numbers 22:39-23:12."
           },
           "6": {
-            "description": "A future star is prophesied; the events at Peor and Phinehas' intervention."
+            "description": "Torah reading — Numbers 22:39-23:12."
+          },
+          "7": {
+            "description": "Torah reading — Numbers 22:39-23:12."
           }
         },
         "jasidicLessons": {
@@ -6878,7 +7142,10 @@ export const parashotLocaleResources = {
             "description": "Daily, Shabbat and new-moon offerings."
           },
           "6": {
-            "description": "Offerings for Passover, Shavuot, the High Holidays, Sukkot and Shemini Atzeret."
+            "description": "Torah reading — Numbers 28:16-29:11."
+          },
+          "7": {
+            "description": "Torah reading — Numbers 29:12-30:1."
           }
         },
         "jasidicLessons": {
@@ -6935,16 +7202,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Annulment of vows before competent authorities and purification or koshering of utensils.",
         "aliyot": {
           "1": {
-            "description": "Binding verbal vows and the lawful annulment of certain vows."
+            "description": "Laws of vows and promises."
           },
           "2": {
-            "description": "War against Midian and Israel's victory."
+            "description": "War against Midian."
           },
           "3": {
-            "description": "Purifying metal objects and spoils taken in battle."
+            "description": "Purification of soldiers and objects."
           },
           "4": {
-            "description": "Reuben and Gad request land east of the Jordan and agree to fight alongside Israel first."
+            "description": "Division of the spoils of war."
+          },
+          "5": {
+            "description": "Thanksgiving offerings from the officers."
+          },
+          "6": {
+            "description": "Reuben and Gad request land east of the Jordan."
+          },
+          "7": {
+            "description": "Agreement to help conquer the land before settling."
           }
         },
         "jasidicLessons": {
@@ -7001,19 +7277,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Cities of refuge, unintentional homicide and preservation of tribal inheritance.",
         "aliyot": {
           "1": {
-            "description": "The forty-two stops during Israel's desert journeys are listed."
+            "description": "Torah reading — Numbers 33:1-33:10."
           },
           "2": {
-            "description": "Removal of idolatry and the borders of Canaan."
+            "description": "Torah reading — Numbers 33:11-33:49."
           },
           "3": {
-            "description": "Leaders appointed to divide the land; forty-eight Levitical cities."
+            "description": "Torah reading — Numbers 33:11-33:49."
           },
           "4": {
-            "description": "Six cities of refuge protect those who kill unintentionally."
+            "description": "Torah reading — Numbers 34:16-34:29."
           },
           "5": {
-            "description": "Zelophehad's daughters' marriages preserve tribal inheritance; Numbers concludes."
+            "description": "Torah reading — Numbers 35:1-35:8."
+          },
+          "6": {
+            "description": "Torah reading — Numbers 34:16-34:29."
+          },
+          "7": {
+            "description": "Torah reading — Numbers 35:1-35:8."
           }
         },
         "jasidicLessons": {
@@ -7070,19 +7352,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Impartial courts, respect for others' borders and learning from past mistakes.",
         "aliyot": {
           "1": {
-            "description": "Moses begins his farewell address and recalls the appointment of judges."
+            "description": "Torah reading — Deuteronomy 1:1-1:10."
           },
           "2": {
-            "description": "He recounts the spies' failure and the decree barring that generation from the land."
+            "description": "Torah reading — Deuteronomy 1:11-1:21."
           },
           "3": {
-            "description": "Years of wandering and the journey toward Transjordan."
+            "description": "Torah reading — Deuteronomy 1:22-1:38."
           },
           "4": {
-            "description": "Israel is told not to attack Edom, Moab or Ammon; victory over Sihon."
+            "description": "Torah reading — Deuteronomy 1:22-1:38."
           },
           "5": {
-            "description": "Defeat of Og; lands assigned east of the Jordan and Moses' encouragement to Joshua."
+            "description": "Torah reading — Deuteronomy 1:22-1:38."
+          },
+          "6": {
+            "description": "Torah reading — Deuteronomy 2:31-3:14."
+          },
+          "7": {
+            "description": "Torah reading — Deuteronomy 3:15-3:22."
           }
         },
         "jasidicLessons": {
@@ -7229,7 +7517,10 @@ export const parashotLocaleResources = {
             "description": "Fear and love God, follow His ways and care for the stranger."
           },
           "6": {
-            "description": "Seasonal rains and blessings linked to keeping the commandments."
+            "description": "Torah reading — Deuteronomy 11:10-11:21."
+          },
+          "7": {
+            "description": "Torah reading — Deuteronomy 11:22-11:25."
           }
         },
         "jasidicLessons": {
@@ -7289,19 +7580,22 @@ export const parashotLocaleResources = {
             "description": "Blessing and curse, and the requirement to worship at the chosen place."
           },
           "2": {
-            "description": "Eating meat lawfully and avoiding unauthorized sacrifices."
+            "description": "Torah reading — Deuteronomy 12:11-12:28."
           },
           "3": {
-            "description": "Warnings against false prophets and enticement to idolatry."
+            "description": "Torah reading — Deuteronomy 12:29-13:19."
           },
           "4": {
-            "description": "Permitted and forbidden animals, separation of meat and milk, and tithes."
+            "description": "Torah reading — Deuteronomy 14:1-14:21."
           },
           "5": {
-            "description": "Release of debts in the sabbatical year and generosity to the poor."
+            "description": "Torah reading — Deuteronomy 14:22-14:29."
           },
           "6": {
-            "description": "Firstborn animal offerings and the three pilgrimage festivals."
+            "description": "Torah reading — Deuteronomy 14:22-14:29."
+          },
+          "7": {
+            "description": "Torah reading — Deuteronomy 14:22-14:29."
           }
         },
         "jasidicLessons": {
@@ -7511,19 +7805,22 @@ export const parashotLocaleResources = {
             "description": "First fruits are presented in Jerusalem with a declaration of gratitude."
           },
           "2": {
-            "description": "Declaration concerning tithes and Israel's commitment to God."
+            "description": "Torah reading — Deuteronomy 26:12-26:15."
           },
           "3": {
-            "description": "Torah's words are inscribed on stones at Mount Ebal."
+            "description": "Torah reading — Deuteronomy 26:16-26:19."
           },
           "4": {
-            "description": "Covenantal curses and blessings are proclaimed."
+            "description": "Torah reading — Deuteronomy 26:16-26:19."
           },
           "5": {
-            "description": "Severe warnings of hardship following abandonment of the covenant."
+            "description": "Torah reading — Deuteronomy 26:16-26:19."
           },
           "6": {
-            "description": "Moses recalls miracles in the wilderness and summons the people to the covenant."
+            "description": "Torah reading — Deuteronomy 26:16-26:19."
+          },
+          "7": {
+            "description": "Torah reading — Deuteronomy 26:16-26:19."
           }
         },
         "jasidicLessons": {
@@ -7580,16 +7877,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Repentance, confession and the continuing choice of goodness and life.",
         "aliyot": {
           "1": {
-            "description": "Every member of Israel stands together to enter the covenant."
+            "description": "All Israel stands before God to renew the covenant."
           },
           "2": {
-            "description": "Warning against secret idolatry and departure from the covenant."
+            "description": "The covenant includes all generations."
           },
           "3": {
-            "description": "Promise of repentance and return even from distant exile."
+            "description": "Warning against idolatry and its consequences."
           },
           "4": {
-            "description": "Torah is near, not in heaven; choose life and blessing."
+            "description": "Promise of return and restoration after exile."
+          },
+          "5": {
+            "description": "God will renew the heart of Israel."
+          },
+          "6": {
+            "description": "The Torah is near: in your mouth and in your heart."
+          },
+          "7": {
+            "description": "The choice between life and death; a call to choose life."
           }
         },
         "jasidicLessons": {
@@ -7646,13 +7952,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Hakhel, the public Torah reading after the sabbatical year, and the mitzvah of writing a Torah scroll.",
         "aliyot": {
           "1": {
-            "description": "Moses encourages Israel and Joshua: be strong and courageous."
+            "description": "Moses announces that he will no longer lead the people and reminds them that God will accompany them."
           },
           "2": {
-            "description": "Moses entrusts Torah to the priests and orders the Hakhel gathering."
+            "description": "Moses urges Israel and Joshua to be strong and courageous."
           },
           "3": {
-            "description": "God warns of future unfaithfulness and commands Moses to write a song as witness."
+            "description": "Moses presents Joshua to Israel and entrusts the Torah to the priests."
+          },
+          "4": {
+            "description": "The commandment of Hakhel: public Torah reading every seven years."
+          },
+          "5": {
+            "description": "God warns of Israel’s future disloyalty and the hiding of His face."
+          },
+          "6": {
+            "description": "Moses writes the song as a witness and completes writing the Torah."
+          },
+          "7": {
+            "description": "The Torah is placed beside the Ark, and Moses gathers the elders to warn them."
           }
         },
         "jasidicLessons": {
@@ -7709,19 +8027,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Remembering history, trusting divine justice during hardship and honoring prophetic teaching.",
         "aliyot": {
           "1": {
-            "description": "Heaven and earth are summoned; God's perfect justice is praised."
+            "description": "Torah reading — Deuteronomy 32:1-32:6."
           },
           "2": {
-            "description": "Israel's prosperity gives way to ingratitude and idolatry."
+            "description": "Torah reading — Deuteronomy 32:7-32:12."
           },
           "3": {
-            "description": "Warnings of divine hiddenness and bitter historical trials."
+            "description": "Torah reading — Deuteronomy 32:7-32:12."
           },
           "4": {
-            "description": "Reflection on the fate of enemies and proclamation of God's uniqueness."
+            "description": "Torah reading — Deuteronomy 32:7-32:12."
           },
           "5": {
-            "description": "The song ends; Moses is told to ascend Mount Nebo and view the land."
+            "description": "Torah reading — Deuteronomy 32:7-32:12."
+          },
+          "6": {
+            "description": "Torah reading — Deuteronomy 32:40-32:43."
+          },
+          "7": {
+            "description": "Torah reading — Deuteronomy 32:44-32:52."
           }
         },
         "jasidicLessons": {
@@ -7778,16 +8102,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Completion and renewal of the yearly Torah-reading cycle at Simchat Torah and blessings of gratitude.",
         "aliyot": {
           "1": {
-            "description": "Moses introduces his blessings for Reuben and Judah."
+            "description": "Moses begins his blessings for Israel, Reuben and Judah."
           },
           "2": {
-            "description": "Blessings for Levi, Benjamin and Joseph's descendants."
+            "description": "Blessings for Levi and Benjamin."
           },
           "3": {
-            "description": "Blessings for Zebulun, Issachar, Gad, Dan, Naphtali and Asher."
+            "description": "Blessing for Joseph and his descendants."
           },
           "4": {
-            "description": "Moses views the land from Mount Nebo and dies at 120; Torah honors his unique prophecy."
+            "description": "Blessings for Zebulun, Issachar and Gad."
+          },
+          "5": {
+            "description": "Blessings for Dan, Naphtali and Asher; praise of Israel begins."
+          },
+          "6": {
+            "description": "Divine protection and the unique blessing of Israel."
+          },
+          "7": {
+            "description": "Moses views the land, dies and is remembered as a unique prophet."
           }
         },
         "jasidicLessons": {
@@ -8555,7 +8888,10 @@ export const parashotLocaleResources = {
             "description": "Siméon demeure otage jusqu'au retour de ses frères avec Benjamin."
           },
           "6": {
-            "description": "Joseph offre un festin ; sa coupe d'argent est cachée dans le sac de Benjamin."
+            "description": "Lecture de la Torah — Genèse 43:16-43:29."
+          },
+          "7": {
+            "description": "Lecture de la Torah — Genèse 43:30-44:17."
           }
         },
         "jasidicLessons": {
@@ -8612,19 +8948,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Reconnaissance envers la famille, respect des aînés et devoir d'assistance aux réfugiés et aux proches démunis.",
         "aliyot": {
           "1": {
-            "description": "Juda défend Benjamin dans un plaidoyer passionné devant le gouverneur d'Égypte."
+            "description": "Lecture de la Torah — Genèse 44:18-44:30."
           },
           "2": {
-            "description": "Joseph révèle son identité en pleurant et envoie des chariots chercher son vieux père."
+            "description": "Lecture de la Torah — Genèse 44:31-45:7."
           },
           "3": {
-            "description": "Jacob descend en Égypte après une vision divine à Beer-Sheva ; les membres de la famille sont énumérés."
+            "description": "Lecture de la Torah — Genèse 45:8-45:18."
           },
           "4": {
-            "description": "Jacob et Joseph s'embrassent en Gochèn ; Jacob est présenté à Pharaon."
+            "description": "Lecture de la Torah — Genèse 45:19-45:27."
           },
           "5": {
-            "description": "Jacob bénit Pharaon ; Joseph administre les terres pendant la famine et Israël prospère."
+            "description": "Lecture de la Torah — Genèse 45:8-45:18."
+          },
+          "6": {
+            "description": "Lecture de la Torah — Genèse 46:28-47:10."
+          },
+          "7": {
+            "description": "Lecture de la Torah — Genèse 47:11-47:27."
           }
         },
         "jasidicLessons": {
@@ -8681,19 +9023,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Bénédictions sur les aliments et le vin, visite aux malades (bikour holim) et respect des dernières volontés des parents.",
         "aliyot": {
           "1": {
-            "description": "Jacob malade demande à Joseph de l'enterrer à Hébron, puis bénit Éphraïm et Manassé les mains croisées."
+            "description": "Lecture de la Torah — Genèse 47:28-48:9."
           },
           "2": {
-            "description": "Jacob prophétise et bénit Ruben, Siméon, Lévi, Juda, Zabulon et Issachar."
+            "description": "Lecture de la Torah — Genèse 48:10-48:16."
           },
           "3": {
-            "description": "Jacob bénit Dan, Gad, Aser, Nephtali, Joseph et Benjamin."
+            "description": "Lecture de la Torah — Genèse 48:17-48:22."
           },
           "4": {
-            "description": "Jacob meurt, l'Égypte porte son deuil et il est enterré à Makhpéla ; Joseph pardonne à ses frères."
+            "description": "Lecture de la Torah — Genèse 48:10-48:16."
           },
           "5": {
-            "description": "Joseph meurt à 110 ans, demande qu'on emporte ses ossements d'Égypte ; la Genèse s'achève."
+            "description": "Lecture de la Torah — Genèse 48:17-48:22."
+          },
+          "6": {
+            "description": "Lecture de la Torah — Genèse 48:10-48:16."
+          },
+          "7": {
+            "description": "Lecture de la Torah — Genèse 48:17-48:22."
           }
         },
         "jasidicLessons": {
@@ -9212,10 +9560,13 @@ export const parashotLocaleResources = {
             "description": "Des planches d'acacia, socles d'argent et traverses constituent la structure."
           },
           "5": {
-            "description": "Le voile séparateur, l'autel de bronze et la cour extérieure sont décrits."
+            "description": "Lecture de la Torah — Exode 26:31-26:37."
           },
           "6": {
-            "description": "Rideaux, piquets et porte terminent l'enceinte sacrée."
+            "description": "Lecture de la Torah — Exode 27:1-27:8."
+          },
+          "7": {
+            "description": "Lecture de la Torah — Exode 27:1-27:8."
           }
         },
         "jasidicLessons": {
@@ -9287,7 +9638,10 @@ export const parashotLocaleResources = {
             "description": "Les offrandes permanentes du matin et du soir sont prescrites."
           },
           "6": {
-            "description": "L'autel des parfums est destiné à l'encens quotidien."
+            "description": "Lecture de la Torah — Exode 29:38-29:46."
+          },
+          "7": {
+            "description": "Lecture de la Torah — Exode 30:1-30:10."
           }
         },
         "jasidicLessons": {
@@ -9344,22 +9698,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Sainteté du Chabbat, gravité de sa transgression, et règles du pardon et de l'expiation.",
         "aliyot": {
           "1": {
-            "description": "Israël est recensé au moyen du don obligatoire d'un demi-sicle."
+            "description": "Lecture de la Torah — Exode 30:11-31:17."
           },
           "2": {
-            "description": "Sont prescrits le bassin de bronze, l'huile d'onction et l'encens ; Betsalel et Oholiab sont désignés."
-          },
-          "3": {
             "description": "Israël façonne le veau d'or ; Moïse intercède, brise les Tables et détruit l'idole."
           },
+          "3": {
+            "description": "Lecture de la Torah — Exode 33:12-33:16."
+          },
           "4": {
-            "description": "Moïse demande à voir la gloire divine et est protégé dans le creux du rocher."
+            "description": "Lecture de la Torah — Exode 33:17-33:23."
           },
           "5": {
-            "description": "De nouvelles Tables sont taillées et les Treize Attributs de Miséricorde proclamés."
+            "description": "Lecture de la Torah — Exode 34:1-34:9."
           },
           "6": {
-            "description": "Moïse descend le visage rayonnant et le couvre d'un voile."
+            "description": "Lecture de la Torah — Exode 34:10-34:26."
+          },
+          "7": {
+            "description": "Lecture de la Torah — Exode 34:10-34:26."
           }
         },
         "jasidicLessons": {
@@ -9416,22 +9773,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Les trente-neuf catégories de travaux créateurs interdits le Chabbat, déduites des travaux du Tabernacle.",
         "aliyot": {
           "1": {
-            "description": "Moïse rappelle les lois du Chabbat et le peuple apporte volontairement des matériaux."
+            "description": "Lecture de la Torah — Exode 35:1-35:20."
           },
           "2": {
-            "description": "Betsalel et Oholiab reçoivent la sagesse nécessaire ; les dons abondent jusqu'à ce qu'on demande d'arrêter."
+            "description": "Lecture de la Torah — Exode 35:21-35:29."
           },
           "3": {
-            "description": "Les rideaux de lin et les couvertures du Tabernacle sont réalisés."
+            "description": "Lecture de la Torah — Exode 35:21-35:29."
           },
           "4": {
-            "description": "Les planches de bois, socles d'argent et voile sacré sont fabriqués."
+            "description": "Lecture de la Torah — Exode 35:21-35:29."
           },
           "5": {
-            "description": "L'Arche, la Table, la Ménora et l'autel de l'encens sont fabriqués."
+            "description": "Lecture de la Torah — Exode 36:20-37:16."
           },
           "6": {
-            "description": "L'autel des holocaustes, le bassin de bronze et l'enceinte de la cour sont achevés."
+            "description": "Lecture de la Torah — Exode 37:17-37:29."
+          },
+          "7": {
+            "description": "Lecture de la Torah — Exode 37:17-37:29."
           }
         },
         "jasidicLessons": {
@@ -9497,10 +9857,16 @@ export const parashotLocaleResources = {
             "description": "La robe, les tuniques et la plaque d'or « Saint pour l'Éternel » sont achevées."
           },
           "4": {
-            "description": "Tous les travaux sont présentés à Moïse et le Tabernacle est dressé le premier Nissan."
+            "description": "Lecture de la Torah — Exode 39:33-39:43."
           },
           "5": {
-            "description": "La nuée divine remplit le Tabernacle et guide Israël à la fin de l'Exode."
+            "description": "Lecture de la Torah — Exode 40:1-40:16."
+          },
+          "6": {
+            "description": "Lecture de la Torah — Exode 40:17-40:27."
+          },
+          "7": {
+            "description": "Lecture de la Torah — Exode 40:28-40:38."
           }
         },
         "jasidicLessons": {
@@ -9782,19 +10148,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Pureté familiale, immersion au mikvé et vigilance contre la médisance.",
         "aliyot": {
           "1": {
-            "description": "Lois d'impureté et de purification après la naissance d'un garçon ou d'une fille."
+            "description": "Lecture de la Torah — Lévitique 12:1-13:5."
           },
           "2": {
-            "description": "Un prêtre examine les signes suspects de tsaraat sur la peau."
+            "description": "Lecture de la Torah — Lévitique 13:6-13:17."
           },
           "3": {
-            "description": "Examen des taches provenant de brûlures ou de lésions cutanées."
+            "description": "Lecture de la Torah — Lévitique 13:18-13:23."
           },
           "4": {
-            "description": "Examen des affections du cuir chevelu et de la barbe."
+            "description": "Lecture de la Torah — Lévitique 13:24-13:28."
           },
           "5": {
-            "description": "Isolement de la personne atteinte et inspection des marques sur les vêtements."
+            "description": "Lecture de la Torah — Lévitique 13:29-13:39."
+          },
+          "6": {
+            "description": "Lecture de la Torah — Lévitique 13:40-13:54."
+          },
+          "7": {
+            "description": "Lecture de la Torah — Lévitique 13:55-13:59."
           }
         },
         "jasidicLessons": {
@@ -9851,19 +10223,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Pureté familiale, hygiène rituelle, immersion au mikvé et prudence dans les paroles.",
         "aliyot": {
           "1": {
-            "description": "Le rite de purification hors du camp emploie deux oiseaux et de l'eau vive."
+            "description": "Lecture de la Torah — Lévitique 14:1-14:12."
           },
           "2": {
-            "description": "Des offrandes moins coûteuses sont prévues pour les personnes démunies."
+            "description": "Lecture de la Torah — Lévitique 14:13-14:20."
           },
           "3": {
-            "description": "Les maisons aux murs atteints sont examinées, nettoyées ou démolies."
+            "description": "Lecture de la Torah — Lévitique 14:13-14:20."
           },
           "4": {
-            "description": "Lois d'impureté liées aux écoulements masculins inhabituels."
+            "description": "Lecture de la Torah — Lévitique 14:33-14:53."
           },
           "5": {
-            "description": "Lois des écoulements féminins et de la purification par immersion rituelle."
+            "description": "Lecture de la Torah — Lévitique 14:54-15:15."
+          },
+          "6": {
+            "description": "Lecture de la Torah — Lévitique 15:16-15:28."
+          },
+          "7": {
+            "description": "Lecture de la Torah — Lévitique 15:29-15:33."
           }
         },
         "jasidicLessons": {
@@ -9923,19 +10301,22 @@ export const parashotLocaleResources = {
             "description": "Le service solennel du grand prêtre à Yom Kippour comprend l'entrée au Saint des saints avec encens et sang."
           },
           "2": {
-            "description": "Le bouc émissaire est envoyé vers Azazel au désert ; jeûne et affliction sont prescrits."
+            "description": "Lecture de la Torah — Lévitique 16:18-16:24."
           },
           "3": {
-            "description": "Les sacrifices hors du Sanctuaire sont interdits et les lois du sang sont précisées."
+            "description": "Lecture de la Torah — Lévitique 16:25-16:34."
           },
           "4": {
-            "description": "La consommation de sang et de viande d'animaux trouvés morts est interdite."
+            "description": "Lecture de la Torah — Lévitique 17:1-17:7."
           },
           "5": {
-            "description": "Les lois familiales interdisent les unions incestueuses et d'autres relations prohibées."
+            "description": "Lecture de la Torah — Lévitique 17:8-18:5."
           },
           "6": {
-            "description": "Israël doit éviter les pratiques immorales des nations alentour."
+            "description": "Lecture de la Torah — Lévitique 18:6-18:21."
+          },
+          "7": {
+            "description": "Lecture de la Torah — Lévitique 18:6-18:21."
           }
         },
         "jasidicLessons": {
@@ -9992,16 +10373,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Respect des parents, interdiction de médire, poids et mesures honnêtes, amour du prochain.",
         "aliyot": {
           "1": {
-            "description": "Sainteté, respect des parents et du Chabbat, refus des idoles, dons aux pauvres et honnêteté au travail."
+            "description": "Appel à la sainteté et aux devoirs éthiques."
           },
           "2": {
-            "description": "Justice impartiale, interdiction de médire, de se venger et de haïr, et devoir d'aimer son prochain."
+            "description": "Justice, amour du prochain et interdiction de la haine."
           },
           "3": {
-            "description": "Bien traiter l'étranger résident et employer des poids et mesures honnêtes."
+            "description": "Lois concernant les fruits, les coutumes et le respect."
           },
           "4": {
-            "description": "Interdictions graves : culte de Molekh, divination, malédiction des parents et immoralité sexuelle."
+            "description": "Respect de l’étranger et honnêteté des mesures."
+          },
+          "5": {
+            "description": "Interdiction du culte de Molekh et des pratiques idolâtres."
+          },
+          "6": {
+            "description": "Sainteté de la vie familiale et observance des commandements."
+          },
+          "7": {
+            "description": "Distinction des autres peuples et appel à la sainteté."
           }
         },
         "jasidicLessons": {
@@ -10136,13 +10526,22 @@ export const parashotLocaleResources = {
             "description": "Repos de la terre tous les sept ans et jubilé de la cinquantième année."
           },
           "2": {
-            "description": "Prix équitables, vente et rachat des terres."
+            "description": "Lecture de la Torah — Lévitique 25:14-25:18."
           },
           "3": {
-            "description": "Maisons des villes fortifiées, biens des Lévites et interdiction des intérêts."
+            "description": "Lecture de la Torah — Lévitique 25:19-25:24."
           },
           "4": {
-            "description": "Traitement digne et libération des serviteurs hébreux ; refus des idoles et respect du Chabbat."
+            "description": "Lecture de la Torah — Lévitique 25:25-25:28."
+          },
+          "5": {
+            "description": "Lecture de la Torah — Lévitique 25:19-25:24."
+          },
+          "6": {
+            "description": "Lecture de la Torah — Lévitique 25:39-25:46."
+          },
+          "7": {
+            "description": "Lecture de la Torah — Lévitique 25:47-26:2."
           }
         },
         "jasidicLessons": {
@@ -10199,19 +10598,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Lois des vœux, des évaluations et des dons consacrés au sanctuaire.",
         "aliyot": {
           "1": {
-            "description": "Bénédictions : pluies à temps, récoltes, paix et présence divine."
+            "description": "Lecture de la Torah — Lévitique 26:3-26:5."
           },
           "2": {
-            "description": "Avertissements de famine, de défaite et de souffrance si l'alliance est délaissée."
+            "description": "Lecture de la Torah — Lévitique 26:6-26:9."
           },
           "3": {
-            "description": "Exil et épreuves, mais Dieu se souvient de Son alliance éternelle."
+            "description": "Lecture de la Torah — Lévitique 26:10-26:46."
           },
           "4": {
             "description": "Vœux et évaluations des personnes et des biens consacrés au sanctuaire."
           },
           "5": {
-            "description": "Consécration des terres héritées, dîme animale et fin du Lévitique."
+            "description": "Lecture de la Torah — Lévitique 27:16-27:21."
+          },
+          "6": {
+            "description": "Lecture de la Torah — Lévitique 27:22-27:28."
+          },
+          "7": {
+            "description": "Lecture de la Torah — Lévitique 27:29-27:34."
           }
         },
         "jasidicLessons": {
@@ -10268,22 +10673,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Organisation communautaire, rachat des premiers-nés et respect des responsabilités du service sacré.",
         "aliyot": {
           "1": {
-            "description": "Recensement des hommes d'Israël aptes au service militaire."
+            "description": "Lecture de la Torah — Nombres 1:1-1:19."
           },
           "2": {
-            "description": "Quatre camps tribaux disposés autour du Tabernacle."
+            "description": "Lecture de la Torah — Nombres 1:20-1:54."
           },
           "3": {
-            "description": "Famille sacerdotale d'Aaron et consécration des Lévites."
+            "description": "Lecture de la Torah — Nombres 1:20-1:54."
           },
           "4": {
-            "description": "Recensement et tâches des familles Guerchon, Kehat et Merari."
+            "description": "Lecture de la Torah — Nombres 1:20-1:54."
           },
           "5": {
-            "description": "Rachat des premiers-nés d'Israël contre cinq sicles."
+            "description": "Lecture de la Torah — Nombres 1:20-1:54."
           },
           "6": {
-            "description": "Les Kehatites transportent les objets sacrés."
+            "description": "Lecture de la Torah — Nombres 1:20-1:54."
+          },
+          "7": {
+            "description": "Lecture de la Torah — Nombres 1:20-1:54."
           }
         },
         "jasidicLessons": {
@@ -10415,22 +10823,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Second Pessa'h, trompettes d'argent et interdiction de la médisance.",
         "aliyot": {
           "1": {
-            "description": "Allumage de la ménora et consécration des Lévites."
+            "description": "Lecture de la Torah — Nombres 8:1-8:14."
           },
           "2": {
-            "description": "Pessa'h Chéni offre une autre occasion d'apporter l'agneau pascal."
+            "description": "Lecture de la Torah — Nombres 8:15-8:26."
           },
           "3": {
-            "description": "Nuée conductrice et trompettes d'argent rassemblent Israël."
+            "description": "Lecture de la Torah — Nombres 8:15-8:26."
           },
           "4": {
-            "description": "Départ du Sinaï et plaintes concernant la viande."
+            "description": "Lecture de la Torah — Nombres 8:15-8:26."
           },
           "5": {
-            "description": "Soixante-dix anciens partagent la direction prophétique ; épisode des cailles."
+            "description": "Lecture de la Torah — Nombres 10:11-10:34."
           },
           "6": {
-            "description": "Myriam et Aaron parlent de Moïse ; maladie de Myriam et prière de Moïse."
+            "description": "Lecture de la Torah — Nombres 10:35-11:29."
+          },
+          "7": {
+            "description": "Lecture de la Torah — Nombres 11:30-12:16."
           }
         },
         "jasidicLessons": {
@@ -10499,10 +10910,13 @@ export const parashotLocaleResources = {
             "description": "Quarante années d'errance sont décrétées, puis viennent les règles des offrandes."
           },
           "5": {
-            "description": "Offrandes pour fautes involontaires et idolâtrie collective."
+            "description": "Lecture de la Torah — Nombres 15:8-15:16."
           },
           "6": {
-            "description": "Punition de la profanation volontaire du Chabbat et mitsva des tsitsit."
+            "description": "Lecture de la Torah — Nombres 15:17-15:26."
+          },
+          "7": {
+            "description": "Lecture de la Torah — Nombres 15:17-15:26."
           }
         },
         "jasidicLessons": {
@@ -10562,16 +10976,22 @@ export const parashotLocaleResources = {
             "description": "Kora'h et 250 chefs contestent Moïse et Aaron."
           },
           "2": {
-            "description": "Épreuve de l'encens ; la terre engloutit les rebelles et le feu consume les 250."
+            "description": "Lecture de la Torah — Nombres 16:14-16:19."
           },
           "3": {
-            "description": "Une épidémie frappe ; Aaron se tient avec l'encens entre vivants et morts."
+            "description": "Lecture de la Torah — Nombres 16:20-17:8."
           },
           "4": {
-            "description": "Le bâton d'Aaron fleurit ; fonctions et dons sacerdotaux."
+            "description": "Lecture de la Torah — Nombres 17:9-17:15."
           },
           "5": {
-            "description": "Les Lévites versent aux prêtres la dîme de leur propre dîme."
+            "description": "Lecture de la Torah — Nombres 17:16-17:24."
+          },
+          "6": {
+            "description": "Lecture de la Torah — Nombres 17:25-18:20."
+          },
+          "7": {
+            "description": "Lecture de la Torah — Nombres 17:16-17:24."
           }
         },
         "jasidicLessons": {
@@ -10628,19 +11048,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Impureté rituelle liée aux morts et gratitude pour l'eau et la subsistance.",
         "aliyot": {
           "1": {
-            "description": "Purification grâce aux cendres de la vache rousse."
+            "description": "Lecture de la Torah — Nombres 19:1-19:17."
           },
           "2": {
-            "description": "Mort de Myriam ; Moïse frappe le rocher et ne pourra entrer dans le pays."
+            "description": "Lecture de la Torah — Nombres 19:18-20:6."
           },
           "3": {
-            "description": "Édom refuse le passage pacifique d'Israël."
+            "description": "Lecture de la Torah — Nombres 20:7-20:13."
           },
           "4": {
-            "description": "Mort d'Aaron au mont Hor ; serpent d'airain après une invasion de serpents."
+            "description": "Lecture de la Torah — Nombres 20:7-20:13."
           },
           "5": {
-            "description": "Chant du puits et victoires sur Si'hon et Og."
+            "description": "Lecture de la Torah — Nombres 20:7-20:13."
+          },
+          "6": {
+            "description": "Lecture de la Torah — Nombres 21:10-21:20."
+          },
+          "7": {
+            "description": "Lecture de la Torah — Nombres 21:21-22:1."
           }
         },
         "jasidicLessons": {
@@ -10703,16 +11129,19 @@ export const parashotLocaleResources = {
             "description": "Une seconde délégation arrive ; Bilam ne peut partir que selon la parole divine."
           },
           "3": {
-            "description": "Un ange arrête l'ânesse de Bilam ; première bénédiction."
+            "description": "Lecture de la Torah — Nombres 22:21-22:38."
           },
           "4": {
-            "description": "Une deuxième tentative de malédiction devient bénédiction."
+            "description": "Lecture de la Torah — Nombres 22:39-23:12."
           },
           "5": {
-            "description": "Bilam admire les tentes d'Israël : « Que tes tentes sont belles ! »"
+            "description": "Lecture de la Torah — Nombres 22:39-23:12."
           },
           "6": {
-            "description": "Prophétie de l'étoile future, épisode de Péor et intervention de Pin'has."
+            "description": "Lecture de la Torah — Nombres 22:39-23:12."
+          },
+          "7": {
+            "description": "Lecture de la Torah — Nombres 22:39-23:12."
           }
         },
         "jasidicLessons": {
@@ -10784,7 +11213,10 @@ export const parashotLocaleResources = {
             "description": "Offrandes quotidiennes, du Chabbat et de la nouvelle lune."
           },
           "6": {
-            "description": "Offrandes de Pessa'h, Chavouot, grandes fêtes, Souccot et Chemini Atséret."
+            "description": "Lecture de la Torah — Nombres 28:16-29:11."
+          },
+          "7": {
+            "description": "Lecture de la Torah — Nombres 29:12-30:1."
           }
         },
         "jasidicLessons": {
@@ -10841,16 +11273,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Annulation des vœux devant l'autorité compétente et purification des ustensiles.",
         "aliyot": {
           "1": {
-            "description": "Caractère obligatoire des vœux et annulation légitime de certains engagements."
+            "description": "Lois sur les vœux et les promesses."
           },
           "2": {
-            "description": "Guerre contre Midian et victoire d'Israël."
+            "description": "Guerre contre Madian."
           },
           "3": {
-            "description": "Purification des objets métalliques et du butin."
+            "description": "Purification des combattants et des objets."
           },
           "4": {
-            "description": "Ruben et Gad demandent un territoire à l'est du Jourdain et promettent d'abord de combattre avec leurs frères."
+            "description": "Partage du butin de guerre."
+          },
+          "5": {
+            "description": "Offrandes de gratitude des officiers."
+          },
+          "6": {
+            "description": "Ruben et Gad demandent des terres à l’est du Jourdain."
+          },
+          "7": {
+            "description": "Accord pour participer à la conquête du pays avant de s’installer."
           }
         },
         "jasidicLessons": {
@@ -10907,19 +11348,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Villes de refuge, homicide involontaire et préservation des héritages tribaux.",
         "aliyot": {
           "1": {
-            "description": "Liste des quarante-deux haltes du peuple au désert."
+            "description": "Lecture de la Torah — Nombres 33:1-33:10."
           },
           "2": {
-            "description": "Éloignement des idoles et frontières de Canaan."
+            "description": "Lecture de la Torah — Nombres 33:11-33:49."
           },
           "3": {
-            "description": "Chefs chargés du partage et quarante-huit villes lévitiques."
+            "description": "Lecture de la Torah — Nombres 33:11-33:49."
           },
           "4": {
-            "description": "Six villes de refuge protègent les auteurs d'homicide involontaire."
+            "description": "Lecture de la Torah — Nombres 34:16-34:29."
           },
           "5": {
-            "description": "Les mariages des filles de Tselof'had préservent l'héritage ; fin des Nombres."
+            "description": "Lecture de la Torah — Nombres 35:1-35:8."
+          },
+          "6": {
+            "description": "Lecture de la Torah — Nombres 34:16-34:29."
+          },
+          "7": {
+            "description": "Lecture de la Torah — Nombres 35:1-35:8."
           }
         },
         "jasidicLessons": {
@@ -10976,19 +11423,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Tribunaux impartiaux, respect des frontières d'autrui et enseignements de l'histoire.",
         "aliyot": {
           "1": {
-            "description": "Moïse commence son discours et rappelle la nomination de juges."
+            "description": "Lecture de la Torah — Deutéronome 1:1-1:10."
           },
           "2": {
-            "description": "Il évoque l'échec des éclaireurs et l'interdiction d'entrer dans le pays."
+            "description": "Lecture de la Torah — Deutéronome 1:11-1:21."
           },
           "3": {
-            "description": "Années d'errance et chemin vers la Transjordanie."
+            "description": "Lecture de la Torah — Deutéronome 1:22-1:38."
           },
           "4": {
-            "description": "Ne pas attaquer Édom, Moab ni Ammon ; victoire sur Si'hon."
+            "description": "Lecture de la Torah — Deutéronome 1:22-1:38."
           },
           "5": {
-            "description": "Défaite d'Og, partage de terres à l'est du Jourdain et encouragement de Josué."
+            "description": "Lecture de la Torah — Deutéronome 1:22-1:38."
+          },
+          "6": {
+            "description": "Lecture de la Torah — Deutéronome 2:31-3:14."
+          },
+          "7": {
+            "description": "Lecture de la Torah — Deutéronome 3:15-3:22."
           }
         },
         "jasidicLessons": {
@@ -11135,7 +11588,10 @@ export const parashotLocaleResources = {
             "description": "Craindre et aimer Dieu, suivre Ses voies et aimer l'étranger."
           },
           "6": {
-            "description": "Pluies saisonnières et bénédictions associées aux commandements."
+            "description": "Lecture de la Torah — Deutéronome 11:10-11:21."
+          },
+          "7": {
+            "description": "Lecture de la Torah — Deutéronome 11:22-11:25."
           }
         },
         "jasidicLessons": {
@@ -11195,19 +11651,22 @@ export const parashotLocaleResources = {
             "description": "Bénédiction et malédiction ; culte au lieu choisi par Dieu."
           },
           "2": {
-            "description": "Consommation permise de viande et interdiction des sacrifices non autorisés."
+            "description": "Lecture de la Torah — Deutéronome 12:11-12:28."
           },
           "3": {
-            "description": "Avertissements contre faux prophètes et incitation à l'idolâtrie."
+            "description": "Lecture de la Torah — Deutéronome 12:29-13:19."
           },
           "4": {
-            "description": "Animaux permis et interdits, viande et lait, dîmes."
+            "description": "Lecture de la Torah — Deutéronome 14:1-14:21."
           },
           "5": {
-            "description": "Remise des dettes à l'année sabbatique et générosité envers les pauvres."
+            "description": "Lecture de la Torah — Deutéronome 14:22-14:29."
           },
           "6": {
-            "description": "Offrandes des premiers-nés et trois fêtes de pèlerinage."
+            "description": "Lecture de la Torah — Deutéronome 14:22-14:29."
+          },
+          "7": {
+            "description": "Lecture de la Torah — Deutéronome 14:22-14:29."
           }
         },
         "jasidicLessons": {
@@ -11417,19 +11876,22 @@ export const parashotLocaleResources = {
             "description": "Les prémices sont apportées à Jérusalem avec une déclaration de gratitude."
           },
           "2": {
-            "description": "Déclaration des dîmes et engagement d'Israël envers Dieu."
+            "description": "Lecture de la Torah — Deutéronome 26:12-26:15."
           },
           "3": {
-            "description": "Les paroles de la Torah sont inscrites sur des pierres au mont Ébal."
+            "description": "Lecture de la Torah — Deutéronome 26:16-26:19."
           },
           "4": {
-            "description": "Proclamation des malédictions et bénédictions de l'alliance."
+            "description": "Lecture de la Torah — Deutéronome 26:16-26:19."
           },
           "5": {
-            "description": "Avertissements sévères contre l'abandon de l'alliance."
+            "description": "Lecture de la Torah — Deutéronome 26:16-26:19."
           },
           "6": {
-            "description": "Moïse rappelle les miracles du désert et rassemble le peuple pour l'alliance."
+            "description": "Lecture de la Torah — Deutéronome 26:16-26:19."
+          },
+          "7": {
+            "description": "Lecture de la Torah — Deutéronome 26:16-26:19."
           }
         },
         "jasidicLessons": {
@@ -11486,16 +11948,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Repentir, confession des fautes et choix constant du bien et de la vie.",
         "aliyot": {
           "1": {
-            "description": "Tout Israël se présente pour entrer ensemble dans l'alliance."
+            "description": "Tout Israël se tient devant Dieu pour renouveler l’alliance."
           },
           "2": {
-            "description": "Avertissement contre l'idolâtrie secrète et l'abandon de l'alliance."
+            "description": "L’alliance concerne toutes les générations."
           },
           "3": {
-            "description": "Promesse de retour par le repentir depuis l'exil lointain."
+            "description": "Mise en garde contre l’idolâtrie et ses conséquences."
           },
           "4": {
-            "description": "La Torah est proche, non dans le ciel ; choisir la vie et la bénédiction."
+            "description": "Promesse de retour et de restauration après l’exil."
+          },
+          "5": {
+            "description": "Dieu renouvellera le cœur d’Israël."
+          },
+          "6": {
+            "description": "La Torah est proche : dans ta bouche et dans ton cœur."
+          },
+          "7": {
+            "description": "Le choix entre la vie et la mort : un appel à choisir la vie."
           }
         },
         "jasidicLessons": {
@@ -11552,13 +12023,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Hakhel, lecture publique de la Torah après l'année sabbatique, et écriture d'un Séfer Torah.",
         "aliyot": {
           "1": {
-            "description": "Moïse encourage Israël et Josué : soyez forts et courageux."
+            "description": "Moïse annonce qu’il ne dirigera plus le peuple et rappelle que Dieu l’accompagnera."
           },
           "2": {
-            "description": "Moïse confie la Torah aux prêtres et ordonne l'assemblée Hakhel."
+            "description": "Moïse encourage Israël et Josué à être forts et courageux."
           },
           "3": {
-            "description": "Dieu annonce une future infidélité et commande un cantique comme témoin."
+            "description": "Moïse présente Josué à Israël et confie la Torah aux prêtres."
+          },
+          "4": {
+            "description": "Le commandement du Hakhel : lecture publique de la Torah tous les sept ans."
+          },
+          "5": {
+            "description": "Dieu annonce la future infidélité d’Israël et la dissimulation de Sa face."
+          },
+          "6": {
+            "description": "Moïse écrit le cantique comme témoignage et achève la rédaction de la Torah."
+          },
+          "7": {
+            "description": "La Torah est placée près de l’Arche et Moïse rassemble les anciens pour les avertir."
           }
         },
         "jasidicLessons": {
@@ -11615,19 +12098,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Mémoire historique, confiance dans la justice divine et respect de l'enseignement prophétique.",
         "aliyot": {
           "1": {
-            "description": "Ciel et terre sont appelés à témoigner ; la justice parfaite de Dieu est louée."
+            "description": "Lecture de la Torah — Deutéronome 32:1-32:6."
           },
           "2": {
-            "description": "La prospérité d'Israël mène à l'ingratitude et à l'idolâtrie."
+            "description": "Lecture de la Torah — Deutéronome 32:7-32:12."
           },
           "3": {
-            "description": "Avertissements de retrait divin apparent et de grandes épreuves."
+            "description": "Lecture de la Torah — Deutéronome 32:7-32:12."
           },
           "4": {
-            "description": "Destin des ennemis et proclamation de l'unicité divine."
+            "description": "Lecture de la Torah — Deutéronome 32:7-32:12."
           },
           "5": {
-            "description": "Fin du cantique ; Moïse doit monter au mont Nébo et voir le pays."
+            "description": "Lecture de la Torah — Deutéronome 32:7-32:12."
+          },
+          "6": {
+            "description": "Lecture de la Torah — Deutéronome 32:40-32:43."
+          },
+          "7": {
+            "description": "Lecture de la Torah — Deutéronome 32:44-32:52."
           }
         },
         "jasidicLessons": {
@@ -11684,16 +12173,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Achèvement et reprise des lectures annuelles à Sim'hat Torah et bénédictions de gratitude.",
         "aliyot": {
           "1": {
-            "description": "Moïse introduit ses bénédictions pour Ruben et Juda."
+            "description": "Moïse commence ses bénédictions pour Israël, Ruben et Juda."
           },
           "2": {
-            "description": "Bénédictions pour Lévi, Benjamin et les descendants de Joseph."
+            "description": "Bénédictions pour Lévi et Benjamin."
           },
           "3": {
-            "description": "Bénédictions pour Zabulon, Issachar, Gad, Dan, Nephtali et Asher."
+            "description": "Bénédiction pour Joseph et ses descendants."
           },
           "4": {
-            "description": "Moïse voit le pays du mont Nébo et meurt à 120 ans ; sa prophétie unique est honorée."
+            "description": "Bénédictions pour Zabulon, Issacar et Gad."
+          },
+          "5": {
+            "description": "Bénédictions pour Dan, Nephtali et Aser ; début de la louange d’Israël."
+          },
+          "6": {
+            "description": "La protection divine et la bénédiction singulière d’Israël."
+          },
+          "7": {
+            "description": "Moïse contemple le pays, meurt et demeure un prophète unique."
           }
         },
         "jasidicLessons": {
@@ -12461,7 +12959,10 @@ export const parashotLocaleResources = {
             "description": "Simeão fica como refém até os irmãos voltarem com Benjamim."
           },
           "6": {
-            "description": "José oferece um banquete; sua taça de prata é escondida no saco de Benjamim."
+            "description": "Leitura da Torá — Gênesis 43:16-43:29."
+          },
+          "7": {
+            "description": "Leitura da Torá — Gênesis 43:30-44:17."
           }
         },
         "jasidicLessons": {
@@ -12518,19 +13019,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Gratidão à família, respeito aos mais velhos e cuidado com refugiados e parentes necessitados.",
         "aliyot": {
           "1": {
-            "description": "Judá defende Benjamim diante do governador do Egito com um apelo apaixonado."
+            "description": "Leitura da Torá — Gênesis 44:18-44:30."
           },
           "2": {
-            "description": "José revela sua identidade em lágrimas e envia carros para buscar o pai idoso."
+            "description": "Leitura da Torá — Gênesis 44:31-45:7."
           },
           "3": {
-            "description": "Jacó desce ao Egito após uma visão divina em Berseba; são listados os familiares que o acompanham."
+            "description": "Leitura da Torá — Gênesis 45:8-45:18."
           },
           "4": {
-            "description": "Jacó e José se abraçam em Gósen; Jacó é apresentado ao faraó."
+            "description": "Leitura da Torá — Gênesis 45:19-45:27."
           },
           "5": {
-            "description": "Jacó abençoa o faraó; José administra as terras durante a fome e Israel prospera."
+            "description": "Leitura da Torá — Gênesis 45:8-45:18."
+          },
+          "6": {
+            "description": "Leitura da Torá — Gênesis 46:28-47:10."
+          },
+          "7": {
+            "description": "Leitura da Torá — Gênesis 47:11-47:27."
           }
         },
         "jasidicLessons": {
@@ -12587,19 +13094,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Bênçãos sobre alimentos e vinho, visita aos doentes (bikur cholim) e respeito aos últimos desejos dos pais.",
         "aliyot": {
           "1": {
-            "description": "Jacó, enfermo, faz José jurar que o enterrará em Hebron e abençoa Efraim e Manassés com as mãos cruzadas."
+            "description": "Leitura da Torá — Gênesis 47:28-48:9."
           },
           "2": {
-            "description": "Jacó profetiza e abençoa Rúben, Simeão, Levi, Judá, Zebulom e Issacar."
+            "description": "Leitura da Torá — Gênesis 48:10-48:16."
           },
           "3": {
-            "description": "Jacó abençoa Dã, Gade, Aser, Naftali, José e Benjamim."
+            "description": "Leitura da Torá — Gênesis 48:17-48:22."
           },
           "4": {
-            "description": "Jacó morre, é homenageado no Egito e enterrado em Machpelá; José perdoa seus irmãos."
+            "description": "Leitura da Torá — Gênesis 48:10-48:16."
           },
           "5": {
-            "description": "José morre aos 110 anos, pede que levem seus ossos do Egito e termina o livro de Gênesis."
+            "description": "Leitura da Torá — Gênesis 48:17-48:22."
+          },
+          "6": {
+            "description": "Leitura da Torá — Gênesis 48:10-48:16."
+          },
+          "7": {
+            "description": "Leitura da Torá — Gênesis 48:17-48:22."
           }
         },
         "jasidicLessons": {
@@ -13118,10 +13631,13 @@ export const parashotLocaleResources = {
             "description": "Tábuas de acácia, bases de prata e travessas formam a estrutura."
           },
           "5": {
-            "description": "São descritos o véu de separação, o altar de bronze e o pátio externo."
+            "description": "Leitura da Torá — Êxodo 26:31-26:37."
           },
           "6": {
-            "description": "Cortinas, estacas e o portão completam o recinto sagrado."
+            "description": "Leitura da Torá — Êxodo 27:1-27:8."
+          },
+          "7": {
+            "description": "Leitura da Torá — Êxodo 27:1-27:8."
           }
         },
         "jasidicLessons": {
@@ -13193,7 +13709,10 @@ export const parashotLocaleResources = {
             "description": "São prescritas as ofertas regulares da manhã e da tarde."
           },
           "6": {
-            "description": "O altar do incenso é construído para a queima diária de especiarias."
+            "description": "Leitura da Torá — Êxodo 29:38-29:46."
+          },
+          "7": {
+            "description": "Leitura da Torá — Êxodo 30:1-30:10."
           }
         },
         "jasidicLessons": {
@@ -13250,22 +13769,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "A santidade do Shabat, a gravidade de sua violação e as leis e práticas de perdão e expiação.",
         "aliyot": {
           "1": {
-            "description": "Israel é contado por meio da doação obrigatória de meio shekel."
+            "description": "Leitura da Torá — Êxodo 30:11-31:17."
           },
           "2": {
-            "description": "São ordenados a bacia de bronze, o óleo da unção e o incenso; Bezalel e Oholiav são escolhidos."
-          },
-          "3": {
             "description": "Israel faz o bezerro de ouro; Moisés intercede, quebra as Tábuas e destrói o ídolo."
           },
+          "3": {
+            "description": "Leitura da Torá — Êxodo 33:12-33:16."
+          },
           "4": {
-            "description": "Moisés pede para ver a glória divina e é protegido numa fenda da rocha."
+            "description": "Leitura da Torá — Êxodo 33:17-33:23."
           },
           "5": {
-            "description": "Novas Tábuas são talhadas e os Treze Atributos da Misericórdia são proclamados."
+            "description": "Leitura da Torá — Êxodo 34:1-34:9."
           },
           "6": {
-            "description": "Moisés desce com o rosto radiante e o cobre com um véu."
+            "description": "Leitura da Torá — Êxodo 34:10-34:26."
+          },
+          "7": {
+            "description": "Leitura da Torá — Êxodo 34:10-34:26."
           }
         },
         "jasidicLessons": {
@@ -13322,22 +13844,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "As trinta e nove categorias de trabalho criativo proibidas no Shabat, derivadas da construção do Tabernáculo.",
         "aliyot": {
           "1": {
-            "description": "Moisés repete as leis do Shabat e o povo oferece materiais voluntariamente."
+            "description": "Leitura da Torá — Êxodo 35:1-35:20."
           },
           "2": {
-            "description": "Bezalel e Oholiav recebem sabedoria; as doações são tantas que precisam ser interrompidas."
+            "description": "Leitura da Torá — Êxodo 35:21-35:29."
           },
           "3": {
-            "description": "São confeccionadas as cortinas de linho e as coberturas do Tabernáculo."
+            "description": "Leitura da Torá — Êxodo 35:21-35:29."
           },
           "4": {
-            "description": "São feitas as tábuas de madeira, bases de prata e o véu sagrado."
+            "description": "Leitura da Torá — Êxodo 35:21-35:29."
           },
           "5": {
-            "description": "São construídas a Arca, a Mesa, a Menorá e o altar do incenso."
+            "description": "Leitura da Torá — Êxodo 36:20-37:16."
           },
           "6": {
-            "description": "São concluídos o altar das oferendas queimadas, a bacia de bronze e o pátio."
+            "description": "Leitura da Torá — Êxodo 37:17-37:29."
+          },
+          "7": {
+            "description": "Leitura da Torá — Êxodo 37:17-37:29."
           }
         },
         "jasidicLessons": {
@@ -13403,10 +13928,16 @@ export const parashotLocaleResources = {
             "description": "São concluídos o manto, as túnicas e a placa de ouro 'Santo para o Eterno'."
           },
           "4": {
-            "description": "A obra é apresentada a Moisés e o Tabernáculo é erguido no primeiro dia de Nissan."
+            "description": "Leitura da Torá — Êxodo 39:33-39:43."
           },
           "5": {
-            "description": "A nuvem divina enche o Tabernáculo e guia Israel no encerramento do Êxodo."
+            "description": "Leitura da Torá — Êxodo 40:1-40:16."
+          },
+          "6": {
+            "description": "Leitura da Torá — Êxodo 40:17-40:27."
+          },
+          "7": {
+            "description": "Leitura da Torá — Êxodo 40:28-40:38."
           }
         },
         "jasidicLessons": {
@@ -13688,19 +14219,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Pureza familiar, imersão no mikvê e cuidado para evitar a maledicência.",
         "aliyot": {
           "1": {
-            "description": "Leis de impureza e purificação após o nascimento de menino ou menina."
+            "description": "Leitura da Torá — Levítico 12:1-13:5."
           },
           "2": {
-            "description": "Um sacerdote examina sinais suspeitos de tzaraat na pele."
+            "description": "Leitura da Torá — Levítico 13:6-13:17."
           },
           "3": {
-            "description": "Diagnóstico de manchas causadas por queimaduras e feridas."
+            "description": "Leitura da Torá — Levítico 13:18-13:23."
           },
           "4": {
-            "description": "Exame de condições que afetam o couro cabeludo ou a barba."
+            "description": "Leitura da Torá — Levítico 13:24-13:28."
           },
           "5": {
-            "description": "Isolamento da pessoa afetada e exame de marcas em tecidos."
+            "description": "Leitura da Torá — Levítico 13:29-13:39."
+          },
+          "6": {
+            "description": "Leitura da Torá — Levítico 13:40-13:54."
+          },
+          "7": {
+            "description": "Leitura da Torá — Levítico 13:55-13:59."
           }
         },
         "jasidicLessons": {
@@ -13757,19 +14294,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Pureza familiar, higiene ritual, imersão no mikvê e cuidado com a fala.",
         "aliyot": {
           "1": {
-            "description": "O ritual de purificação fora do acampamento usa duas aves e água de nascente."
+            "description": "Leitura da Torá — Levítico 14:1-14:12."
           },
           "2": {
-            "description": "Existem ofertas menos caras para quem não pode levar cordeiros."
+            "description": "Leitura da Torá — Levítico 14:13-14:20."
           },
           "3": {
-            "description": "Casas com paredes afetadas são examinadas, limpas ou demolidas."
+            "description": "Leitura da Torá — Levítico 14:13-14:20."
           },
           "4": {
-            "description": "Leis de impureza ligadas a secreções masculinas irregulares."
+            "description": "Leitura da Torá — Levítico 14:33-14:53."
           },
           "5": {
-            "description": "Leis de secreções femininas e de purificação por imersão ritual."
+            "description": "Leitura da Torá — Levítico 14:54-15:15."
+          },
+          "6": {
+            "description": "Leitura da Torá — Levítico 15:16-15:28."
+          },
+          "7": {
+            "description": "Leitura da Torá — Levítico 15:29-15:33."
           }
         },
         "jasidicLessons": {
@@ -13829,19 +14372,22 @@ export const parashotLocaleResources = {
             "description": "O serviço solene do sumo sacerdote em Yom Kipur inclui entrar no Santo dos Santos com incenso e sangue."
           },
           "2": {
-            "description": "O bode emissário é enviado a Azazel no deserto; são ordenados jejum e aflição."
+            "description": "Leitura da Torá — Levítico 16:18-16:24."
           },
           "3": {
-            "description": "São proibidos sacrifícios fora do Santuário e estabelecidas regras sobre o sangue."
+            "description": "Leitura da Torá — Levítico 16:25-16:34."
           },
           "4": {
-            "description": "É proibido comer sangue e carne de animais encontrados mortos."
+            "description": "Leitura da Torá — Levítico 17:1-17:7."
           },
           "5": {
-            "description": "Leis de moral familiar proíbem relações incestuosas e outras uniões ilícitas."
+            "description": "Leitura da Torá — Levítico 17:8-18:5."
           },
           "6": {
-            "description": "Israel não deve imitar as práticas imorais dos povos vizinhos."
+            "description": "Leitura da Torá — Levítico 18:6-18:21."
+          },
+          "7": {
+            "description": "Leitura da Torá — Levítico 18:6-18:21."
           }
         },
         "jasidicLessons": {
@@ -13898,16 +14444,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Honrar os pais, evitar fofocas, usar pesos e medidas honestos e amar o próximo.",
         "aliyot": {
           "1": {
-            "description": "Santidade, respeito aos pais e ao Shabat, rejeição dos ídolos, ajuda aos pobres e honestidade no trabalho."
+            "description": "Chamado à santidade e aos deveres éticos."
           },
           "2": {
-            "description": "Justiça imparcial, proibição de fofocas, vingança e ódio, e mandamento de amar o próximo."
+            "description": "Justiça, amor ao próximo e proibição do ódio."
           },
           "3": {
-            "description": "Bom tratamento ao estrangeiro residente e pesos e medidas honestos."
+            "description": "Leis sobre frutos, costumes e respeito."
           },
           "4": {
-            "description": "Proibições graves do culto a Moloch, adivinhação, maldição dos pais e imoralidade sexual."
+            "description": "Respeito ao estrangeiro e honestidade nas medidas."
+          },
+          "5": {
+            "description": "Proibição do culto a Moloque e de práticas idólatras."
+          },
+          "6": {
+            "description": "Santidade da vida familiar e observância dos mandamentos."
+          },
+          "7": {
+            "description": "Distinção entre os povos e chamado à santidade."
           }
         },
         "jasidicLessons": {
@@ -14042,13 +14597,22 @@ export const parashotLocaleResources = {
             "description": "Descanso da terra no sétimo ano e Jubileu no quinquagésimo."
           },
           "2": {
-            "description": "Preços justos, venda e resgate de terras."
+            "description": "Leitura da Torá — Levítico 25:14-25:18."
           },
           "3": {
-            "description": "Casas em cidades muradas, propriedades levíticas e proibição de juros."
+            "description": "Leitura da Torá — Levítico 25:19-25:24."
           },
           "4": {
-            "description": "Tratamento digno e libertação de servos hebreus; rejeição de ídolos e guarda do Shabat."
+            "description": "Leitura da Torá — Levítico 25:25-25:28."
+          },
+          "5": {
+            "description": "Leitura da Torá — Levítico 25:19-25:24."
+          },
+          "6": {
+            "description": "Leitura da Torá — Levítico 25:39-25:46."
+          },
+          "7": {
+            "description": "Leitura da Torá — Levítico 25:47-26:2."
           }
         },
         "jasidicLessons": {
@@ -14105,19 +14669,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Leis dos votos, avaliações, consagrações e doações sagradas.",
         "aliyot": {
           "1": {
-            "description": "Bênçãos de chuva no tempo certo, colheita, paz e presença divina."
+            "description": "Leitura da Torá — Levítico 26:3-26:5."
           },
           "2": {
-            "description": "Advertências de fome, derrota e sofrimento pelo abandono da aliança."
+            "description": "Leitura da Torá — Levítico 26:6-26:9."
           },
           "3": {
-            "description": "Exílio e provações, mas Deus se lembra da aliança eterna."
+            "description": "Leitura da Torá — Levítico 26:10-26:46."
           },
           "4": {
             "description": "Votos e avaliações monetárias de pessoas e bens consagrados ao santuário."
           },
           "5": {
-            "description": "Consagração de campos herdados, dízimo animal e fim de Levítico."
+            "description": "Leitura da Torá — Levítico 27:16-27:21."
+          },
+          "6": {
+            "description": "Leitura da Torá — Levítico 27:22-27:28."
+          },
+          "7": {
+            "description": "Leitura da Torá — Levítico 27:29-27:34."
           }
         },
         "jasidicLessons": {
@@ -14174,22 +14744,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Organização comunitária, resgate dos primogênitos e respeito às funções do serviço sagrado.",
         "aliyot": {
           "1": {
-            "description": "Recenseamento dos homens israelitas aptos ao serviço militar."
+            "description": "Leitura da Torá — Números 1:1-1:19."
           },
           "2": {
-            "description": "Quatro acampamentos tribais dispostos ao redor do Tabernáculo."
+            "description": "Leitura da Torá — Números 1:20-1:54."
           },
           "3": {
-            "description": "Família sacerdotal de Aarão e consagração dos levitas."
+            "description": "Leitura da Torá — Números 1:20-1:54."
           },
           "4": {
-            "description": "Recenseamento e funções das famílias Gérson, Coate e Merari."
+            "description": "Leitura da Torá — Números 1:20-1:54."
           },
           "5": {
-            "description": "Resgate dos primogênitos mediante cinco siclos."
+            "description": "Leitura da Torá — Números 1:20-1:54."
           },
           "6": {
-            "description": "Funções dos coatitas no transporte dos objetos sagrados."
+            "description": "Leitura da Torá — Números 1:20-1:54."
+          },
+          "7": {
+            "description": "Leitura da Torá — Números 1:20-1:54."
           }
         },
         "jasidicLessons": {
@@ -14321,22 +14894,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Leis do segundo Pessach, trombetas de prata e proibição da maledicência.",
         "aliyot": {
           "1": {
-            "description": "Acendimento da menorá e consagração dos levitas."
+            "description": "Leitura da Torá — Números 8:1-8:14."
           },
           "2": {
-            "description": "Pessach Sheni oferece nova oportunidade de realizar a oferenda pascal."
+            "description": "Leitura da Torá — Números 8:15-8:26."
           },
           "3": {
-            "description": "A nuvem orientadora e as trombetas de prata reúnem Israel."
+            "description": "Leitura da Torá — Números 8:15-8:26."
           },
           "4": {
-            "description": "Partida do Sinai e reclamações pela falta de carne."
+            "description": "Leitura da Torá — Números 8:15-8:26."
           },
           "5": {
-            "description": "Setenta anciãos compartilham a liderança; episódio das codornizes."
+            "description": "Leitura da Torá — Números 10:11-10:34."
           },
           "6": {
-            "description": "Miriam e Aarão falam de Moisés; aflição de Miriam e oração de Moisés."
+            "description": "Leitura da Torá — Números 10:35-11:29."
+          },
+          "7": {
+            "description": "Leitura da Torá — Números 11:30-12:16."
           }
         },
         "jasidicLessons": {
@@ -14405,10 +14981,13 @@ export const parashotLocaleResources = {
             "description": "São decretados quarenta anos de peregrinação, seguidos das leis das ofertas."
           },
           "5": {
-            "description": "Ofertas por pecados involuntários e idolatria comunitária."
+            "description": "Leitura da Torá — Números 15:8-15:16."
           },
           "6": {
-            "description": "Punição pela violação intencional do Shabat e mandamento dos tzitzit."
+            "description": "Leitura da Torá — Números 15:17-15:26."
+          },
+          "7": {
+            "description": "Leitura da Torá — Números 15:17-15:26."
           }
         },
         "jasidicLessons": {
@@ -14468,16 +15047,22 @@ export const parashotLocaleResources = {
             "description": "Corá e 250 líderes desafiam Moisés e Aarão."
           },
           "2": {
-            "description": "Prova do incenso; a terra engole rebeldes e o fogo consome os 250."
+            "description": "Leitura da Torá — Números 16:14-16:19."
           },
           "3": {
-            "description": "Uma praga atinge o povo; Aarão fica com incenso entre vivos e mortos."
+            "description": "Leitura da Torá — Números 16:20-17:8."
           },
           "4": {
-            "description": "A vara de Aarão floresce; deveres e ofertas sacerdotais."
+            "description": "Leitura da Torá — Números 17:9-17:15."
           },
           "5": {
-            "description": "Os levitas entregam aos sacerdotes o dízimo do próprio dízimo."
+            "description": "Leitura da Torá — Números 17:16-17:24."
+          },
+          "6": {
+            "description": "Leitura da Torá — Números 17:25-18:20."
+          },
+          "7": {
+            "description": "Leitura da Torá — Números 17:16-17:24."
           }
         },
         "jasidicLessons": {
@@ -14534,19 +15119,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Impureza ritual por contato com mortos e gratidão pela água e pelo sustento.",
         "aliyot": {
           "1": {
-            "description": "Purificação com as cinzas da vaca vermelha."
+            "description": "Leitura da Torá — Números 19:1-19:17."
           },
           "2": {
-            "description": "Miriam morre; Moisés golpeia a rocha e não poderá entrar na terra."
+            "description": "Leitura da Torá — Números 19:18-20:6."
           },
           "3": {
-            "description": "Edom recusa passagem pacífica a Israel."
+            "description": "Leitura da Torá — Números 20:7-20:13."
           },
           "4": {
-            "description": "Aarão morre no monte Hor; serpente de bronze após o ataque de serpentes."
+            "description": "Leitura da Torá — Números 20:7-20:13."
           },
           "5": {
-            "description": "Cântico do poço e vitórias sobre Seom e Ogue."
+            "description": "Leitura da Torá — Números 20:7-20:13."
+          },
+          "6": {
+            "description": "Leitura da Torá — Números 21:10-21:20."
+          },
+          "7": {
+            "description": "Leitura da Torá — Números 21:21-22:1."
           }
         },
         "jasidicLessons": {
@@ -14609,16 +15200,19 @@ export const parashotLocaleResources = {
             "description": "Chega outra delegação; Bilam só pode partir sob direção divina."
           },
           "3": {
-            "description": "Um anjo bloqueia a jumenta de Bilam; vem a primeira bênção."
+            "description": "Leitura da Torá — Números 22:21-22:38."
           },
           "4": {
-            "description": "A segunda tentativa de maldição se torna bênção."
+            "description": "Leitura da Torá — Números 22:39-23:12."
           },
           "5": {
-            "description": "Bilam admira as tendas de Israel: 'Como são boas tuas tendas'."
+            "description": "Leitura da Torá — Números 22:39-23:12."
           },
           "6": {
-            "description": "Profecia da estrela futura, acontecimentos em Peor e intervenção de Pinchas."
+            "description": "Leitura da Torá — Números 22:39-23:12."
+          },
+          "7": {
+            "description": "Leitura da Torá — Números 22:39-23:12."
           }
         },
         "jasidicLessons": {
@@ -14690,7 +15284,10 @@ export const parashotLocaleResources = {
             "description": "Ofertas diárias, de Shabat e da lua nova."
           },
           "6": {
-            "description": "Ofertas de Pessach, Shavuot, festas solenes, Sucot e Shemini Atzeret."
+            "description": "Leitura da Torá — Números 28:16-29:11."
+          },
+          "7": {
+            "description": "Leitura da Torá — Números 29:12-30:1."
           }
         },
         "jasidicLessons": {
@@ -14747,16 +15344,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Anulação de votos perante autoridade competente e purificação dos utensílios.",
         "aliyot": {
           "1": {
-            "description": "Votos verbais obrigatórios e anulação legítima de certos votos."
+            "description": "Leis sobre votos e promessas."
           },
           "2": {
-            "description": "Guerra contra Midian e vitória de Israel."
+            "description": "Guerra contra Midiã."
           },
           "3": {
-            "description": "Purificação de objetos metálicos e despojos de guerra."
+            "description": "Purificação dos combatentes e dos objetos."
           },
           "4": {
-            "description": "Rúben e Gade pedem terras a leste do Jordão e prometem lutar primeiro com seus irmãos."
+            "description": "Divisão dos despojos da guerra."
+          },
+          "5": {
+            "description": "Ofertas de agradecimento dos oficiais."
+          },
+          "6": {
+            "description": "Rúben e Gade pedem terras a leste do Jordão."
+          },
+          "7": {
+            "description": "Acordo para ajudar na conquista da terra antes de se estabelecerem."
           }
         },
         "jasidicLessons": {
@@ -14813,19 +15419,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Cidades de refúgio, homicídio involuntário e preservação da herança tribal.",
         "aliyot": {
           "1": {
-            "description": "Lista das quarenta e duas paradas de Israel no deserto."
+            "description": "Leitura da Torá — Números 33:1-33:10."
           },
           "2": {
-            "description": "Remoção da idolatria e limites de Canaã."
+            "description": "Leitura da Torá — Números 33:11-33:49."
           },
           "3": {
-            "description": "Chefes nomeados para dividir a terra; quarenta e oito cidades levíticas."
+            "description": "Leitura da Torá — Números 33:11-33:49."
           },
           "4": {
-            "description": "Seis cidades de refúgio protegem autores de homicídio involuntário."
+            "description": "Leitura da Torá — Números 34:16-34:29."
           },
           "5": {
-            "description": "Casamentos das filhas de Tzelofchad preservam a herança; termina Números."
+            "description": "Leitura da Torá — Números 35:1-35:8."
+          },
+          "6": {
+            "description": "Leitura da Torá — Números 34:16-34:29."
+          },
+          "7": {
+            "description": "Leitura da Torá — Números 35:1-35:8."
           }
         },
         "jasidicLessons": {
@@ -14882,19 +15494,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Tribunais imparciais, respeito aos limites alheios e aprendizado com erros do passado.",
         "aliyot": {
           "1": {
-            "description": "Moisés começa a despedida e recorda a nomeação de juízes."
+            "description": "Leitura da Torá — Deuteronômio 1:1-1:10."
           },
           "2": {
-            "description": "Relembra o fracasso dos espiões e a proibição de entrada daquela geração."
+            "description": "Leitura da Torá — Deuteronômio 1:11-1:21."
           },
           "3": {
-            "description": "Anos de peregrinação e caminhada até a Transjordânia."
+            "description": "Leitura da Torá — Deuteronômio 1:22-1:38."
           },
           "4": {
-            "description": "Israel não deve atacar Edom, Moab nem Amon; vitória sobre Seom."
+            "description": "Leitura da Torá — Deuteronômio 1:22-1:38."
           },
           "5": {
-            "description": "Derrota de Ogue, divisão de terras a leste do Jordão e incentivo a Josué."
+            "description": "Leitura da Torá — Deuteronômio 1:22-1:38."
+          },
+          "6": {
+            "description": "Leitura da Torá — Deuteronômio 2:31-3:14."
+          },
+          "7": {
+            "description": "Leitura da Torá — Deuteronômio 3:15-3:22."
           }
         },
         "jasidicLessons": {
@@ -15041,7 +15659,10 @@ export const parashotLocaleResources = {
             "description": "Temer e amar a Deus, seguir Seus caminhos e amar o estrangeiro."
           },
           "6": {
-            "description": "Chuvas sazonais e bênçãos ligadas aos mandamentos."
+            "description": "Leitura da Torá — Deuteronômio 11:10-11:21."
+          },
+          "7": {
+            "description": "Leitura da Torá — Deuteronômio 11:22-11:25."
           }
         },
         "jasidicLessons": {
@@ -15101,19 +15722,22 @@ export const parashotLocaleResources = {
             "description": "Bênção e maldição, culto no local escolhido por Deus."
           },
           "2": {
-            "description": "Consumo permitido de carne e proibição de sacrifícios não autorizados."
+            "description": "Leitura da Torá — Deuteronômio 12:11-12:28."
           },
           "3": {
-            "description": "Alertas contra falsos profetas e sedução à idolatria."
+            "description": "Leitura da Torá — Deuteronômio 12:29-13:19."
           },
           "4": {
-            "description": "Animais permitidos e proibidos, carne com leite e dízimos."
+            "description": "Leitura da Torá — Deuteronômio 14:1-14:21."
           },
           "5": {
-            "description": "Perdão de dívidas no ano sabático e generosidade aos pobres."
+            "description": "Leitura da Torá — Deuteronômio 14:22-14:29."
           },
           "6": {
-            "description": "Ofertas de animais primogênitos e três festas de peregrinação."
+            "description": "Leitura da Torá — Deuteronômio 14:22-14:29."
+          },
+          "7": {
+            "description": "Leitura da Torá — Deuteronômio 14:22-14:29."
           }
         },
         "jasidicLessons": {
@@ -15323,19 +15947,22 @@ export const parashotLocaleResources = {
             "description": "Primícias apresentadas em Jerusalém com declaração de gratidão."
           },
           "2": {
-            "description": "Declaração sobre dízimos e compromisso de Israel com Deus."
+            "description": "Leitura da Torá — Deuteronômio 26:12-26:15."
           },
           "3": {
-            "description": "Palavras da Torá inscritas em pedras no monte Ebal."
+            "description": "Leitura da Torá — Deuteronômio 26:16-26:19."
           },
           "4": {
-            "description": "Proclamação das maldições e bênçãos da aliança."
+            "description": "Leitura da Torá — Deuteronômio 26:16-26:19."
           },
           "5": {
-            "description": "Advertências severas de sofrimento pelo abandono da aliança."
+            "description": "Leitura da Torá — Deuteronômio 26:16-26:19."
           },
           "6": {
-            "description": "Moisés recorda os milagres do deserto e reúne o povo para a aliança."
+            "description": "Leitura da Torá — Deuteronômio 26:16-26:19."
+          },
+          "7": {
+            "description": "Leitura da Torá — Deuteronômio 26:16-26:19."
           }
         },
         "jasidicLessons": {
@@ -15392,16 +16019,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Arrependimento, confissão e escolha contínua do bem e da vida.",
         "aliyot": {
           "1": {
-            "description": "Todo Israel se apresenta junto para entrar na aliança."
+            "description": "Todo Israel se apresenta diante de Deus para renovar a aliança."
           },
           "2": {
-            "description": "Advertência contra idolatria secreta e abandono da aliança."
+            "description": "A aliança inclui todas as gerações."
           },
           "3": {
-            "description": "Promessa de arrependimento e retorno até do exílio distante."
+            "description": "Advertência contra a idolatria e suas consequências."
           },
           "4": {
-            "description": "A Torá está próxima, não nos céus; escolher vida e bênção."
+            "description": "Promessa de retorno e restauração após o exílio."
+          },
+          "5": {
+            "description": "Deus renovará o coração de Israel."
+          },
+          "6": {
+            "description": "A Torá está perto: na boca e no coração."
+          },
+          "7": {
+            "description": "A escolha entre a vida e a morte: um chamado a escolher a vida."
           }
         },
         "jasidicLessons": {
@@ -15458,13 +16094,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Hakhel, leitura pública da Torá após o ano sabático, e escrita de um Sefer Torá.",
         "aliyot": {
           "1": {
-            "description": "Moisés anima Israel e Josué: sejam fortes e corajosos."
+            "description": "Moisés anuncia que não continuará liderando o povo e lembra que Deus o acompanhará."
           },
           "2": {
-            "description": "Moisés entrega a Torá aos sacerdotes e ordena a assembleia Hakhel."
+            "description": "Moisés encoraja Israel e Josué a serem fortes e corajosos."
           },
           "3": {
-            "description": "Deus adverte sobre futura infidelidade e manda escrever um cântico como testemunha."
+            "description": "Moisés apresenta Josué a Israel e entrega a Torá aos sacerdotes."
+          },
+          "4": {
+            "description": "O mandamento de Hakhel: leitura pública da Torá a cada sete anos."
+          },
+          "5": {
+            "description": "Deus adverte sobre a futura infidelidade de Israel e o ocultamento de Sua face."
+          },
+          "6": {
+            "description": "Moisés escreve o cântico como testemunho e conclui a escrita da Torá."
+          },
+          "7": {
+            "description": "A Torá é colocada ao lado da Arca, e Moisés reúne os anciãos para adverti-los."
           }
         },
         "jasidicLessons": {
@@ -15521,19 +16169,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Memória histórica, confiança na justiça divina durante provações e respeito ao ensino profético.",
         "aliyot": {
           "1": {
-            "description": "Céu e terra são convocados; louva-se a justiça perfeita de Deus."
+            "description": "Leitura da Torá — Deuteronômio 32:1-32:6."
           },
           "2": {
-            "description": "A prosperidade de Israel dá lugar à ingratidão e idolatria."
+            "description": "Leitura da Torá — Deuteronômio 32:7-32:12."
           },
           "3": {
-            "description": "Advertências do aparente ocultamento divino e das provações históricas."
+            "description": "Leitura da Torá — Deuteronômio 32:7-32:12."
           },
           "4": {
-            "description": "Destino dos inimigos e proclamação da unicidade divina."
+            "description": "Leitura da Torá — Deuteronômio 32:7-32:12."
           },
           "5": {
-            "description": "Fim do cântico; Moisés deve subir ao monte Nebo e contemplar a terra."
+            "description": "Leitura da Torá — Deuteronômio 32:7-32:12."
+          },
+          "6": {
+            "description": "Leitura da Torá — Deuteronômio 32:40-32:43."
+          },
+          "7": {
+            "description": "Leitura da Torá — Deuteronômio 32:44-32:52."
           }
         },
         "jasidicLessons": {
@@ -15590,16 +16244,25 @@ export const parashotLocaleResources = {
         "halachaFocus": "Conclusão e reinício do ciclo anual da Torá em Simchat Torá e bênçãos de gratidão.",
         "aliyot": {
           "1": {
-            "description": "Moisés apresenta bênçãos para Rúben e Judá."
+            "description": "Moisés inicia suas bênçãos para Israel, Rúben e Judá."
           },
           "2": {
-            "description": "Bênçãos para Levi, Benjamim e descendentes de José."
+            "description": "Bênçãos para Levi e Benjamim."
           },
           "3": {
-            "description": "Bênçãos para Zebulom, Issacar, Gade, Dã, Naftali e Aser."
+            "description": "Bênção para José e seus descendentes."
           },
           "4": {
-            "description": "Moisés vê a terra do monte Nebo e morre aos 120 anos; sua profecia singular é honrada."
+            "description": "Bênçãos para Zebulom, Issacar e Gade."
+          },
+          "5": {
+            "description": "Bênçãos para Dã, Naftali e Aser; início do louvor de Israel."
+          },
+          "6": {
+            "description": "A proteção divina e a bênção singular de Israel."
+          },
+          "7": {
+            "description": "Moisés contempla a terra, morre e é lembrado como profeta singular."
           }
         },
         "jasidicLessons": {
