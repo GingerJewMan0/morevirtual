@@ -161,6 +161,7 @@ const enrichPromptWithParashaIfNeeded = (userMessage: string): string => {
   const isParashaQuery = 
     lowerMsg.includes('parashá') || 
     lowerMsg.includes('parasha') || 
+    lowerMsg.includes('perasha') || // 🌟 Agregamos esta línea
     lowerMsg.includes('porcion') || 
     lowerMsg.includes('lectura semanal') ||
     lowerMsg.includes('parashat');
