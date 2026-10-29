@@ -1132,8 +1132,6 @@ export function App() {
               <Settings className="w-4 h-4 text-amber-500" />
             </button>
 
-            {activeMainTab === 'hebrew_converter' && <HebrewDateConverter />}
-
             <button
               onClick={() => setIsSavedNotesModalOpen(true)}
               className="relative p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
@@ -1203,7 +1201,7 @@ export function App() {
       </header>
 
       {/* Contenido Principal */}
-      <main className="flex-1 w-full px-4 sm:px-6 pt-24 pb-12 overflow-y-auto flex flex-col">
+      <main className="flex-1 w-full px-4 sm:px-6 py-6 overflow-y-auto flex flex-col">
         {activeMainTab === 'calendar' && <CalendarZmanimTab />}
 
         {activeMainTab === 'parasha' && (
@@ -1214,6 +1212,9 @@ export function App() {
             }}
           />
         )}
+
+        {/* 🌟 AQUÍ ES DONDE DEBE IR REALMENTE EL CONVERTIDOR: */}
+        {activeMainTab === 'hebrew_converter' && <HebrewDateConverter />}
 
         {activeMainTab === 'settings' && <SettingsTab />}
 
