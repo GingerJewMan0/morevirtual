@@ -155,31 +155,6 @@ function prepareTextForHebrewTTS(text: string): string {
     .replace(/\n/g, '. ');
 }
 
-// Detector y enriquecedor de contexto para la Parashá de la semana
-const enrichPromptWithParashaIfNeeded = (userMessage: string): string => {
-  const lowerMsg = userMessage.toLowerCase();
-  const isParashaQuery = 
-    lowerMsg.includes('parashá') || 
-    lowerMsg.includes('parasha') || 
-    lowerMsg.includes('porcion') || 
-    lowerMsg.includes('lectura semanal') ||
-    lowerMsg.includes('parashat');
-
-  if (isParashaQuery) {
-    const todayStr = new Date().toLocaleDateString('es-MX', { 
-      weekday: 'long', 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
-    });
-    
-    // Añadimos una directiva estricta para que el Rabino devuelva el nombre exacto y un resumen
-    return `${userMessage}\n\n[INSTRUCCIÓN DE SISTEMA: El usuario está preguntando por la Parashá de la semana. Hoy es ${todayStr}. Responde de forma directa mencionando el nombre exacto de la Parashá correspondiente a este Shabat, los temas principales que aborda y un breve comentario inspirador de Rashi o de las fuentes tradicionales].`;
-  }
-  
-  return userMessage;
-};
-
 /**
  * ============================================================================
  * ENDPOINT: Traducción de Parashot (/api/translate-parasha)
@@ -260,146 +235,7 @@ app.post('/api/translate-parasha', async (req, res) => {
     res.status(500).json({ success: false, error: error.message || 'Error al traducir parashá' });
   }
 });
-app.post('/api/chat', async (req, res) => {
-  try {
-    const { messages, traditionFocus, language, location, responseStyle, imageBase64, imageMimeType } = req.body;
 
-    if (!messages || !Array.isArray(messages) || messages.length === 0) {
-      return res.status(400).json({ error: 'Mensajes requeridos' });
-    }
-
-    if (!process.env.GEMINI_API_KEY) {
-      return res.status(500).json({
-        error: 'GEMINI_API_KEY no está configurada en las variables de entorno.',
-      });
-    }
-
-    // 🌟 1. APLICAMOS EL ENRIQUECEDOR DE PARASHÁ AQUÍ
-    const lastMessage = messages[messages.length - 1];
-    if (lastMessage && lastMessage.role === 'user') {
-      lastMessage.content = enrichPromptWithParashaIfNeeded(lastMessage.content);
-    }
-
-    const lang = (language || 'es').toLowerCase();
-    
-    let languageDirective = "";
-    if (lang === 'he' || lang === 'hebrew') {
-      languageDirective = `CRITICAL SYSTEM OVERRIDE: You MUST write the ENTIRE response natively in HEBREW (עברית) using only Hebrew alphabet characters. Do NOT use any Latin letters, do NOT write "Shalomi" or any transliterated words, and do NOT mix Spanish. Start your greeting natively in Hebrew (e.g., שלום רב!).`;
-    } else if (lang === 'fr' || lang === 'french') {
-      languageDirective = `CRITICAL SYSTEM OVERRIDE: You MUST think, write, and respond 100% in FRENCH (Français). No Spanish allowed.`;
-    } else if (lang === 'en' || lang === 'english') {
-      languageDirective = `CRITICAL SYSTEM OVERRIDE: You MUST think, write, and respond 100% in ENGLISH. No Spanish allowed.`;
-    } else if (lang === 'pt' || lang === 'portuguese') {
-      languageDirective = `CRITICAL SYSTEM OVERRIDE: You MUST think, write, and respond 100% in PORTUGUESE (Português). No Spanish allowed.`;
-    } else {
-      languageDirective = `CRITICAL SYSTEM OVERRIDE: Debes responder enteramente en Español.`;
-    }
-
-    let dynamicSystemInstruction = `${languageDirective}\n\n${SYSTEM_PROMPT}`;
-
-    if (traditionFocus && traditionFocus !== 'all') {
-      dynamicSystemInstruction += `\n\nEl usuario tiene un interés especial en la tradición: "${traditionFocus}". Asegúrate de dar detalle prioritario y profundo a las usanzas de esta comunidad.`;
-    }
-    
-    if (location) {
-      dynamicSystemInstruction += `\n\nUBICACIÓN DEL USUARIO: El usuario se encuentra en "${location}".`;
-    }
-
-    if (responseStyle) {
-      dynamicSystemInstruction += `\n\nESTILO DE RESPUESTA PREFERIDO: El usuario prefiere respuestas de estilo "${responseStyle}".`;
-    }
-
-    // Mapeo del historial de chat e inclusión de imágenes multimodales en el último mensaje
-    const contents = messages.map((m: { role: string; content: string }, index: number) => {
-      const parts: any[] = [{ text: m.content }];
-
-      if (index === messages.length - 1 && imageBase64) {
-        parts.push({
-          inlineData: {
-            data: imageBase64,
-            mimeType: imageMimeType || 'image/jpeg',
-          },
-        });
-      }
-
-      return {
-        role: m.role === 'assistant' ? 'model' : 'user',
-        parts,
-      };
-    });
-
-    let streamSuccess = false;
-    let lastError: any = null;
-
-    // Bucle con tolerancia a fallos para streaming de contenido
-    for (const modelName of TEXT_MODELS) {
-      try {
-        console.log(`[Rabino Virtual] Intentando generar respuesta con modelo: ${modelName}`);
-        const responseStream = await ai.models.generateContentStream({
-          model: modelName,
-          contents,
-          config: {
-            systemInstruction: dynamicSystemInstruction,
-            temperature: 0.7,
-          },
-        });
-
-        if (!res.headersSent) {
-          res.setHeader('Content-Type', 'text/event-stream; charset=utf-8');
-          res.setHeader('Cache-Control', 'no-cache, no-transform');
-          res.setHeader('Connection', 'keep-alive');
-        }
-
-        let sentAnyChunk = false;
-        for await (const chunk of responseStream) {
-          const text = chunk.text;
-          if (text) {
-            sentAnyChunk = true;
-            res.write(`data: ${JSON.stringify({ text })}\n\n`);
-          }
-        }
-
-        if (sentAnyChunk) {
-          streamSuccess = true;
-          break;
-        }
-      } catch (err: any) {
-        lastError = err;
-        console.warn(`[Rabino Virtual] Modelo ${modelName} no disponible (${err.message || err.status || 'error'}). Probando siguiente modelo...`);
-        if (res.headersSent) {
-          break;
-        }
-        await new Promise((resolve) => setTimeout(resolve, 600));
-      }
-    }
-
-    if (streamSuccess) {
-      res.write('data: [DONE]\n\n');
-      res.end();
-    } else {
-      const errorMessage =
-        lastError?.message?.includes('503') || lastError?.message?.includes('high demand')
-          ? 'Los servidores de IA están experimentando alta demanda momentánea. Por favor, pulsa en "Reintentar" en unos segundos.'
-          : 'Hubo una dificultad técnica temporal al consultar las fuentes. Por favor, reintenta tu pregunta.';
-
-      if (!res.headersSent) {
-        res.status(503).json({ error: errorMessage });
-      } else {
-        res.write(`data: ${JSON.stringify({ error: errorMessage })}\n\n`);
-        res.end();
-      }
-    }
-  } catch (error: any) {
-    console.error('Error general in /api/chat:', error);
-    const friendlyError = 'Ocurrió un error inesperado al procesar tu consulta. Por favor, reintenta.';
-    if (!res.headersSent) {
-      res.status(500).json({ error: friendlyError });
-    } else {
-      res.write(`data: ${JSON.stringify({ error: friendlyError })}\n\n`);
-      res.end();
-    }
-  }
-});
 /**
  * ============================================================================
  * ENDPOINT: Chat en Streaming con soporte multimodal (/api/chat)
@@ -419,10 +255,6 @@ app.post('/api/chat', async (req, res) => {
       return res.status(500).json({
         error: 'GEMINI_API_KEY no está configurada en las variables de entorno.',
       });
-    }
-    const lastMessage = messages[messages.length - 1];
-    if (lastMessage && lastMessage.role === 'user') {
-      lastMessage.content = enrichPromptWithParashaIfNeeded(lastMessage.content);
     }
 
     const lang = (language || 'es').toLowerCase();
