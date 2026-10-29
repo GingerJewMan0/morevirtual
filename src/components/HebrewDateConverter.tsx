@@ -33,12 +33,12 @@ export default function HebrewDateConverter() {
   };
 
   return (
-    <div className="flex flex-col w-full">
+    // 🌟 CONTENEDOR MAESTRO ANTI-RECORTES:
+    // Obliga al navegador a tratar esto como un bloque rígido del tamaño total de su contenido,
+    // cancelando cualquier compresión de Flexbox de tu aplicación principal.
+    <div style={{ display: 'block', width: '100%', minHeight: 'max-content', paddingBottom: '100px' }}>
       
-      {/* 🌟 EL ESPACIADOR INVISIBLE: Obliga a bajar el contenido. No se puede ignorar. */}
-      <div style={{ minHeight: '60px', flexShrink: 0, width: '100%' }}></div>
-
-      <div className="w-full max-w-4xl mx-auto px-4 space-y-6 pb-12">
+      <div className="w-full max-w-4xl mx-auto space-y-6 pt-4">
         {/* Encabezado visible y completo */}
         <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-amber-200 dark:border-slate-800 shadow-sm space-y-2">
           <h2 className="text-xl sm:text-2xl font-serif font-bold text-slate-900 dark:text-white">
