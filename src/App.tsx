@@ -106,6 +106,41 @@ const LANGUAGES = [
   { code: 'fr', label: 'Francés', flag: '🇫🇷', nativeLabel: 'Français' },
 ];
 
+// 🌟 DICCIONARIO FONÉTICO: Corrige lo que el micrófono entiende mal en español
+const fixHebrewPhonetics = (text: string): string => {
+  let corrected = text;
+  const corrections: Record<string, string> = {
+    'a la ja': 'Halajá',
+    'alaja': 'Halajá',
+    'para allá': 'Parashá',
+    'paracha': 'Parashá',
+    'sabad': 'Shabat',
+    'chaval': 'Shabat',
+    'shabad': 'Shabat',
+    'chabat': 'Shabat',
+    'cashrut': 'Kashrut',
+    'casher': 'Kosher',
+    'tequila': 'Tefilá',
+    'tefila': 'Tefilá',
+    'asem': 'Hashem',
+    'hachem': 'Hashem',
+    'mitzvah': 'Mitzvá',
+    'misva': 'Mitzvá',
+    'yon kipur': 'Yom Kipur',
+    'jon kipur': 'Yom Kipur',
+    'sidur': 'Sidur',
+    'cidor': 'Sidur'
+  };
+
+  // Reemplaza las palabras ignorando mayúsculas y minúsculas
+  Object.keys(corrections).forEach((error) => {
+    const regex = new RegExp(`\\b${error}\\b`, 'gi');
+    corrected = corrected.replace(regex, corrections[error]);
+  });
+
+  return corrected;
+};
+
 export function App() {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
@@ -520,14 +555,16 @@ export function App() {
         const result: any = await SpeechRecognition.start({
           language: langCode,
           maxResults: 1,
-          prompt: "Habla ahora...",
+          prompt: "Habla ahora... (Toca el micrófono para detener)",
           partialResults: false,
-          popup: true,
+          popup: false, // 🌟 Desactivamos el popup nativo invasivo
         });
 
         if (result && result.matches && result.matches.length > 0) {
           const transcript = result.matches[0];
-          setInputText((prev) => (prev ? `${prev} ${transcript}` : transcript));
+          // 🌟 Aplicamos la magia del corrector fonético
+          const correctedTranscript = fixHebrewPhonetics(transcript);
+          setInputText((prev) => (prev ? `${prev} ${correctedTranscript}` : correctedTranscript));
         }
         setIsListening(false);
         return;
@@ -559,11 +596,18 @@ export function App() {
             const res = await fetch('/api/transcribe', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ audioBase64: base64Data, mimeType: 'audio/webm' }),
+              // 🌟 Agregamos un 'prompt' oculto para guiar a la IA del backend (Whisper)
+              body: JSON.stringify({ 
+                audioBase64: base64Data, 
+                mimeType: 'audio/webm',
+                prompt: 'Shabat, Halajá, Torá, Tefilá, Kashrut, Parashá, Sidur, Mitzvá, Kosher' 
+              }),
             });
             const data = await res.json();
             if (data.text) {
-              setInputText((prev) => (prev ? `${prev} ${data.text}` : data.text));
+              // 🌟 Aplicamos el corrector fonético web también
+              const correctedText = fixHebrewPhonetics(data.text);
+              setInputText((prev) => (prev ? `${prev} ${correctedText}` : correctedText));
             } else {
               setAudioErrorNotice('No se detectó voz clara en la grabación.');
             }
