@@ -33,17 +33,14 @@ export default function HebrewDateConverter() {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 pt-32 pb-12 space-y-6">
-      {/* Encabezado visible y completo */}
-      <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-amber-200 dark:border-slate-800 shadow-sm space-y-2">
+    <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-amber-200 dark:border-slate-800 shadow-sm space-y-2">
         <h2 className="text-xl sm:text-2xl font-serif font-bold text-slate-900 dark:text-white">
           📅 Conversor y Buscador de Fechas Hebreas
         </h2>
         <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
           Convierte fechas gregorianas y calcula aniversarios o próximos años de forma segura.
         </p>
-      </div>
-
+        
       {/* SECCIÓN 1: CONVERTIDOR */}
       <div className="bg-white dark:bg-slate-900 border border-amber-200 dark:border-slate-800 p-5 sm:p-6 rounded-3xl shadow-sm space-y-4">
         <h3 className="font-serif font-bold text-base text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-2">
