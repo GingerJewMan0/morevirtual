@@ -127,7 +127,7 @@ export function CompassTab({ t }: CompassTabProps) {
                 );
               })}
 
-              {/* Números de grados exteriores mediante coordenadas polares exactas */}
+              {/* Números de grados exteriores alineados */}
               {[
                 { label: '0', angle: 0 },
                 { label: '20', angle: 20 },
@@ -197,30 +197,28 @@ export function CompassTab({ t }: CompassTabProps) {
               <span className="absolute top-16 left-16 text-[9px] font-bold text-slate-600">NW</span>
             </div>
 
-            {/* Manecillas Clásicas y Elegantes de la Brújula */}
+            {/* Manecillas Estilizadas (Roja y Azul idénticas a la referencia) */}
             <div
               className="absolute w-full h-full flex items-center justify-center pointer-events-none transition-transform duration-300 ease-out z-20"
               style={{ transform: `rotate(${needleRotation}deg)` }}
             >
-              {/* Punta Superior (Manecilla Roja en forma de rombo clásico con la estrella) */}
+              {/* Manecilla Superior Roja (Delgada y en punta) */}
               <div 
-                className="absolute w-4 h-36 bg-gradient-to-t from-red-700 via-red-600 to-red-500 -top-14 shadow-lg flex flex-col items-center pt-2"
-                style={{ clipPath: 'polygon(50% 0%, 100% 40%, 50% 100%, 0% 40%)' }}
-              >
-                <span className="text-[8px] text-yellow-200 font-bold">✡️</span>
-              </div>
+                className="absolute w-3.5 h-38 bg-gradient-to-t from-red-600 via-red-500 to-orange-400 -top-16 shadow-lg"
+                style={{ clipPath: 'polygon(50% 0%, 100% 25%, 50% 100%, 0% 25%)' }}
+              />
               
-              {/* Contrapunta Inferior (Manecilla Plateada/Gris elegante) */}
+              {/* Manecilla Inferior Azul (Delgada y en punta) */}
               <div 
-                className="absolute w-4 h-36 bg-gradient-to-b from-slate-300 via-slate-200 to-slate-400 -bottom-14 shadow-lg"
-                style={{ clipPath: 'polygon(50% 0%, 100% 60%, 50% 100%, 0% 60%)' }}
+                className="absolute w-3.5 h-38 bg-gradient-to-b from-blue-600 via-blue-500 to-cyan-400 -bottom-16 shadow-lg"
+                style={{ clipPath: 'polygon(50% 0%, 100% 75%, 50% 100%, 0% 75%)' }}
               />
             </div>
 
-            {/* Pivote central metálico clásico */}
-            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-yellow-700 via-amber-500 to-yellow-200 border border-amber-900 flex items-center justify-center shadow-lg z-30">
-              <div className="w-3.5 h-3.5 rounded-full bg-gradient-to-br from-amber-950 to-amber-900 border border-amber-800 shadow-inner flex items-center justify-center">
-                <div className="w-1 h-1 rounded-full bg-yellow-200 opacity-90" />
+            {/* Pivote central metálico texturizado idéntico a la referencia */}
+            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-slate-400 via-slate-200 to-slate-400 border border-slate-500 flex items-center justify-center shadow-lg z-30">
+              <div className="w-4 h-4 rounded-full bg-gradient-to-br from-slate-300 via-slate-100 to-slate-400 border border-slate-500 shadow-inner flex items-center justify-center">
+                <div className="w-1.5 h-1.5 rounded-full bg-slate-600 opacity-90" />
               </div>
             </div>
 
