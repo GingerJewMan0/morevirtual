@@ -127,7 +127,7 @@ export function CompassTab({ t }: CompassTabProps) {
                 );
               })}
 
-              {/* Números de grados exteriores situados exactamente por fuera del anillo principal */}
+              {/* Números de grados exteriores posicionados mediante coordenadas polares exactas */}
               {[
                 { label: '0', angle: 0 },
                 { label: '20', angle: 20 },
@@ -148,24 +148,28 @@ export function CompassTab({ t }: CompassTabProps) {
                 { label: '320', angle: 320 },
                 { label: '340', angle: 340 },
               ].map((item, idx) => {
+                const angleRad = (item.angle - 90) * (Math.PI / 180);
+                const radius = 97; // Radio exacto por fuera del anillo perimetral
+                const x = 100 + radius * Math.cos(angleRad);
+                const y = 100 + radius * Math.sin(angleRad);
                 const isBottom = item.angle > 90 && item.angle < 270;
-                const radiusY = 3; // Posicionamiento exacto por fuera del anillo exterior
+                const textRotation = isBottom ? item.angle + 180 : item.angle;
 
                 return (
-                  <g key={idx} transform={`rotate(${item.angle} 100 100)`}>
-                    <text
-                      x="100"
-                      y={radiusY}
-                      fill="#1e293b"
-                      fontSize="5.5"
-                      fontWeight="700"
-                      fontFamily="sans-serif"
-                      textAnchor="middle"
-                      transform={`rotate(${isBottom ? 180 : 0} 100 ${radiusY})`}
-                    >
-                      {item.label}
-                    </text>
-                  </g>
+                  <text
+                    key={idx}
+                    x={x}
+                    y={y}
+                    fill="#1e293b"
+                    fontSize="5.5"
+                    fontWeight="700"
+                    fontFamily="sans-serif"
+                    textAnchor="middle"
+                    dominantBaseline="central"
+                    transform={`rotate(${textRotation} ${x} ${y})`}
+                  >
+                    {item.label}
+                  </text>
                 );
               })}
 
