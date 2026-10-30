@@ -81,11 +81,11 @@ export function CompassTab({ t }: CompassTabProps) {
     <div className="max-w-md mx-auto p-6 bg-slate-950 text-slate-100 rounded-3xl shadow-2xl border border-slate-800 text-center space-y-6 backdrop-blur-md">
       
       <div className="flex items-center justify-center gap-2 text-amber-400">
-        <h2 className="text-xl font-serif font-bold tracking-wide">{t('compassTitle', 'Direction to the Kotel')}</h2>
+        <h2 className="text-xl font-serif font-bold tracking-wide">{t('compassTitle', 'Dirección al Kotel')}</h2>
       </div>
 
       <p className="text-xs text-slate-400">
-        {t('compassSubtitle', 'Real-time orientation toward the Western Wall in Jerusalem.')}
+        {t('compassSubtitle', 'Orientación en tiempo real hacia el Muro Occidental en Jerusalén.')}
       </p>
 
       {error && (
@@ -197,25 +197,31 @@ export function CompassTab({ t }: CompassTabProps) {
               <span className="absolute top-16 left-16 text-[9px] font-bold text-slate-600">NW</span>
             </div>
 
-            {/* Manecillas Tipo Reloj (Rectas y finas con punta de reloj clásico) */}
+            {/* Flechas Clásicas de Navegación (Rojo arriba, Azul abajo con forma de rombo/punta de flecha) */}
             <div
               className="absolute w-full h-full flex items-center justify-center pointer-events-none transition-transform duration-300 ease-out z-20"
               style={{ transform: `rotate(${needleRotation}deg)` }}
             >
-              {/* Manecilla Superior Roja Tipo Reloj */}
-              <div className="absolute w-2 h-38 bg-red-600 -top-16 shadow-md rounded-t-sm flex flex-col items-center">
-                <div className="w-0.5 h-32 bg-red-400 mt-1" />
+              {/* Punta de Flecha Clásica Superior (Roja) */}
+              <div 
+                className="absolute w-4 h-38 bg-gradient-to-t from-red-600 via-red-500 to-orange-400 -top-16 shadow-lg flex flex-col items-center pt-2"
+                style={{ clipPath: 'polygon(50% 0%, 100% 30%, 50% 100%, 0% 30%)' }}
+              >
+                <span className="text-[7px] text-white font-bold">✡️</span>
               </div>
               
-              {/* Manecilla Inferior Azul Tipo Reloj */}
-              <div className="absolute w-2 h-38 bg-blue-600 -bottom-16 shadow-md rounded-b-sm flex flex-col items-center justify-end">
-                <div className="w-0.5 h-32 bg-blue-400 mb-1" />
-              </div>
+              {/* Punta de Flecha Clásica Inferior (Azul) */}
+              <div 
+                className="absolute w-4 h-38 bg-gradient-to-b from-blue-600 via-blue-500 to-cyan-400 -bottom-16 shadow-lg"
+                style={{ clipPath: 'polygon(50% 0%, 100% 70%, 50% 100%, 0% 70%)' }}
+              />
             </div>
 
-            {/* Pivote central estilo reloj */}
-            <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-slate-400 via-slate-200 to-slate-400 border border-slate-600 flex items-center justify-center shadow-lg z-30">
-              <div className="w-2.5 h-2.5 rounded-full bg-slate-900 border border-slate-400 shadow-inner" />
+            {/* Pivote central metálico texturizado clásico */}
+            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-slate-400 via-slate-200 to-slate-400 border border-slate-500 flex items-center justify-center shadow-lg z-30">
+              <div className="w-4 h-4 rounded-full bg-gradient-to-br from-slate-300 via-slate-100 to-slate-400 border border-slate-500 shadow-inner flex items-center justify-center">
+                <div className="w-1.5 h-1.5 rounded-full bg-slate-600 opacity-90" />
+              </div>
             </div>
 
           </div>
@@ -225,14 +231,14 @@ export function CompassTab({ t }: CompassTabProps) {
       {/* Tarjetas de datos numéricos */}
       <div className="grid grid-cols-2 gap-3 pt-2">
         <div className="p-3 bg-slate-900 rounded-2xl border border-slate-800 shadow-inner">
-          <span className="block text-[11px] text-slate-400 uppercase font-semibold tracking-wider">{t('bearingLabel', 'Bearing')}</span>
+          <span className="block text-[11px] text-slate-400 uppercase font-semibold tracking-wider">{t('bearingLabel', 'Marcación')}</span>
           <span className="text-xl font-mono font-bold text-amber-300">
             {bearingToKotel !== null ? `${bearingToKotel}°` : '--'}
           </span>
         </div>
 
         <div className="p-3 bg-slate-900 rounded-2xl border border-slate-800 shadow-inner">
-          <span className="block text-[11px] text-slate-400 uppercase font-semibold tracking-wider">{t('distanceLabel', 'Approx. Distance')}</span>
+          <span className="block text-[11px] text-slate-400 uppercase font-semibold tracking-wider">{t('distanceLabel', 'Distancia Aprox.')}</span>
           <span className="text-xl font-mono font-bold text-amber-300">
             {distance !== null ? `${distance.toLocaleString()} km` : '--'}
           </span>
@@ -241,7 +247,7 @@ export function CompassTab({ t }: CompassTabProps) {
 
       <div className="text-[11px] text-slate-400 italic flex items-center justify-center gap-1 font-serif">
         <MapPin className="w-3.5 h-3.5 text-amber-500" />
-        <span>{t('locationName', 'Jerusalem, Israel (מכותל המערבי)')}</span>
+        <span>{t('locationName', 'Jerusalén, Israel (מכותל המערבי)')}</span>
       </div>
     </div>
   );
