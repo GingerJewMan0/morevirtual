@@ -5,13 +5,16 @@ import { Geolocation } from '@capacitor/geolocation';
 const KOTEL_LAT = 31.7767;
 const KOTEL_LNG = 35.2345;
 
-export function CompassTab() {
+interface CompassTabProps {
+  t: (key: string, fallback: string) => string;
+}
+
+export function CompassTab({ t }: CompassTabProps) {
   const [heading, setHeading] = useState<number | null>(null);
   const [bearingToKotel, setBearingToKotel] = useState<number | null>(null);
   const [distance, setDistance] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // Calcular la distancia y el ángulo hacia Jerusalén
   const calculateDirection = (lat1: number, lon1: number) => {
     const lat1Rad = (lat1 * Math.PI) / 180;
     const lon1Rad = (lon1 * Math.PI) / 180;
@@ -25,11 +28,10 @@ export function CompassTab() {
     
     let brng = Math.atan2(y, x);
     brng = (brng * 180) / Math.PI;
-    brng = (brng + 360) % 360; // Normalizar a 0-360
+    brng = (brng + 360) % 360;
 
     setBearingToKotel(Math.round(brng));
 
-    // Cálculo de distancia (Fórmula de Haversine en kilómetros)
     const R = 6371;
     const dLat = lat2Rad - lat1Rad;
     const a =
@@ -41,27 +43,22 @@ export function CompassTab() {
   };
 
   useEffect(() => {
-    // 1. Obtener ubicación del usuario
     const fetchLocation = async () => {
       try {
         const coordinates = await Geolocation.getCurrentPosition({ timeout: 5000 });
         calculateDirection(coordinates.coords.latitude, coordinates.coords.longitude);
       } catch (e) {
-        // Fallback a ubicación por defecto (ej. CDMX o centro genérico) si no hay GPS inmediato
-        setError('No se pudo obtener la ubicación GPS precisa. Usando referencia estándar.');
+        setError(t('gpsError', 'No se pudo obtener la ubicación GPS precisa. Usando referencia estándar.'));
         calculateDirection(19.4326, -99.1332);
       }
     };
 
     fetchLocation();
 
-    // 2. Escuchar la orientación del dispositivo (Brújula)
     const handleOrientation = (event: DeviceOrientationEvent) => {
       if (event.alpha !== null) {
-        // En muchos dispositivos móviles, alpha representa la brújula
         setHeading(Math.round(event.alpha));
       } else if ((event as any).webkitCompassHeading) {
-        // Específico para iOS
         setHeading(Math.round((event as any).webkitCompassHeading));
       }
     };
@@ -77,18 +74,17 @@ export function CompassTab() {
     };
   }, []);
 
-  // Rotación relativa de la flecha que apunta al Kotel
   const rotationAngle = bearingToKotel !== null && heading !== null ? (bearingToKotel - heading + 360) % 360 : bearingToKotel || 0;
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white dark:bg-slate-900 rounded-3xl shadow-xl border border-amber-200 dark:border-amber-900/40 text-center space-y-6">
       <div className="flex items-center justify-center gap-2 text-amber-700 dark:text-amber-400">
         <Compass className="w-7 h-7 animate-spin-slow" />
-        <h2 className="text-xl font-serif font-bold">Dirección al Kotel</h2>
+        <h2 className="text-xl font-serif font-bold">{t('compassTitle', 'Dirección al Kotel')}</h2>
       </div>
 
       <p className="text-xs text-slate-600 dark:text-slate-300">
-        Orientación en tiempo real hacia el Muro Occidental en Jerusalén (לכוון ירושלים).
+        {t('compassSubtitle', 'Orientación en tiempo real hacia el Muro Occidental en Jerusalén.')}
       </p>
 
       {error && (
@@ -98,15 +94,12 @@ export function CompassTab() {
         </div>
       )}
 
-      {/* Contenedor Visual de la Brújula */}
       <div className="relative w-64 h-64 mx-auto rounded-full bg-gradient-to-b from-amber-50 to-amber-100/60 dark:from-slate-800 dark:to-slate-900 border-4 border-amber-500/40 shadow-inner flex items-center justify-center">
-        {/* Marcas cardinales */}
         <span className="absolute top-2 text-xs font-bold text-slate-500">N</span>
         <span className="absolute bottom-2 text-xs font-bold text-slate-500">S</span>
         <span className="absolute left-3 text-xs font-bold text-slate-500">O</span>
         <span className="absolute right-3 text-xs font-bold text-slate-500">E</span>
 
-        {/* Aguja Dinámica apuntando al Kotel */}
         <div
           className="absolute w-full h-full flex items-center justify-center transition-transform duration-300 ease-out"
           style={{ transform: `rotate(${rotationAngle}deg)` }}
@@ -116,23 +109,21 @@ export function CompassTab() {
           </div>
         </div>
 
-        {/* Centro de la brújula */}
         <div className="w-12 h-12 rounded-full bg-slate-900 border-2 border-amber-400 flex items-center justify-center shadow-md z-10 text-amber-400 font-bold text-xs">
           ✡️
         </div>
       </div>
 
-      {/* Datos informativos */}
       <div className="grid grid-cols-2 gap-3 pt-2">
         <div className="p-3 bg-amber-50/80 dark:bg-slate-800 rounded-2xl border border-amber-200/60 dark:border-slate-700">
-          <span className="block text-[11px] text-slate-500 uppercase font-semibold">Marcación</span>
+          <span className="block text-[11px] text-slate-500 uppercase font-semibold">{t('bearingLabel', 'Marcación')}</span>
           <span className="text-lg font-bold text-amber-900 dark:text-amber-300">
             {bearingToKotel !== null ? `${bearingToKotel}°` : '--'}
           </span>
         </div>
 
         <div className="p-3 bg-amber-50/80 dark:bg-slate-800 rounded-2xl border border-amber-200/60 dark:border-slate-700">
-          <span className="block text-[11px] text-slate-500 uppercase font-semibold">Distancia Aprox.</span>
+          <span className="block text-[11px] text-slate-500 uppercase font-semibold">{t('distanceLabel', 'Distancia Aprox.')}</span>
           <span className="text-lg font-bold text-amber-900 dark:text-amber-300">
             {distance !== null ? `${distance.toLocaleString()} km` : '--'}
           </span>
@@ -141,7 +132,7 @@ export function CompassTab() {
 
       <div className="text-[11px] text-slate-400 italic flex items-center justify-center gap-1">
         <MapPin className="w-3 h-3 text-amber-600" />
-        <span>Jerusalén, Israel (מכותל המערבי)</span>
+        <span>{t('locationName', 'Jerusalén, Israel (מכותל המערבי)')}</span>
       </div>
     </div>
   );

@@ -350,7 +350,17 @@ const resources = {
       monthLabel: "Mes (Ej. Nisan, Tishrei):",
       baseYearLabel: "Año Hebreo Base:",
       calculateEventsBtn: "Calcular Próximos Años",
-      projectionTitle: "Proyección para los próximos 5 años:"
+      projectionTitle: "Proyección para los próximos 5 años:",
+      
+      //Compass
+      tabCompass: "Brújula al Kotel",
+      tabCompassDesc: "Dirección exacta hacia Jerusalén",
+      compassTitle: "Dirección al Kotel",
+      compassSubtitle: "Orientación en tiempo real hacia el Muro Occidental en Jerusalén (לכוון ירושלים, ירושלים).",
+      gpsError: "No se pudo obtener la ubicación GPS precisa. Usando referencia estándar.",
+      bearingLabel: "Marcación",
+      distanceLabel: "Distancia Aprox.",
+      locationName: "Jerusalén, Israel (מכותל המערבי)",
     }
   },
 
@@ -689,7 +699,17 @@ const resources = {
       monthLabel: "חודש (לדוגמה: ניסן, תשרי):",
       baseYearLabel: "שנה עברית בסיסית:",
       calculateEventsBtn: "חשב שנים קרובות",
-      projectionTitle: "תחזית ל-5 השנים הבאות:"
+      projectionTitle: "תחזית ל-5 השנים הבאות:",
+
+      //compass
+      tabCompass: "מצפן הכותל",
+      tabCompassDesc: "כיוון מדויק לירושלים",
+      compassTitle: "הכיוון לכותל",
+      compassSubtitle: "כיוון בזמן אמת לעבר הכותל המערבי בירושלים (לכוון ירושלים).",
+      gpsError: "לא ניתן היה לקבל מיקום GPS מדויק. משתמש במיקום סטנדרטי.",
+      bearingLabel: "אזימוט",
+      distanceLabel: "מרחק משוער",
+      locationName: "ירושלים, ישראל (מכותל המערבי)",
     }
   },
 
@@ -1027,7 +1047,17 @@ const resources = {
       monthLabel: "Month (e.g. Nisan, Tishrei):",
       baseYearLabel: "Base Hebrew Year:",
       calculateEventsBtn: "Calculate Upcoming Years",
-      projectionTitle: "Projection for the next 5 years:"
+      projectionTitle: "Projection for the next 5 years:",
+
+      //compass
+      tabCompass: "Kotel Compass",
+      tabCompassDesc: "Exact direction to Jerusalem",
+      compassTitle: "Direction to the Kotel",
+      compassSubtitle: "Real-time orientation toward the Western Wall in Jerusalem (לכוון ירושלים).",
+      gpsError: "Could not get precise GPS location. Using standard reference.",
+      bearingLabel: "Bearing",
+      distanceLabel: "Approx. Distance",
+      locationName: "Jerusalem, Israel (מכותל המערבי)",
     }
   },
 
@@ -1365,7 +1395,17 @@ const resources = {
       monthLabel: "Mois (ex. Nisan, Tishrei) :",
       baseYearLabel: "Année Hébraïque de Base :",
       calculateEventsBtn: "Calculer les Prochaines Années",
-      projectionTitle: "Projection pour les 5 prochaines années :"
+      projectionTitle: "Projection pour les 5 prochaines années :",
+
+      //Compass
+      tabCompass: "Boussole du Kotel",
+      tabCompassDesc: "Direction exacte vers Jérusalem",
+      compassTitle: "Direction du Kotel",
+      compassSubtitle: "Orientation en temps réel vers le Mur des Lamentations à Jérusalem (לכוון ירושלים).",
+      gpsError: "Impossible d'obtenir une position GPS précise. Utilisation d'une référence standard.",
+      bearingLabel: "Cap",
+      distanceLabel: "Distance approx.",
+      locationName: "Jérusalem, Israël (מכותל המערבי)",
     }
   },
 
@@ -1707,7 +1747,17 @@ const resources = {
       monthLabel: "Mês (Ex. Nisan, Tishrei):",
       baseYearLabel: "Ano Hebraico Base:",
       calculateEventsBtn: "Calcular Próximos Anos",
-      projectionTitle: "Projeção para os próximos 5 anos:"
+      projectionTitle: "Projeção para os próximos 5 anos:",
+
+      //Compass
+      tabCompass: "Bússola do Kotel",
+      tabCompassDesc: "Direção exata para Jerusalém",
+      compassTitle: "Direção para o Kotel",
+      compassSubtitle: "Orientação em tempo real para o Muro das Lamentações em Jerusalém (לכוון ירושלים).",
+      gpsError: "Não foi possível obter a localização GPS precisa. Usando referência padrão.",
+      bearingLabel: "Marcação",
+      distanceLabel: "Distância Aprox.",
+      locationName: "Jerusalém, Israel (מכותל המערבי)",
     }
   }
 };

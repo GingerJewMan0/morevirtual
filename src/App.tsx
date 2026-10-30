@@ -1312,7 +1312,7 @@ export function App() {
           />
         )}
         
-        {activeMainTab === 'compass' && <CompassTab />}
+        {activeMainTab === 'compass' && <CompassTab t={t} />}
 
         {activeMainTab === 'hebrew_converter' && <HebrewDateConverter />}
 
