@@ -127,41 +127,49 @@ export function CompassTab({ t }: CompassTabProps) {
                 );
               })}
 
-              {/* Números de grados colocados exactamente en el borde exterior indicado */}
+              {/* Números de grados exteriores con orientación correcta y legible */}
               {[
-                { label: '0', angle: 0, y: 28 },
-                { label: '20', angle: 20, y: 28 },
-                { label: '40', angle: 40, y: 28 },
-                { label: '60', angle: 60, y: 28 },
-                { label: '80', angle: 80, y: 28 },
-                { label: '100', angle: 100, y: 28 },
-                { label: '120', angle: 120, y: 28 },
-                { label: '140', angle: 140, y: 28 },
-                { label: '160', angle: 160, y: 28 },
-                { label: '180', angle: 180, y: 28 },
-                { label: '200', angle: 200, y: 28 },
-                { label: '220', angle: 220, y: 28 },
-                { label: '240', angle: 240, y: 28 },
-                { label: '260', angle: 260, y: 28 },
-                { label: '280', angle: 280, y: 28 },
-                { label: '300', angle: 300, y: 28 },
-                { label: '320', angle: 320, y: 28 },
-                { label: '340', angle: 340, y: 28 },
-              ].map((item, idx) => (
-                <text
-                  key={idx}
-                  x="100"
-                  y={item.y}
-                  fill="#1e293b"
-                  fontSize="5.5"
-                  fontWeight="700"
-                  fontFamily="sans-serif"
-                  textAnchor="middle"
-                  transform={`rotate(${item.angle} 100 100)`}
-                >
-                  {item.label}
-                </text>
-              ))}
+                { label: '0', angle: 0 },
+                { label: '20', angle: 20 },
+                { label: '40', angle: 40 },
+                { label: '60', angle: 60 },
+                { label: '80', angle: 80 },
+                { label: '100', angle: 100 },
+                { label: '120', angle: 120 },
+                { label: '140', angle: 140 },
+                { label: '160', angle: 160 },
+                { label: '180', angle: 180 },
+                { label: '200', angle: 200 },
+                { label: '220', angle: 220 },
+                { label: '240', angle: 240 },
+                { label: '260', angle: 260 },
+                { label: '280', angle: 280 },
+                { label: '300', angle: 300 },
+                { label: '320', angle: 320 },
+                { label: '340', angle: 340 },
+              ].map((item, idx) => {
+                // Invertimos la rotación para los números de la parte inferior para que no queden de cabeza
+                const isBottom = item.angle > 90 && item.angle < 270;
+                const textAngle = isBottom ? item.angle + 180 : item.angle;
+                const radiusY = 28;
+
+                return (
+                  <g key={idx} transform={`rotate(${item.angle} 100 100)`}>
+                    <text
+                      x="100"
+                      y={radiusY}
+                      fill="#1e293b"
+                      fontSize="5.5"
+                      fontWeight="700"
+                      fontFamily="sans-serif"
+                      textAnchor="middle"
+                      transform={`rotate(${isBottom ? 180 : 0} 100 ${radiusY})`}
+                    >
+                      {item.label}
+                    </text>
+                  </g>
+                );
+              })}
 
               {/* Rosa de los vientos vectorial detallada */}
               <g transform="translate(100, 100)">
