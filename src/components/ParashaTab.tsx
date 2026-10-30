@@ -14,14 +14,16 @@ import {
 } from '../data/parashot';
 import { requestNotificationPermissions } from '../utils/notifications';
 
-import { testInstantNotification } from '../utils/notifications'; // o ajusta los puntos según tu ruta
-
 const handleRequestPermission = async () => {
-  // Llamamos a la función de prueba inmediata
-  await testInstantNotification();
-  
-  // Mensaje claro y actualizado para la interfaz
-  alert("¡Permisos concedidos con éxito! Se ha lanzado una notificación de prueba inmediata.");
+  const granted = await requestNotificationPermissions();
+  if (granted) {
+    // Aquí llamas a tu función de producción real:
+    // await scheduleShabbatAlert(fechaCalculadaShabat, nombreParashaActual);
+    
+    alert("¡Permisos concedidos con éxito! Recibirás los avisos de Shabat automáticamente.");
+  } else {
+    alert("Los permisos fueron denegados. Puedes habilitarlos manualmente en la configuración de tu teléfono.");
+  }
 };
 
 type SubTab = 'summary' | 'aliyot' | 'rashi' | 'jasidut';
@@ -110,18 +112,6 @@ export function ParashaTab({ onAskAboutParasha, israel = false }: ParashaTabProp
     if (lng === 'fr') return `${number === 1 ? '1re' : `${number}e`} ${term}`;
     return `${number}ª ${term}`;
   };
-
-  const handleRequestPermission = async () => {
-  const granted = await requestNotificationPermissions();
-  if (granted) {
-    // 🕯️ Lanzamos la prueba instantánea para forzar el aviso en tu Xiaomi
-    await testInstantNotification();
-    
-    alert("¡Permisos concedidos con éxito! Se ha lanzado una notificación de prueba inmediata.");
-  } else {
-    alert("Los permisos fueron denegados. Puedes habilitarlos manualmente en la configuración de tu teléfono.");
-  }
-};
 
   return (
     <div dir={language.toLowerCase().startsWith('he') ? 'rtl' : 'ltr'} className="max-w-5xl mx-auto py-6 px-4 space-y-6 animate-fadeIn">
