@@ -102,12 +102,12 @@ export function CompassTab({ t }: CompassTabProps) {
           
           <div className="relative w-full h-full rounded-full bg-gradient-to-b from-slate-100 via-slate-200 to-slate-300 shadow-[inset_0_4px_12px_rgba(0,0,0,0.2)] overflow-hidden flex items-center justify-center">
             
-            <svg className="absolute inset-0 w-full h-full p-2" viewBox="0 0 200 200">
-              <circle cx="100" cy="100" r="88" fill="none" stroke="#94a3b8" strokeWidth="1" />
-              <circle cx="100" cy="100" r="72" fill="none" stroke="#cbd5e1" strokeWidth="0.75" strokeDasharray="3 3" />
-              <circle cx="100" cy="100" r="56" fill="none" stroke="#94a3b8" strokeWidth="0.75" />
+            <svg className="absolute inset-0 w-full h-full p-1.5" viewBox="0 0 200 200">
+              <circle cx="100" cy="100" r="92" fill="none" stroke="#94a3b8" strokeWidth="1.5" />
+              <circle cx="100" cy="100" r="82" fill="none" stroke="#64748b" strokeWidth="0.75" />
+              <circle cx="100" cy="100" r="64" fill="none" stroke="#cbd5e1" strokeWidth="0.75" strokeDasharray="3 3" />
 
-              {/* Ticks de grados perimetrales */}
+              {/* Ticks de grados en el perímetro exterior */}
               {Array.from({ length: 72 }).map((_, i) => {
                 const angle = i * 5;
                 const isMajor = i % 6 === 0;
@@ -116,36 +116,38 @@ export function CompassTab({ t }: CompassTabProps) {
                   <line
                     key={i}
                     x1="100"
-                    y1={isMajor ? "13" : isMedium ? "15" : "17"}
+                    y1={isMajor ? "10" : isMedium ? "12" : "14"}
                     x2="100"
-                    y2="21"
-                    stroke="#334155"
+                    y2="17"
+                    stroke="#1e293b"
                     strokeWidth={isMajor ? "1.5" : "0.75"}
                     transform={`rotate(${angle} 100 100)`}
                   />
                 );
               })}
 
-              {/* Números de grados distribuidos uniformemente en el anillo intermedio */}
+              {/* Grados numéricos ubicados completamente en la parte externa */}
               {[
-                { label: '330', angle: 330, y: 31 },
-                { label: '30', angle: 30, y: 31 },
-                { label: '60', angle: 60, y: 44 },
-                { label: '90', angle: 90, y: 59 },
-                { label: '120', angle: 120, y: 74 },
-                { label: '150', angle: 150, y: 85 },
-                { label: '210', angle: 210, y: 85 },
-                { label: '240', angle: 240, y: 74 },
-                { label: '270', angle: 270, y: 59 },
-                { label: '300', angle: 300, y: 44 },
+                { label: '0°', angle: 0, y: 24 },
+                { label: '30°', angle: 30, y: 24 },
+                { label: '60°', angle: 60, y: 27 },
+                { label: '90°', angle: 90, y: 33 },
+                { label: '120°', angle: 120, y: 41 },
+                { label: '150°', angle: 150, y: 50 },
+                { label: '180°', angle: 180, y: 54 },
+                { label: '210°', angle: 210, y: 50 },
+                { label: '240°', angle: 240, y: 41 },
+                { label: '270°', angle: 270, y: 33 },
+                { label: '300°', angle: 300, y: 27 },
+                { label: '330°', angle: 330, y: 24 },
               ].map((item, idx) => (
                 <text
                   key={idx}
                   x="100"
                   y={item.y}
-                  fill="#475569"
-                  fontSize="6.5"
-                  fontWeight="600"
+                  fill="#334155"
+                  fontSize="6"
+                  fontWeight="700"
                   fontFamily="sans-serif"
                   textAnchor="middle"
                   transform={`rotate(${item.angle} 100 100)`}
@@ -154,10 +156,10 @@ export function CompassTab({ t }: CompassTabProps) {
                 </text>
               ))}
 
-              {/* Rosa de los vientos vectorial */}
+              {/* Rosa de los vientos vectorial amplia y despejada */}
               <g transform="translate(100, 100)">
-                <path d="M 0,-42 L 5,-8 L 42,0 L 5,8 L 0,42 L -5,8 L -42,0 L -5,-8 Z" fill="#64748b" opacity="0.4" transform="rotate(45)" />
-                <path d="M 0,-50 L 5,-10 L 50,0 L 5,10 L 0,50 L -5,10 L -50,0 L -5,-10 Z" fill="#334155" opacity="0.8" />
+                <path d="M 0,-56 L 6,-10 L 56,0 L 6,10 L 0,56 L -6,10 L -56,0 L -6,-10 Z" fill="#64748b" opacity="0.35" transform="rotate(45)" />
+                <path d="M 0,-66 L 7,-12 L 66,0 L 7,12 L 0,66 L -7,12 L -66,0 L -7,-12 Z" fill="#334155" opacity="0.8" />
               </g>
             </svg>
 
@@ -166,10 +168,10 @@ export function CompassTab({ t }: CompassTabProps) {
               className="absolute inset-0 rounded-full transition-transform duration-200 ease-out flex items-center justify-center pointer-events-none"
               style={{ transform: `rotate(${dialRotation}deg)` }}
             >
-              <span className="absolute top-9 text-sm font-bold text-slate-900">N</span>
-              <span className="absolute bottom-9 text-sm font-bold text-slate-700">S</span>
-              <span className="absolute left-9 text-sm font-bold text-slate-700">W</span>
-              <span className="absolute right-9 text-sm font-bold text-slate-700">E</span>
+              <span className="absolute top-10 text-sm font-bold text-slate-900">N</span>
+              <span className="absolute bottom-10 text-sm font-bold text-slate-700">S</span>
+              <span className="absolute left-10 text-sm font-bold text-slate-700">W</span>
+              <span className="absolute right-10 text-sm font-bold text-slate-700">E</span>
             </div>
 
             {/* Aguja de la brújula */}
@@ -177,12 +179,12 @@ export function CompassTab({ t }: CompassTabProps) {
               className="absolute w-full h-full flex items-center justify-center pointer-events-none transition-transform duration-300 ease-out z-20"
               style={{ transform: `rotate(${needleRotation}deg)` }}
             >
-              <div className="absolute w-3.5 h-32 bg-gradient-to-t from-red-600 via-red-500 to-orange-400 -top-12 shadow-lg rounded-t-full"
+              <div className="absolute w-3.5 h-36 bg-gradient-to-t from-red-600 via-red-500 to-orange-400 -top-14 shadow-lg rounded-t-full"
                    style={{ clipPath: 'polygon(50% 0%, 100% 35%, 50% 100%, 0% 35%)' }}>
                 <div className="text-center pt-1 text-[8px] text-white font-bold">✡️</div>
               </div>
               
-              <div className="absolute w-3.5 h-32 bg-gradient-to-b from-blue-600 via-blue-500 to-cyan-400 -bottom-12 shadow-lg rounded-b-full"
+              <div className="absolute w-3.5 h-36 bg-gradient-to-b from-blue-600 via-blue-500 to-cyan-400 -bottom-14 shadow-lg rounded-b-full"
                    style={{ clipPath: 'polygon(50% 0%, 100% 65%, 50% 100%, 0% 65%)' }} />
             </div>
 
