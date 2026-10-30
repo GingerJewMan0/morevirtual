@@ -75,8 +75,8 @@ export function CompassTab({ t }: CompassTabProps) {
     };
   }, []);
 
-  // Toda la brújula gira según el rumbo del dispositivo
-  const rotationAngle = heading !== null && bearingToKotel !== null ? (bearingToKotel - heading + 360) % 360 : bearingToKotel || 0;
+  // Ángulo en el que debe girar la aguja para señalar al Kotel en relación con la orientación actual
+  const needleRotation = bearingToKotel !== null && heading !== null ? (bearingToKotel - heading + 360) % 360 : bearingToKotel || 0;
 
   return (
     <div className="max-w-md mx-auto p-6 bg-slate-900/95 text-slate-100 rounded-3xl shadow-2xl border border-amber-600/30 text-center space-y-6 backdrop-blur-md">
@@ -96,19 +96,38 @@ export function CompassTab({ t }: CompassTabProps) {
         </div>
       )}
 
-      {/* Contenedor de la Brújula Realista */}
-      <div className="relative w-72 h-72 mx-auto flex items-center justify-center py-2">
+      {/* Contenedor de la Brújula Estilo Acuarela Original */}
+      <div className="relative w-72 h-72 mx-auto flex items-center justify-center pt-4">
         
-        {/* Imagen completa de la brújula clásica que gira suavemente apuntando al Kotel */}
-        <div 
-          className="relative w-64 h-64 transition-transform duration-300 ease-out flex items-center justify-center drop-shadow-[0_15px_30px_rgba(0,0,0,0.8)]"
-          style={{ transform: `rotate(${rotationAngle}deg)` }}
-        >
+        {/* Imagen de fondo fija y perfectamente redonda con la acuarela original */}
+        <div className="relative w-64 h-64 rounded-full shadow-[0_15px_35px_rgba(0,0,0,0.8)] overflow-hidden flex items-center justify-center border-4 border-amber-700/60 bg-amber-100">
           <img 
             src={compassImage} 
             alt="Brújula Clásica" 
-            className="w-full h-full object-contain pointer-events-none" 
+            className="w-full h-full object-cover pointer-events-none scale-105" 
           />
+
+          {/* Aguja Dinámica Superpuesta (Gira suavemente para apuntar exactamente hacia el Kotel) */}
+          <div
+            className="absolute inset-0 flex items-center justify-center pointer-events-none transition-transform duration-300 ease-out z-20"
+            style={{ transform: `rotate(${needleRotation}deg)` }}
+          >
+            {/* Punta Roja Superior de la Aguja */}
+            <div className="absolute w-3.5 h-28 bg-gradient-to-t from-red-700 via-red-600 to-red-500 -top-10 shadow-lg"
+                 style={{ clipPath: 'polygon(50% 0%, 100% 40%, 50% 100%, 0% 40%)' }}>
+              <div className="text-center pt-1 text-[8px] text-yellow-200 font-bold">✡️</div>
+            </div>
+            
+            {/* Contrapunta Inferior Plateada */}
+            <div className="absolute w-3.5 h-28 bg-gradient-to-b from-slate-200 via-slate-300 to-slate-400 -bottom-10 shadow-lg"
+                 style={{ clipPath: 'polygon(50% 0%, 100% 60%, 50% 100%, 0% 60%)' }} />
+          </div>
+
+          {/* Pivote Central Metálico */}
+          <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-yellow-800 via-amber-600 to-yellow-200 border border-amber-900 flex items-center justify-center shadow-md z-30 absolute">
+            <div className="w-2 h-2 rounded-full bg-amber-950 shadow-inner" />
+          </div>
+
         </div>
 
       </div>
