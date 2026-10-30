@@ -127,7 +127,7 @@ export function CompassTab({ t }: CompassTabProps) {
                 );
               })}
 
-              {/* Números de grados exteriores perfectamente alineados y simétricos */}
+              {/* Números de grados exteriores situados exactamente por fuera del anillo principal */}
               {[
                 { label: '0', angle: 0 },
                 { label: '20', angle: 20 },
@@ -149,7 +149,7 @@ export function CompassTab({ t }: CompassTabProps) {
                 { label: '340', angle: 340 },
               ].map((item, idx) => {
                 const isBottom = item.angle > 90 && item.angle < 270;
-                const radiusY = 12; // Radio exacto para que queden alineados en el margen blanco sin tocar el borde oscuro
+                const radiusY = 3; // Posicionamiento exacto por fuera del anillo exterior
 
                 return (
                   <g key={idx} transform={`rotate(${item.angle} 100 100)`}>
