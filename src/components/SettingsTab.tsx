@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Settings, Globe, BookOpen, MapPin, CheckCircle2, Sliders } from 'lucide-react';
+import { Settings, Globe, BookOpen, MapPin, CheckCircle2, Sliders, Bell } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { CITIES_DATABASE } from '../data/citiesZmanim';
+import { requestNotificationPermissions } from '../utils/notifications';
 
 export function SettingsTab() {
   const { t, i18n } = useTranslation();
@@ -22,6 +23,15 @@ export function SettingsTab() {
 
     setSaved(true);
     setTimeout(() => setSaved(false), 3000);
+  };
+
+  const handleEnableShabbatAlerts = async () => {
+    const granted = await requestNotificationPermissions();
+    if (granted) {
+      alert(isHebrew ? 'ההתראות הופעלו בהצלחה!' : '¡Notificaciones de Shabat activadas correctamente!');
+    } else {
+      alert(isHebrew ? 'ההרשאות נדחו.' : 'Los permisos fueron denegados en la configuración del teléfono.');
+    }
   };
 
   return (
@@ -53,6 +63,7 @@ export function SettingsTab() {
 
         <form onSubmit={handleSaveSettings} className="space-y-6">
           
+          {/* Opciones de costumbre, conocimiento, longitud y ciudad que ya tenías... */}
           <div className="space-y-2">
             <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-2">
               <Globe className="w-4 h-4 text-amber-600" />
@@ -86,7 +97,6 @@ export function SettingsTab() {
             </select>
           </div>
 
-          {/* Selector de Longitud de Respuesta */}
           <div className="space-y-2">
             <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-2">
               <Sliders className="w-4 h-4 text-amber-600" />
@@ -130,6 +140,21 @@ export function SettingsTab() {
                 </option>
               ))}
             </select>
+          </div>
+
+          {/* Sección integrada de Notificaciones de Shabat */}
+          <div className="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-3">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-2">
+              <Bell className="w-4 h-4 text-amber-600" />
+              {isHebrew ? 'התראות שבת' : 'Notificaciones y Alertas'}
+            </label>
+            <button
+              type="button"
+              onClick={handleEnableShabbatAlerts}
+              className="w-full py-3 px-4 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-300 dark:border-amber-700/60 text-amber-800 dark:text-amber-300 font-semibold text-sm hover:bg-amber-100 transition cursor-pointer flex items-center justify-center gap-2"
+            >
+              <span>🔔 {isHebrew ? 'הפעל התראות שבת' : 'Activar Alertas de Shabat'}</span>
+            </button>
           </div>
 
           <div className="pt-4">
