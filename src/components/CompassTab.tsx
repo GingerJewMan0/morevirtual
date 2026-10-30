@@ -81,11 +81,11 @@ export function CompassTab({ t }: CompassTabProps) {
     <div className="max-w-md mx-auto p-6 bg-slate-950 text-slate-100 rounded-3xl shadow-2xl border border-slate-800 text-center space-y-6 backdrop-blur-md">
       
       <div className="flex items-center justify-center gap-2 text-amber-400">
-        <h2 className="text-xl font-serif font-bold tracking-wide">{t('compassTitle', 'Dirección al Kotel')}</h2>
+        <h2 className="text-xl font-serif font-bold tracking-wide">{t('compassTitle', 'Direction to the Kotel')}</h2>
       </div>
 
       <p className="text-xs text-slate-400">
-        {t('compassSubtitle', 'Orientación en tiempo real hacia el Muro Occidental en Jerusalén.')}
+        {t('compassSubtitle', 'Real-time orientation toward the Western Wall in Jerusalem.')}
       </p>
 
       {error && (
@@ -105,7 +105,7 @@ export function CompassTab({ t }: CompassTabProps) {
             <svg className="absolute inset-0 w-full h-full p-2" viewBox="0 0 200 200">
               <circle cx="100" cy="100" r="88" fill="none" stroke="#94a3b8" strokeWidth="1" />
               <circle cx="100" cy="100" r="72" fill="none" stroke="#cbd5e1" strokeWidth="0.75" strokeDasharray="3 3" />
-              <circle cx="100" cy="100" r="52" fill="none" stroke="#94a3b8" strokeWidth="0.75" />
+              <circle cx="100" cy="100" r="56" fill="none" stroke="#94a3b8" strokeWidth="0.75" />
 
               {/* Ticks de grados perimetrales */}
               {Array.from({ length: 72 }).map((_, i) => {
@@ -126,27 +126,25 @@ export function CompassTab({ t }: CompassTabProps) {
                 );
               })}
 
-              {/* Números de grados exteriores limpios */}
+              {/* Números de grados distribuidos uniformemente en el anillo intermedio */}
               {[
-                { label: '0', angle: 0, y: 26 },
-                { label: '30', angle: 30, y: 29 },
-                { label: '60', angle: 60, y: 39 },
-                { label: '90', angle: 90, y: 53 },
-                { label: '120', angle: 120, y: 68 },
-                { label: '150', angle: 150, y: 80 },
-                { label: '180', angle: 180, y: 85 },
-                { label: '210', angle: 210, y: 80 },
-                { label: '240', angle: 240, y: 68 },
-                { label: '270', angle: 270, y: 53 },
-                { label: '300', angle: 300, y: 39 },
-                { label: '330', angle: 330, y: 29 },
+                { label: '330', angle: 330, y: 31 },
+                { label: '30', angle: 30, y: 31 },
+                { label: '60', angle: 60, y: 44 },
+                { label: '90', angle: 90, y: 59 },
+                { label: '120', angle: 120, y: 74 },
+                { label: '150', angle: 150, y: 85 },
+                { label: '210', angle: 210, y: 85 },
+                { label: '240', angle: 240, y: 74 },
+                { label: '270', angle: 270, y: 59 },
+                { label: '300', angle: 300, y: 44 },
               ].map((item, idx) => (
                 <text
                   key={idx}
                   x="100"
                   y={item.y}
                   fill="#475569"
-                  fontSize="7"
+                  fontSize="6.5"
                   fontWeight="600"
                   fontFamily="sans-serif"
                   textAnchor="middle"
