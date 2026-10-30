@@ -69,7 +69,7 @@ import iconImage from './icon.jpg';
 import HebrewDateConverter from './components/HebrewDateConverter';
 import { scheduleShabbatAlert, requestNotificationPermissions } from './utils/notifications';
 import { CompassTab } from './components/CompassTab';
-import { SidurTab } from './components/SidurTab'; // <-- AGREGA ESTA LÍNEA AQUÍ
+import { BerajotTab } from './components/BerajotTab';
 
 
 const API_BASE_URL = 'https://rabvirtual.onrender.com';
@@ -229,8 +229,8 @@ export function App() {
   }, []);
 
   const [activeMainTab, setActiveMainTab] = useState<
-    'chat' | 'calendar' | 'parasha' | 'giluy_daat' | 'qa' | 'developer' | 'kosher' | 'settings' | 'hebrew_converter' | 'compass' | 'sidur'
-  >('chat');
+  'chat' | 'calendar' | 'parasha' | 'giluy_daat' | 'qa' | 'developer' | 'kosher' | 'settings' | 'hebrew_converter' | 'compass' | 'berajot'
+>('chat');
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -940,10 +940,10 @@ export function App() {
       accentColor: 'text-amber-600',
     },
     {
-      id: 'sidur' as const,
-      label: t('tabSidur', 'Sidur & Tehilim'),
+      id: 'berajot' as const,
+      label: t('tabBerajot', 'Berajot Cotidianas'),
       icon: BookOpen,
-      desc: t('tabSidurDesc', 'Rezos diarios por tradición comunitaria'),
+      desc: t('tabBerajotDesc', 'Bendiciones diarias por comunidad'),
       accentColor: 'text-amber-700',
     },
     {
@@ -1322,7 +1322,7 @@ export function App() {
         
         {activeMainTab === 'compass' && <CompassTab t={t} />}
         
-        {activeMainTab === 'sidur' && <SidurTab t={t} />}
+        {activeMainTab === 'berajot' && <BerajotTab t={t} />}
 
         {activeMainTab === 'hebrew_converter' && <HebrewDateConverter />}
 

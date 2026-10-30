@@ -7,10 +7,8 @@ export interface RezoItem {
   translation: string;
 }
 
-// Nueva estructura que divide el Sidur por momentos del día
-export interface SidurStructure {
-  shajarit: RezoItem[];
-  minja: RezoItem[];
-  arbit: RezoItem[];
-  berajot: RezoItem[];
+export interface BerajotDayStructure {
+  despertar: RezoItem[]; // Modé Aní, Netilat Yadaim matutino
+  alimentos: RezoItem[]; // Hamotzi, Mezonot, Hagefen, Shehakol, Haetz, Haadam, Birkat Hamazon / Bore Nefashot
+  cuerpo: RezoItem[];    // Asher Yatzar, Elohai Neshamá
 }

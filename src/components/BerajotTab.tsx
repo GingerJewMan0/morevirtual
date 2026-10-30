@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BookOpen, Sparkles, Sun, Sunset, Moon, Coffee } from 'lucide-react';
+import { BookOpen, Sun, Coffee, Shield } from 'lucide-react';
 
 import { maguenDavidSidur } from '../data/sidur/maguenDavid';
 import { monteSinaiSidur } from '../data/sidur/monteSinai';
@@ -13,16 +13,15 @@ interface SidurTabProps {
 
 type Tradition = 'maguen-david' | 'monte-sinai' | 'ashkenazi' | 'sefaradi' | 'jabad';
 type ViewMode = 'hebrew' | 'phonetic' | 'translation';
-type DailyService = 'shajarit' | 'minja' | 'arbit' | 'berajot';
+type BerajotCategory = 'despertar' | 'cuerpo' | 'alimentos';
 
-export function SidurTab({ t }: SidurTabProps) {
+export function BerajotTab({ t }: SidurTabProps) {
   const [selectedTradition, setSelectedTradition] = useState<Tradition>('maguen-david');
-  const [activeSection, setActiveSection] = useState<'sidur' | 'tehilim'>('sidur');
-  const [activeService, setActiveService] = useState<DailyService>('shajarit');
+  const [activeCategory, setActiveCategory] = useState<BerajotCategory>('despertar');
   const [viewMode, setViewMode] = useState<ViewMode>('phonetic');
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const getSidurData = () => {
+  const getBerajotData = () => {
     switch (selectedTradition) {
       case 'monte-sinai': return monteSinaiSidur;
       case 'sefaradi': return sefaradiSidur;
@@ -33,11 +32,11 @@ export function SidurTab({ t }: SidurTabProps) {
     }
   };
 
-  // Obtenemos la lista de rezos según el servicio seleccionado (Shajarit, Minjá, etc.)
-  const currentList = activeSection === 'sidur' ? getSidurData()[activeService] : [];
+  const currentData = getBerajotData();
+  const currentList = currentData[activeCategory] || [];
   
   const currentItem = currentList[currentIndex] || {
-    titleHebrew: '...', titleSpanish: 'En construcción', hebrew: '', phonetic: '', translation: 'Agregando rezos a esta sección...'
+    titleHebrew: '...', titleSpanish: 'En construcción', hebrew: '', phonetic: '', translation: 'Agregando contenido...'
   };
 
   const traditionsList: { id: Tradition; name: string }[] = [
@@ -53,12 +52,12 @@ export function SidurTab({ t }: SidurTabProps) {
       
       <div className="flex items-center justify-center gap-2 text-amber-600 dark:text-amber-400">
         <BookOpen className="w-6 h-6" />
-        <h2 className="text-xl font-serif font-bold tracking-wide">Sidur & Tehilim</h2>
+        <h2 className="text-xl font-serif font-bold tracking-wide">Berajot Cotidianas</h2>
       </div>
 
       <div className="space-y-1.5">
         <label className="text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold block text-center">
-          Tradición / Nusaj
+          Comunidad / Tradición
         </label>
         <select
           value={selectedTradition}
@@ -74,42 +73,33 @@ export function SidurTab({ t }: SidurTabProps) {
         </select>
       </div>
 
-      <div className="grid grid-cols-2 gap-2 bg-slate-100 dark:bg-slate-900 p-1 rounded-2xl border border-slate-200 dark:border-slate-800">
-        <button
-          onClick={() => { setActiveSection('sidur'); setCurrentIndex(0); }}
-          className={`py-2 text-xs font-bold rounded-xl transition-all ${
-            activeSection === 'sidur' ? 'bg-amber-500 text-slate-950 shadow-md' : 'text-slate-600 dark:text-slate-400'
+      {/* Submenú de Categorías de Berajot */}
+      <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+        <button 
+          onClick={() => { setActiveCategory('despertar'); setCurrentIndex(0); }} 
+          className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors flex-1 justify-center ${
+            activeCategory === 'despertar' ? 'bg-amber-500 text-slate-950 shadow-md font-bold' : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700'
           }`}
         >
-          Sidur Diario
+          <Sun className="w-3.5 h-3.5" /> Al Despertar
         </button>
-        <button
-          onClick={() => { setActiveSection('tehilim'); setCurrentIndex(0); }}
-          className={`py-2 text-xs font-bold rounded-xl transition-all ${
-            activeSection === 'tehilim' ? 'bg-amber-500 text-slate-950 shadow-md' : 'text-slate-600 dark:text-slate-400'
+        <button 
+          onClick={() => { setActiveCategory('cuerpo'); setCurrentIndex(0); }} 
+          className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors flex-1 justify-center ${
+            activeCategory === 'cuerpo' ? 'bg-amber-500 text-slate-950 shadow-md font-bold' : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700'
           }`}
         >
-          Tehilim
+          <Shield className="w-3.5 h-3.5" /> Cuerpo
+        </button>
+        <button 
+          onClick={() => { setActiveCategory('alimentos'); setCurrentIndex(0); }} 
+          className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors flex-1 justify-center ${
+            activeCategory === 'alimentos' ? 'bg-amber-500 text-slate-950 shadow-md font-bold' : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700'
+          }`}
+        >
+          <Coffee className="w-3.5 h-3.5" /> Alimentos
         </button>
       </div>
-
-      {/* Submenú de Servicios (Solo visible si estamos en el Sidur) */}
-      {activeSection === 'sidur' && (
-        <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-          <button onClick={() => { setActiveService('shajarit'); setCurrentIndex(0); }} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${activeService === 'shajarit' ? 'bg-slate-800 text-white dark:bg-amber-400 dark:text-slate-950' : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700'}`}>
-            <Sun className="w-3.5 h-3.5" /> Shajarit
-          </button>
-          <button onClick={() => { setActiveService('minja'); setCurrentIndex(0); }} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${activeService === 'minja' ? 'bg-slate-800 text-white dark:bg-amber-400 dark:text-slate-950' : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700'}`}>
-            <Sunset className="w-3.5 h-3.5" /> Minjá
-          </button>
-          <button onClick={() => { setActiveService('arbit'); setCurrentIndex(0); }} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${activeService === 'arbit' ? 'bg-slate-800 text-white dark:bg-amber-400 dark:text-slate-950' : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700'}`}>
-            <Moon className="w-3.5 h-3.5" /> Arbit
-          </button>
-          <button onClick={() => { setActiveService('berajot'); setCurrentIndex(0); }} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${activeService === 'berajot' ? 'bg-slate-800 text-white dark:bg-amber-400 dark:text-slate-950' : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700'}`}>
-            <Coffee className="w-3.5 h-3.5" /> Berajot
-          </button>
-        </div>
-      )}
 
       <div className="flex justify-center gap-1.5 bg-slate-50 dark:bg-slate-900/40 p-1.5 rounded-xl border border-slate-200 dark:border-slate-800 text-[11px]">
         {(['hebrew', 'phonetic', 'translation'] as ViewMode[]).map((mode) => (
@@ -135,9 +125,9 @@ export function SidurTab({ t }: SidurTabProps) {
           </h3>
         </div>
 
-        <div className="min-h-[130px] flex items-center justify-center text-center">
+        <div className="min-h-[140px] flex items-center justify-center text-center">
           {viewMode === 'hebrew' && (
-            <p className="text-2xl font-serif leading-relaxed text-right text-slate-900 dark:text-slate-100" dir="rtl">
+            <p className="text-xl font-serif leading-relaxed text-right text-slate-900 dark:text-slate-100" dir="rtl">
               {currentItem.hebrew}
             </p>
           )}
@@ -156,7 +146,7 @@ export function SidurTab({ t }: SidurTabProps) {
         <div className="flex justify-between pt-2 border-t border-slate-200 dark:border-slate-800 text-xs">
           <button
             onClick={() => setCurrentIndex((prev) => (prev > 0 ? prev - 1 : currentList.length - 1))}
-            className="px-3 py-1 bg-slate-200 dark:bg-slate-800 hover:bg-amber-500 hover:text-slate-950 rounded-lg font-medium transition-colors"
+            className="px-3 py-1 bg-slate-200 dark:bg-slate-800 hover:bg-amber-500 hover:text-slate-950 rounded-lg font-medium transition-colors cursor-pointer"
           >
             Anterior
           </button>
@@ -165,7 +155,7 @@ export function SidurTab({ t }: SidurTabProps) {
           </span>
           <button
             onClick={() => setCurrentIndex((prev) => (prev < currentList.length - 1 ? prev + 1 : 0))}
-            className="px-3 py-1 bg-slate-200 dark:bg-slate-800 hover:bg-amber-500 hover:text-slate-950 rounded-lg font-medium transition-colors"
+            className="px-3 py-1 bg-slate-200 dark:bg-slate-800 hover:bg-amber-500 hover:text-slate-950 rounded-lg font-medium transition-colors cursor-pointer"
           >
             Siguiente
           </button>

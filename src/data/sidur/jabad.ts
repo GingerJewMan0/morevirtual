@@ -1,37 +1,25 @@
-import { SidurStructure } from './types';
+import { BerajotDayStructure } from './types';
 
-export const jabadSidur: SidurStructure = {
-  shajarit: [
+export const jabadSidur: BerajotDayStructure = {
+  despertar: [
     {
       id: 'mode-ani',
       titleHebrew: 'מודה אני',
       titleSpanish: 'Modé Aní (Nusaj Ari)',
       hebrew: 'מוֹדֶה אֲנִי לְפָנֶיךָ מֶלֶךְ חַי וְקַיָּם, שֶׁהֶחֱזַרְתָּ בִּי נִשְׁמָתִי בְּחֶמְלָה, רַבָּה אֱמוּנָתֶךָ.',
       phonetic: 'Modé aní lefanéja mélej jai vekayam, shehejezartá bi nishmatí bejemlá, rabá emunatéja.',
-      translation: 'Reconozco ante Ti, Rey viviente y eterno, que me has devuelto mi alma con piedad; inmensa es Tu fidelidad.'
-    }
-  ],
-  minja: [
+      translation: 'Reconozco ante Ti, Rey viviente y eterno, que me has devuelto el alma con piedad; inmensa es Tu fidelidad.'
+    },
     {
-      id: 'ashrei',
-      titleHebrew: 'אשרי יושבי ביתך',
-      titleSpanish: 'Ashréi',
-      hebrew: 'אַשְׁרֵי יוֹשְׁבֵי בֵיתֶךָ, עוֹד יְהַלְלוּךָ סֶּלָה.',
-      phonetic: 'Ashréi yoshvéi vetéja, od yehalelúja sela.',
-      translation: 'Dichosos los que habitan en Tu casa; continuamente Te alabarán. Sela.'
+      id: 'netilat-yadaim',
+      titleHebrew: 'נטילת ידיים',
+      titleSpanish: 'Netilat Yadaim',
+      hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, אֲשֶׁר קִדְּשָׁנוּ בְּמִצְוֹתָיו, וְצִוָּנוּ עַל נְטִילַת יָדַיִם.',
+      phonetic: 'Baruj atá A-do-nai, Elo-henu melej haolam, asher kideshanu bemitzvotav, vetzivanu al netilat yadaim.',
+      translation: 'Bendito eres Tú, oh Eterno nuestro Dios, Rey del universo, que nos santificó con Sus preceptos y nos ordenó el lavado de las manos.'
     }
   ],
-  arbit: [
-    {
-      id: 'shema-arbit',
-      titleHebrew: 'קריאת שמע ערבית',
-      titleSpanish: 'Shemá de Arbit',
-      hebrew: 'שְׁמַע יִשְׂרָאֵל ה\' אֱלֹהֵינוּ ה\' אֶחָד.',
-      phonetic: 'Shemá Israel, A-do-nai Elo-henu, A-do-nai Ejad.',
-      translation: 'Escucha, Israel: El Eterno es nuestro Dios, el Eterno es Uno.'
-    }
-  ],
-  berajot: [
+  cuerpo: [
     {
       id: 'asher-yatzar',
       titleHebrew: 'אשר יצר',
@@ -39,6 +27,48 @@ export const jabadSidur: SidurStructure = {
       hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, אֲשֶׁר יָצַר אֶת הָאָדָם בְּחָכְמָה...',
       phonetic: 'Baruj atá A-do-nai, Elo-henu melej haolam, asher yatzar et haadam bejojmá...',
       translation: 'Bendito eres Tú, oh Eterno nuestro Dios, Rey del universo, que formaste al hombre con sabiduría...'
+    }
+  ],
+  alimentos: [
+    {
+      id: 'hamotzi',
+      titleHebrew: 'המוציא לחם מן הארץ',
+      titleSpanish: 'Hamotzi',
+      hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, הַמוֹצִיא לֶחֶם מִן הָאָרֶץ.',
+      phonetic: 'Baruj atá A-do-nai, Elo-henu melej haolam, hamotzi lejem min haaretz.',
+      translation: 'Bendito eres Tú, oh Eterno nuestro Dios, Rey del universo, que sacas el pan de la tierra.'
+    },
+    {
+      id: 'shehakol',
+      titleHebrew: 'שהכל נהיה בדברו',
+      titleSpanish: 'Shehakol',
+      hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, שֶׁהַכֹּל נִהְיֶה בִּדְבָרוֹ.',
+      phonetic: 'Baruj atá A-do-nai, Elo-henu melej haolam, shehakol niheyá bidvaró.',
+      translation: 'Bendito eres Tú, oh Eterno nuestro Dios, Rey del universo, por cuya palabra todo fue creado.'
+    },
+    {
+      id: 'bore-peri-haetz',
+      titleHebrew: 'בורא פרי העץ',
+      titleSpanish: 'Bore Peri Haetz',
+      hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, בּוֹרֵא פְּרִי הָעֵץ.',
+      phonetic: 'Baruj atá A-do-nai, Elo-henu melej haolam, boré peri haetz.',
+      translation: 'Bendito eres Tú, oh Eterno nuestro Dios, Rey del universo, que creas el fruto del árbol.'
+    },
+    {
+      id: 'bore-peri-haadama',
+      titleHebrew: 'בורא פרי האדמה',
+      titleSpanish: 'Bore Peri Haadamá',
+      hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, בּוֹרֵא פְּרִי הָאֲדָמָה.',
+      phonetic: 'Baruj atá A-do-nai, Elo-henu melej haolam, boré peri haadamá.',
+      translation: 'Bendito eres Tú, oh Eterno nuestro Dios, Rey del universo, que creas el fruto de la tierra.'
+    },
+    {
+      id: 'bore-hagefen',
+      titleHebrew: 'בורא פרי הגפן',
+      titleSpanish: 'Bore Peri Hagefen',
+      hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, בּוֹרֵא פְּרִי הַגָּפֶן.',
+      phonetic: 'Baruj atá A-do-nai, Elo-henu melej haolam, boré peri hagefen.',
+      translation: 'Bendito eres Tú, oh Eterno nuestro Dios, Rey del universo, que creas el fruto de la vid.'
     }
   ]
 };
