@@ -127,7 +127,7 @@ export function CompassTab({ t }: CompassTabProps) {
                 );
               })}
 
-              {/* Números de grados exteriores alineados */}
+              {/* Números de grados exteriores en su carril perfecto */}
               {[
                 { label: '0', angle: 0 },
                 { label: '20', angle: 20 },
@@ -197,27 +197,33 @@ export function CompassTab({ t }: CompassTabProps) {
               <span className="absolute top-16 left-16 text-[9px] font-bold text-slate-600">NW</span>
             </div>
 
-            {/* Flechas Clásicas de Navegación (Rojo arriba, Azul abajo con forma de rombo/punta de flecha) */}
+            {/* Manecillas Idénticas a la Imagen de Referencia (Perfil romboidal con bisel de sombra) */}
             <div
               className="absolute w-full h-full flex items-center justify-center pointer-events-none transition-transform duration-300 ease-out z-20"
               style={{ transform: `rotate(${needleRotation}deg)` }}
             >
-              {/* Punta de Flecha Clásica Superior (Roja) */}
+              {/* Manecilla Superior Roja (Con forma de rombo estilizado e inclinación derecha clásica) */}
               <div 
-                className="absolute w-4 h-38 bg-gradient-to-t from-red-600 via-red-500 to-orange-400 -top-16 shadow-lg flex flex-col items-center pt-2"
-                style={{ clipPath: 'polygon(50% 0%, 100% 30%, 50% 100%, 0% 30%)' }}
-              >
-                <span className="text-[7px] text-white font-bold">✡️</span>
-              </div>
-              
-              {/* Punta de Flecha Clásica Inferior (Azul) */}
+                className="absolute w-4 h-38 bg-gradient-to-l from-red-600 via-red-500 to-red-400 -top-16 shadow-md"
+                style={{ clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 50% 100%)' }}
+              />
               <div 
-                className="absolute w-4 h-38 bg-gradient-to-b from-blue-600 via-blue-500 to-cyan-400 -bottom-16 shadow-lg"
-                style={{ clipPath: 'polygon(50% 0%, 100% 70%, 50% 100%, 0% 70%)' }}
+                className="absolute w-4 h-38 bg-gradient-to-r from-red-700 via-red-600 to-red-500 -top-16 shadow-md"
+                style={{ clipPath: 'polygon(50% 0%, 50% 100%, 0% 50%)' }}
+              />
+
+              {/* Manecilla Inferior Azul (Con forma de rombo estilizado simétrico) */}
+              <div 
+                className="absolute w-4 h-38 bg-gradient-to-l from-blue-600 via-blue-500 to-blue-400 -bottom-16 shadow-md"
+                style={{ clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%)' }}
+              />
+              <div 
+                className="absolute w-4 h-38 bg-gradient-to-r from-blue-700 via-blue-600 to-blue-500 -bottom-16 shadow-md"
+                style={{ clipPath: 'polygon(50% 0%, 50% 100%, 0% 50%)' }}
               />
             </div>
 
-            {/* Pivote central metálico texturizado clásico */}
+            {/* Pivote central metálico texturizado exacto de la referencia */}
             <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-slate-400 via-slate-200 to-slate-400 border border-slate-500 flex items-center justify-center shadow-lg z-30">
               <div className="w-4 h-4 rounded-full bg-gradient-to-br from-slate-300 via-slate-100 to-slate-400 border border-slate-500 shadow-inner flex items-center justify-center">
                 <div className="w-1.5 h-1.5 rounded-full bg-slate-600 opacity-90" />
