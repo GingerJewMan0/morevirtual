@@ -77,28 +77,28 @@ export function CompassTab({ t }: CompassTabProps) {
   const pointerRotation = bearingToKotel !== null && heading !== null ? (bearingToKotel - heading + 360) % 360 : (bearingToKotel || 0);
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-slate-950 text-slate-100 rounded-3xl shadow-2xl border border-slate-800 text-center space-y-6 backdrop-blur-md">
+    <div className="max-w-md mx-auto p-6 bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-100 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 text-center space-y-6 backdrop-blur-md transition-colors duration-300">
       
-      <div className="flex items-center justify-center gap-2 text-amber-400">
+      <div className="flex items-center justify-center gap-2 text-amber-600 dark:text-amber-400">
         <h2 className="text-xl font-serif font-bold tracking-wide">{t('compassTitle', 'Dirección al Kotel')}</h2>
       </div>
 
-      <p className="text-xs text-slate-400">
+      <p className="text-xs text-slate-500 dark:text-slate-400">
         {t('compassSubtitle', 'Orientación en tiempo real hacia el Muro Occidental en Jerusalén.')}
       </p>
 
       {error && (
-        <div className="p-2.5 bg-amber-950/40 border border-amber-800/60 text-amber-200 text-xs rounded-xl flex items-center gap-2">
-          <AlertCircle className="w-4 h-4 shrink-0 text-amber-400" />
+        <div className="p-2.5 bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-800/60 text-amber-800 dark:text-amber-200 text-xs rounded-xl flex items-center gap-2">
+          <AlertCircle className="w-4 h-4 shrink-0 text-amber-600 dark:text-amber-400" />
           <span>{error}</span>
         </div>
       )}
 
       {/* Contenedor Minimalista de la Flecha Direccional */}
-      <div className="relative w-72 h-72 mx-auto flex items-center justify-center bg-slate-900/50 rounded-full border border-slate-800/80 shadow-inner overflow-hidden">
+      <div className="relative w-72 h-72 mx-auto flex items-center justify-center bg-slate-50 dark:bg-slate-900/50 rounded-full border border-slate-200 dark:border-slate-800/80 shadow-inner overflow-hidden transition-colors duration-300">
         
         {/* Anillo decorativo sutil */}
-        <div className="absolute w-60 h-60 rounded-full border border-dashed border-slate-700/50 pointer-events-none" />
+        <div className="absolute w-60 h-60 rounded-full border border-dashed border-slate-300 dark:border-slate-700/50 pointer-events-none" />
 
         {/* Contenedor de rotación de la flecha alineado exactamente al centro absoluto */}
         <div 
@@ -112,31 +112,31 @@ export function CompassTab({ t }: CompassTabProps) {
         </div>
 
         {/* Centro de la flecha fijo en el medio */}
-        <div className="w-9 h-9 rounded-full bg-slate-900 border-2 border-amber-500 flex items-center justify-center shadow-lg z-20">
-          <Navigation className="w-4 h-4 text-amber-400 rotate-45" />
+        <div className="w-9 h-9 rounded-full bg-white dark:bg-slate-900 border-2 border-amber-500 flex items-center justify-center shadow-lg z-20 transition-colors duration-300">
+          <Navigation className="w-4 h-4 text-amber-600 dark:text-amber-400 rotate-45" />
         </div>
 
       </div>
 
       {/* Tarjetas de datos numéricos */}
       <div className="grid grid-cols-2 gap-3 pt-2">
-        <div className="p-3 bg-slate-900 rounded-2xl border border-slate-800 shadow-inner">
-          <span className="block text-[11px] text-slate-400 uppercase font-semibold tracking-wider">{t('bearingLabel', 'Marcación')}</span>
-          <span className="text-xl font-mono font-bold text-amber-300">
+        <div className="p-3 bg-slate-100 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-inner transition-colors duration-300">
+          <span className="block text-[11px] text-slate-500 dark:text-slate-400 uppercase font-semibold tracking-wider">{t('bearingLabel', 'Marcación')}</span>
+          <span className="text-xl font-mono font-bold text-amber-600 dark:text-amber-300">
             {bearingToKotel !== null ? `${bearingToKotel}°` : '--'}
           </span>
         </div>
 
-        <div className="p-3 bg-slate-900 rounded-2xl border border-slate-800 shadow-inner">
-          <span className="block text-[11px] text-slate-400 uppercase font-semibold tracking-wider">{t('distanceLabel', 'Distancia Aprox.')}</span>
-          <span className="text-xl font-mono font-bold text-amber-300">
+        <div className="p-3 bg-slate-100 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-inner transition-colors duration-300">
+          <span className="block text-[11px] text-slate-500 dark:text-slate-400 uppercase font-semibold tracking-wider">{t('distanceLabel', 'Distancia Aprox.')}</span>
+          <span className="text-xl font-mono font-bold text-amber-600 dark:text-amber-300">
             {distance !== null ? `${distance.toLocaleString()} km` : '--'}
           </span>
         </div>
       </div>
 
-      <div className="text-[11px] text-slate-400 italic flex items-center justify-center gap-1 font-serif">
-        <MapPin className="w-3.5 h-3.5 text-amber-500" />
+      <div className="text-[11px] text-slate-500 dark:text-slate-400 italic flex items-center justify-center gap-1 font-serif">
+        <MapPin className="w-3.5 h-3.5 text-amber-600 dark:text-amber-500" />
         <span>{t('locationName', 'Jerusalén, Israel (מכותל המערבי)')}</span>
       </div>
     </div>
