@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MapPin, AlertCircle } from 'lucide-react';
 import { Geolocation } from '@capacitor/geolocation';
-
-// 1. Importa la imagen de la brújula que me enviaste
-// Asegúrate de que la ruta sea correcta respecto a la ubicación de este archivo
-import compassImage from '../assets/Compass.jpg';
+import compassImage from '../assets/Compass.jpg'; 
 
 const KOTEL_LAT = 31.7767;
 const KOTEL_LNG = 35.2345;
@@ -78,11 +75,8 @@ export function CompassTab({ t }: CompassTabProps) {
     };
   }, []);
 
-  // 2. Lógica de rotación
-  // El dial de la imagen debe rotar en sentido contrario al rumbo para que el Norte siempre apunte arriba
-  const dialRotation = heading !== null ? -heading : 0;
-  // La aguja que apunta al Kotel rota en sentido de las manecillas del reloj
-  const kotelNeedleRotation = bearingToKotel !== null ? bearingToKotel : 0;
+  // Toda la brújula gira según el rumbo del dispositivo
+  const rotationAngle = heading !== null && bearingToKotel !== null ? (bearingToKotel - heading + 360) % 360 : bearingToKotel || 0;
 
   return (
     <div className="max-w-md mx-auto p-6 bg-slate-900/95 text-slate-100 rounded-3xl shadow-2xl border border-amber-600/30 text-center space-y-6 backdrop-blur-md">
@@ -102,58 +96,21 @@ export function CompassTab({ t }: CompassTabProps) {
         </div>
       )}
 
-      {/* 3. Contenedor de la Brújula (Usando la imagen como fondo) */}
-      <div className="relative w-72 h-72 mx-auto flex items-center justify-center pt-5">
+      {/* Contenedor de la Brújula Realista */}
+      <div className="relative w-72 h-72 mx-auto flex items-center justify-center py-2">
         
-        {/* Contenedor Principal que contiene la imagen de fondo y los elementos dinámicos */}
-        <div
-          className="relative w-64 h-64 rounded-full shadow-[0_15px_40px_rgba(0,0,0,0.9)] overflow-hidden flex items-center justify-center border-4 border-yellow-800/50"
-          style={{
-            // Establece la imagen que me diste como fondo de este contenedor
-            backgroundImage: `url(${compassImage})`,
-            backgroundSize: 'cover', // O 'contain' si prefieres ver todo el borde de la imagen
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-          }}
+        {/* Imagen completa de la brújula clásica que gira suavemente apuntando al Kotel */}
+        <div 
+          className="relative w-64 h-64 transition-transform duration-300 ease-out flex items-center justify-center drop-shadow-[0_15px_30px_rgba(0,0,0,0.8)]"
+          style={{ transform: `rotate(${rotationAngle}deg)` }}
         >
-          
-          {/* 4. Capa Rotatoria (Contiene las letras N,S,E,W del fondo de la imagen) */}
-          {/* Esta capa rota en función de la brújula del dispositivo (dialRotation) */}
-          <div
-            className="absolute inset-0 rounded-full transition-transform duration-200 ease-out flex items-center justify-center"
-            style={{ transform: `rotate(${dialRotation}deg)` }}
-          >
-             {/* Si las letras de la imagen original están muy pegadas al borde, esto las mantendrá visibles */}
-             {/* Sin embargo, si la imagen original ya incluye las letras N/S/E/W y rotan con ella, esto no es necesario */}
-             {/* Dada la imagen, las letras ya están integradas, así que solo rotamos el contenedor entero */}
-          </div>
-
-          {/* 5. Aguja Fija (Apuntando al Kotel) */}
-          {/* Esta capa NO rota con el dispositivo, sino que apunta a la dirección calculada (kotelNeedleRotation) */}
-          <div
-            className="absolute w-full h-full flex items-center justify-center pointer-events-none transition-transform duration-300 ease-out z-20"
-            style={{ transform: `rotate(${kotelNeedleRotation}deg)` }}
-          >
-            {/* Punta superior de la aguja (color rojo) */}
-            <div className="absolute w-4 h-32 bg-gradient-to-t from-red-700 via-red-600 to-red-500 -top-14 shadow-md clip-polygon flex flex-col items-center pt-1"
-                 style={{ clipPath: 'polygon(50% 0%, 100% 40%, 50% 100%, 0% 40%)' }}>
-                <div className="text-center pt-1 text-[8px] text-yellow-200 font-bold">✡️</div>
-            </div>
-            
-            {/* Contrapunta inferior de la aguja (color plateado) */}
-            <div className="absolute w-4 h-32 bg-gradient-to-b from-slate-200 via-slate-300 to-slate-400 -bottom-14 shadow-md"
-                 style={{ clipPath: 'polygon(50% 0%, 100% 60%, 50% 100%, 0% 60%)' }} />
-          </div>
-
-          {/* 6. Pivote Central */}
-          <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-yellow-800 via-amber-600 to-yellow-300 border border-amber-900 flex items-center justify-center shadow-md z-30">
-            <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-amber-950 to-amber-900 shadow-inner" />
-          </div>
-
+          <img 
+            src={compassImage} 
+            alt="Brújula Clásica" 
+            className="w-full h-full object-contain pointer-events-none" 
+          />
         </div>
-        
-        {/* 7. El ojal superior (parte de la imagen) */}
-        {/* Dado que la imagen original tiene el ojal arriba, no necesitamos añadir uno extra con CSS. */}
+
       </div>
 
       {/* Tarjetas de datos numéricos */}
