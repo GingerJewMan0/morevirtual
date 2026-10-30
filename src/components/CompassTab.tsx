@@ -102,12 +102,13 @@ export function CompassTab({ t }: CompassTabProps) {
           
           <div className="relative w-full h-full rounded-full bg-gradient-to-b from-slate-100 via-slate-200 to-slate-300 shadow-[inset_0_4px_12px_rgba(0,0,0,0.2)] overflow-hidden flex items-center justify-center">
             
-            <svg className="absolute inset-0 w-full h-full p-1.5" viewBox="0 0 200 200">
-              <circle cx="100" cy="100" r="92" fill="none" stroke="#94a3b8" strokeWidth="1.5" />
-              <circle cx="100" cy="100" r="82" fill="none" stroke="#64748b" strokeWidth="0.75" />
-              <circle cx="100" cy="100" r="64" fill="none" stroke="#cbd5e1" strokeWidth="0.75" strokeDasharray="3 3" />
+            <svg className="absolute inset-0 w-full h-full p-1" viewBox="0 0 200 200">
+              {/* Anillos concéntricos */}
+              <circle cx="100" cy="100" r="92" fill="none" stroke="#64748b" strokeWidth="1.5" />
+              <circle cx="100" cy="100" r="80" fill="none" stroke="#94a3b8" strokeWidth="1" />
+              <circle cx="100" cy="100" r="62" fill="none" stroke="#cbd5e1" strokeWidth="0.75" strokeDasharray="3 3" />
 
-              {/* Ticks de grados en el perímetro exterior */}
+              {/* Ticks de grados perimetrales */}
               {Array.from({ length: 72 }).map((_, i) => {
                 const angle = i * 5;
                 const isMajor = i % 6 === 0;
@@ -116,9 +117,9 @@ export function CompassTab({ t }: CompassTabProps) {
                   <line
                     key={i}
                     x1="100"
-                    y1={isMajor ? "10" : isMedium ? "12" : "14"}
+                    y1={isMajor ? "18" : isMedium ? "20" : "22"}
                     x2="100"
-                    y2="17"
+                    y2="25"
                     stroke="#1e293b"
                     strokeWidth={isMajor ? "1.5" : "0.75"}
                     transform={`rotate(${angle} 100 100)`}
@@ -126,27 +127,33 @@ export function CompassTab({ t }: CompassTabProps) {
                 );
               })}
 
-              {/* Grados numéricos ubicados completamente en la parte externa */}
+              {/* Números de grados exteriores situados en el margen externo (como en la foto) */}
               {[
-                { label: '0°', angle: 0, y: 24 },
-                { label: '30°', angle: 30, y: 24 },
-                { label: '60°', angle: 60, y: 27 },
-                { label: '90°', angle: 90, y: 33 },
-                { label: '120°', angle: 120, y: 41 },
-                { label: '150°', angle: 150, y: 50 },
-                { label: '180°', angle: 180, y: 54 },
-                { label: '210°', angle: 210, y: 50 },
-                { label: '240°', angle: 240, y: 41 },
-                { label: '270°', angle: 270, y: 33 },
-                { label: '300°', angle: 300, y: 27 },
-                { label: '330°', angle: 330, y: 24 },
+                { label: '0', angle: 0, y: 13 },
+                { label: '20', angle: 20, y: 13 },
+                { label: '40', angle: 40, y: 13 },
+                { label: '60', angle: 60, y: 13 },
+                { label: '80', angle: 80, y: 13 },
+                { label: '100', angle: 100, y: 13 },
+                { label: '120', angle: 120, y: 13 },
+                { label: '140', angle: 140, y: 13 },
+                { label: '160', angle: 160, y: 13 },
+                { label: '180', angle: 180, y: 13 },
+                { label: '200', angle: 200, y: 13 },
+                { label: '220', angle: 220, y: 13 },
+                { label: '240', angle: 240, y: 13 },
+                { label: '260', angle: 260, y: 13 },
+                { label: '280', angle: 280, y: 13 },
+                { label: '300', angle: 300, y: 13 },
+                { label: '320', angle: 320, y: 13 },
+                { label: '340', angle: 340, y: 13 },
               ].map((item, idx) => (
                 <text
                   key={idx}
                   x="100"
                   y={item.y}
                   fill="#334155"
-                  fontSize="6"
+                  fontSize="5.5"
                   fontWeight="700"
                   fontFamily="sans-serif"
                   textAnchor="middle"
@@ -156,22 +163,28 @@ export function CompassTab({ t }: CompassTabProps) {
                 </text>
               ))}
 
-              {/* Rosa de los vientos vectorial amplia y despejada */}
+              {/* Rosa de los vientos vectorial detallada */}
               <g transform="translate(100, 100)">
-                <path d="M 0,-56 L 6,-10 L 56,0 L 6,10 L 0,56 L -6,10 L -56,0 L -6,-10 Z" fill="#64748b" opacity="0.35" transform="rotate(45)" />
-                <path d="M 0,-66 L 7,-12 L 66,0 L 7,12 L 0,66 L -7,12 L -66,0 L -7,-12 Z" fill="#334155" opacity="0.8" />
+                <path d="M 0,-54 L 5,-8 L 54,0 L 5,8 L 0,54 L -5,8 L -54,0 L -5,-8 Z" fill="#64748b" opacity="0.35" transform="rotate(45)" />
+                <path d="M 0,-62 L 6,-10 L 62,0 L 6,10 L 0,62 L -6,10 L -62,0 L -6,-10 Z" fill="#334155" opacity="0.85" />
+                <path d="M 0,-62 L 6,-10 L 0,0 Z" fill="#1e293b" />
+                <path d="M 62,0 L 6,10 L 0,0 Z" fill="#475569" />
               </g>
             </svg>
 
-            {/* Dial Giratorio con Letras Cardinales */}
+            {/* Dial Giratorio con Letras Cardinales y diagonales */}
             <div
               className="absolute inset-0 rounded-full transition-transform duration-200 ease-out flex items-center justify-center pointer-events-none"
               style={{ transform: `rotate(${dialRotation}deg)` }}
             >
-              <span className="absolute top-10 text-sm font-bold text-slate-900">N</span>
-              <span className="absolute bottom-10 text-sm font-bold text-slate-700">S</span>
-              <span className="absolute left-10 text-sm font-bold text-slate-700">W</span>
-              <span className="absolute right-10 text-sm font-bold text-slate-700">E</span>
+              <span className="absolute top-11 text-sm font-black text-slate-900">N</span>
+              <span className="absolute bottom-11 text-sm font-bold text-slate-700">S</span>
+              <span className="absolute left-11 text-sm font-bold text-slate-700">W</span>
+              <span className="absolute right-11 text-sm font-bold text-slate-700">E</span>
+              <span className="absolute top-16 right-16 text-[9px] font-bold text-slate-600">NE</span>
+              <span className="absolute bottom-16 right-16 text-[9px] font-bold text-slate-600">SE</span>
+              <span className="absolute bottom-16 left-16 text-[9px] font-bold text-slate-600">SW</span>
+              <span className="absolute top-16 left-16 text-[9px] font-bold text-slate-600">NW</span>
             </div>
 
             {/* Aguja de la brújula */}
