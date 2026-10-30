@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Compass, MapPin, AlertCircle } from 'lucide-react';
+import { MapPin, AlertCircle } from 'lucide-react';
 import { Geolocation } from '@capacitor/geolocation';
+
+// 1. Importa la imagen de la brújula que me enviaste
+// Asegúrate de que la ruta sea correcta respecto a la ubicación de este archivo
+import compassImage from '../assets/vintage-compass.png'; 
 
 const KOTEL_LAT = 31.7767;
 const KOTEL_LNG = 35.2345;
@@ -74,14 +78,16 @@ export function CompassTab({ t }: CompassTabProps) {
     };
   }, []);
 
+  // 2. Lógica de rotación
+  // El dial de la imagen debe rotar en sentido contrario al rumbo para que el Norte siempre apunte arriba
   const dialRotation = heading !== null ? -heading : 0;
+  // La aguja que apunta al Kotel rota en sentido de las manecillas del reloj
   const kotelNeedleRotation = bearingToKotel !== null ? bearingToKotel : 0;
 
   return (
     <div className="max-w-md mx-auto p-6 bg-slate-900/95 text-slate-100 rounded-3xl shadow-2xl border border-amber-600/30 text-center space-y-6 backdrop-blur-md">
-      {/* Encabezado */}
+      
       <div className="flex items-center justify-center gap-2 text-amber-400">
-        <Compass className="w-7 h-7 animate-pulse" />
         <h2 className="text-xl font-serif font-bold tracking-wide">{t('compassTitle', 'Dirección al Kotel')}</h2>
       </div>
 
@@ -96,63 +102,58 @@ export function CompassTab({ t }: CompassTabProps) {
         </div>
       )}
 
-      {/* Contenedor Principal Estilo Brújula Clásica Acuarela */}
+      {/* 3. Contenedor de la Brújula (Usando la imagen como fondo) */}
       <div className="relative w-72 h-72 mx-auto flex items-center justify-center pt-5">
         
-        {/* Argolla y ojal superior vintage */}
-        <div className="absolute top-0 w-10 h-10 rounded-full border-4 border-amber-700 shadow-md bg-gradient-to-tr from-yellow-700 via-amber-600 to-amber-400 z-10" />
-        <div className="absolute top-8 w-4 h-4 bg-amber-800 rounded-xs z-10 shadow-inner" />
-
-        {/* Marco exterior de latón envejecido */}
-        <div className="relative w-64 h-64 rounded-full bg-gradient-to-tr from-yellow-900 via-amber-700 to-yellow-600 p-2.5 shadow-[0_12px_30px_rgba(0,0,0,0.7),inset_0_2px_5px_rgba(255,255,255,0.4)] flex items-center justify-center">
+        {/* Contenedor Principal que contiene la imagen de fondo y los elementos dinámicos */}
+        <div
+          className="relative w-64 h-64 rounded-full shadow-[0_15px_40px_rgba(0,0,0,0.9)] overflow-hidden flex items-center justify-center border-4 border-yellow-800/50"
+          style={{
+            // Establece la imagen que me diste como fondo de este contenedor
+            backgroundImage: `url(${compassImage})`,
+            backgroundSize: 'cover', // O 'contain' si prefieres ver todo el borde de la imagen
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+          }}
+        >
           
-          {/* Esfera interior color pergamino / marfil claro */}
-          <div className="relative w-full h-full rounded-full bg-gradient-to-b from-[#f4ebd0] via-[#e8dbc0] to-[#d4c3a3] shadow-[inset_0_3px_10px_rgba(0,0,0,0.3)] overflow-hidden flex items-center justify-center border border-amber-900/40">
-            
-            {/* Marcas de graduación del bisel interior */}
-            <div className="absolute inset-1 rounded-full border border-dashed border-amber-900/30 pointer-events-none" />
-
-            {/* Dial giratorio con la rosa de los vientos clásica */}
-            <div
-              className="absolute inset-4 rounded-full transition-transform duration-200 ease-out flex items-center justify-center"
-              style={{ transform: `rotate(${dialRotation}deg)` }}
-            >
-              {/* Rosa de los vientos detallada en tonos sepia/gris */}
-              <div className="absolute w-32 h-32 opacity-30 bg-slate-700 rotate-45 rounded-xs" />
-              <div className="absolute w-32 h-32 opacity-30 bg-slate-700 rounded-xs" />
-              <div className="absolute w-36 h-0.5 bg-slate-800/40" />
-              <div className="absolute h-36 w-0.5 bg-slate-800/40" />
-
-              {/* Letras cardinales estilo clásico (N en rojo oscuro, las demás en negro/sepia) */}
-              <span className="absolute top-1.5 text-xs font-serif font-extrabold text-red-800">N</span>
-              <span className="absolute bottom-1.5 text-xs font-serif font-bold text-slate-800">S</span>
-              <span className="absolute left-2.5 text-xs font-serif font-bold text-slate-800">W</span>
-              <span className="absolute right-2.5 text-xs font-serif font-bold text-slate-800">E</span>
-            </div>
-
-            {/* Aguja magnética clásica (Rombo rojo arriba, rombo plateado abajo) */}
-            <div
-              className="absolute w-full h-full flex items-center justify-center pointer-events-none transition-transform duration-300 ease-out z-20"
-              style={{ transform: `rotate(${kotelNeedleRotation}deg)` }}
-            >
-              {/* Punta Superior Roja */}
-              <div className="absolute w-4 h-28 bg-gradient-to-t from-red-700 via-red-600 to-red-500 -top-12 shadow-md clip-polygon flex flex-col items-center pt-1"
-                   style={{ clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' }}>
-                <span className="text-[8px] text-yellow-200 font-bold mt-1">✡️</span>
-              </div>
-              
-              {/* Contrapunta Inferior Plateada/Gris */}
-              <div className="absolute w-4 h-28 bg-gradient-to-b from-slate-300 via-slate-200 to-slate-400 -bottom-12 shadow-md"
-                   style={{ clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' }} />
-            </div>
-
-            {/* Pivote central de bronce con relieve */}
-            <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-yellow-800 via-amber-600 to-yellow-300 border border-amber-900 flex items-center justify-center shadow-md z-30">
-              <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-amber-950 to-amber-900 shadow-inner" />
-            </div>
-
+          {/* 4. Capa Rotatoria (Contiene las letras N,S,E,W del fondo de la imagen) */}
+          {/* Esta capa rota en función de la brújula del dispositivo (dialRotation) */}
+          <div
+            className="absolute inset-0 rounded-full transition-transform duration-200 ease-out flex items-center justify-center"
+            style={{ transform: `rotate(${dialRotation}deg)` }}
+          >
+             {/* Si las letras de la imagen original están muy pegadas al borde, esto las mantendrá visibles */}
+             {/* Sin embargo, si la imagen original ya incluye las letras N/S/E/W y rotan con ella, esto no es necesario */}
+             {/* Dada la imagen, las letras ya están integradas, así que solo rotamos el contenedor entero */}
           </div>
+
+          {/* 5. Aguja Fija (Apuntando al Kotel) */}
+          {/* Esta capa NO rota con el dispositivo, sino que apunta a la dirección calculada (kotelNeedleRotation) */}
+          <div
+            className="absolute w-full h-full flex items-center justify-center pointer-events-none transition-transform duration-300 ease-out z-20"
+            style={{ transform: `rotate(${kotelNeedleRotation}deg)` }}
+          >
+            {/* Punta superior de la aguja (color rojo) */}
+            <div className="absolute w-4 h-32 bg-gradient-to-t from-red-700 via-red-600 to-red-500 -top-14 shadow-md clip-polygon flex flex-col items-center pt-1"
+                 style={{ clipPath: 'polygon(50% 0%, 100% 40%, 50% 100%, 0% 40%)' }}>
+                <div className="text-center pt-1 text-[8px] text-yellow-200 font-bold">✡️</div>
+            </div>
+            
+            {/* Contrapunta inferior de la aguja (color plateado) */}
+            <div className="absolute w-4 h-32 bg-gradient-to-b from-slate-200 via-slate-300 to-slate-400 -bottom-14 shadow-md"
+                 style={{ clipPath: 'polygon(50% 0%, 100% 60%, 50% 100%, 0% 60%)' }} />
+          </div>
+
+          {/* 6. Pivote Central */}
+          <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-yellow-800 via-amber-600 to-yellow-300 border border-amber-900 flex items-center justify-center shadow-md z-30">
+            <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-amber-950 to-amber-900 shadow-inner" />
+          </div>
+
         </div>
+        
+        {/* 7. El ojal superior (parte de la imagen) */}
+        {/* Dado que la imagen original tiene el ojal arriba, no necesitamos añadir uno extra con CSS. */}
       </div>
 
       {/* Tarjetas de datos numéricos */}
