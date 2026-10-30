@@ -66,8 +66,10 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Geolocation } from '@capacitor/geolocation';
 import iconImage from './icon.jpg';
 import HebrewDateConverter from './components/HebrewDateConverter';
-import { scheduleShabbatAlert, requestNotificationPermissions } from './utils/notifications'; // O ajusta los puntos ../ según corresponda
+import { scheduleShabbatAlert, requestNotificationPermissions } from './utils/notifications';
+
 const API_BASE_URL = 'https://rabvirtual.onrender.com';
+
 interface ChatSession {
   id: string;
   title: string;
@@ -107,7 +109,6 @@ const LANGUAGES = [
   { code: 'fr', label: 'Francés', flag: '🇫🇷', nativeLabel: 'Français' },
 ];
 
-// 🌟 DICCIONARIO FONÉTICO: Corrige lo que el micrófono entiende mal en español
 const fixHebrewPhonetics = (text: string): string => {
   let corrected = text;
   const corrections: Record<string, string> = {
@@ -133,7 +134,6 @@ const fixHebrewPhonetics = (text: string): string => {
     'cidor': 'Sidur'
   };
 
-  // Reemplaza las palabras ignorando mayúsculas y minúsculas
   Object.keys(corrections).forEach((error) => {
     const regex = new RegExp(`\\b${error}\\b`, 'gi');
     corrected = corrected.replace(regex, corrections[error]);
@@ -145,7 +145,6 @@ const fixHebrewPhonetics = (text: string): string => {
 export function App() {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
-  // Verificación robusta del estado Premium con la clave unificada en dispositivos
   const [isPremium, setIsPremium] = useState<boolean>(() => {
     try {
       return localStorage.getItem('rabino_virtual_premium') === 'true';
@@ -519,18 +518,9 @@ export function App() {
     }
   };
 
-useEffect(() => {
+  useEffect(() => {
     requestNotificationPermissions();
   }, []);
-  
-  const manejarProgramacionAlerta = async (shabbatDate: Date, nombreParasha: string) => {
-  try {
-    await scheduleShabbatAlert(shabbatDate, nombreParasha);
-    console.log('¡Notificación de Shabat programada con éxito!');
-  } catch (error) {
-    console.error('Error al programar la notificación:', error);
-  }
-};
 
   const stopVoiceDictation = () => {
     if (recognitionRef.current) {
@@ -571,12 +561,11 @@ useEffect(() => {
           maxResults: 1,
           prompt: "Habla ahora... (Toca el micrófono para detener)",
           partialResults: false,
-          popup: false, // 🌟 Desactivamos el popup nativo invasivo
+          popup: false,
         });
 
         if (result && result.matches && result.matches.length > 0) {
           const transcript = result.matches[0];
-          // 🌟 Aplicamos la magia del corrector fonético
           const correctedTranscript = fixHebrewPhonetics(transcript);
           setInputText((prev) => (prev ? `${prev} ${correctedTranscript}` : correctedTranscript));
         }
@@ -610,7 +599,6 @@ useEffect(() => {
             const res = await fetch(`${API_BASE_URL}/api/transcribe`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              // 🌟 Agregamos un 'prompt' oculto para guiar a la IA del backend (Whisper)
               body: JSON.stringify({ 
                 audioBase64: base64Data, 
                 mimeType: 'audio/webm',
@@ -619,7 +607,6 @@ useEffect(() => {
             });
             const data = await res.json();
             if (data.text) {
-              // 🌟 Aplicamos el corrector fonético web también
               const correctedText = fixHebrewPhonetics(data.text);
               setInputText((prev) => (prev ? `${prev} ${correctedText}` : correctedText));
             } else {
@@ -649,7 +636,6 @@ useEffect(() => {
     if (!query && !imageFile && !nativeImageBase64) return;
     if (isStreaming) return;
 
-    // Validación estricta Lite / Premium para móvil y web
     if (!isPremium) {
       const today = new Date().toDateString();
       if (dailyQueriesCount >= MAX_FREE_QUERIES) {
@@ -745,18 +731,60 @@ useEffect(() => {
         throw new Error(errorData.error || `HTTP error ${response.status}`);
       }
 
-      if (!response.body) throw new Error('No response stream available');
-
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder('utf-8');
       let accumulatedContent = '';
 
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
+      // 🌟 SISTEMA HÍBRIDO BLINDADO: Soporte de Streaming para PC y Fallback para Android / Tablets
+      if (response.body && typeof response.body.getReader === 'function') {
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder('utf-8');
 
-        const chunk = decoder.decode(value, { stream: true });
-        const lines = chunk.split('\n');
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          const chunk = decoder.decode(value, { stream: true });
+          const lines = chunk.split('\n');
+
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              const dataStr = line.replace('data: ', '').trim();
+              if (dataStr === '[DONE]') continue;
+              try {
+                const parsed = JSON.parse(dataStr);
+                if (parsed.text) {
+                  accumulatedContent += parsed.text;
+                  setMessages((prev) =>
+                    prev.map((m) =>
+                      m.id === assistantMessageId
+                        ? {
+                            ...m,
+                            content: accumulatedContent,
+                            translations: {
+                              ...(m.translations || {}),
+                              [activeLang]: accumulatedContent,
+                              ...(activeLang === 'es' ? { es: accumulatedContent } : {}),
+                            },
+                            isStreaming: true,
+                            isError: false,
+                          }
+                        : m
+                    )
+                  );
+                } else if (parsed.error) {
+                  throw new Error(parsed.error);
+                }
+              } catch (jsonErr: any) {
+                if (dataStr.includes('"error"')) {
+                  throw jsonErr;
+                }
+              }
+            }
+          }
+        }
+      } else {
+        // FALLBACK PARA ANDROID / TABLET: Descarga la respuesta completa sin bloquearse en los streams
+        const rawText = await response.text();
+        const lines = rawText.split('\n');
 
         for (const line of lines) {
           if (line.startsWith('data: ')) {
@@ -766,33 +794,36 @@ useEffect(() => {
               const parsed = JSON.parse(dataStr);
               if (parsed.text) {
                 accumulatedContent += parsed.text;
-                setMessages((prev) =>
-                  prev.map((m) =>
-                    m.id === assistantMessageId
-                      ? {
-                          ...m,
-                          content: accumulatedContent,
-                          translations: {
-                            ...(m.translations || {}),
-                            [activeLang]: accumulatedContent,
-                            ...(activeLang === 'es' ? { es: accumulatedContent } : {}),
-                          },
-                          isStreaming: true,
-                          isError: false,
-                        }
-                      : m
-                  )
-                );
-              } else if (parsed.error) {
-                throw new Error(parsed.error);
               }
-            } catch (jsonErr: any) {
-              if (dataStr.includes('"error"')) {
-                throw jsonErr;
-              }
-            }
+            } catch (e) {}
           }
         }
+
+        if (!accumulatedContent && rawText) {
+          try {
+            const jsonFallback = JSON.parse(rawText);
+            accumulatedContent = jsonFallback.response || jsonFallback.message || rawText;
+          } catch (e) {
+            accumulatedContent = rawText;
+          }
+        }
+
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === assistantMessageId
+              ? {
+                  ...m,
+                  content: accumulatedContent || "Respuesta recibida",
+                  isStreaming: false,
+                  isError: false,
+                  translations: {
+                    ...(m.translations || {}),
+                    [activeLang]: accumulatedContent || "Respuesta recibida",
+                  },
+                }
+              : m
+          )
+        );
       }
 
       setMessages((prev) =>
@@ -1271,7 +1302,6 @@ useEffect(() => {
           />
         )}
 
-        {/* 🌟 AQUÍ ES DONDE DEBE IR REALMENTE EL CONVERTIDOR: */}
         {activeMainTab === 'hebrew_converter' && <HebrewDateConverter />}
 
         {activeMainTab === 'settings' && <SettingsTab />}
@@ -1326,18 +1356,17 @@ useEffect(() => {
               <div className="flex-1 flex flex-col justify-center space-y-6 animate-fadeIn py-2 max-w-5xl mx-auto w-full">
                 <div className="relative p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-amber-100/70 via-amber-50 to-orange-50/60 dark:from-slate-900 dark:via-amber-950/20 dark:to-slate-900 border border-amber-200 dark:border-amber-900/40 shadow-sm text-center space-y-4">
                 
-                {/* Reemplazamos el contenedor del pergamino por el logo oficial */}
                 <div className="w-16 h-16 mx-auto rounded-2xl overflow-hidden shadow-lg shadow-amber-900/20 flex items-center justify-center bg-slate-900 border border-amber-500/40 p-0.5">
-                <img src={iconImage} alt="Rabino Virtual" className="w-full h-full object-contain" />
+                  <img src={iconImage} alt="Rabino Virtual" className="w-full h-full object-contain" />
                 </div>
                 
                 <h1 className="text-2xl sm:text-3xl font-serif font-bold text-slate-900 dark:text-white tracking-wide">
                   {t('welcomeTitle', '¡Shalom Alejem! Te doy la bienvenida')}
-                  </h1>
-                  <p className="max-w-3xl mx-auto text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
-                    {t('welcomeDesc', 'Soy tu Rabino Virtual, un educador y guía rabínico concebido para acompañarte con calidez, paciencia y profundidad. Pregúntame con total confianza sobre halajá, Torá, festividades, kashrut, rezos o ética de la vida diaria.')}
-                    </p>
-                    </div>
+                </h1>
+                <p className="max-w-3xl mx-auto text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+                  {t('welcomeDesc', 'Soy tu Rabino Virtual, un educador y guía rabínico concebido para acompañarte con calidez, paciencia y profundidad. Pregúntame con total confianza sobre halajá, Torá, festividades, kashrut, rezos o ética de la vida diaria.')}
+                </p>
+              </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <button
