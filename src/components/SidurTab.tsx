@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { BookOpen, Sparkles } from 'lucide-react';
+import { BookOpen, Sparkles, Sun, Sunset, Moon, Coffee } from 'lucide-react';
 
-// Importaciones de tus bases de datos
 import { maguenDavidSidur } from '../data/sidur/maguenDavid';
 import { monteSinaiSidur } from '../data/sidur/monteSinai';
 import { sefaradiSidur } from '../data/sidur/sefaradi';
@@ -14,14 +13,15 @@ interface SidurTabProps {
 
 type Tradition = 'maguen-david' | 'monte-sinai' | 'ashkenazi' | 'sefaradi' | 'jabad';
 type ViewMode = 'hebrew' | 'phonetic' | 'translation';
+type DailyService = 'shajarit' | 'minja' | 'arbit' | 'berajot';
 
 export function SidurTab({ t }: SidurTabProps) {
   const [selectedTradition, setSelectedTradition] = useState<Tradition>('maguen-david');
   const [activeSection, setActiveSection] = useState<'sidur' | 'tehilim'>('sidur');
+  const [activeService, setActiveService] = useState<DailyService>('shajarit');
   const [viewMode, setViewMode] = useState<ViewMode>('phonetic');
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // El sistema cambia la fuente de datos según la selección del usuario
   const getSidurData = () => {
     switch (selectedTradition) {
       case 'monte-sinai': return monteSinaiSidur;
@@ -33,10 +33,11 @@ export function SidurTab({ t }: SidurTabProps) {
     }
   };
 
-  const currentList = getSidurData();
-  // Evita errores si un archivo está vacío temporalmente
+  // Obtenemos la lista de rezos según el servicio seleccionado (Shajarit, Minjá, etc.)
+  const currentList = activeSection === 'sidur' ? getSidurData()[activeService] : [];
+  
   const currentItem = currentList[currentIndex] || {
-    titleHebrew: '...', titleSpanish: 'En construcción', hebrew: '', phonetic: '', translation: 'Agregando rezos a esta tradición...'
+    titleHebrew: '...', titleSpanish: 'En construcción', hebrew: '', phonetic: '', translation: 'Agregando rezos a esta sección...'
   };
 
   const traditionsList: { id: Tradition; name: string }[] = [
@@ -91,6 +92,24 @@ export function SidurTab({ t }: SidurTabProps) {
           Tehilim
         </button>
       </div>
+
+      {/* Submenú de Servicios (Solo visible si estamos en el Sidur) */}
+      {activeSection === 'sidur' && (
+        <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+          <button onClick={() => { setActiveService('shajarit'); setCurrentIndex(0); }} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${activeService === 'shajarit' ? 'bg-slate-800 text-white dark:bg-amber-400 dark:text-slate-950' : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700'}`}>
+            <Sun className="w-3.5 h-3.5" /> Shajarit
+          </button>
+          <button onClick={() => { setActiveService('minja'); setCurrentIndex(0); }} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${activeService === 'minja' ? 'bg-slate-800 text-white dark:bg-amber-400 dark:text-slate-950' : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700'}`}>
+            <Sunset className="w-3.5 h-3.5" /> Minjá
+          </button>
+          <button onClick={() => { setActiveService('arbit'); setCurrentIndex(0); }} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${activeService === 'arbit' ? 'bg-slate-800 text-white dark:bg-amber-400 dark:text-slate-950' : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700'}`}>
+            <Moon className="w-3.5 h-3.5" /> Arbit
+          </button>
+          <button onClick={() => { setActiveService('berajot'); setCurrentIndex(0); }} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${activeService === 'berajot' ? 'bg-slate-800 text-white dark:bg-amber-400 dark:text-slate-950' : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700'}`}>
+            <Coffee className="w-3.5 h-3.5" /> Berajot
+          </button>
+        </div>
+      )}
 
       <div className="flex justify-center gap-1.5 bg-slate-50 dark:bg-slate-900/40 p-1.5 rounded-xl border border-slate-200 dark:border-slate-800 text-[11px]">
         {(['hebrew', 'phonetic', 'translation'] as ViewMode[]).map((mode) => (
@@ -151,11 +170,6 @@ export function SidurTab({ t }: SidurTabProps) {
             Siguiente
           </button>
         </div>
-      </div>
-
-      <div className="text-[11px] text-slate-500 dark:text-slate-400 italic text-center font-serif flex items-center justify-center gap-1">
-        <Sparkles className="w-3.5 h-3.5 text-amber-600 dark:text-amber-500" />
-        <span>Tradición comunitaria: <strong className="uppercase">{selectedTradition.replace('-', ' ')}</strong></span>
       </div>
 
     </div>
