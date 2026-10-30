@@ -42,6 +42,7 @@ import {
   Plus,
   Trash2,
   MessageCircle,
+  Compass,
 } from 'lucide-react';
 import { ChatMessage, TraditionId, SavedNote } from './types.ts';
 import { TRADITIONS } from './data/traditions.ts';
@@ -67,6 +68,8 @@ import { Geolocation } from '@capacitor/geolocation';
 import iconImage from './icon.jpg';
 import HebrewDateConverter from './components/HebrewDateConverter';
 import { scheduleShabbatAlert, requestNotificationPermissions } from './utils/notifications';
+import { CompassTab } from './components/CompassTab';
+
 
 const API_BASE_URL = 'https://rabvirtual.onrender.com';
 
@@ -225,7 +228,7 @@ export function App() {
   }, []);
 
   const [activeMainTab, setActiveMainTab] = useState<
-    'chat' | 'calendar' | 'parasha' | 'giluy_daat' | 'qa' | 'developer' | 'kosher' | 'settings' | 'hebrew_converter'
+    'chat' | 'calendar' | 'parasha' | 'giluy_daat' | 'qa' | 'developer' | 'kosher' | 'settings' | 'hebrew_converter' | 'compass'
   >('chat');
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -929,6 +932,13 @@ export function App() {
       accentColor: 'text-orange-500',
     },
     {
+      id: 'compass' as const,
+      label: t('tabCompass', 'Brújula al Kotel'),
+      icon: Compass,
+      desc: t('tabCompassDesc', 'Dirección exacta hacia Jerusalén'),
+      accentColor: 'text-amber-600',
+},
+    {
       id: 'hebrew_converter' as const,
       label: t('tabHebrewConverter', 'Convertidor Hebreo'),
       icon: Calendar,
@@ -1324,6 +1334,13 @@ export function App() {
             }} 
           />
         )}
+
+        {/* 🌟 AQUÍ ES DONDE METES LA BRÚJULA: */}
+  {activeMainTab === 'compass' && <CompassTab />}
+
+  {activeMainTab === 'chat' && (
+    // ... tu código del chat ...
+  )}
 
         {activeMainTab === 'chat' && (
           <>
