@@ -103,6 +103,19 @@ export function CompassTab({ t }: CompassTabProps) {
           <div className="relative w-full h-full rounded-full bg-gradient-to-b from-slate-100 via-slate-200 to-slate-300 shadow-[inset_0_4px_12px_rgba(0,0,0,0.2)] overflow-hidden flex items-center justify-center">
             
             <svg className="absolute inset-0 w-full h-full p-1" viewBox="0 0 200 200">
+              <defs>
+                <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#ef4444" />
+                  <stop offset="50%" stopColor="#f87171" />
+                  <stop offset="100%" stopColor="#b91c1c" />
+                </linearGradient>
+                <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#3b82f6" />
+                  <stop offset="50%" stopColor="#60a5fa" />
+                  <stop offset="100%" stopColor="#1d4ed8" />
+                </linearGradient>
+              </defs>
+
               {/* Anillos concéntricos */}
               <circle cx="100" cy="100" r="92" fill="none" stroke="#64748b" strokeWidth="1.5" />
               <circle cx="100" cy="100" r="82" fill="none" stroke="#94a3b8" strokeWidth="1" />
@@ -180,6 +193,29 @@ export function CompassTab({ t }: CompassTabProps) {
                 <path d="M 0,-52 L 6,-10 L 0,0 Z" fill="#1e293b" />
                 <path d="M 52,0 L 6,10 L 0,0 Z" fill="#475569" />
               </g>
+
+              {/* AGUJA CLÁSICA ROMEBOIDAL DENTRO DEL SVG (Punta fina afuera, ancho al centro) */}
+              <g transform={`rotate(${needleRotation} 100 100)`}>
+                {/* Punta Roja Superior (Delgada arriba en y=22, ancha en el centro y=100) */}
+                <polygon points="100,22 104,100 100,100" fill="#dc2626" />
+                <polygon points="100,22 100,100 96,100" fill="#ef4444" />
+
+                {/* Punta Azul Inferior (Delgada abajo en y=178, ancha en el centro y=100) */}
+                <polygon points="100,178 104,100 100,100" fill="#1d4ed8" />
+                <polygon points="100,178 100,100 96,100" fill="#3b82f6" />
+              </g>
+
+              {/* Pivote Central Metálico en SVG */}
+              <circle cx="100" cy="100" r="11" fill="url(#metalGrad)" stroke="#64748b" strokeWidth="1" />
+              <circle cx="100" cy="100" r="5" fill="#334155" />
+              
+              <defs>
+                <linearGradient id="metalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#cbd5e1" />
+                  <stop offset="50%" stopColor="#94a3b8" />
+                  <stop offset="100%" stopColor="#475569" />
+                </linearGradient>
+              </defs>
             </svg>
 
             {/* Dial Giratorio con Letras Cardinales */}
@@ -195,39 +231,6 @@ export function CompassTab({ t }: CompassTabProps) {
               <span className="absolute bottom-16 right-16 text-[9px] font-bold text-slate-600">SE</span>
               <span className="absolute bottom-16 left-16 text-[9px] font-bold text-slate-600">SW</span>
               <span className="absolute top-16 left-16 text-[9px] font-bold text-slate-600">NW</span>
-            </div>
-
-            {/* Manecillas Clásicas: Parte delgada y en punta hacia afuera, parte ancha cerca del centro */}
-            <div
-              className="absolute w-full h-full flex items-center justify-center pointer-events-none transition-transform duration-300 ease-out z-20"
-              style={{ transform: `rotate(${needleRotation}deg)` }}
-            >
-              {/* Manecilla Superior Roja (Punta fina hacia afuera, hombro ancho cerca del centro) */}
-              <div 
-                className="absolute w-4 h-38 bg-gradient-to-l from-red-600 via-red-500 to-red-400 -top-16 shadow-md"
-                style={{ clipPath: 'polygon(50% 0%, 100% 60%, 50% 100%)' }}
-              />
-              <div 
-                className="absolute w-4 h-38 bg-gradient-to-r from-red-700 via-red-600 to-red-500 -top-16 shadow-md"
-                style={{ clipPath: 'polygon(50% 0%, 50% 100%, 0% 60%)' }}
-              />
-
-              {/* Manecilla Inferior Azul (Punta fina hacia afuera, hombro ancho cerca del centro) */}
-              <div 
-                className="absolute w-4 h-38 bg-gradient-to-l from-blue-600 via-blue-500 to-blue-400 -bottom-16 shadow-md"
-                style={{ clipPath: 'polygon(50% 100%, 100% 40%, 50% 0%)' }}
-              />
-              <div 
-                className="absolute w-4 h-38 bg-gradient-to-r from-blue-700 via-blue-600 to-blue-500 -bottom-16 shadow-md"
-                style={{ clipPath: 'polygon(50% 100%, 50% 0%, 0% 40%)' }}
-              />
-            </div>
-
-            {/* Pivote central metálico texturizado */}
-            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-slate-400 via-slate-200 to-slate-400 border border-slate-500 flex items-center justify-center shadow-lg z-30">
-              <div className="w-4 h-4 rounded-full bg-gradient-to-br from-slate-300 via-slate-100 to-slate-400 border border-slate-500 shadow-inner flex items-center justify-center">
-                <div className="w-1.5 h-1.5 rounded-full bg-slate-600 opacity-90" />
-              </div>
             </div>
 
           </div>
