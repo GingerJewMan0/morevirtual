@@ -78,7 +78,7 @@ export function CompassTab({ t }: CompassTabProps) {
   const kotelNeedleRotation = bearingToKotel !== null ? bearingToKotel : 0;
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-slate-900/95 text-slate-100 rounded-3xl shadow-2xl border border-amber-500/30 text-center space-y-6 backdrop-blur-md">
+    <div className="max-w-md mx-auto p-6 bg-slate-900/95 text-slate-100 rounded-3xl shadow-2xl border border-amber-600/30 text-center space-y-6 backdrop-blur-md">
       {/* Encabezado */}
       <div className="flex items-center justify-center gap-2 text-amber-400">
         <Compass className="w-7 h-7 animate-pulse" />
@@ -96,57 +96,59 @@ export function CompassTab({ t }: CompassTabProps) {
         </div>
       )}
 
-      {/* Contenedor Principal Estilo Brújula Realista */}
-      <div className="relative w-72 h-72 mx-auto flex items-center justify-center pt-4">
+      {/* Contenedor Principal Estilo Brújula Clásica Acuarela */}
+      <div className="relative w-72 h-72 mx-auto flex items-center justify-center pt-5">
         
-        {/* Ojal y Anillo superior de la brújula (idéntico a la referencia) */}
-        <div className="absolute top-0 w-8 h-8 rounded-full border-4 border-amber-500 shadow-md bg-gradient-to-tr from-amber-700 via-amber-400 to-yellow-200 z-10" />
-        <div className="absolute top-7 w-3 h-4 bg-amber-600 rounded-sm z-10 shadow" />
+        {/* Argolla y ojal superior vintage */}
+        <div className="absolute top-0 w-10 h-10 rounded-full border-4 border-amber-700 shadow-md bg-gradient-to-tr from-yellow-700 via-amber-600 to-amber-400 z-10" />
+        <div className="absolute top-8 w-4 h-4 bg-amber-800 rounded-xs z-10 shadow-inner" />
 
-        {/* Cuerpo circular principal de la brújula con bisel dorado tridimensional */}
-        <div className="relative w-64 h-64 rounded-full bg-gradient-to-tr from-amber-800 via-yellow-500 to-amber-200 p-2 shadow-[0_10px_25px_rgba(0,0,0,0.6),inset_0_2px_4px_rgba(255,255,255,0.6)] flex items-center justify-center">
+        {/* Marco exterior de latón envejecido */}
+        <div className="relative w-64 h-64 rounded-full bg-gradient-to-tr from-yellow-900 via-amber-700 to-yellow-600 p-2.5 shadow-[0_12px_30px_rgba(0,0,0,0.7),inset_0_2px_5px_rgba(255,255,255,0.4)] flex items-center justify-center">
           
-          {/* Esfera interior dorada de la brújula */}
-          <div className="relative w-full h-full rounded-full bg-gradient-to-br from-yellow-200 via-amber-400 to-amber-600 shadow-inner overflow-hidden flex items-center justify-center border border-amber-700/50">
+          {/* Esfera interior color pergamino / marfil claro */}
+          <div className="relative w-full h-full rounded-full bg-gradient-to-b from-[#f4ebd0] via-[#e8dbc0] to-[#d4c3a3] shadow-[inset_0_3px_10px_rgba(0,0,0,0.3)] overflow-hidden flex items-center justify-center border border-amber-900/40">
             
-            {/* Rayos y marcas de graduación del fondo */}
-            <div className="absolute inset-0 opacity-40 bg-[radial-gradient(circle,_rgba(255,255,255,0.4)_10%,_transparent_70%)]" />
+            {/* Marcas de graduación del bisel interior */}
+            <div className="absolute inset-1 rounded-full border border-dashed border-amber-900/30 pointer-events-none" />
 
-            {/* Dial giratorio con la rosa de los vientos y subdivisiones */}
+            {/* Dial giratorio con la rosa de los vientos clásica */}
             <div
-              className="absolute inset-2 rounded-full transition-transform duration-200 ease-out flex items-center justify-center"
+              className="absolute inset-4 rounded-full transition-transform duration-200 ease-out flex items-center justify-center"
               style={{ transform: `rotate(${dialRotation}deg)` }}
             >
-              {/* Rayos de la estrella de los vientos de fondo */}
-              <div className="absolute w-full h-0.5 bg-amber-800/20" />
-              <div className="absolute h-full w-0.5 bg-amber-800/20" />
-              <div className="absolute w-full h-0.5 bg-amber-800/20 rotate-45" />
-              <div className="absolute w-full h-0.5 bg-amber-800/20 -rotate-45" />
+              {/* Rosa de los vientos detallada en tonos sepia/gris */}
+              <div className="absolute w-32 h-32 opacity-30 bg-slate-700 rotate-45 rounded-xs" />
+              <div className="absolute w-32 h-32 opacity-30 bg-slate-700 rounded-xs" />
+              <div className="absolute w-36 h-0.5 bg-slate-800/40" />
+              <div className="absolute h-36 w-0.5 bg-slate-800/40" />
 
-              {/* Letras cardinales */}
-              <span className="absolute top-2 text-xs font-black text-amber-950">N</span>
-              <span className="absolute bottom-2 text-xs font-bold text-amber-900/70">S</span>
-              <span className="absolute left-3 text-xs font-bold text-amber-900/70">O</span>
-              <span className="absolute right-3 text-xs font-bold text-amber-900/70">E</span>
+              {/* Letras cardinales estilo clásico (N en rojo oscuro, las demás en negro/sepia) */}
+              <span className="absolute top-1.5 text-xs font-serif font-extrabold text-red-800">N</span>
+              <span className="absolute bottom-1.5 text-xs font-serif font-bold text-slate-800">S</span>
+              <span className="absolute left-2.5 text-xs font-serif font-bold text-slate-800">W</span>
+              <span className="absolute right-2.5 text-xs font-serif font-bold text-slate-800">E</span>
             </div>
 
-            {/* Aguja de la brújula (Estilo idéntico a la referencia: punta roja y contrapunta blanca/plateada) */}
+            {/* Aguja magnética clásica (Rombo rojo arriba, rombo plateado abajo) */}
             <div
               className="absolute w-full h-full flex items-center justify-center pointer-events-none transition-transform duration-300 ease-out z-20"
               style={{ transform: `rotate(${kotelNeedleRotation}deg)` }}
             >
-              {/* Punta Roja Superior */}
-              <div className="absolute w-3 h-28 bg-gradient-to-t from-amber-500 via-red-600 to-red-500 rounded-t-full -top-12 shadow-md clip-triangle flex flex-col items-center pt-1">
-                <span className="text-[9px] text-white font-bold">✡️</span>
+              {/* Punta Superior Roja */}
+              <div className="absolute w-4 h-28 bg-gradient-to-t from-red-700 via-red-600 to-red-500 -top-12 shadow-md clip-polygon flex flex-col items-center pt-1"
+                   style={{ clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' }}>
+                <span className="text-[8px] text-yellow-200 font-bold mt-1">✡️</span>
               </div>
               
-              {/* Contrapunta Blanca Inferior */}
-              <div className="absolute w-3 h-28 bg-gradient-to-b from-amber-200 via-slate-100 to-slate-300 rounded-b-full -bottom-12 shadow-md clip-triangle-rev" />
+              {/* Contrapunta Inferior Plateada/Gris */}
+              <div className="absolute w-4 h-28 bg-gradient-to-b from-slate-300 via-slate-200 to-slate-400 -bottom-12 shadow-md"
+                   style={{ clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' }} />
             </div>
 
-            {/* Tapa pivote central dorada con relieve */}
-            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-700 via-amber-400 to-yellow-100 border-2 border-amber-800 flex items-center justify-center shadow-lg z-30">
-              <div className="w-3 h-3 rounded-full bg-gradient-to-br from-amber-900 to-amber-950 shadow-inner" />
+            {/* Pivote central de bronce con relieve */}
+            <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-yellow-800 via-amber-600 to-yellow-300 border border-amber-900 flex items-center justify-center shadow-md z-30">
+              <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-amber-950 to-amber-900 shadow-inner" />
             </div>
 
           </div>
