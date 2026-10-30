@@ -71,7 +71,6 @@ import { scheduleShabbatAlert, requestNotificationPermissions } from './utils/no
 import { CompassTab } from './components/CompassTab';
 import { BerajotTab } from './components/BerajotTab';
 
-
 const API_BASE_URL = 'https://rabvirtual.onrender.com';
 
 interface ChatSession {
