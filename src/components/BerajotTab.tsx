@@ -142,9 +142,9 @@ export function BerajotTab({ t }: BerajotTabProps) {
           )}
           {displayMode === 'translation' && (
             <p className="text-sm font-sans text-slate-600 dark:text-slate-300 leading-relaxed px-2">
-              {currentItem.translation}
-            </p>
-          )}
+              {currentItem.translation[(localStorage.getItem('language') || 'es') as keyof typeof currentItem.translation] || currentItem.translation.es}
+              </p>
+            )}
         </div>
 
         <div className="flex justify-between pt-2 border-t border-slate-200 dark:border-slate-800 text-xs">
