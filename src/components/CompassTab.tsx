@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Compass, MapPin, AlertCircle, Navigation } from 'lucide-react';
+import { Compass, MapPin, AlertCircle } from 'lucide-react';
 import { Geolocation } from '@capacitor/geolocation';
 
 const KOTEL_LAT = 31.7767;
@@ -74,14 +74,11 @@ export function CompassTab({ t }: CompassTabProps) {
     };
   }, []);
 
-  // Rotación del dial de la brújula en función del rumbo del dispositivo
   const dialRotation = heading !== null ? -heading : 0;
-  
-  // Ángulo de la aguja dorada que apunta directamente al Kotel relativo al norte del dial
   const kotelNeedleRotation = bearingToKotel !== null ? bearingToKotel : 0;
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-slate-900/95 text-slate-100 rounded-3xl shadow-2xl border border-amber-600/40 text-center space-y-6 backdrop-blur-md">
+    <div className="max-w-md mx-auto p-6 bg-slate-900/95 text-slate-100 rounded-3xl shadow-2xl border border-amber-500/30 text-center space-y-6 backdrop-blur-md">
       {/* Encabezado */}
       <div className="flex items-center justify-center gap-2 text-amber-400">
         <Compass className="w-7 h-7 animate-pulse" />
@@ -99,51 +96,60 @@ export function CompassTab({ t }: CompassTabProps) {
         </div>
       )}
 
-      {/* Estilo de Brújula Analógica Realista */}
-      <div className="relative w-72 h-72 mx-auto rounded-full bg-gradient-to-radial from-slate-900 via-slate-950 to-black p-3 border-8 border-amber-700/80 shadow-[0_0_30px_rgba(217,119,6,0.25)] flex items-center justify-center">
+      {/* Contenedor Principal Estilo Brújula Realista */}
+      <div className="relative w-72 h-72 mx-auto flex items-center justify-center pt-4">
         
-        {/* Anillo exterior graduado (Bisel metálico decorativo) */}
-        <div className="absolute inset-2 rounded-full border border-amber-500/30 border-dashed pointer-events-none" />
+        {/* Ojal y Anillo superior de la brújula (idéntico a la referencia) */}
+        <div className="absolute top-0 w-8 h-8 rounded-full border-4 border-amber-500 shadow-md bg-gradient-to-tr from-amber-700 via-amber-400 to-yellow-200 z-10" />
+        <div className="absolute top-7 w-3 h-4 bg-amber-600 rounded-sm z-10 shadow" />
 
-        {/* Dial giratorio con la Rosa de los Vientos */}
-        <div
-          className="absolute inset-6 rounded-full transition-transform duration-200 ease-out flex items-center justify-center bg-gradient-to-tr from-slate-900 to-slate-800 shadow-inner"
-          style={{ transform: `rotate(${dialRotation}deg)` }}
-        >
-          {/* Marcas de los puntos cardinales en el dial */}
-          <span className="absolute top-2 text-xs font-bold text-amber-400">N</span>
-          <span className="absolute bottom-2 text-xs font-bold text-slate-400">S</span>
-          <span className="absolute left-3 text-xs font-bold text-slate-400">O</span>
-          <span className="absolute right-3 text-xs font-bold text-slate-400">E</span>
+        {/* Cuerpo circular principal de la brújula con bisel dorado tridimensional */}
+        <div className="relative w-64 h-64 rounded-full bg-gradient-to-tr from-amber-800 via-yellow-500 to-amber-200 p-2 shadow-[0_10px_25px_rgba(0,0,0,0.6),inset_0_2px_4px_rgba(255,255,255,0.6)] flex items-center justify-center">
+          
+          {/* Esfera interior dorada de la brújula */}
+          <div className="relative w-full h-full rounded-full bg-gradient-to-br from-yellow-200 via-amber-400 to-amber-600 shadow-inner overflow-hidden flex items-center justify-center border border-amber-700/50">
+            
+            {/* Rayos y marcas de graduación del fondo */}
+            <div className="absolute inset-0 opacity-40 bg-[radial-gradient(circle,_rgba(255,255,255,0.4)_10%,_transparent_70%)]" />
 
-          <span className="absolute top-6 right-16 text-[10px] text-slate-500 font-mono">30°</span>
-          <span className="absolute top-16 right-6 text-[10px] text-slate-500 font-mono">60°</span>
-          <span className="absolute bottom-6 right-16 text-[10px] text-slate-500 font-mono">120°</span>
-          <span className="absolute bottom-16 right-6 text-[10px] text-slate-500 font-mono">150°</span>
+            {/* Dial giratorio con la rosa de los vientos y subdivisiones */}
+            <div
+              className="absolute inset-2 rounded-full transition-transform duration-200 ease-out flex items-center justify-center"
+              style={{ transform: `rotate(${dialRotation}deg)` }}
+            >
+              {/* Rayos de la estrella de los vientos de fondo */}
+              <div className="absolute w-full h-0.5 bg-amber-800/20" />
+              <div className="absolute h-full w-0.5 bg-amber-800/20" />
+              <div className="absolute w-full h-0.5 bg-amber-800/20 rotate-45" />
+              <div className="absolute w-full h-0.5 bg-amber-800/20 -rotate-45" />
 
-          {/* Rosa de los vientos interna */}
-          <div className="w-36 h-36 opacity-20 border border-amber-400 rotate-45 rounded-sm" />
-          <div className="absolute w-36 h-36 opacity-20 border border-amber-400 rounded-sm" />
-        </div>
-
-        {/* Aguja fija o indicador de destino hacia el Kotel */}
-        <div
-          className="absolute w-full h-full flex items-center justify-center pointer-events-none transition-transform duration-300 ease-out z-20"
-          style={{ transform: `rotate(${kotelNeedleRotation + (heading !== null ? 0 : 0)}deg)` }}
-        >
-          {/* Punta superior de la aguja apuntando al Kotel (color dorado brillante con estrella) */}
-          <div className="w-2.5 h-32 bg-gradient-to-t from-amber-600 via-amber-400 to-yellow-200 rounded-full shadow-[0_0_10px_rgba(251,191,36,0.8)] relative -top-7 flex flex-col items-center">
-            <div className="w-5 h-5 rounded-full bg-amber-300 text-slate-950 font-bold flex items-center justify-center text-[10px] shadow-md -top-2 absolute border border-amber-600">
-              ✡️
+              {/* Letras cardinales */}
+              <span className="absolute top-2 text-xs font-black text-amber-950">N</span>
+              <span className="absolute bottom-2 text-xs font-bold text-amber-900/70">S</span>
+              <span className="absolute left-3 text-xs font-bold text-amber-900/70">O</span>
+              <span className="absolute right-3 text-xs font-bold text-amber-900/70">E</span>
             </div>
-          </div>
-          {/* Contrapunta de la aguja */}
-          <div className="w-1.5 h-16 bg-slate-600 rounded-full absolute -bottom-4" />
-        </div>
 
-        {/* Pivote central clásico de la brújula */}
-        <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-800 to-amber-500 border-2 border-amber-300 flex items-center justify-center shadow-lg z-30">
-          <div className="w-2 h-2 rounded-full bg-slate-950 shadow-inner" />
+            {/* Aguja de la brújula (Estilo idéntico a la referencia: punta roja y contrapunta blanca/plateada) */}
+            <div
+              className="absolute w-full h-full flex items-center justify-center pointer-events-none transition-transform duration-300 ease-out z-20"
+              style={{ transform: `rotate(${kotelNeedleRotation}deg)` }}
+            >
+              {/* Punta Roja Superior */}
+              <div className="absolute w-3 h-28 bg-gradient-to-t from-amber-500 via-red-600 to-red-500 rounded-t-full -top-12 shadow-md clip-triangle flex flex-col items-center pt-1">
+                <span className="text-[9px] text-white font-bold">✡️</span>
+              </div>
+              
+              {/* Contrapunta Blanca Inferior */}
+              <div className="absolute w-3 h-28 bg-gradient-to-b from-amber-200 via-slate-100 to-slate-300 rounded-b-full -bottom-12 shadow-md clip-triangle-rev" />
+            </div>
+
+            {/* Tapa pivote central dorada con relieve */}
+            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-700 via-amber-400 to-yellow-100 border-2 border-amber-800 flex items-center justify-center shadow-lg z-30">
+              <div className="w-3 h-3 rounded-full bg-gradient-to-br from-amber-900 to-amber-950 shadow-inner" />
+            </div>
+
+          </div>
         </div>
       </div>
 
