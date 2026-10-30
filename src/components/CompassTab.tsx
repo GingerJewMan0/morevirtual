@@ -74,100 +74,146 @@ export function CompassTab({ t }: CompassTabProps) {
     };
   }, []);
 
-  // Rotación del dial según la orientación del dispositivo
+  // Rotación del dial según la orientación del dispositivo (o dirección hacia el Kotel)
   const dialRotation = heading !== null ? -heading : 0;
-  // Ángulo de la aguja hacia el Kotel
   const needleRotation = bearingToKotel !== null ? bearingToKotel : 0;
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-slate-900/95 text-slate-100 rounded-3xl shadow-2xl border border-amber-600/30 text-center space-y-6 backdrop-blur-md">
+    <div className="max-w-md mx-auto p-6 bg-slate-950 text-slate-100 rounded-3xl shadow-2xl border border-slate-800 text-center space-y-6 backdrop-blur-md">
       
       <div className="flex items-center justify-center gap-2 text-amber-400">
         <h2 className="text-xl font-serif font-bold tracking-wide">{t('compassTitle', 'Dirección al Kotel')}</h2>
       </div>
 
-      <p className="text-xs text-slate-300">
+      <p className="text-xs text-slate-400">
         {t('compassSubtitle', 'Orientación en tiempo real hacia el Muro Occidental en Jerusalén.')}
       </p>
 
       {error && (
-        <div className="p-2.5 bg-amber-950/50 border border-amber-600/60 text-amber-200 text-xs rounded-xl flex items-center gap-2">
+        <div className="p-2.5 bg-amber-950/40 border border-amber-800/60 text-amber-200 text-xs rounded-xl flex items-center gap-2">
           <AlertCircle className="w-4 h-4 shrink-0 text-amber-400" />
           <span>{error}</span>
         </div>
       )}
 
-      {/* Contenedor de la Brújula Estilo Ilustración Clásica */}
-      <div className="relative w-72 h-72 mx-auto flex items-center justify-center pt-6">
+      {/* Contenedor de la Brújula de Alta Precisión */}
+      <div className="relative w-72 h-72 mx-auto flex items-center justify-center">
         
-        {/* Argolla superior de latón envejecido idéntica a la referencia */}
-        <div className="absolute top-0 w-10 h-10 rounded-full border-[5px] border-amber-700 shadow-md bg-gradient-to-tr from-yellow-800 via-amber-600 to-yellow-300 z-10" />
-        <div className="absolute top-9 w-4 h-3.5 bg-amber-900 rounded-xs z-10 shadow-inner" />
-
-        {/* Cuerpo exterior circular principal con bisel de latón pulido */}
-        <div className="relative w-64 h-64 rounded-full bg-gradient-to-tr from-yellow-900 via-amber-600 to-yellow-400 p-3 shadow-[0_15px_35px_rgba(0,0,0,0.8),inset_0_2px_5px_rgba(255,255,255,0.6)] flex items-center justify-center">
+        {/* Anillo exterior de la brújula con diseño metálico oscuro */}
+        <div className="relative w-68 h-68 rounded-full bg-gradient-to-tr from-slate-900 via-slate-800 to-slate-900 p-3 shadow-[0_15px_35px_rgba(0,0,0,0.8),inset_0_2px_4px_rgba(255,255,255,0.1)] flex items-center justify-center border border-slate-700">
           
-          {/* Esfera interior de papel pergamino / marfil */}
-          <div className="relative w-full h-full rounded-full bg-gradient-to-b from-[#f7f0df] via-[#efe5cd] to-[#dfceb0] shadow-[inset_0_4px_12px_rgba(0,0,0,0.35)] overflow-hidden flex items-center justify-center border border-amber-950/40">
+          {/* Esfera interior limpia y clara estilo náutico */}
+          <div className="relative w-full h-full rounded-full bg-gradient-to-b from-slate-100 via-slate-200 to-slate-300 shadow-[inset_0_4px_12px_rgba(0,0,0,0.2)] overflow-hidden flex items-center justify-center">
             
-            {/* SVG para las marcas de graduación y la rosa de los vientos detallada en estilo acuarela/sepia */}
-            <svg className="absolute inset-0 w-full h-full p-2.5" viewBox="0 0 200 200">
-              {/* Marcas de grados perimetrales */}
-              {Array.from({ length: 36 }).map((_, i) => {
-                const angle = i * 10;
-                const isMajor = i % 3 === 0;
+            {/* SVG con la escala de grados (0 a 360), ticks y rosa de los vientos idéntica a tu imagen */}
+            <svg className="absolute inset-0 w-full h-full p-2" viewBox="0 0 200 200">
+              {/* Círculos concéntricos decorativos */}
+              <circle cx="100" cy="100" r="88" fill="none" stroke="#94a3b8" strokeWidth="1" />
+              <circle cx="100" cy="100" r="72" fill="none" stroke="#cbd5e1" strokeWidth="0.75" strokeDasharray="3 3" />
+              <circle cx="100" cy="100" r="52" fill="none" stroke="#94a3b8" strokeWidth="0.75" />
+
+              {/* Ticks de grados perimetrales */}
+              {Array.from({ length: 72 }).map((_, i) => {
+                const angle = i * 5;
+                const isMajor = i % 6 === 0;
+                const isMedium = i % 2 === 0 && !isMajor;
                 return (
                   <line
                     key={i}
                     x1="100"
-                    y1={isMajor ? "12" : "16"}
+                    y1={isMajor ? "13" : isMedium ? "15" : "17"}
                     x2="100"
-                    y2="20"
-                    stroke="#594731"
+                    y2="21"
+                    stroke="#334155"
                     strokeWidth={isMajor ? "1.5" : "0.75"}
                     transform={`rotate(${angle} 100 100)`}
                   />
                 );
               })}
 
-              {/* Rosa de los vientos detallada de fondo */}
-              <g transform="translate(100, 100)" opacity="0.65">
-                <path d="M 0,-50 L 6,-10 L 50,0 L 6,10 L 0,50 L -6,10 L -50,0 L -6,-10 Z" fill="#8c7a63" />
-                <path d="M 0,-35 L 4,-6 L 35,0 L 4,6 L 0,35 L -4,6 L -35,0 L -4,-6 Z" fill="#b5a48f" />
-                <circle cx="0" cy="0" r="3" fill="#594731" />
+              {/* Números de grados cada 20° (0, 20, 40, etc.) */}
+              {[
+                { label: '0', angle: 0, y: 26 },
+                { label: '20', angle: 20, y: 28 },
+                { label: '40', angle: 40, y: 33 },
+                { label: '60', angle: 60, y: 40 },
+                { label: '80', angle: 80, y: 49 },
+                { label: '100', angle: 100, y: 59 },
+                { label: '120', angle: 120, y: 69 },
+                { label: '140', angle: 140, y: 78 },
+                { label: '160', angle: 160, y: 84 },
+                { label: '180', angle: 180, y: 87 },
+                { label: '200', angle: 200, y: 84 },
+                { label: '220', angle: 220, y: 78 },
+                { label: '240', angle: 240, y: 69 },
+                { label: '260', angle: 260, y: 59 },
+                { label: '280', angle: 280, y: 49 },
+                { label: '300', angle: 300, y: 40 },
+                { label: '320', angle: 320, y: 33 },
+                { label: '340', angle: 340, y: 28 },
+              ].map((item, idx) => (
+                <text
+                  key={idx}
+                  x="100"
+                  y={item.y}
+                  fill="#475569"
+                  fontSize="6.5"
+                  fontWeight="600"
+                  fontFamily="sans-serif"
+                  textAnchor="middle"
+                  transform={`rotate(${item.angle} 100 100)`}
+                >
+                  {item.label}
+                </text>
+              ))}
+
+              {/* Rosa de los vientos vectorial precisa idéntica a la referencia */}
+              <g transform="translate(100, 100)">
+                {/* Puntas secundarias (NE, SE, SW, NW) */}
+                <path d="M 0,-42 L 5,-8 L 42,0 L 5,8 L 0,42 L -5,8 L -42,0 L -5,-8 Z" fill="#64748b" opacity="0.5" transform="rotate(45)" />
+                {/* Puntas principales (N, E, S, W) */}
+                <path d="M 0,-52 L 6,-10 L 52,0 L 6,10 L 0,52 L -6,10 L -52,0 L -6,-10 Z" fill="#334155" opacity="0.85" />
+                <path d="M 0,-52 L 6,-10 L 0,0 Z" fill="#1e293b" />
+                <path d="M 52,0 L 6,10 L 0,0 Z" fill="#475569" />
               </g>
             </svg>
 
-            {/* Dial Giratorio (Letras N, S, E, W que rotan con la brújula) */}
+            {/* Dial Giratorio con las letras cardinales (N, S, E, W, NE, NW, SE, SW) */}
             <div
               className="absolute inset-0 rounded-full transition-transform duration-200 ease-out flex items-center justify-center pointer-events-none"
               style={{ transform: `rotate(${dialRotation}deg)` }}
             >
-              <span className="absolute top-3.5 text-xs font-serif font-black text-red-800">N</span>
-              <span className="absolute bottom-3.5 text-xs font-serif font-bold text-slate-800">S</span>
-              <span className="absolute left-4.5 text-xs font-serif font-bold text-slate-800">W</span>
-              <span className="absolute right-4.5 text-xs font-serif font-bold text-slate-800">E</span>
+              <span className="absolute top-8 text-sm font-bold text-slate-900">N</span>
+              <span className="absolute bottom-8 text-sm font-bold text-slate-700">S</span>
+              <span className="absolute left-8 text-sm font-bold text-slate-700">W</span>
+              <span className="absolute right-8 text-sm font-bold text-slate-700">E</span>
+              <span className="absolute top-14 right-14 text-[10px] font-semibold text-slate-600">NE</span>
+              <span className="absolute bottom-14 right-14 text-[10px] font-semibold text-slate-600">SE</span>
+              <span className="absolute bottom-14 left-14 text-[10px] font-semibold text-slate-600">SW</span>
+              <span className="absolute top-14 left-14 text-[10px] font-semibold text-slate-600">NW</span>
             </div>
 
-            {/* Aguja Magnética Clásica (Punta roja con estrella, apuntando al Kotel) */}
+            {/* Aguja de la brújula (Punta roja brillante arriba y azul abajo, apuntando al Kotel) */}
             <div
               className="absolute w-full h-full flex items-center justify-center pointer-events-none transition-transform duration-300 ease-out z-20"
               style={{ transform: `rotate(${needleRotation}deg)` }}
             >
-              {/* Punta Roja Superior Estilo Rombo */}
-              <div className="absolute w-4 h-32 bg-gradient-to-t from-red-700 via-red-600 to-red-500 -top-14 shadow-md flex flex-col items-center pt-1"
-                   style={{ clipPath: 'polygon(50% 0%, 100% 40%, 50% 100%, 0% 40%)' }}>
-                <span className="text-[7px] text-yellow-200 font-bold">✡️</span>
+              {/* Punta Superior Roja */}
+              <div className="absolute w-3.5 h-32 bg-gradient-to-t from-red-600 via-red-500 to-orange-400 -top-12 shadow-lg rounded-t-full"
+                   style={{ clipPath: 'polygon(50% 0%, 100% 35%, 50% 100%, 0% 35%)' }}>
+                <div className="text-center pt-1 text-[8px] text-white font-bold">✡️</div>
               </div>
               
-              {/* Contrapunta Plateada Inferior Estilo Rombo */}
-              <div className="absolute w-4 h-32 bg-gradient-to-b from-slate-200 via-slate-300 to-slate-400 -bottom-14 shadow-md"
-                   style={{ clipPath: 'polygon(50% 0%, 100% 60%, 50% 100%, 0% 60%)' }} />
+              {/* Contrapunta Inferior Azul */}
+              <div className="absolute w-3.5 h-32 bg-gradient-to-b from-blue-600 via-blue-500 to-cyan-400 -bottom-12 shadow-lg rounded-b-full"
+                   style={{ clipPath: 'polygon(50% 0%, 100% 65%, 50% 100%, 0% 65%)' }} />
             </div>
 
-            {/* Pivote Central Dorado con Relieve (Igual al de la imagen de referencia) */}
-            <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-yellow-800 via-amber-500 to-yellow-200 border border-amber-900 flex items-center justify-center shadow-lg z-30">
-              <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-amber-950 to-amber-900 shadow-inner" />
+            {/* Pivote central metálico texturizado idéntico al de la referencia */}
+            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-slate-400 via-slate-200 to-slate-400 border border-slate-500 flex items-center justify-center shadow-lg z-30">
+              <div className="w-3.5 h-3.5 rounded-full bg-gradient-to-br from-slate-600 to-slate-800 border border-slate-400 shadow-inner flex items-center justify-center">
+                <div className="w-1 h-1 rounded-full bg-white opacity-80" />
+              </div>
             </div>
 
           </div>
@@ -176,22 +222,22 @@ export function CompassTab({ t }: CompassTabProps) {
 
       {/* Tarjetas de datos numéricos */}
       <div className="grid grid-cols-2 gap-3 pt-2">
-        <div className="p-3 bg-slate-800/80 rounded-2xl border border-amber-600/30 shadow-inner">
-          <span className="block text-[11px] text-amber-400/80 uppercase font-semibold tracking-wider">{t('bearingLabel', 'Marcación')}</span>
+        <div className="p-3 bg-slate-900 rounded-2xl border border-slate-800 shadow-inner">
+          <span className="block text-[11px] text-slate-400 uppercase font-semibold tracking-wider">{t('bearingLabel', 'Marcación')}</span>
           <span className="text-xl font-mono font-bold text-amber-300">
             {bearingToKotel !== null ? `${bearingToKotel}°` : '--'}
           </span>
         </div>
 
-        <div className="p-3 bg-slate-800/80 rounded-2xl border border-amber-600/30 shadow-inner">
-          <span className="block text-[11px] text-amber-400/80 uppercase font-semibold tracking-wider">{t('distanceLabel', 'Distancia Aprox.')}</span>
+        <div className="p-3 bg-slate-900 rounded-2xl border border-slate-800 shadow-inner">
+          <span className="block text-[11px] text-slate-400 uppercase font-semibold tracking-wider">{t('distanceLabel', 'Distancia Aprox.')}</span>
           <span className="text-xl font-mono font-bold text-amber-300">
             {distance !== null ? `${distance.toLocaleString()} km` : '--'}
           </span>
         </div>
       </div>
 
-      <div className="text-[11px] text-amber-400/70 italic flex items-center justify-center gap-1 font-serif">
+      <div className="text-[11px] text-slate-400 italic flex items-center justify-center gap-1 font-serif">
         <MapPin className="w-3.5 h-3.5 text-amber-500" />
         <span>{t('locationName', 'Jerusalén, Israel (מכותל המערבי)')}</span>
       </div>
