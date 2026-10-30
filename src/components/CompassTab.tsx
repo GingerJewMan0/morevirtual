@@ -197,29 +197,29 @@ export function CompassTab({ t }: CompassTabProps) {
               <span className="absolute top-16 left-16 text-[9px] font-bold text-slate-600">NW</span>
             </div>
 
-            {/* Manecillas con la punta fina hacia afuera (Estilo de la referencia) */}
+            {/* Manecillas Clásicas: Parte delgada y en punta hacia afuera, parte ancha cerca del centro */}
             <div
               className="absolute w-full h-full flex items-center justify-center pointer-events-none transition-transform duration-300 ease-out z-20"
               style={{ transform: `rotate(${needleRotation}deg)` }}
             >
-              {/* Manecilla Superior Roja (Punta fina apuntando hacia afuera) */}
+              {/* Manecilla Superior Roja (Punta fina hacia afuera, hombro ancho cerca del centro) */}
               <div 
                 className="absolute w-4 h-38 bg-gradient-to-l from-red-600 via-red-500 to-red-400 -top-16 shadow-md"
-                style={{ clipPath: 'polygon(50% 0%, 50% 0%, 100% 50%, 50% 100%)' }}
+                style={{ clipPath: 'polygon(50% 0%, 100% 60%, 50% 100%)' }}
               />
               <div 
                 className="absolute w-4 h-38 bg-gradient-to-r from-red-700 via-red-600 to-red-500 -top-16 shadow-md"
-                style={{ clipPath: 'polygon(50% 0%, 50% 100%, 0% 50%)' }}
+                style={{ clipPath: 'polygon(50% 0%, 50% 100%, 0% 60%)' }}
               />
 
-              {/* Manecilla Inferior Azul (Punta fina apuntando hacia afuera) */}
+              {/* Manecilla Inferior Azul (Punta fina hacia afuera, hombro ancho cerca del centro) */}
               <div 
                 className="absolute w-4 h-38 bg-gradient-to-l from-blue-600 via-blue-500 to-blue-400 -bottom-16 shadow-md"
-                style={{ clipPath: 'polygon(50% 100%, 100% 50%, 50% 0%)' }}
+                style={{ clipPath: 'polygon(50% 100%, 100% 40%, 50% 0%)' }}
               />
               <div 
                 className="absolute w-4 h-38 bg-gradient-to-r from-blue-700 via-blue-600 to-blue-500 -bottom-16 shadow-md"
-                style={{ clipPath: 'polygon(50% 100%, 50% 0%, 0% 50%)' }}
+                style={{ clipPath: 'polygon(50% 100%, 50% 0%, 0% 40%)' }}
               />
             </div>
 
