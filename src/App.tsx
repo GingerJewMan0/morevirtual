@@ -67,7 +67,7 @@ import { Geolocation } from '@capacitor/geolocation';
 import iconImage from './icon.jpg';
 import HebrewDateConverter from './components/HebrewDateConverter';
 import { scheduleShabbatAlert, requestNotificationPermissions } from './utils/notifications'; // O ajusta los puntos ../ según corresponda
-
+const API_BASE_URL = 'https://rabvirtual.onrender.com';
 interface ChatSession {
   id: string;
   title: string;
@@ -431,7 +431,7 @@ export function App() {
           }
 
           try {
-            const res = await fetch('/api/translate-content', {
+            const res = await fetch(`${API_BASE_URL}/api/translate-content`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
@@ -607,7 +607,7 @@ useEffect(() => {
         reader.onloadend = async () => {
           try {
             const base64Data = (reader.result as string).split(',')[1];
-            const res = await fetch('/api/transcribe', {
+            const res = await fetch(`${API_BASE_URL}/api/transcribe`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               // 🌟 Agregamos un 'prompt' oculto para guiar a la IA del backend (Whisper)
@@ -724,7 +724,7 @@ useEffect(() => {
     setIsStreaming(true);
 
     try {
-      const response = await fetch('/api/chat', {
+      const response = await fetch(`${API_BASE_URL}/api/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
