@@ -102,7 +102,7 @@ export function CompassTab({ t }: CompassTabProps) {
           
           <div className="relative w-full h-full rounded-full bg-gradient-to-b from-slate-100 via-slate-200 to-slate-300 shadow-[inset_0_4px_12px_rgba(0,0,0,0.2)] overflow-hidden flex items-center justify-center">
             
-            <svg className="absolute inset-0 w-full h-full p-1" viewBox="0 0 200 200">
+            <svg className="absolute inset-0 w-full h-full p-0.5" viewBox="0 0 200 200">
               {/* Anillos concéntricos */}
               <circle cx="100" cy="100" r="92" fill="none" stroke="#64748b" strokeWidth="1.5" />
               <circle cx="100" cy="100" r="82" fill="none" stroke="#94a3b8" strokeWidth="1" />
@@ -127,7 +127,7 @@ export function CompassTab({ t }: CompassTabProps) {
                 );
               })}
 
-              {/* Números de grados colocados estrictamente por fuera de la línea radial de ticks */}
+              {/* Números de grados exteriores colocados completamente fuera del círculo perimetral */}
               {[
                 { label: '0', angle: 0 },
                 { label: '20', angle: 20 },
@@ -149,7 +149,7 @@ export function CompassTab({ t }: CompassTabProps) {
                 { label: '340', angle: 340 },
               ].map((item, idx) => {
                 const isBottom = item.angle > 90 && item.angle < 270;
-                const radiusY = 11; // Posición completamente externa, por encima de los ticks
+                const radiusY = 4; // Posición totalmente externa, por fuera del borde de los ticks
 
                 return (
                   <g key={idx} transform={`rotate(${item.angle} 100 100)`}>
