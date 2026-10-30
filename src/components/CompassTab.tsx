@@ -127,7 +127,7 @@ export function CompassTab({ t }: CompassTabProps) {
                 );
               })}
 
-              {/* Grados numéricos ubicados exactamente en el carril marcado en amarillo */}
+              {/* Grados numéricos colocados exactamente en el carril externo correcto */}
               {[
                 { label: '0', angle: 0 },
                 { label: '20', angle: 20 },
@@ -149,14 +149,14 @@ export function CompassTab({ t }: CompassTabProps) {
                 { label: '340', angle: 340 },
               ].map((item, idx) => {
                 const isBottom = item.angle > 90 && item.angle < 270;
-                const radiusY = 32; // Ubicado perfectamente en el carril intermedio libre
+                const radiusY = 24; // Ubicado perfectamente en la franja exterior justa por debajo de los ticks
 
                 return (
                   <g key={idx} transform={`rotate(${item.angle} 100 100)`}>
                     <text
                       x="100"
                       y={radiusY}
-                      fill="#334155"
+                      fill="#1e293b"
                       fontSize="5.5"
                       fontWeight="700"
                       fontFamily="sans-serif"
@@ -171,10 +171,10 @@ export function CompassTab({ t }: CompassTabProps) {
 
               {/* Rosa de los vientos vectorial */}
               <g transform="translate(100, 100)">
-                <path d="M 0,-48 L 5,-8 L 48,0 L 5,8 L 0,48 L -5,8 L -48,0 L -5,-8 Z" fill="#64748b" opacity="0.35" transform="rotate(45)" />
-                <path d="M 0,-56 L 6,-10 L 56,0 L 6,10 L 0,56 L -6,10 L -56,0 L -6,-10 Z" fill="#334155" opacity="0.85" />
-                <path d="M 0,-56 L 6,-10 L 0,0 Z" fill="#1e293b" />
-                <path d="M 56,0 L 6,10 L 0,0 Z" fill="#475569" />
+                <path d="M 0,-45 L 5,-8 L 45,0 L 5,8 L 0,45 L -5,8 L -45,0 L -5,-8 Z" fill="#64748b" opacity="0.35" transform="rotate(45)" />
+                <path d="M 0,-52 L 6,-10 L 52,0 L 6,10 L 0,52 L -6,10 L -52,0 L -6,-10 Z" fill="#334155" opacity="0.85" />
+                <path d="M 0,-52 L 6,-10 L 0,0 Z" fill="#1e293b" />
+                <path d="M 52,0 L 6,10 L 0,0 Z" fill="#475569" />
               </g>
             </svg>
 
