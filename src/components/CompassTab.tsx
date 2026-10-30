@@ -117,9 +117,9 @@ export function CompassTab({ t }: CompassTabProps) {
                   <line
                     key={i}
                     x1="100"
-                    y1={isMajor ? "13" : isMedium ? "15" : "17"}
+                    y1={isMajor ? "18" : isMedium ? "20" : "22"}
                     x2="100"
-                    y2="20"
+                    y2="25"
                     stroke="#1e293b"
                     strokeWidth={isMajor ? "1.5" : "0.75"}
                     transform={`rotate(${angle} 100 100)`}
@@ -127,7 +127,7 @@ export function CompassTab({ t }: CompassTabProps) {
                 );
               })}
 
-              {/* Grados numéricos colocados exactamente en el carril externo correcto */}
+              {/* Números de grados colocados estrictamente por fuera de la línea radial de ticks */}
               {[
                 { label: '0', angle: 0 },
                 { label: '20', angle: 20 },
@@ -149,7 +149,7 @@ export function CompassTab({ t }: CompassTabProps) {
                 { label: '340', angle: 340 },
               ].map((item, idx) => {
                 const isBottom = item.angle > 90 && item.angle < 270;
-                const radiusY = 24; // Ubicado perfectamente en la franja exterior justa por debajo de los ticks
+                const radiusY = 11; // Posición completamente externa, por encima de los ticks
 
                 return (
                   <g key={idx} transform={`rotate(${item.angle} 100 100)`}>
