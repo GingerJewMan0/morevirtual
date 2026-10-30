@@ -114,7 +114,10 @@ export function ParashaTab({ onAskAboutParasha, israel = false }: ParashaTabProp
   const handleRequestPermission = async () => {
   const granted = await requestNotificationPermissions();
   if (granted) {
-    alert("¡Permisos concedidos con éxito! Ahora recibirás avisos para Shabat.");
+    // 🕯️ Lanzamos la prueba instantánea para forzar el aviso en tu Xiaomi
+    await testInstantNotification();
+    
+    alert("¡Permisos concedidos con éxito! Se ha lanzado una notificación de prueba inmediata.");
   } else {
     alert("Los permisos fueron denegados. Puedes habilitarlos manualmente en la configuración de tu teléfono.");
   }
