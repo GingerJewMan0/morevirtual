@@ -106,7 +106,7 @@ export function CompassTab({ t }: CompassTabProps) {
               {/* Anillos concéntricos */}
               <circle cx="100" cy="100" r="92" fill="none" stroke="#64748b" strokeWidth="1.5" />
               <circle cx="100" cy="100" r="82" fill="none" stroke="#94a3b8" strokeWidth="1" />
-              <circle cx="100" cy="100" r="64" fill="none" stroke="#cbd5e1" strokeWidth="0.75" strokeDasharray="3 3" />
+              <circle cx="100" cy="100" r="62" fill="none" stroke="#cbd5e1" strokeWidth="0.75" strokeDasharray="3 3" />
 
               {/* Ticks de grados perimetrales */}
               {Array.from({ length: 72 }).map((_, i) => {
@@ -117,9 +117,9 @@ export function CompassTab({ t }: CompassTabProps) {
                   <line
                     key={i}
                     x1="100"
-                    y1={isMajor ? "18" : isMedium ? "20" : "22"}
+                    y1={isMajor ? "13" : isMedium ? "15" : "17"}
                     x2="100"
-                    y2="25"
+                    y2="20"
                     stroke="#1e293b"
                     strokeWidth={isMajor ? "1.5" : "0.75"}
                     transform={`rotate(${angle} 100 100)`}
@@ -127,7 +127,7 @@ export function CompassTab({ t }: CompassTabProps) {
                 );
               })}
 
-              {/* Números de grados exteriores con orientación correcta y legible */}
+              {/* Grados numéricos ubicados exactamente en el carril marcado en amarillo */}
               {[
                 { label: '0', angle: 0 },
                 { label: '20', angle: 20 },
@@ -148,17 +148,15 @@ export function CompassTab({ t }: CompassTabProps) {
                 { label: '320', angle: 320 },
                 { label: '340', angle: 340 },
               ].map((item, idx) => {
-                // Invertimos la rotación para los números de la parte inferior para que no queden de cabeza
                 const isBottom = item.angle > 90 && item.angle < 270;
-                const textAngle = isBottom ? item.angle + 180 : item.angle;
-                const radiusY = 28;
+                const radiusY = 32; // Ubicado perfectamente en el carril intermedio libre
 
                 return (
                   <g key={idx} transform={`rotate(${item.angle} 100 100)`}>
                     <text
                       x="100"
                       y={radiusY}
-                      fill="#1e293b"
+                      fill="#334155"
                       fontSize="5.5"
                       fontWeight="700"
                       fontFamily="sans-serif"
@@ -171,7 +169,7 @@ export function CompassTab({ t }: CompassTabProps) {
                 );
               })}
 
-              {/* Rosa de los vientos vectorial detallada */}
+              {/* Rosa de los vientos vectorial */}
               <g transform="translate(100, 100)">
                 <path d="M 0,-48 L 5,-8 L 48,0 L 5,8 L 0,48 L -5,8 L -48,0 L -5,-8 Z" fill="#64748b" opacity="0.35" transform="rotate(45)" />
                 <path d="M 0,-56 L 6,-10 L 56,0 L 6,10 L 0,56 L -6,10 L -56,0 L -6,-10 Z" fill="#334155" opacity="0.85" />
@@ -185,10 +183,10 @@ export function CompassTab({ t }: CompassTabProps) {
               className="absolute inset-0 rounded-full transition-transform duration-200 ease-out flex items-center justify-center pointer-events-none"
               style={{ transform: `rotate(${dialRotation}deg)` }}
             >
-              <span className="absolute top-11 text-sm font-black text-slate-900">N</span>
-              <span className="absolute bottom-11 text-sm font-bold text-slate-700">S</span>
-              <span className="absolute left-11 text-sm font-bold text-slate-700">W</span>
-              <span className="absolute right-11 text-sm font-bold text-slate-700">E</span>
+              <span className="absolute top-12 text-sm font-black text-slate-900">N</span>
+              <span className="absolute bottom-12 text-sm font-bold text-slate-700">S</span>
+              <span className="absolute left-12 text-sm font-bold text-slate-700">W</span>
+              <span className="absolute right-12 text-sm font-bold text-slate-700">E</span>
               <span className="absolute top-16 right-16 text-[9px] font-bold text-slate-600">NE</span>
               <span className="absolute bottom-16 right-16 text-[9px] font-bold text-slate-600">SE</span>
               <span className="absolute bottom-16 left-16 text-[9px] font-bold text-slate-600">SW</span>
