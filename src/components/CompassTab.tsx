@@ -74,7 +74,6 @@ export function CompassTab({ t }: CompassTabProps) {
     };
   }, []);
 
-  // Ángulo final en el que debe apuntar la flecha considerando la orientación del dispositivo
   const pointerRotation = bearingToKotel !== null && heading !== null ? (bearingToKotel - heading + 360) % 360 : (bearingToKotel || 0);
 
   return (
@@ -96,25 +95,25 @@ export function CompassTab({ t }: CompassTabProps) {
       )}
 
       {/* Contenedor Minimalista de la Flecha Direccional */}
-      <div className="relative w-72 h-72 mx-auto flex items-center justify-center bg-slate-900/50 rounded-full border border-slate-800/80 shadow-inner">
+      <div className="relative w-72 h-72 mx-auto flex items-center justify-center bg-slate-900/50 rounded-full border border-slate-800/80 shadow-inner overflow-hidden">
         
         {/* Anillo decorativo sutil */}
-        <div className="absolute w-60 h-60 rounded-full border border-dashed border-slate-700/50" />
+        <div className="absolute w-60 h-60 rounded-full border border-dashed border-slate-700/50 pointer-events-none" />
 
-        {/* Flecha Central Giratoria */}
+        {/* Contenedor de rotación de la flecha alineado exactamente al centro absoluto */}
         <div 
-          className="relative w-40 h-40 flex items-center justify-center transition-transform duration-300 ease-out z-10"
+          className="absolute inset-0 w-full h-full flex items-center justify-center transition-transform duration-300 ease-out z-10"
           style={{ transform: `rotate(${pointerRotation}deg)` }}
         >
-          <div className="absolute -top-6 flex flex-col items-center">
-            <div className="w-0 h-0 border-x-[14px] border-x-transparent border-b-[36px] border-b-amber-500 drop-shadow-[0_0_12px_rgba(245,158,11,0.6)]" />
-            <div className="w-2 h-16 bg-gradient-to-b from-amber-500 to-amber-700 rounded-b-full shadow-md" />
+          <div className="absolute flex flex-col items-center" style={{ bottom: '50%' }}>
+            <div className="w-0 h-0 border-x-[12px] border-x-transparent border-b-[32px] border-b-amber-500 drop-shadow-[0_0_12px_rgba(245,158,11,0.7)]" />
+            <div className="w-2 h-20 bg-gradient-to-b from-amber-500 to-amber-700 rounded-b-full shadow-md" />
           </div>
         </div>
 
-        {/* Centro de la flecha */}
-        <div className="w-10 h-10 rounded-full bg-slate-900 border-2 border-amber-500 flex items-center justify-center shadow-lg z-20">
-          <Navigation className="w-5 h-5 text-amber-400 rotate-45" />
+        {/* Centro de la flecha fijo en el medio */}
+        <div className="w-9 h-9 rounded-full bg-slate-900 border-2 border-amber-500 flex items-center justify-center shadow-lg z-20">
+          <Navigation className="w-4 h-4 text-amber-400 rotate-45" />
         </div>
 
       </div>
