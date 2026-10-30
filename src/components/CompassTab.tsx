@@ -105,8 +105,8 @@ export function CompassTab({ t }: CompassTabProps) {
             <svg className="absolute inset-0 w-full h-full p-1" viewBox="0 0 200 200">
               {/* Anillos concéntricos */}
               <circle cx="100" cy="100" r="92" fill="none" stroke="#64748b" strokeWidth="1.5" />
-              <circle cx="100" cy="100" r="80" fill="none" stroke="#94a3b8" strokeWidth="1" />
-              <circle cx="100" cy="100" r="62" fill="none" stroke="#cbd5e1" strokeWidth="0.75" strokeDasharray="3 3" />
+              <circle cx="100" cy="100" r="82" fill="none" stroke="#94a3b8" strokeWidth="1" />
+              <circle cx="100" cy="100" r="64" fill="none" stroke="#cbd5e1" strokeWidth="0.75" strokeDasharray="3 3" />
 
               {/* Ticks de grados perimetrales */}
               {Array.from({ length: 72 }).map((_, i) => {
@@ -127,32 +127,32 @@ export function CompassTab({ t }: CompassTabProps) {
                 );
               })}
 
-              {/* Números de grados exteriores situados en el margen externo (como en la foto) */}
+              {/* Números de grados colocados exactamente en el borde exterior indicado */}
               {[
-                { label: '0', angle: 0, y: 13 },
-                { label: '20', angle: 20, y: 13 },
-                { label: '40', angle: 40, y: 13 },
-                { label: '60', angle: 60, y: 13 },
-                { label: '80', angle: 80, y: 13 },
-                { label: '100', angle: 100, y: 13 },
-                { label: '120', angle: 120, y: 13 },
-                { label: '140', angle: 140, y: 13 },
-                { label: '160', angle: 160, y: 13 },
-                { label: '180', angle: 180, y: 13 },
-                { label: '200', angle: 200, y: 13 },
-                { label: '220', angle: 220, y: 13 },
-                { label: '240', angle: 240, y: 13 },
-                { label: '260', angle: 260, y: 13 },
-                { label: '280', angle: 280, y: 13 },
-                { label: '300', angle: 300, y: 13 },
-                { label: '320', angle: 320, y: 13 },
-                { label: '340', angle: 340, y: 13 },
+                { label: '0', angle: 0, y: 28 },
+                { label: '20', angle: 20, y: 28 },
+                { label: '40', angle: 40, y: 28 },
+                { label: '60', angle: 60, y: 28 },
+                { label: '80', angle: 80, y: 28 },
+                { label: '100', angle: 100, y: 28 },
+                { label: '120', angle: 120, y: 28 },
+                { label: '140', angle: 140, y: 28 },
+                { label: '160', angle: 160, y: 28 },
+                { label: '180', angle: 180, y: 28 },
+                { label: '200', angle: 200, y: 28 },
+                { label: '220', angle: 220, y: 28 },
+                { label: '240', angle: 240, y: 28 },
+                { label: '260', angle: 260, y: 28 },
+                { label: '280', angle: 280, y: 28 },
+                { label: '300', angle: 300, y: 28 },
+                { label: '320', angle: 320, y: 28 },
+                { label: '340', angle: 340, y: 28 },
               ].map((item, idx) => (
                 <text
                   key={idx}
                   x="100"
                   y={item.y}
-                  fill="#334155"
+                  fill="#1e293b"
                   fontSize="5.5"
                   fontWeight="700"
                   fontFamily="sans-serif"
@@ -165,14 +165,14 @@ export function CompassTab({ t }: CompassTabProps) {
 
               {/* Rosa de los vientos vectorial detallada */}
               <g transform="translate(100, 100)">
-                <path d="M 0,-54 L 5,-8 L 54,0 L 5,8 L 0,54 L -5,8 L -54,0 L -5,-8 Z" fill="#64748b" opacity="0.35" transform="rotate(45)" />
-                <path d="M 0,-62 L 6,-10 L 62,0 L 6,10 L 0,62 L -6,10 L -62,0 L -6,-10 Z" fill="#334155" opacity="0.85" />
-                <path d="M 0,-62 L 6,-10 L 0,0 Z" fill="#1e293b" />
-                <path d="M 62,0 L 6,10 L 0,0 Z" fill="#475569" />
+                <path d="M 0,-48 L 5,-8 L 48,0 L 5,8 L 0,48 L -5,8 L -48,0 L -5,-8 Z" fill="#64748b" opacity="0.35" transform="rotate(45)" />
+                <path d="M 0,-56 L 6,-10 L 56,0 L 6,10 L 0,56 L -6,10 L -56,0 L -6,-10 Z" fill="#334155" opacity="0.85" />
+                <path d="M 0,-56 L 6,-10 L 0,0 Z" fill="#1e293b" />
+                <path d="M 56,0 L 6,10 L 0,0 Z" fill="#475569" />
               </g>
             </svg>
 
-            {/* Dial Giratorio con Letras Cardinales y diagonales */}
+            {/* Dial Giratorio con Letras Cardinales */}
             <div
               className="absolute inset-0 rounded-full transition-transform duration-200 ease-out flex items-center justify-center pointer-events-none"
               style={{ transform: `rotate(${dialRotation}deg)` }}
