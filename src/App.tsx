@@ -1311,6 +1311,8 @@ export function App() {
             }}
           />
         )}
+        
+        {activeMainTab === 'compass' && <CompassTab />}
 
         {activeMainTab === 'hebrew_converter' && <HebrewDateConverter />}
 
@@ -1334,13 +1336,6 @@ export function App() {
             }} 
           />
         )}
-
-        {/* 🌟 AQUÍ ES DONDE METES LA BRÚJULA: */}
-  {activeMainTab === 'compass' && <CompassTab />}
-
-  {activeMainTab === 'chat' && (
-    // ... tu código del chat ...
-  )}
 
         {activeMainTab === 'chat' && (
           <>
