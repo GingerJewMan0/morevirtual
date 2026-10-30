@@ -4,7 +4,7 @@ import { Geolocation } from '@capacitor/geolocation';
 
 // 1. Importa la imagen de la brújula que me enviaste
 // Asegúrate de que la ruta sea correcta respecto a la ubicación de este archivo
-import compassImage from '../assets/vintage-compass.png'; 
+import compassImage from '../assets/Compass.jpg';
 
 const KOTEL_LAT = 31.7767;
 const KOTEL_LNG = 35.2345;
