@@ -13,6 +13,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import { GoogleGenAI } from '@google/genai';
+import cors from 'cors';
 
 // Cargar variables de entorno desde el archivo .env
 dotenv.config();
@@ -22,6 +23,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+app.use(cors({
+  origin: '*', // Permite peticiones desde la app móvil local, web y navegadores
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 const port = parseInt(process.env.PORT || '3000', 10);
 
 // Middleware para procesar JSON con un límite ampliado para imágenes base64
