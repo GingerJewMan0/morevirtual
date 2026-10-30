@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MapPin, AlertCircle } from 'lucide-react';
 import { Geolocation } from '@capacitor/geolocation';
-import compassImage from '../assets/Compass.jpg'; 
 
 const KOTEL_LAT = 31.7767;
 const KOTEL_LNG = 35.2345;
@@ -75,8 +74,10 @@ export function CompassTab({ t }: CompassTabProps) {
     };
   }, []);
 
-  // Ángulo en el que debe girar la aguja para señalar al Kotel en relación con la orientación actual
-  const needleRotation = bearingToKotel !== null && heading !== null ? (bearingToKotel - heading + 360) % 360 : bearingToKotel || 0;
+  // Rotación del dial según la orientación del dispositivo
+  const dialRotation = heading !== null ? -heading : 0;
+  // Ángulo de la aguja hacia el Kotel
+  const needleRotation = bearingToKotel !== null ? bearingToKotel : 0;
 
   return (
     <div className="max-w-md mx-auto p-6 bg-slate-900/95 text-slate-100 rounded-3xl shadow-2xl border border-amber-600/30 text-center space-y-6 backdrop-blur-md">
@@ -96,40 +97,81 @@ export function CompassTab({ t }: CompassTabProps) {
         </div>
       )}
 
-      {/* Contenedor de la Brújula Estilo Acuarela Original */}
-      <div className="relative w-72 h-72 mx-auto flex items-center justify-center pt-4">
+      {/* Contenedor de la Brújula Estilo Ilustración Clásica */}
+      <div className="relative w-72 h-72 mx-auto flex items-center justify-center pt-6">
         
-        {/* Imagen de fondo fija y perfectamente redonda con la acuarela original */}
-        <div className="relative w-64 h-64 rounded-full shadow-[0_15px_35px_rgba(0,0,0,0.8)] overflow-hidden flex items-center justify-center border-4 border-amber-700/60 bg-amber-100">
-          <img 
-            src={compassImage} 
-            alt="Brújula Clásica" 
-            className="w-full h-full object-cover pointer-events-none scale-105" 
-          />
+        {/* Argolla superior de latón envejecido idéntica a la referencia */}
+        <div className="absolute top-0 w-10 h-10 rounded-full border-[5px] border-amber-700 shadow-md bg-gradient-to-tr from-yellow-800 via-amber-600 to-yellow-300 z-10" />
+        <div className="absolute top-9 w-4 h-3.5 bg-amber-900 rounded-xs z-10 shadow-inner" />
 
-          {/* Aguja Dinámica Superpuesta (Gira suavemente para apuntar exactamente hacia el Kotel) */}
-          <div
-            className="absolute inset-0 flex items-center justify-center pointer-events-none transition-transform duration-300 ease-out z-20"
-            style={{ transform: `rotate(${needleRotation}deg)` }}
-          >
-            {/* Punta Roja Superior de la Aguja */}
-            <div className="absolute w-3.5 h-28 bg-gradient-to-t from-red-700 via-red-600 to-red-500 -top-10 shadow-lg"
-                 style={{ clipPath: 'polygon(50% 0%, 100% 40%, 50% 100%, 0% 40%)' }}>
-              <div className="text-center pt-1 text-[8px] text-yellow-200 font-bold">✡️</div>
-            </div>
+        {/* Cuerpo exterior circular principal con bisel de latón pulido */}
+        <div className="relative w-64 h-64 rounded-full bg-gradient-to-tr from-yellow-900 via-amber-600 to-yellow-400 p-3 shadow-[0_15px_35px_rgba(0,0,0,0.8),inset_0_2px_5px_rgba(255,255,255,0.6)] flex items-center justify-center">
+          
+          {/* Esfera interior de papel pergamino / marfil */}
+          <div className="relative w-full h-full rounded-full bg-gradient-to-b from-[#f7f0df] via-[#efe5cd] to-[#dfceb0] shadow-[inset_0_4px_12px_rgba(0,0,0,0.35)] overflow-hidden flex items-center justify-center border border-amber-950/40">
             
-            {/* Contrapunta Inferior Plateada */}
-            <div className="absolute w-3.5 h-28 bg-gradient-to-b from-slate-200 via-slate-300 to-slate-400 -bottom-10 shadow-lg"
-                 style={{ clipPath: 'polygon(50% 0%, 100% 60%, 50% 100%, 0% 60%)' }} />
-          </div>
+            {/* SVG para las marcas de graduación y la rosa de los vientos detallada en estilo acuarela/sepia */}
+            <svg className="absolute inset-0 w-full h-full p-2.5" viewBox="0 0 200 200">
+              {/* Marcas de grados perimetrales */}
+              {Array.from({ length: 36 }).map((_, i) => {
+                const angle = i * 10;
+                const isMajor = i % 3 === 0;
+                return (
+                  <line
+                    key={i}
+                    x1="100"
+                    y1={isMajor ? "12" : "16"}
+                    x2="100"
+                    y2="20"
+                    stroke="#594731"
+                    strokeWidth={isMajor ? "1.5" : "0.75"}
+                    transform={`rotate(${angle} 100 100)`}
+                  />
+                );
+              })}
 
-          {/* Pivote Central Metálico */}
-          <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-yellow-800 via-amber-600 to-yellow-200 border border-amber-900 flex items-center justify-center shadow-md z-30 absolute">
-            <div className="w-2 h-2 rounded-full bg-amber-950 shadow-inner" />
-          </div>
+              {/* Rosa de los vientos detallada de fondo */}
+              <g transform="translate(100, 100)" opacity="0.65">
+                <path d="M 0,-50 L 6,-10 L 50,0 L 6,10 L 0,50 L -6,10 L -50,0 L -6,-10 Z" fill="#8c7a63" />
+                <path d="M 0,-35 L 4,-6 L 35,0 L 4,6 L 0,35 L -4,6 L -35,0 L -4,-6 Z" fill="#b5a48f" />
+                <circle cx="0" cy="0" r="3" fill="#594731" />
+              </g>
+            </svg>
 
+            {/* Dial Giratorio (Letras N, S, E, W que rotan con la brújula) */}
+            <div
+              className="absolute inset-0 rounded-full transition-transform duration-200 ease-out flex items-center justify-center pointer-events-none"
+              style={{ transform: `rotate(${dialRotation}deg)` }}
+            >
+              <span className="absolute top-3.5 text-xs font-serif font-black text-red-800">N</span>
+              <span className="absolute bottom-3.5 text-xs font-serif font-bold text-slate-800">S</span>
+              <span className="absolute left-4.5 text-xs font-serif font-bold text-slate-800">W</span>
+              <span className="absolute right-4.5 text-xs font-serif font-bold text-slate-800">E</span>
+            </div>
+
+            {/* Aguja Magnética Clásica (Punta roja con estrella, apuntando al Kotel) */}
+            <div
+              className="absolute w-full h-full flex items-center justify-center pointer-events-none transition-transform duration-300 ease-out z-20"
+              style={{ transform: `rotate(${needleRotation}deg)` }}
+            >
+              {/* Punta Roja Superior Estilo Rombo */}
+              <div className="absolute w-4 h-32 bg-gradient-to-t from-red-700 via-red-600 to-red-500 -top-14 shadow-md flex flex-col items-center pt-1"
+                   style={{ clipPath: 'polygon(50% 0%, 100% 40%, 50% 100%, 0% 40%)' }}>
+                <span className="text-[7px] text-yellow-200 font-bold">✡️</span>
+              </div>
+              
+              {/* Contrapunta Plateada Inferior Estilo Rombo */}
+              <div className="absolute w-4 h-32 bg-gradient-to-b from-slate-200 via-slate-300 to-slate-400 -bottom-14 shadow-md"
+                   style={{ clipPath: 'polygon(50% 0%, 100% 60%, 50% 100%, 0% 60%)' }} />
+            </div>
+
+            {/* Pivote Central Dorado con Relieve (Igual al de la imagen de referencia) */}
+            <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-yellow-800 via-amber-500 to-yellow-200 border border-amber-900 flex items-center justify-center shadow-lg z-30">
+              <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-amber-950 to-amber-900 shadow-inner" />
+            </div>
+
+          </div>
         </div>
-
       </div>
 
       {/* Tarjetas de datos numéricos */}
