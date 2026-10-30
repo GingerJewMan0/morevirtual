@@ -11,7 +11,6 @@ export async function scheduleShabbatAlert(shabatDate: Date, parashaName: string
   const hasPermission = await requestNotificationPermissions();
   if (!hasPermission) return;
 
-  // Crear canal por si acaso
   try {
     await LocalNotifications.createChannel({
       id: 'shabbat_channel',
@@ -20,6 +19,7 @@ export async function scheduleShabbatAlert(shabatDate: Date, parashaName: string
       importance: 5,
       sound: 'default',
       vibration: true,
+      visibility: 1,
     });
   } catch (e) {}
 
@@ -41,7 +41,7 @@ export async function scheduleShabbatAlert(shabatDate: Date, parashaName: string
   });
 }
 
-// 3. Función de prueba instantánea (para el botón de 1 minuto en tu Xiaomi)
+// 3. Función de prueba instantánea optimizada para Xiaomi
 export async function testInstantNotification() {
   const hasPermission = await requestNotificationPermissions();
   if (!hasPermission) {
@@ -57,6 +57,7 @@ export async function testInstantNotification() {
       importance: 5,
       sound: 'default',
       vibration: true,
+      visibility: 1,
     });
   } catch (e) {
     console.error("Error creando el canal:", e);
@@ -67,7 +68,7 @@ export async function testInstantNotification() {
       notifications: [
         {
           title: '🕯️ Prueba Inmediata',
-          body: '¡Si ves esto, el puente nativo con Capacitor funciona!',
+          body: '¡Si ves esto, el puente nativo con Capacitor funciona en Xiaomi!',
           id: 999,
           sound: 'default',
           channelId: 'shabbat_channel',
@@ -78,4 +79,4 @@ export async function testInstantNotification() {
   } catch (error) {
     console.error('Error al programar la notificación local:', error);
   }
-} 
+}
