@@ -197,29 +197,25 @@ export function CompassTab({ t }: CompassTabProps) {
               <span className="absolute top-16 left-16 text-[9px] font-bold text-slate-600">NW</span>
             </div>
 
-            {/* Manecillas Estilizadas (Roja y Azul idénticas a la referencia) */}
+            {/* Manecillas Tipo Reloj (Rectas y finas con punta de reloj clásico) */}
             <div
               className="absolute w-full h-full flex items-center justify-center pointer-events-none transition-transform duration-300 ease-out z-20"
               style={{ transform: `rotate(${needleRotation}deg)` }}
             >
-              {/* Manecilla Superior Roja (Delgada y en punta) */}
-              <div 
-                className="absolute w-3.5 h-38 bg-gradient-to-t from-red-600 via-red-500 to-orange-400 -top-16 shadow-lg"
-                style={{ clipPath: 'polygon(50% 0%, 100% 25%, 50% 100%, 0% 25%)' }}
-              />
+              {/* Manecilla Superior Roja Tipo Reloj */}
+              <div className="absolute w-2 h-38 bg-red-600 -top-16 shadow-md rounded-t-sm flex flex-col items-center">
+                <div className="w-0.5 h-32 bg-red-400 mt-1" />
+              </div>
               
-              {/* Manecilla Inferior Azul (Delgada y en punta) */}
-              <div 
-                className="absolute w-3.5 h-38 bg-gradient-to-b from-blue-600 via-blue-500 to-cyan-400 -bottom-16 shadow-lg"
-                style={{ clipPath: 'polygon(50% 0%, 100% 75%, 50% 100%, 0% 75%)' }}
-              />
+              {/* Manecilla Inferior Azul Tipo Reloj */}
+              <div className="absolute w-2 h-38 bg-blue-600 -bottom-16 shadow-md rounded-b-sm flex flex-col items-center justify-end">
+                <div className="w-0.5 h-32 bg-blue-400 mb-1" />
+              </div>
             </div>
 
-            {/* Pivote central metálico texturizado idéntico a la referencia */}
-            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-slate-400 via-slate-200 to-slate-400 border border-slate-500 flex items-center justify-center shadow-lg z-30">
-              <div className="w-4 h-4 rounded-full bg-gradient-to-br from-slate-300 via-slate-100 to-slate-400 border border-slate-500 shadow-inner flex items-center justify-center">
-                <div className="w-1.5 h-1.5 rounded-full bg-slate-600 opacity-90" />
-              </div>
+            {/* Pivote central estilo reloj */}
+            <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-slate-400 via-slate-200 to-slate-400 border border-slate-600 flex items-center justify-center shadow-lg z-30">
+              <div className="w-2.5 h-2.5 rounded-full bg-slate-900 border border-slate-400 shadow-inner" />
             </div>
 
           </div>
