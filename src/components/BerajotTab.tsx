@@ -76,11 +76,11 @@ export function BerajotTab({ t, currentLang }: BerajotTabProps) {
   };
 
   const traditionsList: { id: Tradition; name: string }[] = [
-    { id: 'maguen-david', name: 'Maguen David' },
-    { id: 'monte-sinai', name: 'Monte Sinai' },
-    { id: 'sefaradi', name: 'Sefaradí' },
-    { id: 'ashkenazi', name: 'Ashkenazí' },
-    { id: 'jabad', name: 'Jabad (Ari)' }
+    { id: 'maguen-david', name: t('traditionMaguenDavid', isHebrewLang ? 'מגן דוד' : 'Maguen David') },
+    { id: 'monte-sinai', name: t('traditionMonteSinai', isHebrewLang ? 'הר סיני' : 'Monte Sinai') },
+    { id: 'sefaradi', name: t('traditionSefaradi', isHebrewLang ? 'ספרדי' : 'Sefaradí') },
+    { id: 'ashkenazi', name: t('traditionAshkenazi', isHebrewLang ? 'אשכנזי' : 'Ashkenazí') },
+    { id: 'jabad', name: t('traditionJabad', isHebrewLang ? 'חב"ד (אריז"ל)' : 'Jabad (Ari)') }
   ];
 
   return (

@@ -371,7 +371,9 @@ const resources = {
       berajotTranslation: "Traducción",
       berajotPhonetic: "Fonética",
       prev: "Anterior",
-      next: "Siguiente"
+      next: "Siguiente",
+      menuBerajotTitle: "Berajot Cotidianas",
+      menuBerajotDesc: "Bendiciones diarias por comunidad",
     }
   },
 
@@ -731,7 +733,9 @@ const resources = {
       berajotTranslation: 'תרגום',
       berajotPhonetic: 'פונטיקה',
       prev: 'הקודם',
-      next: 'הבא'
+      next: 'הבא',
+      menuBerajotTitle: "ברכות יומיות",
+      menuBerajotDesc: "ברכות יומיות לפי מנהג",
     }
   },
 
@@ -1090,7 +1094,9 @@ const resources = {
       berajotTranslation: "Translation",
       berajotPhonetic: "Phonetics",
       prev: "Previous",
-      next: "Next"
+      next: "Next",
+      menuBerajotTitle: "Daily Blessings",
+      menuBerajotDesc: "Daily blessings by community",
     }
   },
 
@@ -1449,7 +1455,9 @@ const resources = {
       berajotTranslation: "Traduction",
       berajotPhonetic: "Phonétique",
       prev: "Précédent",
-      next: "Suivant"
+      next: "Suivant",
+      menuBerajotTitle: "Bénédictions Quotidiennes",
+      menuBerajotDesc: "Bénédictions quotidiennes par communauté",
     }
   },
 
@@ -1812,7 +1820,9 @@ const resources = {
       berajotTranslation: "Tradução",
       berajotPhonetic: "Fonética",
       prev: "Anterior",
-      next: "Próximo"
+      next: "Próximo",
+      menuBerajotTitle: "Bênçãos Diárias",
+      menuBerajotDesc: "Bênçãos diárias por comunidade",
     }
   }
 };
