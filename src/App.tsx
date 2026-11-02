@@ -940,9 +940,9 @@ export function App() {
     },
     {
       id: 'berajot' as const,
-      label: t('tabBerajot', 'Berajot Cotidianas'),
+      label: t('menuBerajotTitle', 'Berajot Cotidianas'),
       icon: BookOpen,
-      desc: t('tabBerajotDesc', 'Bendiciones diarias por comunidad'),
+      desc: t('menuBerajotDesc', 'Bendiciones diarias por comunidad'),
       accentColor: 'text-amber-700',
     },
     {
