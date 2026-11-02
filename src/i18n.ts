@@ -361,6 +361,17 @@ const resources = {
       bearingLabel: "Marcación",
       distanceLabel: "Distancia Aprox.",
       locationName: "Jerusalén, Israel (מכותל המערבי)",
+
+      //berajotTab
+      berajotTitle: "Berajot Cotidianas",
+      berajotCommunity: "COMUNIDAD / TRADICIÓN",
+      berajotWake: "Al Despertar",
+      berajotBody: "Cuerpo",
+      berajotFood: "Alimentos",
+      berajotTranslation: "Traducción",
+      berajotPhonetic: "Fonética",
+      prev: "Anterior",
+      next: "Siguiente"
     }
   },
 
@@ -1058,6 +1069,16 @@ const resources = {
       bearingLabel: "Bearing",
       distanceLabel: "Approx. Distance",
       locationName: "Jerusalem, Israel (מכותל המערבי)",
+
+      berajotTitle: "Daily Blessings",
+      berajotCommunity: "COMMUNITY / TRADITION",
+      berajotWake: "Upon Waking",
+      berajotBody: "Body",
+      berajotFood: "Food",
+      berajotTranslation: "Translation",
+      berajotPhonetic: "Phonetics",
+      prev: "Previous",
+      next: "Next"
     }
   },
 
@@ -1406,6 +1427,16 @@ const resources = {
       bearingLabel: "Cap",
       distanceLabel: "Distance approx.",
       locationName: "Jérusalem, Israël (מכותל המערבי)",
+
+      berajotTitle: "Bénédictions Quotidiennes",
+      berajotCommunity: "COMMUNAUTÉ / TRADITION",
+      berajotWake: "Au Réveil",
+      berajotBody: "Corps",
+      berajotFood: "Nourriture",
+      berajotTranslation: "Traduction",
+      berajotPhonetic: "Phonétique",
+      prev: "Précédent",
+      next: "Suivant"
     }
   },
 
@@ -1758,6 +1789,16 @@ const resources = {
       bearingLabel: "Marcação",
       distanceLabel: "Distância Aprox.",
       locationName: "Jerusalém, Israel (מכותל המערבי)",
+
+      berajotTitle: "Bênçãos Diárias",
+      berajotCommunity: "COMUNIDADE / TRADIÇÃO",
+      berajotWake: "Ao Despertar",
+      berajotBody: "Corpo",
+      berajotFood: "Alimentos",
+      berajotTranslation: "Tradução",
+      berajotPhonetic: "Fonética",
+      prev: "Anterior",
+      next: "Próximo"
     }
   }
 };

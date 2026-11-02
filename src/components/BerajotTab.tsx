@@ -11,7 +11,7 @@ type SupportedLang = 'es' | 'en' | 'fr' | 'pt';
 
 interface BerajotTabProps {
   t: (key: string, fallback: string) => string;
-  currentLang?: string; // Recibe el idioma actual (ej: 'es', 'en', 'fr', 'pt')
+  currentLang?: string;
 }
 
 type Tradition = 'maguen-david' | 'monte-sinai' | 'ashkenazi' | 'sefaradi' | 'jabad';
@@ -24,11 +24,30 @@ export function BerajotTab({ t, currentLang }: BerajotTabProps) {
   const [viewMode, setViewMode] = useState<ViewMode>('translation');
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Detecta y normaliza el idioma activo
-  const rawLang = (currentLang || t('lang', 'es')).toLowerCase().slice(0, 2);
-  const activeLang: SupportedLang = ['es', 'en', 'fr', 'pt'].includes(rawLang)
-    ? (rawLang as SupportedLang)
-    : 'es';
+  // Función de detección automática del idioma activo (i18n / localStorage)
+  const getActiveLanguage = (): SupportedLang => {
+    if (currentLang) {
+      const propLang = currentLang.toLowerCase().slice(0, 2);
+      if (['es', 'en', 'fr', 'pt'].includes(propLang)) {
+        return propLang as SupportedLang;
+      }
+    }
+
+    const storedLang = (
+      localStorage.getItem('i18nextLng') ||
+      localStorage.getItem('language') ||
+      localStorage.getItem('app_lang') ||
+      ''
+    ).toLowerCase().slice(0, 2);
+
+    if (['es', 'en', 'fr', 'pt'].includes(storedLang)) {
+      return storedLang as SupportedLang;
+    }
+
+    return 'es';
+  };
+
+  const activeLang = getActiveLanguage();
 
   const getBerajotData = () => {
     switch (selectedTradition) {
@@ -118,7 +137,7 @@ export function BerajotTab({ t, currentLang }: BerajotTabProps) {
         </button>
       </div>
 
-      {/* Modos de visualización: Hebreo / Fonética / Traducción */}
+      {/* Modos de visualización */}
       <div className="flex justify-center gap-1.5 bg-slate-900/60 p-1.5 rounded-xl border border-slate-800 text-[11px]">
         {(['hebrew', 'phonetic', 'translation'] as ViewMode[]).map((mode) => (
           <button
@@ -166,7 +185,7 @@ export function BerajotTab({ t, currentLang }: BerajotTabProps) {
         <div className="flex justify-between items-center pt-2 border-t border-slate-800 text-xs">
           <button
             onClick={() => setCurrentIndex((prev) => (prev > 0 ? prev - 1 : currentList.length - 1))}
-            className="px-3 py-1 bg-slate-800 hover:bg-amber-500 hover:text-slate-950 text-slate-200 rounded-lg font-medium transition-colors"
+            className="px-3 py-1 bg-slate-800 hover:bg-amber-500 hover:text-slate-950 text-slate-200 rounded-lg font-medium transition-colors cursor-pointer"
           >
             {t('prev', 'Anterior')}
           </button>
@@ -175,7 +194,7 @@ export function BerajotTab({ t, currentLang }: BerajotTabProps) {
           </span>
           <button
             onClick={() => setCurrentIndex((prev) => (prev < currentList.length - 1 ? prev + 1 : 0))}
-            className="px-3 py-1 bg-slate-800 hover:bg-amber-500 hover:text-slate-950 text-slate-200 rounded-lg font-medium transition-colors"
+            className="px-3 py-1 bg-slate-800 hover:bg-amber-500 hover:text-slate-950 text-slate-200 rounded-lg font-medium transition-colors cursor-pointer"
           >
             {t('next', 'Siguiente')}
           </button>
