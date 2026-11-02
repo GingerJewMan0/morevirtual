@@ -7,7 +7,7 @@ import { sefaradiSidur } from '../data/sidur/sefaradi';
 import { ashkenaziSidur } from '../data/sidur/ashkenazi';
 import { jabadSidur } from '../data/sidur/jabad';
 
-type SupportedLang = 'es' | 'en' | 'fr' | 'pt';
+type SupportedLang = 'es' | 'en' | 'fr' | 'pt' | 'he';
 
 interface BerajotTabProps {
   t: (key: string, fallback: string) => string;
@@ -24,11 +24,11 @@ export function BerajotTab({ t, currentLang }: BerajotTabProps) {
   const [viewMode, setViewMode] = useState<ViewMode>('translation');
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Función de detección automática del idioma activo (i18n / localStorage)
+  // Detecta si el idioma activo es Hebreo ('he') u otros ('es', 'en', 'fr', 'pt')
   const getActiveLanguage = (): SupportedLang => {
     if (currentLang) {
       const propLang = currentLang.toLowerCase().slice(0, 2);
-      if (['es', 'en', 'fr', 'pt'].includes(propLang)) {
+      if (['es', 'en', 'fr', 'pt', 'he'].includes(propLang)) {
         return propLang as SupportedLang;
       }
     }
@@ -40,7 +40,7 @@ export function BerajotTab({ t, currentLang }: BerajotTabProps) {
       ''
     ).toLowerCase().slice(0, 2);
 
-    if (['es', 'en', 'fr', 'pt'].includes(storedLang)) {
+    if (['es', 'en', 'fr', 'pt', 'he'].includes(storedLang)) {
       return storedLang as SupportedLang;
     }
 
@@ -48,6 +48,10 @@ export function BerajotTab({ t, currentLang }: BerajotTabProps) {
   };
 
   const activeLang = getActiveLanguage();
+  const isHebrewLang = activeLang === 'he';
+
+  // Si el usuario tiene seleccionada la interfaz en Hebreo, forzamos siempre la vista en Hebreo
+  const effectiveViewMode: ViewMode = isHebrewLang ? 'hebrew' : viewMode;
 
   const getBerajotData = () => {
     switch (selectedTradition) {
@@ -86,14 +90,14 @@ export function BerajotTab({ t, currentLang }: BerajotTabProps) {
       <div className="flex items-center justify-center gap-2 text-amber-500">
         <BookOpen className="w-6 h-6" />
         <h2 className="text-xl font-serif font-bold tracking-wide">
-          {t('berajotTitle', 'Berajot Cotidianas')}
+          {t('berajotTitle', isHebrewLang ? 'ברכות יומיות' : 'Berajot Cotidianas')}
         </h2>
       </div>
 
       {/* Selector de Comunidad */}
       <div className="space-y-1.5">
         <label className="text-[11px] uppercase tracking-wider text-slate-400 font-semibold block text-center">
-          {t('berajotCommunity', 'COMUNIDAD / TRADICIÓN')}
+          {t('berajotCommunity', isHebrewLang ? 'קהילה / מנהג' : 'COMUNIDAD / TRADICIÓN')}
         </label>
         <select
           value={selectedTradition}
@@ -117,7 +121,7 @@ export function BerajotTab({ t, currentLang }: BerajotTabProps) {
             activeCategory === 'despertar' ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-slate-900 text-slate-400 border border-slate-700'
           }`}
         >
-          <Sun className="w-3.5 h-3.5" /> {t('berajotWake', 'Al Despertar')}
+          <Sun className="w-3.5 h-3.5" /> {t('berajotWake', isHebrewLang ? 'ברכות השחר' : 'Al Despertar')}
         </button>
         <button 
           onClick={() => { setActiveCategory('cuerpo'); setCurrentIndex(0); }} 
@@ -125,7 +129,7 @@ export function BerajotTab({ t, currentLang }: BerajotTabProps) {
             activeCategory === 'cuerpo' ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-slate-900 text-slate-400 border border-slate-700'
           }`}
         >
-          <Shield className="w-3.5 h-3.5" /> {t('berajotBody', 'Cuerpo')}
+          <Shield className="w-3.5 h-3.5" /> {t('berajotBody', isHebrewLang ? 'גוף' : 'Cuerpo')}
         </button>
         <button 
           onClick={() => { setActiveCategory('alimentos'); setCurrentIndex(0); }} 
@@ -133,24 +137,26 @@ export function BerajotTab({ t, currentLang }: BerajotTabProps) {
             activeCategory === 'alimentos' ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-slate-900 text-slate-400 border border-slate-700'
           }`}
         >
-          <Coffee className="w-3.5 h-3.5" /> {t('berajotFood', 'Alimentos')}
+          <Coffee className="w-3.5 h-3.5" /> {t('berajotFood', isHebrewLang ? 'מאכלים' : 'Alimentos')}
         </button>
       </div>
 
-      {/* Modos de visualización */}
-      <div className="flex justify-center gap-1.5 bg-slate-900/60 p-1.5 rounded-xl border border-slate-800 text-[11px]">
-        {(['hebrew', 'phonetic', 'translation'] as ViewMode[]).map((mode) => (
-          <button
-            key={mode}
-            onClick={() => setViewMode(mode)}
-            className={`px-3 py-1 rounded-lg font-medium transition-all ${
-              viewMode === mode ? 'bg-amber-500 text-slate-950 shadow-sm font-bold' : 'text-slate-400'
-            }`}
-          >
-            {mode === 'hebrew' ? 'עברית' : mode === 'phonetic' ? t('berajotPhonetic', 'Fonética') : t('berajotTranslation', 'Traducción')}
-          </button>
-        ))}
-      </div>
+      {/* Selector de Modos de visualización: Oculto si el idioma es Hebreo */}
+      {!isHebrewLang && (
+        <div className="flex justify-center gap-1.5 bg-slate-900/60 p-1.5 rounded-xl border border-slate-800 text-[11px]">
+          {(['hebrew', 'phonetic', 'translation'] as ViewMode[]).map((mode) => (
+            <button
+              key={mode}
+              onClick={() => setViewMode(mode)}
+              className={`px-3 py-1 rounded-lg font-medium transition-all ${
+                viewMode === mode ? 'bg-amber-500 text-slate-950 shadow-sm font-bold' : 'text-slate-400'
+              }`}
+            >
+              {mode === 'hebrew' ? 'עברית' : mode === 'phonetic' ? t('berajotPhonetic', 'Fonética') : t('berajotTranslation', 'Traducción')}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Tarjeta principal del rezo */}
       <div className="p-5 bg-slate-900 rounded-2xl border border-slate-800 space-y-4 shadow-inner">
@@ -158,25 +164,27 @@ export function BerajotTab({ t, currentLang }: BerajotTabProps) {
           <span className="text-[10px] bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded-md font-bold uppercase tracking-wider">
             {currentItem.titleHebrew}
           </span>
-          <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wide">
-            {currentItem.titleSpanish}
-          </h3>
+          {!isHebrewLang && (
+            <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wide">
+              {currentItem.titleSpanish}
+            </h3>
+          )}
         </div>
 
         <div className="min-h-[140px] flex items-center justify-center text-center">
-          {viewMode === 'hebrew' && (
+          {effectiveViewMode === 'hebrew' && (
             <p className="text-xl font-serif leading-relaxed text-right text-slate-100" dir="rtl">
               {currentItem.hebrew}
             </p>
           )}
-          {viewMode === 'phonetic' && (
+          {effectiveViewMode === 'phonetic' && (
             <p className="text-sm font-sans italic text-slate-300 leading-relaxed px-2">
               "{currentItem.phonetic}"
             </p>
           )}
-          {viewMode === 'translation' && (
+          {effectiveViewMode === 'translation' && (
             <p className="text-sm font-sans text-slate-200 leading-relaxed px-2">
-              {currentItem.translation[activeLang] || currentItem.translation.es}
+              {currentItem.translation[activeLang as keyof typeof currentItem.translation] || currentItem.translation.es}
             </p>
           )}
         </div>
@@ -187,16 +195,18 @@ export function BerajotTab({ t, currentLang }: BerajotTabProps) {
             onClick={() => setCurrentIndex((prev) => (prev > 0 ? prev - 1 : currentList.length - 1))}
             className="px-3 py-1 bg-slate-800 hover:bg-amber-500 hover:text-slate-950 text-slate-200 rounded-lg font-medium transition-colors cursor-pointer"
           >
-            {t('prev', 'Anterior')}
+            {t('prev', isHebrewLang ? 'הקודם' : 'Anterior')}
           </button>
           <span className="text-slate-400 text-[11px]">
-            {currentList.length > 0 ? `${currentIndex + 1} de ${currentList.length}` : '0 de 0'}
+            {currentList.length > 0 
+              ? (isHebrewLang ? `${currentList.length} מתוך ${currentIndex + 1}` : `${currentIndex + 1} de ${currentList.length}`)
+              : '0 de 0'}
           </span>
           <button
             onClick={() => setCurrentIndex((prev) => (prev < currentList.length - 1 ? prev + 1 : 0))}
             className="px-3 py-1 bg-slate-800 hover:bg-amber-500 hover:text-slate-950 text-slate-200 rounded-lg font-medium transition-colors cursor-pointer"
           >
-            {t('next', 'Siguiente')}
+            {t('next', isHebrewLang ? 'הבא' : 'Siguiente')}
           </button>
         </div>
       </div>

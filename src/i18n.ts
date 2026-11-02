@@ -721,6 +721,17 @@ const resources = {
       bearingLabel: "אזימוט",
       distanceLabel: "מרחק משוער",
       locationName: "ירושלים, ישראל (מכותל המערבי)",
+
+      //berajotTab
+      berajotTitle: 'ברכות יומיות',
+      berajotCommunity: 'קהילה / מנהג',
+      berajotWake: 'ברכות השחר',
+      berajotBody: 'גוף',
+      berajotFood: 'מאכלים',
+      berajotTranslation: 'תרגום',
+      berajotPhonetic: 'פונטיקה',
+      prev: 'הקודם',
+      next: 'הבא'
     }
   },
 
@@ -1070,6 +1081,7 @@ const resources = {
       distanceLabel: "Approx. Distance",
       locationName: "Jerusalem, Israel (מכותל המערבי)",
 
+      //berajotTab
       berajotTitle: "Daily Blessings",
       berajotCommunity: "COMMUNITY / TRADITION",
       berajotWake: "Upon Waking",
@@ -1428,6 +1440,7 @@ const resources = {
       distanceLabel: "Distance approx.",
       locationName: "Jérusalem, Israël (מכותל המערבי)",
 
+      //berajotTab
       berajotTitle: "Bénédictions Quotidiennes",
       berajotCommunity: "COMMUNAUTÉ / TRADITION",
       berajotWake: "Au Réveil",
@@ -1790,6 +1803,7 @@ const resources = {
       distanceLabel: "Distância Aprox.",
       locationName: "Jerusalém, Israel (מכותל המערבי)",
 
+      //berajotTab
       berajotTitle: "Bênçãos Diárias",
       berajotCommunity: "COMUNIDADE / TRADIÇÃO",
       berajotWake: "Ao Despertar",
