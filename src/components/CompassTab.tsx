@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin, AlertCircle, Navigation, RefreshCw } from 'lucide-react';
+import { MapPin, AlertCircle, Navigation, RefreshCw, Activity } from 'lucide-react';
 import { Geolocation } from '@capacitor/geolocation';
 
 const KOTEL_LAT = 31.7767;
@@ -15,6 +15,7 @@ export function CompassTab({ t }: CompassTabProps) {
   const [distance, setDistance] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [permissionRequired, setPermissionRequired] = useState<boolean>(false);
+  const [sensorStatus, setSensorStatus] = useState<string>('Buscando sensores...');
 
   // Cálculo de dirección teórica hacia Jerusalén (Gran Círculo)
   const calculateDirection = (lat1: number, lon1: number) => {
@@ -47,16 +48,18 @@ export function CompassTab({ t }: CompassTabProps) {
   const handleOrientation = (event: any) => {
     let compassHeading: number | null = null;
 
-    // 1. Prioridad para iOS (iPhone/iPad)
+    // 1. iOS (Safari / iPhone / iPad)
     if (event.webkitCompassHeading !== undefined && event.webkitCompassHeading !== null) {
       compassHeading = event.webkitCompassHeading;
+      setSensorStatus('Sensor iOS Activo');
     } 
-    // 2. Prioridad para Android con orientacion absoluta
-    else if (event.alpha !== null) {
-      compassHeading = event.absolute ? (360 - event.alpha) % 360 : (360 - event.alpha) % 360;
+    // 2. Android (Absolute u Orientation estándar)
+    else if (event.alpha !== null && event.alpha !== undefined) {
+      compassHeading = (360 - event.alpha) % 360;
+      setSensorStatus(event.absolute ? 'Sensor Android Absoluto Activo' : 'Sensor Android Relativo Activo');
     }
 
-    if (compassHeading !== null) {
+    if (compassHeading !== null && !isNaN(compassHeading)) {
       setHeading(Math.round(compassHeading));
     }
   };
@@ -67,7 +70,7 @@ export function CompassTab({ t }: CompassTabProps) {
         const response = await (DeviceOrientationEvent as any).requestPermission();
         if (response === 'granted') {
           setPermissionRequired(false);
-          window.addEventListener('deviceorientation', handleOrientation, true);
+          window.addEventListener('deviceorientation', handleOrientation as EventListener, true);
         } else {
           setError(t('compassPermissionDenied', 'Permiso denegado para acceder a la brújula.'));
         }
@@ -80,12 +83,14 @@ export function CompassTab({ t }: CompassTabProps) {
   };
 
   const initSensors = () => {
-  if ('ondeviceorientationabsolute' in window) {
-    (window as any).addEventListener('deviceorientationabsolute', handleOrientation, true);
-  } else if ('DeviceOrientationEvent' in window) {
-    (window as any).addEventListener('deviceorientation', handleOrientation, true);
-  }
-};
+    // Nos suscribimos a ambos eventos simultáneamente para garantizar cobertura en Android
+    if ('ondeviceorientationabsolute' in window) {
+      (window as any).addEventListener('deviceorientationabsolute', handleOrientation as EventListener, true);
+    }
+    if ('DeviceOrientationEvent' in window) {
+      (window as any).addEventListener('deviceorientation', handleOrientation as EventListener, true);
+    }
+  };
 
   useEffect(() => {
     const fetchLocation = async () => {
@@ -108,8 +113,8 @@ export function CompassTab({ t }: CompassTabProps) {
     }
 
     return () => {
-      window.removeEventListener('deviceorientationabsolute', handleOrientation);
-      window.removeEventListener('deviceorientation', handleOrientation);
+      window.removeEventListener('deviceorientationabsolute', handleOrientation as EventListener);
+      window.removeEventListener('deviceorientation', handleOrientation as EventListener);
     };
   }, []);
 
@@ -194,6 +199,17 @@ export function CompassTab({ t }: CompassTabProps) {
             {distance !== null ? `${distance.toLocaleString()} km` : '--'}
           </span>
         </div>
+      </div>
+
+      {/* Diagnóstico en Vivo de la Tablet */}
+      <div className="p-2.5 bg-slate-100 dark:bg-slate-900/90 rounded-xl border border-slate-200 dark:border-slate-800 text-[10px] font-mono text-left space-y-1">
+        <div className="flex items-center gap-1.5 text-amber-500 font-bold">
+          <Activity className="w-3 h-3" />
+          <span>Diagnóstico de Sensores:</span>
+        </div>
+        <div>Sensor Giroscopio: <span className="text-amber-400">{heading !== null ? `${heading}°` : 'Sin lectura (NULL)'}</span></div>
+        <div>Estado del Evento: <span className="text-slate-400">{sensorStatus}</span></div>
+        <div>Protocolo: <span className="text-slate-400">{window.location.protocol}</span></div>
       </div>
 
       <div className="text-[11px] text-slate-500 dark:text-slate-400 italic flex items-center justify-center gap-1 font-serif">
