@@ -2,6 +2,12 @@ export interface BerajaItem {
   id: string;
   titleHebrew: string;
   titleSpanish: string;
+  title?: {
+    es: string;
+    en: string;
+    fr: string;
+    pt: string;
+  };
   warning?: {
     es: string;
     en: string;

@@ -176,8 +176,8 @@ export function BerajotTab({ t, currentLang }: BerajotTabProps) {
     </span>
     {!isHebrewLang && (
       <h3 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wide">
-        {currentItem.titleSpanish}
-      </h3>
+      {(currentItem as any).title?.[activeLang] || currentItem.titleSpanish}
+    </h3>
     )}
   </div>
 
@@ -218,10 +218,14 @@ export function BerajotTab({ t, currentLang }: BerajotTabProps) {
             {t('prev', isHebrewLang ? 'הקודם' : 'Anterior')}
           </button>
           <span className="text-slate-500 dark:text-slate-400 text-[11px]">
-            {currentList.length > 0 
-              ? (isHebrewLang ? `${currentList.length} מתוך ${currentIndex + 1}` : `${currentIndex + 1} de ${currentList.length}`)
-              : '0 de 0'}
-          </span>
+          {currentList.length > 0 ? (
+            isHebrewLang 
+              ? `${currentIndex + 1} מתוך ${currentList.length}` 
+              : `${currentIndex + 1} ${activeLang === 'en' ? 'of' : activeLang === 'fr' ? 'sur' : 'de'} ${currentList.length}`
+          ) : (
+            `0 ${activeLang === 'en' ? 'of' : activeLang === 'fr' ? 'sur' : 'de'} 0`
+          )}
+        </span>
           <button
             onClick={() => setCurrentIndex((prev) => (prev < currentList.length - 1 ? prev + 1 : 0))}
             className="px-3 py-1 bg-slate-200 dark:bg-slate-800 hover:bg-amber-500 hover:text-slate-950 text-slate-700 dark:text-slate-200 rounded-lg font-medium transition-colors cursor-pointer"

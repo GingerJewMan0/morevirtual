@@ -6,6 +6,12 @@ export const monteSinaiSidur: BerajotDayStructure = {
       id: 'mode-ani',
       titleHebrew: 'מודה אני',
       titleSpanish: 'Modé Aní (Al Despertar)',
+      title: {
+      es: 'Modé Aní (Al Despertar)',
+      en: 'Modeh Ani (Upon Waking)',
+      fr: 'Modé Ani (Au Réveil)',
+      pt: 'Modé Ani (Ao Acordar)'
+    },
       hebrew: 'מוֹדֶה (נָשִׁים: מוֹדָה) אֲנִי לְפָנֶיךָ מֶלֶךְ חַי וְקַיָּם, שֶׁהֶחֱזַרְתָּ בִּי נִשְׁמָתִי בְּחֶמְלָה, רַבָּה אֱמוּנָתֶךָ.',
       phonetic: 'Modé aní (mujeres: Modá aní) lefanéja mélej jai vekayam, shehejezarta bi nishmatí bejemlá, rabá emunateja.',
       translation: {
@@ -34,13 +40,19 @@ export const monteSinaiSidur: BerajotDayStructure = {
       id: 'asher-yatzar',
       titleHebrew: 'אשר יצר',
       titleSpanish: 'Asher Yatzar',
+      title: {
+      es: 'Asher Yatzar (Después de ir al baño)',
+      en: 'Asher Yatzar (After Using the Bathroom)',
+      fr: 'Asher Yatzar (Après les besoins)',
+      pt: 'Asher Yatzar (Depois de usar o banheiro)'
+      },
       warning: {
         es: '⚠️ Recitar fuera del baño y con las manos lavadas.',
         en: '⚠️ Recite outside the bathroom after washing hands.',
         fr: '⚠️ À réciter hors de la salle de bain et après lavage des mains.',
         pt: '⚠️ Recitar fora do banheiro e com as mãos lavadas.',
         he: '⚠️ יש לברך מחוץ לחדר הנוחיות ולאחר נטילת ידיים.'
-      },
+    },
       hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, אֲשֶׁר יָצַר אֶת הָאָדָם בְּחָכְמָה...',
       phonetic: 'Baruj atá Adonai, Elohenu melej haolam, asher yatzar et haadam bejojmá...',
       translation: {
@@ -67,6 +79,12 @@ export const monteSinaiSidur: BerajotDayStructure = {
       id: 'truenos',
       titleHebrew: 'על הרעמים',
       titleSpanish: 'Al escuchar un Trueno',
+      title: {
+      es: 'Al ver un Rayo / Relámpago',
+      en: 'Upon Seeing Lightning',
+      fr: 'En voyant un Éclair',
+      pt: 'Ao ver um Relâmpago'
+    },
       hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, שֶׁכֹּחוֹ וּגְבוּרָתוֹ מָלֵא עוֹלָם.',
       phonetic: 'Baruj atá Adonai, Elohenu melej haolam, shekojó ugburató malé olam.',
       translation: {
