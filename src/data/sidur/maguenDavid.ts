@@ -34,6 +34,13 @@ export const maguenDavidSidur: BerajotDayStructure = {
       id: 'asher-yatzar',
       titleHebrew: 'אשר יצר',
       titleSpanish: 'Asher Yatzar (Después de ir al baño)',
+      warning: {
+        es: '⚠️ Recitar fuera del baño y con las manos lavadas.',
+        en: '⚠️ Recite outside the bathroom after washing hands.',
+        fr: '⚠️ À réciter hors de la salle de bain et après lavage des mains.',
+        pt: '⚠️ Recitar fora do banheiro e com as mãos lavadas.',
+        he: '⚠️ יש לברך מחוץ לחדר הנוחיות ולאחר נטילת ידיים.'
+      },
       hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, אֲשֶׁר יָצַר אֶת הָאָדָם בְּחָכְמָה וּבָרָא בוֹ נְקָבִים נְקָבִים חֲלוּלִים חֲלוּלִים...',
       phonetic: 'Baruj atá Adonai, Elohenu melej haolam, asher yatzar et haadam bejojmá uvará bo nekavim nekavim jalulim jalulim...',
       translation: {

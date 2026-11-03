@@ -969,13 +969,6 @@ export function App() {
       accentColor: 'text-amber-400',
     },
     {
-      id: 'giluy_daat' as const,
-      label: t('tabGiluyDaat', "Giluy Da'at (Deslinde)"),
-      icon: ShieldAlert,
-      desc: t('tabGiluyDaatDesc', 'Propósito pedagógico y deslinde halájico'),
-      accentColor: 'text-amber-400',
-    },
-    {
       id: 'qa' as const,
       label: t('tabQa', 'Q&A (Preguntas Frecuentes)'),
       icon: Info,

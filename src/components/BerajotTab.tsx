@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BookOpen, Sun, Coffee, Shield } from 'lucide-react';
+import { BookOpen, Sun, Coffee, Shield, AlertTriangle } from 'lucide-react';
 
 import { maguenDavidSidur } from '../data/sidur/maguenDavid';
 import { monteSinaiSidur } from '../data/sidur/monteSinai';
@@ -167,17 +167,29 @@ export function BerajotTab({ t, currentLang }: BerajotTabProps) {
       )}
 
       {/* Tarjeta principal del rezo */}
-      <div className="p-5 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4 shadow-inner transition-colors">
-        <div className="flex justify-between items-center">
-          <span className="text-[10px] bg-amber-500/10 text-amber-700 dark:text-amber-400 px-2 py-0.5 rounded-md font-bold uppercase tracking-wider">
-            {currentItem.titleHebrew}
-          </span>
-          {!isHebrewLang && (
-            <h3 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wide">
-              {currentItem.titleSpanish}
-            </h3>
-          )}
-        </div>
+<div className="p-5 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4 shadow-inner transition-colors">
+  
+  {/* Encabezado con títulos */}
+  <div className="flex justify-between items-center">
+    <span className="text-[10px] bg-amber-500/10 text-amber-700 dark:text-amber-400 px-2 py-0.5 rounded-md font-bold uppercase tracking-wider">
+      {currentItem.titleHebrew}
+    </span>
+    {!isHebrewLang && (
+      <h3 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wide">
+        {currentItem.titleSpanish}
+      </h3>
+    )}
+  </div>
+
+  {/* AVISO / ADVERTENCIA HALÁJICA */}
+{(currentItem as any).warning && (
+  <div className="p-2.5 bg-amber-500/10 border border-amber-500/30 text-amber-800 dark:text-amber-300 text-xs rounded-xl flex items-center justify-center gap-2 font-medium text-center">
+    <AlertTriangle className="w-4 h-4 shrink-0 text-amber-500" />
+    <span>
+      {(currentItem as any).warning[activeLang] || (currentItem as any).warning.es}
+    </span>
+  </div>
+)}
 
         <div className="min-h-[140px] flex items-center justify-center text-center">
           {effectiveViewMode === 'hebrew' && (

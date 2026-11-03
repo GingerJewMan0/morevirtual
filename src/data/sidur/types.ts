@@ -1,7 +1,14 @@
-export interface RezoItem {
+export interface BerajaItem {
   id: string;
   titleHebrew: string;
   titleSpanish: string;
+  warning?: {
+    es: string;
+    en: string;
+    fr: string;
+    pt: string;
+    he?: string;
+  };
   hebrew: string;
   phonetic: string;
   translation: {
@@ -13,7 +20,7 @@ export interface RezoItem {
 }
 
 export interface BerajotDayStructure {
-  despertar: RezoItem[]; 
-  alimentos: RezoItem[]; 
-  cuerpo: RezoItem[];    
+  despertar: BerajaItem[];
+  alimentos: BerajaItem[];
+  cuerpo: BerajaItem[];
 }

@@ -19,6 +19,13 @@ export const jabadSidur: BerajotDayStructure = {
       id: 'netilat-yadaim',
       titleHebrew: 'נטילת ידיים',
       titleSpanish: 'Netilat Yadaim',
+      warning: {
+        es: '⚠️ Recitar fuera del baño y con las manos lavadas.',
+        en: '⚠️ Recite outside the bathroom after washing hands.',
+        fr: '⚠️ À réciter hors de la salle de bain et après lavage des mains.',
+        pt: '⚠️ Recitar fora do banheiro e com as mãos lavadas.',
+        he: '⚠️ יש לברך מחוץ לחדר הנוחיות ולאחר נטילת ידיים.'
+      },
       hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, אֲשֶׁר קִדְּשָׁנוּ בְּמִצְוֹתָיו, וְצִוָּנוּ עַל נְטִילַת יָדַיִם.',
       phonetic: 'Baruj atá A-do-nai, Elo-henu melej haolam, asher kideshanu bemitzvotav, vetzivanu al netilat yadaim.',
       translation: {
