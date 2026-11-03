@@ -4,15 +4,15 @@ export const ashkenaziSidur: BerajotDayStructure = {
   despertar: [
     {
       id: 'mode-ani',
-      titleHebrew: 'מוֹדֶה אֲנִי',
-      titleSpanish: 'Modé Aní (Ashkenazí)',
-      hebrew: 'מוֹדֶה אֲנִי לְפָנֶיךָ מֶלֶךְ חַי וְקַיָּם, שֶׁהֶחֱזַרְתָּ בִּי נִשְׁמָתִי בְּחֶמְלָה, רַבָּה אֱמוּנָתֶךָ.',
-      phonetic: 'Moide ani lefonecho melej chai vekayom, shehechezarto bi nishmosi bechemlah, rabbo emunosecho.',
+      titleHebrew: 'מודה אני',
+      titleSpanish: 'Modeh Ani (Al Despertar)',
+      hebrew: 'מוֹדֶה (נָשִׁים: מוֹדָה) אֲנִי לְפָנֶיךָ מֶלֶךְ חַי וְקַיָּם, שֶׁהֶחֱזַרְתָּ בִּי נִשְׁמָתִי בְּחֶמְלָה, רַבָּה אֱמוּנָתֶךָ.',
+      phonetic: 'Modeh ani (mujeres: Modah ani) lefanecha melech chai vekayam, shehechezarta bi nishmati bechemloh, rabbah emunatecha.',
       translation: {
-        es: 'Doy gracias ante Ti, Rey viviente y eterno, que me has devuelto mi alma con misericordia; grande es Tu fidelidad.',
-        en: 'I give thanks before You, living and eternal King, that You have returned my soul with mercy; great is Your faithfulness.',
-        fr: 'Je rends grâces devant Toi, Roi vivant et éternel, de m’avoir restitué mon âme avec miséricorde; grande est Ta fidélité.',
-        pt: 'Dou graças perante Ti, Rei vivo e eterno, por me teres devolvido a alma com misericórdia; grande é a Tua fidelidade.'
+        es: 'Te doy gracias (mujeres: Modah ani), oh Eterno Rey viviente y eterno, porque me has devuelto mi alma con misericordia; grande es Tu fidelidad.',
+        en: 'I offer thanks before You, living and eternal King, for You have mercifully restored my soul within me; Your faithfulness is great.',
+        fr: 'Je Te rends grâce, Roi vivant et éternel, de m\'avoir restitué mon âme avec compassion ; grande est Ta fidélité.',
+        pt: 'Dou-Te graças, Rei vivo e eterno, porque restituíste a minha alma com misericórdia; grande é a Tua fidelidade.'
       }
     },
     {
@@ -42,7 +42,33 @@ export const ashkenaziSidur: BerajotDayStructure = {
         fr: 'Béni soit Tu, Éternel notre Dieu, Roi de l’univers, qui a formé l’homme avec sagesse...',
         pt: 'Bendito és Tu, Senhor nosso Deus, Rei do universo, que formaste o homem com sabedoria...'
       }
-    }
+    },
+    {
+      id: 'rayos-relampagos',
+      titleHebrew: 'על הברקים',
+      titleSpanish: 'Al ver un Rayo / Relámpago',
+      hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, עוֹשֵׂה מַעֲשֵׂה בְרֵאשִׁית.',
+      phonetic: 'Baruch atah Adonai, Eloheinu melech haolam, oseh maaseh bereshit.',
+      translation: {
+        es: 'Bendito eres Tú, oh Eterno nuestro Dios, Rey del universo, que hace la obra de la Creación.',
+        en: 'Blessed are You, Lord our God, King of the universe, who makes the work of Creation.',
+        fr: 'Béni soit Tu, Éternel notre Dieu, Roi de l\'univers, qui accomplit l\'œuvre de la Création.',
+        pt: 'Bendito és Tu, Senhor nosso Deus, Rei do universo, que faz a obra da Criação.'
+      }
+    },
+    {
+      id: 'truenos',
+      titleHebrew: 'על הרעמים',
+      titleSpanish: 'Al escuchar un Trueno',
+      hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, שֶׁכֹּחוֹ וּגְבוּרָתוֹ מָלֵא עוֹלָם.',
+      phonetic: 'Baruch atah Adonai, Eloheinu melech haolam, shekocho ugvurato maleh olam.',
+      translation: {
+        es: 'Bendito eres Tú, oh Eterno nuestro Dios, Rey del universo, cuyo poder y fuerza llenan el mundo.',
+        en: 'Blessed are You, Lord our God, King of the universe, whose power and might fill the world.',
+        fr: 'Béni soit Tu, Éternel notre Dieu, Roi de l\'univers, dont la puissance et la force remplissent le monde.',
+        pt: 'Bendito és Tu, Senhor nosso Deus, Rei do universo, cujo poder e força enchem o mundo.'
+      }
+    },
   ],
   alimentos: [
     {
