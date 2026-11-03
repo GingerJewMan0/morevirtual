@@ -113,10 +113,10 @@ export const maguenDavidSidur: BerajotDayStructure = {
       titleHebrew: 'המוציא לחם מן הארץ',
       titleSpanish: 'Hamotzi (Para el pan)',
       title: {
-      es: 'Shehakol Nihiyá Bidvaró (Bebidas y General)',
-      en: 'Shehakol Nihiya Bidvaro (Drinks & General Food)',
-      fr: 'Shehakol Nihiya Bidvaro (Boissons et Alimentation Générale)',
-      pt: 'Shehakol Nihiyá Bidvaró (Bebidas e Geral)'
+      es: 'Hamotzí Lejem (Sobre el Pan)',
+      en: 'Hamotzi Lechem (Over Bread)',
+      fr: 'Hamotzi Lechem (Sur le Pain)',
+      pt: 'Hamotzi Lechem (Sobre o Pão)'
     },
       hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, הַמוֹצִיא לֶחֶם מִן הָאָרֶץ.',
       phonetic: 'Baruj atá Adonai, Elohenu melej haolam, hamotzi lejem min haaretz.',
@@ -131,6 +131,12 @@ export const maguenDavidSidur: BerajotDayStructure = {
       id: 'shehakol',
       titleHebrew: 'שהכל נהיה בדברו',
       titleSpanish: 'Shehakol (Bebidas y varios)',
+      title: {
+      es: 'Shehakol Nihiyá Bidvaró (Bebidas y General)',
+      en: 'Shehakol Nihiya Bidvaro (Drinks & General Food)',
+      fr: 'Shehakol Nihiya Bidvaro (Boissons et Alimentation Générale)',
+      pt: 'Shehakol Nihiyá Bidvaró (Bebidas e Geral)'
+    },
       hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, שֶׁהַכֹּל נִהְיֶה בִּדְבָרוֹ.',
       phonetic: 'Baruj atá Adonai, Elohenu melej haolam, shehakol niheyá bidvaró.',
       translation: {
