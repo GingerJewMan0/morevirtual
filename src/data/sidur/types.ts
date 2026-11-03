@@ -29,4 +29,5 @@ export interface BerajotDayStructure {
   despertar: BerajaItem[];
   alimentos: BerajaItem[];
   cuerpo: BerajaItem[];
+  'antes_de_dormir'?: BerajaItem[];
 }
