@@ -138,27 +138,27 @@ export function ParashaTab({ onAskAboutParasha, israel = false }: ParashaTabProp
               </p>
             )}
           </div>
-          <div className="bg-slate-900/90 p-3 rounded-2xl border border-amber-500/40 space-y-1.5 shrink-0">
-            <label htmlFor="parasha-selector" className="block text-[11px] font-bold uppercase tracking-wider text-amber-400">
-              {ui('selectParasha', 'Seleccionar Parashá:')}
-            </label>
-            <select
-              id="parasha-selector"
-              value={selectedId}
-              onChange={e => changeSelection(e.target.value)}
-              className="w-full bg-slate-800 text-amber-200 text-xs sm:text-sm font-semibold rounded-xl px-3 py-2 border border-amber-500/40 focus:outline-none focus:border-amber-400 cursor-pointer max-w-[260px]"
-            >
-              {BOOKS.map(book => (
-                <optgroup key={book} label={ui(`books.${book}`, `Sefer ${book} (${PARASHOT_DATA.find(p => p.book === book)?.bookSpanish ?? book})`)}>
-                  {PARASHOT_DATA.filter(p => p.book === book).map(p => (
-                    <option key={p.id} value={p.id}>
-                      {t(`parashot.${p.id}.name`, { defaultValue: p.name })}{!language.toLowerCase().startsWith('he') ? ` (${p.hebrewName})` : ''}
-                    </option>
-                  ))}
-                </optgroup>
-              ))}
-            </select>
-          </div>
+          <div className="bg-white/80 dark:bg-slate-900/90 p-3 rounded-2xl border border-amber-500/40 space-y-1.5 shrink-0 backdrop-blur-md transition-colors">
+          <label htmlFor="parasha-selector" className="block text-[11px] font-bold uppercase tracking-wider text-amber-700 dark:text-amber-400">
+            {ui('selectParasha', 'Seleccionar Parashá:')}
+          </label>
+          <select
+            id="parasha-selector"
+            value={selectedId}
+            onChange={e => changeSelection(e.target.value)}
+            className="w-full bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-amber-200 text-xs sm:text-sm font-semibold rounded-xl px-3 py-2 border border-amber-500/40 focus:outline-none focus:border-amber-400 cursor-pointer max-w-[260px] transition-colors"
+          >
+            {BOOKS.map(book => (
+              <optgroup key={book} label={ui(`books.${book}`, `Sefer ${book} (${PARASHOT_DATA.find(p => p.book === book)?.bookSpanish ?? book})`)}>
+                {PARASHOT_DATA.filter(p => p.book === book).map(p => (
+                  <option key={p.id} value={p.id}>
+                    {t(`parashot.${p.id}.name`, { defaultValue: p.name })}{!language.toLowerCase().startsWith('he') ? ` (${p.hebrewName})` : ''}
+                  </option>
+                ))}
+              </optgroup>
+            ))}
+          </select>
+        </div>
         </div>
       </div>
 
@@ -167,7 +167,7 @@ export function ParashaTab({ onAskAboutParasha, israel = false }: ParashaTabProp
           { id: 'summary' as SubTab, label: ui('summaryTab', 'Resumen y Temas'), icon: BookOpen },
           { id: 'aliyot' as SubTab, label: ui('aliyotTab', 'Aliyot (Lectura)'), icon: Layers },
           { id: 'rashi' as SubTab, label: ui('rashiTab', 'Perla de Rashi'), icon: Sparkles },
-          { id: 'jasidut' as SubTab, label: ui('chabadTab', 'Jasidut (Jabad)'), icon: Flame },
+          { id: 'jasidut' as SubTab, label: ui('chabadTab', 'Jasidut'), icon: Flame },
         ]).map(tab => {
           const Icon = tab.icon;
           return (
