@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin, AlertCircle, Navigation } from 'lucide-react';
+import { MapPin, AlertCircle, Navigation, RefreshCw } from 'lucide-react';
 import { Geolocation } from '@capacitor/geolocation';
 
 const KOTEL_LAT = 31.7767;
@@ -14,7 +14,9 @@ export function CompassTab({ t }: CompassTabProps) {
   const [bearingToKotel, setBearingToKotel] = useState<number | null>(null);
   const [distance, setDistance] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [permissionRequired, setPermissionRequired] = useState<boolean>(false);
 
+  // Cálculo de dirección teórica hacia Jerusalén (Gran Círculo)
   const calculateDirection = (lat1: number, lon1: number) => {
     const lat1Rad = (lat1 * Math.PI) / 180;
     const lon1Rad = (lon1 * Math.PI) / 180;
@@ -42,39 +44,78 @@ export function CompassTab({ t }: CompassTabProps) {
     setDistance(Math.round(distKm));
   };
 
+  const handleOrientation = (event: any) => {
+    let compassHeading: number | null = null;
+
+    // 1. Prioridad para iOS (iPhone/iPad)
+    if (event.webkitCompassHeading !== undefined && event.webkitCompassHeading !== null) {
+      compassHeading = event.webkitCompassHeading;
+    } 
+    // 2. Prioridad para Android con orientacion absoluta
+    else if (event.alpha !== null) {
+      compassHeading = event.absolute ? (360 - event.alpha) % 360 : (360 - event.alpha) % 360;
+    }
+
+    if (compassHeading !== null) {
+      setHeading(Math.round(compassHeading));
+    }
+  };
+
+  const requestCompassPermission = async () => {
+    if (typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
+      try {
+        const response = await (DeviceOrientationEvent as any).requestPermission();
+        if (response === 'granted') {
+          setPermissionRequired(false);
+          window.addEventListener('deviceorientation', handleOrientation, true);
+        } else {
+          setError(t('compassPermissionDenied', 'Permiso denegado para acceder a la brújula.'));
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    } else {
+      initSensors();
+    }
+  };
+
+  const initSensors = () => {
+  if ('ondeviceorientationabsolute' in window) {
+    (window as any).addEventListener('deviceorientationabsolute', handleOrientation, true);
+  } else if ('DeviceOrientationEvent' in window) {
+    (window as any).addEventListener('deviceorientation', handleOrientation, true);
+  }
+};
+
   useEffect(() => {
     const fetchLocation = async () => {
       try {
         const coordinates = await Geolocation.getCurrentPosition({ timeout: 5000 });
         calculateDirection(coordinates.coords.latitude, coordinates.coords.longitude);
       } catch (e) {
-        setError(t('gpsError', 'No se pudo obtener la ubicación GPS precisa. Usando referencia estándar.'));
+        setError(t('gpsError', 'No se pudo obtener la ubicación GPS precisa. Usando referencia estándar (CDMX).'));
         calculateDirection(19.4326, -99.1332);
       }
     };
 
     fetchLocation();
 
-    const handleOrientation = (event: DeviceOrientationEvent) => {
-      if (event.alpha !== null) {
-        setHeading(Math.round(event.alpha));
-      } else if ((event as any).webkitCompassHeading) {
-        setHeading(Math.round((event as any).webkitCompassHeading));
-      }
-    };
-
-    if (window.DeviceOrientationEvent) {
-      window.addEventListener('deviceorientation', handleOrientation, true);
+    // Comprobar si requiere permiso previo (iOS)
+    if (typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
+      setPermissionRequired(true);
+    } else {
+      initSensors();
     }
 
     return () => {
-      if (window.DeviceOrientationEvent) {
-        window.removeEventListener('deviceorientation', handleOrientation, true);
-      }
+      window.removeEventListener('deviceorientationabsolute', handleOrientation);
+      window.removeEventListener('deviceorientation', handleOrientation);
     };
   }, []);
 
-  const pointerRotation = bearingToKotel !== null && heading !== null ? (bearingToKotel - heading + 360) % 360 : (bearingToKotel || 0);
+  const pointerRotation = bearingToKotel !== null && heading !== null 
+    ? (bearingToKotel - heading + 360) % 360 
+    : (bearingToKotel || 0);
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-100 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 text-center space-y-6 backdrop-blur-md transition-colors duration-300">
@@ -88,19 +129,29 @@ export function CompassTab({ t }: CompassTabProps) {
       </p>
 
       {error && (
-        <div className="p-2.5 bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-800/60 text-amber-800 dark:text-amber-200 text-xs rounded-xl flex items-center gap-2">
+        <div className="p-2.5 bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-800/60 text-amber-800 dark:text-amber-200 text-xs rounded-xl flex items-center gap-2 text-left">
           <AlertCircle className="w-4 h-4 shrink-0 text-amber-600 dark:text-amber-400" />
           <span>{error}</span>
         </div>
       )}
 
-      {/* Contenedor Minimalista de la Flecha Direccional */}
+      {/* Contenedor de la Brújula */}
       <div className="relative w-72 h-72 mx-auto flex items-center justify-center bg-slate-50 dark:bg-slate-900/50 rounded-full border border-slate-200 dark:border-slate-800/80 shadow-inner overflow-hidden transition-colors duration-300">
         
-        {/* Anillo decorativo sutil */}
+        {/* Anillo de Orientación Norte */}
+        <div 
+          className="absolute inset-0 w-full h-full rounded-full transition-transform duration-300 ease-out"
+          style={{ transform: `rotate(${- (heading || 0)}deg)` }}
+        >
+          <span className="absolute top-3 left-1/2 -translate-x-1/2 text-xs font-bold text-red-500">N</span>
+          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">E</span>
+          <span className="absolute bottom-3 left-1/2 -translate-x-1/2 text-xs font-bold text-slate-400">S</span>
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">O</span>
+        </div>
+
         <div className="absolute w-60 h-60 rounded-full border border-dashed border-slate-300 dark:border-slate-700/50 pointer-events-none" />
 
-        {/* Contenedor de rotación de la flecha alineado exactamente al centro absoluto */}
+        {/* Flecha hacia Jerusalén */}
         <div 
           className="absolute inset-0 w-full h-full flex items-center justify-center transition-transform duration-300 ease-out z-10"
           style={{ transform: `rotate(${pointerRotation}deg)` }}
@@ -111,14 +162,24 @@ export function CompassTab({ t }: CompassTabProps) {
           </div>
         </div>
 
-        {/* Centro de la flecha fijo en el medio */}
+        {/* Centro de la aguja */}
         <div className="w-9 h-9 rounded-full bg-white dark:bg-slate-900 border-2 border-amber-500 flex items-center justify-center shadow-lg z-20 transition-colors duration-300">
           <Navigation className="w-4 h-4 text-amber-600 dark:text-amber-400 rotate-45" />
         </div>
 
       </div>
 
-      {/* Tarjetas de datos numéricos */}
+      {permissionRequired && (
+        <button
+          onClick={requestCompassPermission}
+          className="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer"
+        >
+          <RefreshCw className="w-4 h-4" />
+          {t('enableCompass', 'Activar Sensor de Brújula')}
+        </button>
+      )}
+
+      {/* Datos numéricos */}
       <div className="grid grid-cols-2 gap-3 pt-2">
         <div className="p-3 bg-slate-100 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-inner transition-colors duration-300">
           <span className="block text-[11px] text-slate-500 dark:text-slate-400 uppercase font-semibold tracking-wider">{t('bearingLabel', 'Marcación')}</span>
