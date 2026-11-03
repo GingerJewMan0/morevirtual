@@ -70,6 +70,8 @@ import HebrewDateConverter from './components/HebrewDateConverter';
 import { scheduleShabbatAlert, requestNotificationPermissions } from './utils/notifications';
 import { CompassTab } from './components/CompassTab';
 import { BerajotTab } from './components/BerajotTab';
+import { MeatDairyTab } from './components/MeatDairyTab';
+import { Timer } from 'lucide-react';
 
 const API_BASE_URL = 'https://rabvirtual.onrender.com';
 
@@ -228,7 +230,7 @@ export function App() {
   }, []);
 
   const [activeMainTab, setActiveMainTab] = useState<
-  'chat' | 'calendar' | 'parasha' | 'giluy_daat' | 'qa' | 'developer' | 'kosher' | 'settings' | 'hebrew_converter' | 'compass' | 'berajot'
+  'chat' | 'calendar' | 'parasha' | 'giluy_daat' | 'qa' | 'developer' | 'kosher' | 'settings' | 'hebrew_converter' | 'compass' | 'berajot' | 'meat_dairy'
 >('chat');
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -925,6 +927,13 @@ export function App() {
       accentColor: 'text-emerald-500',
     },
     {
+      id: 'meat_dairy' as const,
+      label: t('tabMeatDairy', 'Carne a Leche'),
+      icon: Timer,
+      desc: t('tabMeatDairyDesc', 'Temporizador de 6 horas'),
+      accentColor: 'text-amber-500',
+    },
+    {
       id: 'calendar' as const,
       label: t('tabZmanim', 'Calendario & Velas'),
       icon: Flame,
@@ -1320,6 +1329,8 @@ export function App() {
         )}
         
         {activeMainTab === 'compass' && <CompassTab t={t} />}
+
+        {activeMainTab === 'meat_dairy' && <MeatDairyTab t={t} />}
         
         {activeMainTab === 'berajot' && <BerajotTab t={t} />}
 

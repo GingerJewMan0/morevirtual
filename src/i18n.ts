@@ -374,6 +374,19 @@ const resources = {
       next: "Siguiente",
       menuBerajotTitle: "Berajot Cotidianas",
       menuBerajotDesc: "Bendiciones diarias por comunidad",
+
+      //MeatDairy
+      tabMeatDairy: "Carne a Leche",
+      tabMeatDairyDesc: "Temporizador de 6 horas",
+      meatTimerTitle: "Temporizador Carne a Leche",
+      meatTimerSubtitle: "Conteo regresivo de 6 horas para la espera entre carne y lácteos (Shoshah Shaot).",
+      startMeatTimer: "Acabo de comer carne (Iniciar 6h)",
+      resetTimer: "Reiniciar Temporizador",
+      dairyAllowedTitle: "¡Ya puedes comer lácteos!",
+      dairyAllowedDesc: "Han concluido las 6 horas de espera desde que consumiste carne.",
+      timerNotifTitle: "¡Esperas de Carne concluidas! 🥛",
+      timerNotifBody: "Ha transcurrido el tiempo estipulado (6 horas). Ya puedes consumir alimentos lácteos.",
+      notifHint: "Recibirás una notificación automática al finalizar.",
     }
   },
 
@@ -736,6 +749,19 @@ const resources = {
       next: 'הבא',
       menuBerajotTitle: "ברכות יומיות",
       menuBerajotDesc: "ברכות יומיות לפי מנהג",
+
+      //MeatDairy
+      tabMeatDairy: "בשר לחלב",
+      tabMeatDairyDesc: "טיימר 6 שעות",
+      meatTimerTitle: "טיימר מבשר לחלב",
+      meatTimerSubtitle: "ספירה לאחור של 6 שעות בין בשר לחלב (שש שעות).",
+      startMeatTimer: "אכלתי בשר (התחל 6 שעות)",
+      resetTimer: "איפוס טיימר",
+      dairyAllowedTitle: "מותר לאכול חלבי!",
+      dairyAllowedDesc: "עברו 6 שעות מאז אכילת הבשר.",
+      timerNotifTitle: "הסתיימה ההמתנה לבשר! 🥛",
+      timerNotifBody: "עברו 6 שעות. כעת ניתן לאכול מאכלי חלב.",
+      notifHint: "תתקבל התראה אוטומטית בסיום.",
     }
   },
 
@@ -1097,6 +1123,19 @@ const resources = {
       next: "Next",
       menuBerajotTitle: "Daily Blessings",
       menuBerajotDesc: "Daily blessings by community",
+
+      //MeatDairy
+      tabMeatDairy: "Meat to Dairy",
+      tabMeatDairyDesc: "6-hour timer",
+      meatTimerTitle: "Meat to Dairy Timer",
+      meatTimerSubtitle: "6-hour countdown timer for waiting between meat and dairy (Shesh Shaot).",
+      startMeatTimer: "I just ate meat (Start 6h)",
+      resetTimer: "Reset Timer",
+      dairyAllowedTitle: "You can now eat dairy!",
+      dairyAllowedDesc: "The 6-hour waiting period after eating meat has concluded.",
+      timerNotifTitle: "Meat Waiting Period Over! 🥛",
+      timerNotifBody: "6 hours have passed. You may now consume dairy products.",
+      notifHint: "You will receive an automatic notification when finished.",
     }
   },
 
@@ -1458,6 +1497,19 @@ const resources = {
       next: "Suivant",
       menuBerajotTitle: "Bénédictions Quotidiennes",
       menuBerajotDesc: "Bénédictions quotidiennes par communauté",
+
+      //MeatDairy
+      tabMeatDairy: "Viande à Lait",
+      tabMeatDairyDesc: "Minuteur de 6 heures",
+      meatTimerTitle: "Minuteur Viande à Lait",
+      meatTimerSubtitle: "Compte à rebours de 6 heures entre la viande et les produits laitiers.",
+      startMeatTimer: "Je viens de manger de la viande (Lancer 6h)",
+      resetTimer: "Réinitialiser le minuteur",
+      dairyAllowedTitle: "Vous pouvez consommer du lait !",
+      dairyAllowedDesc: "Les 6 heures d'attente après avoir mangé de la viande sont écoulées.",
+      timerNotifTitle: "Attente Viande Terminée ! 🥛",
+      timerNotifBody: "Les 6 heures sont écoulées. Vous pouvez consommer des produits laitiers.",
+      notifHint: "Vous recevrez une notification automatique à la fin.",
     }
   },
 
@@ -1823,6 +1875,20 @@ const resources = {
       next: "Próximo",
       menuBerajotTitle: "Bênçãos Diárias",
       menuBerajotDesc: "Bênçãos diárias por comunidade",
+
+      //MeatDairy
+      tabMeatDairy: "Carne para Leite",
+      tabMeatDairyDesc: "Temporizador de 6 horas",
+      meatTimerTitle: "Temporizador Carne para Leite",
+      meatTimerSubtitle: "Contagem regressiva de 6 horas para a espera entre carne e laticínios.",
+      startMeatTimer: "Acabei de comer carne (Iniciar 6h)",
+      resetTimer: "Reiniciar Temporizador",
+      dairyAllowedTitle: "Você já pode comer laticínios!",
+      dairyAllowedDesc: "Concluiu-se o período de 6 horas de espera após comer carne.",
+      timerNotifTitle: "Espera da Carne Concluída! 🥛",
+      timerNotifBody: "Passaram-se 6 horas. Você já pode consumir laticínios.",
+      notifHint: "Você receberá uma notificação automática ao terminar.",
+      
     }
   }
 };
