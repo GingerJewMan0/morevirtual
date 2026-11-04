@@ -166,7 +166,7 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
           </div>
         </div>
 
-        {/* ================= MODAL DE PANTALLA COMPLETA AMPLIADO ================= */}
+        {/* ================= MODAL DE PANTALLA COMPLETA PROPORCIONAL ================= */}
         {isModalOpen && (
           <div 
             className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center animate-fade-in overflow-hidden"
@@ -219,13 +219,13 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
               </button>
             </div>
 
-            {/* Contenedor desplazable que abarca todo el ancho y alto */}
+            {/* Contenedor desplazable con proporción real */}
             <div 
-              className="w-full h-full overflow-auto flex items-center justify-center p-2"
+              className="w-full h-full overflow-auto flex items-center justify-center p-4 pt-20"
               onClick={(e) => e.stopPropagation()}
             >
               <div 
-                className="transition-transform duration-200 ease-out origin-center cursor-grab active:cursor-grabbing flex items-center justify-center min-w-full min-h-full"
+                className="transition-transform duration-200 ease-out origin-center cursor-grab active:cursor-grabbing inline-block my-auto"
                 style={{ transform: `scale(${scale})` }}
                 onClick={() => {
                   setScale((prev) => (prev === 1 ? 2 : 1));
@@ -234,7 +234,7 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
                 <img 
                   src={currentImageSrc} 
                   alt="Tefilín Ampliado"
-                  className="w-auto h-auto max-w-[95vw] max-h-[95vh] object-contain select-none mx-auto my-auto"
+                  className="h-[85vh] w-auto max-w-none object-contain select-none mx-auto rounded-lg shadow-2xl"
                   draggable={false}
                 />
               </div>
