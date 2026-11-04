@@ -13,14 +13,14 @@ export async function scheduleShabbatAlert(shabatDate: Date, parashaName: string
 
   try {
     await LocalNotifications.createChannel({
-      id: 'shabbat_channel',
-      name: 'Avisos de Shabat',
-      description: 'Canal para notificaciones de entrada de Shabat',
-      importance: 5,
-      sound: 'default',
-      vibration: true,
-      visibility: 1,
-    });
+    id: 'shabbat_channel',
+    name: 'Avisos de Shabat',
+    description: 'Canal para notificaciones de entrada de Shabat',
+    importance: 5,     // Notificación de alta prioridad
+    sound: 'default',
+    vibration: true,
+    visibility: 1,      // 1 = PUBLIC (Visible en pantalla de bloqueo)
+  });
   } catch (e) {}
 
   const alertTime = new Date(shabatDate.getTime() - (2 * 60 * 60 * 1000));
@@ -50,14 +50,14 @@ export async function scheduleMeatDairyAlert(durationMs: number, title?: string,
 
   try {
     await LocalNotifications.createChannel({
-      id: 'meat_dairy_channel',
-      name: 'Temporizador Carne a Leche',
-      description: 'Canal para notificaciones del temporizador de alimentos lácteos',
-      importance: 5,
-      sound: 'default',
-      vibration: true,
-      visibility: 1,
-    });
+    id: 'meat_dairy_channel',
+    name: 'Temporizador Carne a Leche',
+    description: 'Canal para notificaciones del temporizador de alimentos lácteos',
+    importance: 5,     // Notificación de alta prioridad
+    sound: 'default',
+    vibration: true,
+    visibility: 1,      // 1 = PUBLIC (Visible en pantalla de bloqueo)
+  });
   } catch (e) {}
 
   const alertTime = new Date(Date.now() + durationMs);
