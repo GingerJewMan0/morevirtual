@@ -166,7 +166,7 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
           </div>
         </div>
 
-        {/* ================= MODAL DE PANTALLA COMPLETA PERFECTO ================= */}
+        {/* ================= MODAL DE PANTALLA COMPLETA 100% ANCHO ================= */}
         {isModalOpen && (
           <div 
             className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex flex-col items-center justify-center p-2 animate-fade-in overflow-hidden"
@@ -219,13 +219,13 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
               </button>
             </div>
 
-            {/* Contenedor desplazable optimizado */}
+            {/* Contenedor con ancho de pantalla completo y scroll horizontal/vertical */}
             <div 
               className="w-full h-full overflow-auto flex items-center justify-center p-2 pt-16"
               onClick={(e) => e.stopPropagation()}
             >
               <div 
-                className="transition-transform duration-200 ease-out origin-center cursor-grab active:cursor-grabbing inline-block m-auto"
+                className="transition-transform duration-200 ease-out origin-center cursor-grab active:cursor-grabbing inline-flex items-center justify-center m-auto"
                 style={{ transform: `scale(${scale})` }}
                 onClick={() => {
                   setScale((prev) => (prev === 1 ? 2 : 1));
@@ -234,7 +234,7 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
                 <img 
                   src={currentImageSrc} 
                   alt="Tefilín Ampliado"
-                  className="w-[90vw] md:w-auto md:max-w-4xl h-auto object-contain select-none mx-auto rounded-lg shadow-2xl block"
+                  className="w-screen max-w-none h-auto object-contain select-none mx-auto block"
                   draggable={false}
                 />
               </div>
