@@ -35,6 +35,8 @@ export async function scheduleShabbatAlert(shabatDate: Date, parashaName: string
         schedule: { at: alertTime },
         sound: 'default',
         channelId: 'shabbat_channel',
+        largeIcon: 'ic_rabvirtual', // Logo de Rabino Virtual
+        iconColor: '#10B981',        // Color verde esmeralda para acentos
         extra: { route: 'calendar' }
       }
     ]
@@ -74,6 +76,8 @@ export async function scheduleMeatDairyAlert(durationMs: number, title?: string,
         schedule: { at: alertTime },
         sound: 'default',
         channelId: 'meat_dairy_channel',
+        largeIcon: 'ic_rabvirtual', // Logo de Rabino Virtual
+        iconColor: '#10B981',        // Color verde esmeralda para acentos
         extra: { route: 'meat-dairy' }
       }
     ]
