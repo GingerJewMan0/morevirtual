@@ -45,17 +45,47 @@ export const TEFILLIN_STEPS: TefillinStep[] = [
   {
     id: 1,
     title: {
-      es: '1. Prepara los tefilín',
-      en: '1. Prepare Tefillin',
-      fr: '1. Préparer les Tefillines',
-      pt: '1. Preparar os Tefilin'
+      es: '1. Preparación y Posición',
+      en: '1. Preparation & Position',
+      fr: '1. Préparation et Position',
+      pt: '1. Preparação e Posição'
     },
     description: {
       default: {
-        es: 'Ten listos el shel yad (del brazo) y el shel rosh (de la cabeza).',
-        en: 'Have the Shel Yad and Shel Rosh ready.',
-        fr: 'Préparez le Shel Yad et le Shel Rosh.',
-        pt: 'Tenha o Shel Yad e Shel Rosh prontos.'
+        es: 'Ten listos el shel yad (del brazo) y el shel rosh (de la cabeza). Descubre el brazo no dominante. Coloca la caja en el bíceps, orientada hacia el corazón.',
+        en: 'Have the Shel Yad and Shel Rosh ready. Expose your non-dominant arm. Place the box on the bicep, angled toward the heart.',
+        fr: 'Préparez le Shel Yad et le Shel Rosh. Découvrez le bras non dominant. Placez le boîtier sur le biceps vers le cœur.',
+        pt: 'Tenha o Shel Yad e Shel Rosh prontos. Descubra o braço não dominante. Coloque a caixa no bíceps virada para o coração.'
+      },
+      ashkenazi: {
+        es: 'Ten listos el shel yad y el shel rosh. De pie, descubre el brazo no dominante y coloca la caja en el bíceps izquierdo, orientado hacia el corazón.',
+        en: 'Have Shel Yad and Shel Rosh ready. Standing, expose your non-dominant arm and place the box on your left bicep angled toward the heart.',
+        fr: 'Préparez le Shel Yad et le Shel Rosh. Debout, découvrez le bras non dominant et placez le boîtier sur le biceps vers le cœur.',
+        pt: 'Tenha o Shel Yad e Shel Rosh prontos. De pé, descubra o braço não dominante e coloque a caixa no bíceps virado para o coração.'
+      },
+      sefardi: {
+        es: 'Ten listos el shel yad y el shel rosh. Siéntate, descubre el brazo no dominante y coloca la caja en el bíceps, orientado hacia el corazón.',
+        en: 'Have Shel Yad and Shel Rosh ready. Sit down, expose your non-dominant arm and place the box on the bicep angled toward the heart.',
+        fr: 'Préparez le Shel Yad et le Shel Rosh. Asseyez-vous, découvrez le bras non dominant et placez le boîtier sur le biceps.',
+        pt: 'Tenha o Shel Yad e Shel Rosh prontos. Sente-se, descubra o braço não dominante e coloque a caixa no bíceps.'
+      },
+      jabad: {
+        es: 'Ten listos el shel yad y el shel rosh. Descubre el brazo no dominante y coloca la caja en el bíceps, orientado hacia el corazón.',
+        en: 'Have Shel Yad and Shel Rosh ready. Expose your non-dominant arm and place the box on the bicep angled toward the heart.',
+        fr: 'Préparez le Shel Yad et le Shel Rosh. Découvrez le bras non dominant et placez le boîtier sur le biceps.',
+        pt: 'Tenha o Shel Yad e Shel Rosh prontos. Descubra o braço não dominante e coloque a caixa no bíceps.'
+      },
+      maguenDavid: {
+        es: 'Ten listos el shel yad y el shel rosh. El shel yad se coloca sentado y el shel rosh de pie. Coloca la caja en el bíceps, orientado hacia el corazón.',
+        en: 'Have Shel Yad and Shel Rosh ready. Shel Yad seated and Shel Rosh standing. Place the box on the bicep angled toward the heart.',
+        fr: 'Préparez le Shel Yad et le Shel Rosh. Shel Yad assis et Shel Rosh debout.',
+        pt: 'Tenha o Shel Yad e Shel Rosh prontos. Shel Yad sentado e Shel Rosh de pé.'
+      },
+      monteSinai: {
+        es: 'Ten listos el shel yad y el shel rosh. El shel yad se coloca sentado y el shel rosh de pie. Coloca la caja en el bíceps, orientado hacia el corazón.',
+        en: 'Have Shel Yad and Shel Rosh ready. Shel Yad seated and Shel Rosh standing. Place the box on the bicep angled toward the heart.',
+        fr: 'Préparez le Shel Yad et le Shel Rosh. Shel Yad assis et Shel Rosh debout.',
+        pt: 'Tenha o Shel Yad e Shel Rosh prontos. Shel Yad sentado e Shel Rosh de pé.'
       }
     },
     imagePlaceholder: '/assets/tefillin/step1.png',
@@ -65,41 +95,47 @@ export const TEFILLIN_STEPS: TefillinStep[] = [
   {
     id: 2,
     title: {
-      es: '2. Coloca el shel yad',
+      es: '2. Coloca el Shel Yad',
       en: '2. Place Shel Yad',
       fr: '2. Placer le Shel Yad',
       pt: '2. Colocar o Shel Yad'
     },
     description: {
       default: {
-        es: 'Colócalo en el bíceps del brazo izquierdo, orientado hacia el corazón.',
-        en: 'Place it on the bicep of the left arm, angled toward the heart.',
+        es: 'Colócalo en el bíceps del brazo izquierdo (o brazo no dominante), orientado hacia el corazón.',
+        en: 'Place it on the bicep of your left arm (or non-dominant arm), angled toward the heart.',
         fr: 'Placez-le sur le biceps du bras gauche, orienté vers le cœur.',
         pt: 'Coloque-o no bíceps do braço esquerdo, orientado para o coração.'
       },
       ashkenazi: {
-        es: 'De pie, coloca el shel yad en el bíceps del brazo izquierdo, orientado hacia el corazón.',
-        en: 'Standing, place the shel yad on your left bicep, angled toward the heart.',
-        fr: 'Debout, placez le shel yad sur le biceps gauche, vers le cœur.',
-        pt: 'De pé, coloque o shel yad no bíceps esquerdo, orientado para o coração.'
+        es: 'Colócalo en el bíceps del brazo izquierdo, orientado hacia el corazón.',
+        en: 'Place it on the bicep of your left arm, angled toward the heart.',
+        fr: 'Placez-le sur le biceps du bras gauche, orienté vers le cœur.',
+        pt: 'Coloque-o no bíceps do braço esquerdo, orientado para o coração.'
       },
       sefardi: {
-        es: 'Sentado, coloca el shel yad en el bíceps del brazo izquierdo, orientado hacia el corazón.',
-        en: 'Seated, place the shel yad on your left bicep, angled toward the heart.',
-        fr: 'Assis, placez le shel yad sur le biceps gauche, vers le cœur.',
-        pt: 'Sentado, coloque o shel yad no bíceps esquerdo, orientado para o coração.'
+        es: 'Colócalo en el bíceps del brazo izquierdo, orientado hacia el corazón (en posición sentada).',
+        en: 'Place it on the bicep of your left arm, angled toward the heart (seated).',
+        fr: 'Placez-le sur le biceps du bras gauche, orienté vers le cœur (assis).',
+        pt: 'Coloque-o no bíceps do braço esquerdo, orientado para o coração (sentado).'
+      },
+      jabad: {
+        es: 'Colócalo en el bíceps del brazo izquierdo, orientado hacia el corazón.',
+        en: 'Place it on the bicep of your left arm, angled toward the heart.',
+        fr: 'Placez-le sur le biceps du bras gauche, orienté vers le cœur.',
+        pt: 'Coloque-o no bíceps do braço esquerdo, orientado para o coração.'
       },
       maguenDavid: {
-        es: 'Sentado, coloca el shel yad en el bíceps del brazo izquierdo, orientado hacia el corazón.',
-        en: 'Seated, place the shel yad on your left bicep, angled toward the heart.',
-        fr: 'Assis, placez le shel yad sur le biceps gauche, vers le cœur.',
-        pt: 'Sentado, coloque o shel yad no bíceps esquerdo, orientado para o coração.'
+        es: 'Colócalo en el bíceps del brazo izquierdo, orientado hacia el corazón.',
+        en: 'Place it on the bicep of your left arm, angled toward the heart.',
+        fr: 'Placez-le sur le biceps du bras gauche, orienté vers le cœur.',
+        pt: 'Coloque-o no bíceps do braço esquerdo, orientado para o coração.'
       },
       monteSinai: {
-        es: 'Sentado, coloca el shel yad en el bíceps del brazo izquierdo, orientado hacia el corazón.',
-        en: 'Seated, place the shel yad on your left bicep, angled toward the heart.',
-        fr: 'Assis, placez le shel yad sur le biceps gauche, vers le cœur.',
-        pt: 'Sentado, coloque o shel yad no bíceps esquerdo, orientado para o coração.'
+        es: 'Colócalo en el bíceps del brazo izquierdo, orientado hacia el corazón.',
+        en: 'Place it on the bicep of your left arm, angled toward the heart.',
+        fr: 'Placez-le sur le biceps du bras gauche, orienté vers le cœur.',
+        pt: 'Coloque-o no bíceps do braço esquerdo, orientado para o coração.'
       }
     },
     imagePlaceholder: '/assets/tefillin/step2.png'
@@ -107,10 +143,10 @@ export const TEFILLIN_STEPS: TefillinStep[] = [
   {
     id: 3,
     title: {
-      es: '3. Enrolla la correa',
-      en: '3. Wrap the strap',
-      fr: '3. Enrouler la lanière',
-      pt: '3. Enrolar a correia'
+      es: '3. Enrolla la Correa',
+      en: '3. Wrap the Strap',
+      fr: '3. Enrouler la Lanière',
+      pt: '3. Enrolar a Correia'
     },
     description: {
       default: {
@@ -120,34 +156,34 @@ export const TEFILLIN_STEPS: TefillinStep[] = [
         pt: 'Enrole a correia 7 vezes no antebraço.'
       },
       ashkenazi: {
-        es: 'Enrolla la correa 7 veces en el antebrazo hacia el torso (hacia adentro).',
-        en: 'Wrap the strap 7 times around the forearm towards the torso (inwards).',
-        fr: 'Enroulez la lanière 7 fois autour de l\'avant-bras vers le torse.',
-        pt: 'Enrole a correia 7 vezes no antebraço em direção ao torso.'
+        es: 'Enrolla la correa 7 veces en el antebrazo, hacia el torso (hacia adentro).',
+        en: 'Wrap the strap 7 times around the forearm, towards the torso (inwards).',
+        fr: 'Enroulez la lanière 7 fois autour de l\'avant-bras, vers le torse.',
+        pt: 'Enrole a correia 7 vezes no antebraço, em direção ao torso.'
       },
       sefardi: {
-        es: 'Enrolla la correa 7 veces en el antebrazo hacia afuera del torso.',
-        en: 'Wrap the strap 7 times around the forearm away from the torso (outwards).',
-        fr: 'Enroulez la lanière 7 fois autour de l\'avant-bras vers l\'extérieur.',
-        pt: 'Enrole a correia 7 vezes no antebraço para fora do torso.'
+        es: 'Enrolla la correa 7 veces en el antebrazo, hacia afuera del torso.',
+        en: 'Wrap the strap 7 times around the forearm, away from the torso (outwards).',
+        fr: 'Enroulez la lanière 7 fois autour de l\'avant-bras, vers l\'extérieur.',
+        pt: 'Enrole a correia 7 vezes no antebraço, para fora do torso.'
       },
       jabad: {
-        es: 'Enrolla la correa 7 veces en el antebrazo hacia afuera del torso.',
-        en: 'Wrap the strap 7 times around the forearm away from the torso (outwards).',
-        fr: 'Enroulez la lanière 7 fois autour de l\'avant-bras vers l\'extérieur.',
-        pt: 'Enrole a correia 7 vezes no antebraço para fora do torso.'
+        es: 'Enrolla la correa 7 veces en el antebrazo, hacia afuera del torso.',
+        en: 'Wrap the strap 7 times around the forearm, away from the torso (outwards).',
+        fr: 'Enroulez la lanière 7 fois autour de l\'avant-bras, vers l\'extérieur.',
+        pt: 'Enrole a correia 7 vezes no antebraço, para fora do torso.'
       },
       maguenDavid: {
-        es: 'Enrolla la correa 7 veces en el antebrazo hacia afuera del torso.',
-        en: 'Wrap the strap 7 times around the forearm away from the torso (outwards).',
-        fr: 'Enroulez la lanière 7 fois autour de l\'avant-bras vers l\'extérieur.',
-        pt: 'Enrole a correia 7 vezes no antebraço para fora do torso.'
+        es: 'Enrolla la correa 7 veces en el antebrazo, hacia afuera del torso.',
+        en: 'Wrap the strap 7 times around the forearm, away from the torso (outwards).',
+        fr: 'Enroulez la lanière 7 fois autour de l\'avant-bras, vers l\'extérieur.',
+        pt: 'Enrole a correia 7 vezes no antebraço, para fora do torso.'
       },
       monteSinai: {
-        es: 'Enrolla la correa 7 veces en el antebrazo hacia afuera del torso.',
-        en: 'Wrap the strap 7 times around the forearm away from the torso (outwards).',
-        fr: 'Enroulez la lanière 7 fois autour de l\'avant-bras vers l\'extérieur.',
-        pt: 'Enrole a correia 7 vezes no antebraço para fora do torso.'
+        es: 'Enrolla la correa 7 veces en el antebrazo, hacia afuera del torso.',
+        en: 'Wrap the strap 7 times around the forearm, away from the torso (outwards).',
+        fr: 'Enroulez la lanière 7 fois autour de l\'avant-bras, vers l\'extérieur.',
+        pt: 'Enrole a correia 7 vezes no antebraço, para fora do torso.'
       }
     },
     imagePlaceholder: '/assets/tefillin/step3.png'
@@ -155,10 +191,10 @@ export const TEFILLIN_STEPS: TefillinStep[] = [
   {
     id: 4,
     title: {
-      es: '4. Coloca el shel rosh y finaliza',
-      en: '4. Place Shel Rosh & finish',
-      fr: '4. Placer le Shel Rosh et terminer',
-      pt: '4. Colocar o Shel Rosh e finalizar'
+      es: '4. Coloca el Shel Rosh y Finaliza',
+      en: '4. Place Shel Rosh & Finish',
+      fr: '4. Placer Shel Rosh & Terminer',
+      pt: '4. Colocar Shel Rosh & Finalizar'
     },
     description: {
       default: {
@@ -168,16 +204,16 @@ export const TEFILLIN_STEPS: TefillinStep[] = [
         pt: 'Coloque o tefilin da cabeça centralizado na testa e complete o enrolamento na mão e no dedo médio.'
       },
       ashkenazi: {
-        es: 'De pie, coloca el tefilín de la cabeza centrado sobre la frente (por encima de la línea del cabello, entre los ojos) y completa el enrollado en la mano y el dedo medio.',
-        en: 'Standing, place the head tefillin centered on the forehead and complete the wrapping on the hand and middle finger.',
-        fr: 'Debout, placez le tefillin de la tête centré sur le front et terminez l\'enroulement.',
-        pt: 'De pé, coloque o tefilin da cabeça centralizado na testa e complete o enrolamento.'
+        es: 'Coloca el tefilín de la cabeza centrado sobre la frente (por encima de la línea del cabello, entre los ojos) y completa el enrollado en la mano y dedo medio.',
+        en: 'Place the head tefillin centered on the forehead (above the hairline, between the eyes) and complete the wrapping on the hand and middle finger.',
+        fr: 'Placez le tefillin de la tête centré sur le front et terminez l\'enroulement.',
+        pt: 'Coloque o tefilin da cabeça centralizado na testa e complete o enrolamento.'
       },
       sefardi: {
-        es: 'De pie, coloca el tefilín de la cabeza centrado sobre la frente (justo por encima de la línea del cabello) y completa el enrollado en la mano y el dedo medio.',
-        en: 'Standing, place the head tefillin centered on the forehead and complete the wrapping on the hand and middle finger.',
-        fr: 'Debout, placez le tefillin de la tête centré sur le front et terminez l\'enroulement.',
-        pt: 'De pé, coloque o tefilin da cabeça centralizado na testa e complete o enrolamento.'
+        es: 'Coloca el tefilín de la cabeza centrado sobre la frente (justo por encima de la línea del cabello) y completa el enrollado en la mano y dedo medio.',
+        en: 'Place the head tefillin centered on the forehead (just above the hairline) and complete the wrapping on the hand and middle finger.',
+        fr: 'Placez le tefillin de la tête centré sur le front et terminez l\'enroulement.',
+        pt: 'Coloque o tefilin da cabeça centralizado na testa e complete o enrolamento.'
       },
       jabad: {
         es: 'Coloca el tefilín de la cabeza centrado sobre la frente y completa el enrollado en el dedo medio (una vuelta en la base, una arriba y una vez más en la base).',
@@ -186,16 +222,16 @@ export const TEFILLIN_STEPS: TefillinStep[] = [
         pt: 'Coloque o tefilin da cabeça e complete o enrolamento no dedo médio.'
       },
       maguenDavid: {
-        es: 'De pie, coloca el tefilín de la cabeza centrado sobre la línea del cabello, entre los ojos, y completa el enrollado en la mano y en el dedo medio.',
-        en: 'Standing, place the head tefillin centered on the hairline, between the eyes, and complete the wrapping on the hand and middle finger.',
-        fr: 'Debout, placez le tefillin de la tête centré sur la ligne des cheveux et terminez l\'enroulement.',
-        pt: 'De pé, coloque o tefilin da cabeça centralizado na linha do cabelo e complete o enrolamento.'
+        es: 'Coloca el tefilín de la cabeza centrado sobre la línea del cabello, entre los ojos, y completa el enrollado en la mano y en el dedo medio.',
+        en: 'Place the head tefillin centered on the hairline, between the eyes, and complete the wrapping on the hand and middle finger.',
+        fr: 'Placez le tefillin de la tête centré sur la ligne des cheveux et terminez l\'enroulement.',
+        pt: 'Coloque o tefilin da cabeça centralizado na linha do cabelo e complete o enrolamento.'
       },
       monteSinai: {
-        es: 'De pie, coloca el tefilín de la cabeza centrado sobre la línea del cabello, entre los ojos, y completa el enrollado en la mano y en el dedo medio.',
-        en: 'Standing, place the head tefillin centered on the hairline, between the eyes, and complete the wrapping on the hand and middle finger.',
-        fr: 'Debout, placez le tefillin de la tête centré sur la ligne des cheveux et terminez l\'enroulement.',
-        pt: 'De pé, coloque o tefilin da cabeça centralizado na linha do cabelo e complete o enrolamento.'
+        es: 'Coloca el tefilín de la cabeza centrado sobre la línea del cabello, entre los ojos, y completa el enrollado en la mano y en el dedo medio.',
+        en: 'Place the head tefillin centered on the hairline, between the eyes, and complete the wrapping on the hand and middle finger.',
+        fr: 'Placez le tefillin de la tête centré sur la ligne des cheveux et terminez l\'enroulement.',
+        pt: 'Coloque o tefilin da cabeça centralizado na linha do cabelo e complete o enrolamento.'
       }
     },
     imagePlaceholder: '/assets/tefillin/step4.png',
