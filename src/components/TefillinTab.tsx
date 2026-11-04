@@ -11,8 +11,12 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
   const isAshkenazi = communityId === 'ashkenazi';
 
   // Ruta de la imagen por idioma (.png)
-  const getImageByLanguage = (lang: string) => {
-    return `/assets/tefillin/tefillin_${lang}.png`;
+ const getImageByLanguage = (lang: string) => {
+    try {
+      return new URL(`../assets/tefillin/tefillin_${lang}.png`, import.meta.url).href;
+    } catch (error) {
+      return new URL(`../assets/tefillin/tefillin_es.png`, import.meta.url).href;
+    }
   };
 
   return (
