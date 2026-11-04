@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TEFILLIN_BLESSINGS } from '../data/sidur/tefillinData';
-import { Info, BookOpen } from 'lucide-react';
+import { Info, BookOpen, ZoomIn, X } from 'lucide-react';
 
 interface TefillinTabProps {
   activeLang: 'es' | 'en' | 'fr' | 'pt' | 'he';
@@ -10,6 +10,9 @@ interface TefillinTabProps {
 export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityId }) => {
   const isAshkenazi = communityId === 'ashkenazi';
   const isHebrew = activeLang === 'he';
+
+  // Estado para controlar el zoom de la imagen
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Ruta de la imagen por idioma (.png)
   const getImageByLanguage = (lang: string) => {
@@ -56,8 +59,17 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
       fr: 'Mitzvah des Tefillines (Tête)',
       pt: 'Preceito de Tefilin (Cabeça)',
       he: 'ברכת מצוות תפילין של ראש'
+    },
+    tapToZoom: {
+      es: 'Tocar para ampliar',
+      en: 'Tap to zoom',
+      fr: 'Appuyer pour zoomer',
+      pt: 'Toque para ampliar',
+      he: 'הקש להגדלה'
     }
   };
+
+  const currentImageSrc = getImageByLanguage(activeLang);
 
   return (
     <div className={`max-w-3xl mx-auto space-y-6 p-4 ${isHebrew ? 'dir-rtl text-right' : ''}`}>
@@ -85,13 +97,16 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
           </span>
         </div>
 
-        {/* Contenedor de la Imagen */}
-        <div className="w-full bg-slate-100 dark:bg-slate-950/60 rounded-xl border border-slate-300 dark:border-slate-700 overflow-hidden flex items-center justify-center relative shadow-inner min-h-[300px]">
+        {/* Contenedor de la Imagen con opción de Zoom */}
+        <div 
+          onClick={() => setIsModalOpen(true)}
+          className="w-full bg-slate-100 dark:bg-slate-950/60 rounded-xl border border-slate-300 dark:border-slate-700 overflow-hidden flex items-center justify-center relative shadow-inner min-h-[300px] group cursor-pointer"
+        >
           <img
             key={activeLang}
-            src={getImageByLanguage(activeLang)}
+            src={currentImageSrc}
             alt={`Guía de Tefilín - ${activeLang}`}
-            className="w-full h-auto max-h-[700px] object-contain p-2"
+            className="w-full h-auto max-h-[700px] object-contain p-2 transition-transform duration-300 group-hover:scale-102"
             onError={(e) => {
               const target = e.target as HTMLElement;
               target.style.display = 'none';
@@ -100,13 +115,49 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
               }
             }}
           />
-          <div className="absolute inset-0 hidden items-center justify-center text-slate-400 bg-slate-950/80 flex-col space-y-2 p-4 text-center">
+
+          {/* Overlay flotante al pasar el mouse o tocar para indicar zoom */}
+          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white font-medium text-xs">
+            <ZoomIn className="w-5 h-5 text-amber-400" />
+            <span>{uiTexts.tapToZoom[activeLang] || uiTexts.tapToZoom.es}</span>
+          </div>
+
+          <div className="absolute inset-0 hidden items-center justify-center text-slate-400 bg-slate-950/80 flex-col space-y-2 p-4 text-center pointer-events-none">
             <span className="text-xs font-mono text-amber-400">/assets/tefillin/tefillin_{activeLang}.png</span>
             <p className="text-[11px] text-slate-300">
               Imagen no encontrada en la carpeta src/assets/tefillin/
             </p>
           </div>
         </div>
+
+        {/* ================= MODAL DE PANTALLA COMPLETA (ZOOM) ================= */}
+        {isModalOpen && (
+          <div 
+            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in"
+            onClick={() => setIsModalOpen(false)}
+          >
+            {/* Botón de cierre */}
+            <button 
+              onClick={() => setIsModalOpen(false)}
+              className="absolute top-6 right-6 p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer z-10"
+              aria-label="Cerrar"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            {/* Imagen ampliada */}
+            <div 
+              className="relative max-w-4xl max-h-[90vh] overflow-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img 
+                src={currentImageSrc} 
+                alt="Tefilín Ampliado"
+                className="max-w-full max-h-[85vh] object-contain rounded-xl shadow-2xl mx-auto"
+              />
+            </div>
+          </div>
+        )}
 
         {/* SECCIÓN DE BENDICIONES */}
         <div className="space-y-4 pt-2">

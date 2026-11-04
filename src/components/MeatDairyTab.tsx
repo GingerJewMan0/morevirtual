@@ -1,26 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { Timer, Bell, CheckCircle2, RotateCcw, Utensils } from 'lucide-react';
+import { Timer, Bell, CheckCircle2, RotateCcw, Utensils, Settings } from 'lucide-react';
 import { scheduleMeatDairyAlert, cancelMeatDairyAlert } from '../utils/notifications';
+import { App } from '@capacitor/app';
 
 interface MeatDairyTabProps {
   t: (key: string, fallback: string) => string;
 }
 
 //const SIX_HOURS_MS = 6 * 60 * 60 * 1000; // 6 Horas en milisegundos
-const SIX_HOURS_MS = 60 * 1000; // 1 minuto
-
+const SIX_HOURS_MS = 60 * 1000; // 1 minuto para pruebas
 
 export function MeatDairyTab({ t }: MeatDairyTabProps) {
   const [startTime, setStartTime] = useState<number | null>(null);
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
 
-  // Cargar estado guardado al montar el componente
+  // Cargar estado guardado al montar el componente y validar si el tiempo ya expiró
   useEffect(() => {
     const savedStartTime = localStorage.getItem('meat_timer_start_time');
     if (savedStartTime) {
       const parsedTime = parseInt(savedStartTime, 10);
       setStartTime(parsedTime);
+
+      const now = Date.now();
+      const elapsed = now - parsedTime;
+      if (elapsed >= SIX_HOURS_MS) {
+        setTimeLeft(0);
+        setIsCompleted(true);
+      }
     }
   }, []);
 
@@ -51,6 +58,16 @@ export function MeatDairyTab({ t }: MeatDairyTabProps) {
 
     return () => clearInterval(interval);
   }, [startTime]);
+
+  // Función para abrir la configuración de la app en dispositivos restrictivos (Xiaomi, etc.)
+const openBatterySettings = async () => {
+  try {
+    const info = await App.getInfo();
+    await (App as any).openUrl({ url: `package:${info.id}` });
+  } catch (e) {
+    console.warn('No se pudo abrir la configuración nativa directamente:', e);
+  }
+};
 
   // Iniciar el temporizador y programar la notificación nativa en Android/iOS
   const startTimer = async () => {
@@ -152,6 +169,17 @@ export function MeatDairyTab({ t }: MeatDairyTabProps) {
             {t('resetTimer', 'Reiniciar Temporizador')}
           </button>
         )}
+      </div>
+
+      {/* Botón de asistencia para la configuración del sistema en Xiaomi u otros */}
+      <div className="pt-2 border-t border-slate-100 dark:border-slate-900">
+        <button
+          onClick={openBatterySettings}
+          className="text-xs text-amber-600 dark:text-amber-400 hover:underline flex items-center justify-center gap-1.5 mx-auto cursor-pointer"
+        >
+          <Settings className="w-3.5 h-3.5" />
+          <span>{t('batterySettingsHint', '¿Problemas con las notificaciones con la app cerrada?')}</span>
+        </button>
       </div>
 
       {/* Indicador de Notificación */}

@@ -70,7 +70,7 @@ export async function scheduleMeatDairyAlert(durationMs: number, title?: string,
   await LocalNotifications.schedule({
     notifications: [
       {
-        title: title || '¡Esperas de Carne concluidas! 🥛',
+        title: title || '¡Espera de Carne concluidas! 🥛',
         body: body || 'Ha transcurrido el tiempo estipulado. Ya puedes consumir alimentos lácteos.',
         id: 102,
         schedule: { at: alertTime },
