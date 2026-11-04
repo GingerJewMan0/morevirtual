@@ -166,7 +166,7 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
           </div>
         </div>
 
-        {/* ================= MODAL DE PANTALLA COMPLETA DEFINITIVO ================= */}
+        {/* ================= MODAL DE PANTALLA COMPLETA EXACTO A LOS BORDES ================= */}
         {isModalOpen && (
           <div 
             className="fixed inset-0 z-50 bg-black/95 flex flex-col"
@@ -218,20 +218,20 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
               </div>
             </div>
 
-            {/* Contenedor de la Imagen con Scroll Nativo y Ajuste Matemático */}
-            <div className="flex-1 w-full overflow-auto p-4 flex" onClick={e => e.stopPropagation()}>
+            {/* Contenedor de la Imagen SIN PADDING lateral */}
+            <div className="flex-1 w-full overflow-auto flex" onClick={e => e.stopPropagation()}>
               <div 
-                className="m-auto transition-all duration-200"
+                className="m-auto transition-all duration-200 flex items-center"
                 style={{
                   width: scale === 1 ? '100%' : `${scale * 100}%`,
-                  height: scale === 1 ? '100%' : `${scale * 100}%`,
+                  minHeight: '100%'
                 }}
                 onClick={() => setScale(prev => prev === 1 ? 2 : 1)}
               >
                 <img 
                   src={currentImageSrc} 
                   alt="Tefilín Ampliado"
-                  className="w-full h-full object-contain rounded-xl shadow-2xl block"
+                  className="w-full h-auto object-contain block"
                   style={{ cursor: scale === 1 ? 'zoom-in' : 'zoom-out' }}
                   draggable={false}
                 />
