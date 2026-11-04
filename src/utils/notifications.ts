@@ -84,9 +84,67 @@ export async function scheduleMeatDairyAlert(durationMs: number, title?: string,
   });
 }
 
-// 4. Cancelar la alerta de Carne a Leche (si el usuario reinicia el reloj)
+// Cancelar la alerta de Carne a Leche (si el usuario reinicia el reloj)
 export async function cancelMeatDairyAlert() {
   try {
     await LocalNotifications.cancel({ notifications: [{ id: 102 }] });
   } catch (e) {}
+}
+
+// 4. Omer 
+export async function scheduleOmerNotifications(startDate: Date) {
+  const notifications = [];
+
+  for (let day = 1; day <= 49; day++) {
+    // Calcular la fecha para cada día del Omer
+    const notificationDate = new Date(startDate);
+    notificationDate.setDate(startDate.getDate() + (day - 1));
+    notificationDate.setHours(20, 0, 0, 0); // Ajustar a las 8:00 PM o según la puesta de sol
+
+    notifications.push({
+      title: `Cuenta del Omer - Día ${day}`,
+      body: `Es hora de contar el día ${day} del Omer de esta noche.`,
+      id: 5000 + day, // ID único para cada notificación del Omer
+      schedule: { at: notificationDate },
+      sound: 'default',
+    });
+  }
+
+  await LocalNotifications.schedule({ notifications });
+}
+
+// Januca
+
+export const CHANUKAH_NIGHTS = [
+  { night: 1, candles: 1, title: { es: '1ª Vela de Janucá', he: 'נר ראשון של חנוכה' } },
+  { night: 2, candles: 2, title: { es: '2ª Vela de Janucá', he: 'נר שני של חנוכה' } },
+  { night: 3, candles: 3, title: { es: '3ª Vela de Janucá', he: 'נר שלישי של חנוכה' } },
+  { night: 4, candles: 4, title: { es: '4ª Vela de Janucá', he: 'נר רביעי של חנוכה' } },
+  { night: 5, candles: 5, title: { es: '5ª Vela de Janucá', he: 'נר חמישי של חנוכה' } },
+  { night: 6, candles: 6, title: { es: '6ª Vela de Janucá', he: 'נר ששי של חנוכה' } },
+  { night: 7, candles: 7, title: { es: '7ª Vela de Janucá', he: 'נר שביעי של חנוכה' } },
+  { night: 8, candles: 8, title: { es: '8ª Vela de Janucá', he: 'נר שמיני של חנוכה' } },
+];
+
+export async function scheduleChanukahNotifications(firstNightDate: Date) {
+  const notifications = [];
+
+  for (let i = 0; i < CHANUKAH_NIGHTS.length; i++) {
+    const nightData = CHANUKAH_NIGHTS[i];
+    
+    // Calcular la fecha para cada noche de Janucá (del día 1 al 8)
+    const notificationDate = new Date(firstNightDate);
+    notificationDate.setDate(firstNightDate.getDate() + i);
+    notificationDate.setHours(18, 30, 0, 0); // Hora aproximada al caer la noche (ajustable)
+
+    notifications.push({
+      title: `¡Es de noche de Janucá! (${nightData.title.es})`,
+      body: `Esta noche encendemos ${nightData.candles} ${nightData.candles === 1 ? 'vela' : 'velas'}. ¡No olvides las bendiciones!`,
+      id: 6000 + (i + 1), // ID único para las notificaciones de Janucá
+      schedule: { at: notificationDate },
+      sound: 'default',
+    });
+  }
+
+  await LocalNotifications.schedule({ notifications });
 }
