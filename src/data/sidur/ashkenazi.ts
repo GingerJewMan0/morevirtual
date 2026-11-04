@@ -79,7 +79,7 @@ export const ashkenaziSidur: BerajotDayStructure = {
       pt: 'Ao ver um Relâmpago'
     },
       hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, עוֹשֵׂה מַעֲשֵׂה בְרֵאשִׁית.',
-      phonetic: 'Baruch atah Adonai, Eloheinu melech haolam, oseh maaseh bereshit.',
+      phonetic: 'Boruj ato Adonoi, Eloheinu melej hoiolom, oseh maaseh bereishis.',
       translation: {
         es: 'Bendito eres Tú, oh Eterno nuestro Dios, Rey del universo, que hace la obra de la Creación.',
         en: 'Blessed are You, Lord our God, King of the universe, who makes the work of Creation.',
@@ -98,7 +98,7 @@ export const ashkenaziSidur: BerajotDayStructure = {
       pt: 'Ao ouvir um Trovão'
     },
       hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, שֶׁכֹּחוֹ וּגְבוּרָתוֹ מָלֵא עוֹלָם.',
-      phonetic: 'Baruch atah Adonai, Eloheinu melech haolam, shekocho ugvurato maleh olam.',
+      phonetic: 'Boruj ato Adonoi, Eloheinu melej hoiolom, shekocho ugvurato molei olam',
       translation: {
         es: 'Bendito eres Tú, oh Eterno nuestro Dios, Rey del universo, cuyo poder y fuerza llenan el mundo.',
         en: 'Blessed are You, Lord our God, King of the universe, whose power and might fill the world.',
@@ -195,7 +195,7 @@ export const ashkenaziSidur: BerajotDayStructure = {
       pt: 'Boré Miné Mezonot (Massas e Cereais)'
     },
     hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, בּוֹרֵא מִינֵי מְזוֹנוֹת.',
-    phonetic: 'Baruj atá Adonai, Elohenu melej haolam, boré miné mezonot.',
+    phonetic: 'Boruj ato Adonoi, Eloheinu melej hoiolom, borei minei mezonos.',
     translation: {
       es: 'Bendito eres Tú, oh Eterno nuestro Dios, Rey del universo, que creas diversas especies de alimento.',
       en: 'Blessed are You, Lord our God, King of the universe, Who creates various kinds of nourishment.',
@@ -235,7 +235,7 @@ export const ashkenaziSidur: BerajotDayStructure = {
     pt: 'Boré Nefashot (Bênção Final Geral)'
   },
   hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, בּוֹרֵא נְפָשׁוֹת רַבּוֹת וְחֶסְרוֹנָן, עַל כָּל מַה שֶׁבָּרָאתָ לְהַחֲיוֹת בָּהֶם נֶפֶשׁ כָּל חָי, בָּרוּךְ חֵי הָעוֹלָמִים.',
-  phonetic: 'Baruch atah Adonai, Eloheinu melech haolam, borei nefashot rabbot vechesronan, al kol mah shebarata lehachayot bahem nefesh kol chai, baruch chei haolamim.',
+  phonetic: 'Boruj ato Adonoi, Eloheinu melej hoiolom, borei nefashos rabbos vechesronan, al kol mah shebaras lehachayos bahem nefesh kol chai, boruj chei hoiolomim.',
   translation: {
     es: 'Bendito eres Tú, oh Eterno nuestro Dios, Rey del universo, creador de numerosos seres vivos y de sus necesidades, por todo lo que creaste para mantener con ello la vida de todo ser viviente. Bendito es El que vive eternamente.',
     en: 'Blessed are You, Lord our God, King of the universe, Creator of numerous living beings and their needs, for all that You have created to sustain the life of every living soul. Blessed is the Life of the worlds.',

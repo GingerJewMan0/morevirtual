@@ -31,3 +31,51 @@ export interface BerajotDayStructure {
   cuerpo: BerajaItem[];
   'antes_de_dormir'?: BerajaItem[];
 }
+
+//integración tefilim:
+
+export interface TefillinStepContent {
+  es: string;
+  en: string;
+  fr: string;
+  pt: string;
+}
+
+export interface TefillinStep {
+  id: number;
+  title: TefillinStepContent;
+  description: {
+    default: TefillinStepContent;
+    ashkenazi?: TefillinStepContent;
+    sefardi?: TefillinStepContent;
+    jabad?: TefillinStepContent;
+    maguenDavid?: TefillinStepContent;
+    monteSinai?: TefillinStepContent;
+  };
+  imagePlaceholder: string;
+  hasBlessing?: boolean;
+  blessingId?: 'lehaniach' | 'al-mitzvat';
+}
+
+export interface TefillinBlessing {
+  id: 'lehaniach' | 'al-mitzvat';
+  titleHebrew: string;
+  titleSpanish: string;
+  hebrew: string;
+  phonetic: {
+    sefardi: string;
+    ashkenazi: string;
+  };
+  translation: {
+    es: string;
+    en: string;
+    fr: string;
+    pt: string;
+  };
+  note?: {
+    es: string;
+    en: string;
+    fr: string;
+    pt: string;
+  };
+}

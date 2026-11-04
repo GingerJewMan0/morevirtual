@@ -43,6 +43,7 @@ import {
   Trash2,
   MessageCircle,
   Compass,
+  Timer,
 } from 'lucide-react';
 import { ChatMessage, TraditionId, SavedNote } from './types.ts';
 import { TRADITIONS } from './data/traditions.ts';
@@ -71,7 +72,7 @@ import { scheduleShabbatAlert, requestNotificationPermissions } from './utils/no
 import { CompassTab } from './components/CompassTab';
 import { BerajotTab } from './components/BerajotTab';
 import { MeatDairyTab } from './components/MeatDairyTab';
-import { Timer } from 'lucide-react';
+import { TefillinTab } from './components/TefillinTab';
 
 const API_BASE_URL = 'https://rabvirtual.onrender.com';
 
@@ -187,6 +188,25 @@ export function App() {
   const [isRestDay, setIsRestDay] = useState(false);
   const [isChecking, setIsChecking] = useState(true);
 
+  const [selectedCommunity, setSelectedCommunity] = useState<string>(() => {
+    try {
+      return localStorage.getItem('rabino_virtual_community') || 'sefardi';
+    } catch {
+      return 'sefardi';
+    }
+  });
+
+  useEffect(() => {
+    const handleStorage = () => {
+      try {
+        const comm = localStorage.getItem('rabino_virtual_community') || 'sefardi';
+        setSelectedCommunity(comm);
+      } catch {}
+    };
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
+  }, []);
+
   useEffect(() => {
     const verifyShabbat = async (lat: number, lng: number) => {
       const restricted = await checkIsShabbatOrYomTov(lat, lng);
@@ -230,7 +250,7 @@ export function App() {
   }, []);
 
   const [activeMainTab, setActiveMainTab] = useState<
-  'chat' | 'calendar' | 'parasha' | 'giluy_daat' | 'qa' | 'developer' | 'kosher' | 'settings' | 'hebrew_converter' | 'compass' | 'berajot' | 'meat_dairy'
+  'chat' | 'calendar' | 'parasha' | 'giluy_daat' | 'qa' | 'developer' | 'kosher' | 'settings' | 'hebrew_converter' | 'compass' | 'berajot' | 'meat_dairy' | 'tefillin'
 >('chat');
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -738,7 +758,6 @@ export function App() {
 
       let accumulatedContent = '';
 
-      // 🌟 SISTEMA HÍBRIDO BLINDADO: Soporte de Streaming para PC y Fallback para Android / Tablets
       if (response.body && typeof response.body.getReader === 'function') {
         const reader = response.body.getReader();
         const decoder = new TextDecoder('utf-8');
@@ -787,7 +806,6 @@ export function App() {
           }
         }
       } else {
-        // FALLBACK PARA ANDROID / TABLET: Descarga la respuesta completa sin bloquearse en los streams
         const rawText = await response.text();
         const lines = rawText.split('\n');
 
@@ -925,6 +943,13 @@ export function App() {
       icon: ShieldCheck,
       desc: t('tabKosherDesc', 'Directorio global de KMD, OU, OK, Badatz y más'),
       accentColor: 'text-emerald-500',
+    },
+    {
+      id: 'tefillin' as const,
+      label: t('tabTefillin', 'Guía de Tefilín'),
+      icon: Layers,
+      desc: t('tabTefillinDesc', 'Colocación y bendiciones paso a paso por comunidad'),
+      accentColor: 'text-amber-500',
     },
     {
       id: 'meat_dairy' as const,
@@ -1326,6 +1351,13 @@ export function App() {
         {activeMainTab === 'meat_dairy' && <MeatDairyTab t={t} />}
         
         {activeMainTab === 'berajot' && <BerajotTab t={t} />}
+
+        {activeMainTab === 'tefillin' && (
+          <TefillinTab
+            activeLang={activeLangCode as 'es' | 'en' | 'fr' | 'pt'}
+            communityId={selectedCommunity}
+          />
+        )}
 
         {activeMainTab === 'hebrew_converter' && <HebrewDateConverter />}
 
