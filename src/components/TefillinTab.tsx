@@ -80,7 +80,7 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
       en: 'For other communities: Said only if you spoke about irrelevant matters between the hand and head Tefillin.',
       fr: 'Pour les autres communautés : Dit uniquement si vous avez parlé de choses non pertinentes entre le téfilin de la main et celui de la tête.',
       pt: 'Para outras comunidades: Dito apenas se você falou sobre assuntos irrelevantes entre o tefilin da mão e o da cabeça.',
-      he: 'לשאר הקהילות: מברכים רק אם דיברת דברים שאינם קשורים بين תפילין של יד לשל ראש.'
+      he: 'לשאר הקהילות: מברכים רק אם דיברת דברים שאינם קשורים בין תפילין של יד לשל ראש.'
     }
   };
 
@@ -166,15 +166,15 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
           </div>
         </div>
 
-        {/* ================= MODAL DE PANTALLA COMPLETA AJUSTADO ================= */}
+        {/* ================= MODAL DE PANTALLA COMPLETA FLUIDO ================= */}
         {isModalOpen && (
           <div 
-            className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex flex-col items-center justify-center p-3 animate-fade-in"
+            className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex flex-col items-center justify-center p-2 animate-fade-in overflow-hidden"
             onClick={handleCloseModal}
           >
             {/* Barra de herramientas superior flotante */}
             <div 
-              className="flex items-center justify-between gap-3 px-4 py-2 mb-3 bg-slate-900/90 backdrop-blur-md rounded-2xl border border-white/10 shadow-xl max-w-xs w-full shrink-0"
+              className="absolute top-4 z-30 flex items-center justify-between gap-3 px-4 py-2 bg-slate-900/90 backdrop-blur-md rounded-2xl border border-white/10 shadow-xl max-w-xs w-full mx-auto"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center gap-1.5 mx-auto">
@@ -219,13 +219,13 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
               </button>
             </div>
 
-            {/* Contenedor de la imagen perfectamente contenido */}
+            {/* Contenedor de la imagen optimizado para ocupar el espacio de forma natural */}
             <div 
-              className="w-full h-full overflow-auto flex items-center justify-center p-2"
+              className="w-full h-full overflow-auto flex items-center justify-center p-2 pt-16"
               onClick={(e) => e.stopPropagation()}
             >
               <div 
-                className="transition-transform duration-200 ease-out origin-center cursor-grab active:cursor-grabbing inline-block m-auto"
+                className="transition-transform duration-200 ease-out origin-center cursor-grab active:cursor-grabbing inline-flex items-center justify-center m-auto"
                 style={{ transform: `scale(${scale})` }}
                 onClick={() => {
                   setScale((prev) => (prev === 1 ? 2 : 1));
@@ -234,7 +234,7 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
                 <img 
                   src={currentImageSrc} 
                   alt="Tefilín Ampliado"
-                  className="max-w-full max-h-[80vh] w-auto h-auto object-contain select-none mx-auto rounded-lg shadow-2xl block"
+                  className="w-auto h-auto max-w-full max-h-[85vh] object-contain select-none mx-auto rounded-lg shadow-2xl block"
                   draggable={false}
                 />
               </div>
