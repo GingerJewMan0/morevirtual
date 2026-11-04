@@ -105,15 +105,15 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
 
   const currentImageSrc = getImageByLanguage(activeLang);
 
-  // Funciones de control de zoom
+  // Zoom del 25 % al 300 % en incrementos del 25 %.
   const handleZoomIn = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setScale((prev) => Math.min(prev + 0.5, 3));
+    setScale((prev) => Math.min(Math.round((prev + 0.25) * 100) / 100, 3));
   };
 
   const handleZoomOut = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setScale((prev) => Math.max(prev - 0.5, 1));
+    setScale((prev) => Math.max(Math.round((prev - 0.25) * 100) / 100, 0.25));
   };
 
   const handleResetZoom = (e: React.MouseEvent) => {
@@ -197,7 +197,7 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
           >
             <div className="h-16 shrink-0 flex items-center justify-center p-2">
               <div className="flex items-center gap-2 rounded-2xl border border-white/10 bg-slate-900 px-4 py-2 shadow-xl">
-                <button type="button" onClick={handleZoomOut} disabled={scale <= 1}
+                <button type="button" onClick={handleZoomOut} disabled={scale <= 0.25}
                   className="rounded-lg p-2 text-white hover:bg-white/20 disabled:opacity-40" aria-label="Alejar">
                   <ZoomOut className="h-5 w-5" />
                 </button>
