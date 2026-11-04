@@ -166,18 +166,18 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
           </div>
         </div>
 
-        {/* ================= MODAL DE PANTALLA COMPLETA PROPORCIONAL ================= */}
+        {/* ================= MODAL DE PANTALLA COMPLETA PERFECTO ================= */}
         {isModalOpen && (
           <div 
-            className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center animate-fade-in overflow-hidden"
+            className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center animate-fade-in overflow-auto p-4 pt-20"
             onClick={handleCloseModal}
           >
-            {/* Barra de herramientas superior flotante */}
+            {/* Barra de herramientas superior flotante fija */}
             <div 
-              className="absolute top-4 z-30 flex items-center justify-between gap-3 px-4 py-2 bg-slate-900/90 backdrop-blur-md rounded-2xl border border-white/10 shadow-xl"
+              className="fixed top-4 left-1/2 -translate-x-1/2 z-30 flex items-center justify-between gap-3 px-4 py-2 bg-slate-900/90 backdrop-blur-md rounded-2xl border border-white/10 shadow-xl max-w-xs w-full mx-auto"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-1.5 mx-auto">
                 <button
                   onClick={handleZoomOut}
                   disabled={scale <= 1}
@@ -211,7 +211,7 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
               {/* Botón de cierre */}
               <button 
                 onClick={handleCloseModal}
-                className="p-2 rounded-xl bg-red-500/20 hover:bg-red-500/40 text-red-300 transition-colors cursor-pointer"
+                className="p-2 rounded-xl bg-red-500/20 hover:bg-red-500/40 text-red-300 transition-colors cursor-pointer shrink-0"
                 aria-label="Cerrar"
                 title="Cerrar"
               >
@@ -219,13 +219,13 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
               </button>
             </div>
 
-            {/* Contenedor desplazable con proporción real */}
+            {/* Contenedor de la imagen adaptado a la anchura completa con scroll horizontal/vertical natural */}
             <div 
-              className="w-full h-full overflow-auto flex items-center justify-center p-4 pt-20"
+              className="w-full flex items-center justify-center my-auto"
               onClick={(e) => e.stopPropagation()}
             >
               <div 
-                className="transition-transform duration-200 ease-out origin-center cursor-grab active:cursor-grabbing inline-block my-auto"
+                className="transition-transform duration-200 ease-out origin-center cursor-grab active:cursor-grabbing inline-block"
                 style={{ transform: `scale(${scale})` }}
                 onClick={() => {
                   setScale((prev) => (prev === 1 ? 2 : 1));
@@ -234,7 +234,7 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
                 <img 
                   src={currentImageSrc} 
                   alt="Tefilín Ampliado"
-                  className="h-[85vh] w-auto max-w-none object-contain select-none mx-auto rounded-lg shadow-2xl"
+                  className="w-full max-w-5xl h-auto object-contain select-none mx-auto rounded-lg shadow-2xl"
                   draggable={false}
                 />
               </div>
