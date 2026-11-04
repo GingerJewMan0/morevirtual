@@ -389,8 +389,8 @@ const resources = {
       notifHint: "Recibirás una notificación automática al finalizar.",
 
       //Tefilim tab
-      tefillinGuide: 'Guía de Tefilín',
-      tefillinDesc: 'Colocación y bendiciones paso a paso',
+      tabTefillin: 'Guía de Tefilín',
+      tabTefillinDesc: 'Colocación y bendiciones paso a paso',
     }
   },
 
@@ -768,8 +768,8 @@ const resources = {
       notifHint: "תתקבל התראה אוטומטית בסיום.",
 
       //Tefilim tab
-      tefillinGuide: 'מדריך תפילין',
-      tefillinDesc: 'הנחה וברכות שלב אחר שלב',
+      tabTefillin: 'מדריך תפילין',
+      tabTefillinDesc: 'הנחה וברכות שלב אחר שלב',
     }
   },
 
@@ -1146,8 +1146,8 @@ const resources = {
       notifHint: "You will receive an automatic notification when finished.",
 
       //Tefilim tab
-      tefillinGuide: 'Tefillin Guide',
-      tefillinDesc: 'Step-by-step placement and blessings',
+      tabTefillin: 'Tefillin Guide',
+      tabTefillinDesc: 'Step-by-step placement and blessings',
 
     }
   },
@@ -1525,8 +1525,8 @@ const resources = {
       notifHint: "Vous recevrez une notification automatique à la fin.",
 
       //Tefilim tab
-      tefillinGuide: 'Guide des Tefilines',
-      tefillinDesc: 'Placement et bénédictions étape par étape',
+      tabTefillin: 'Guide des Tefilines',
+      tabTefillinDesc: 'Placement et bénédictions étape par étape',
     }
   },
 
@@ -1907,8 +1907,8 @@ const resources = {
       notifHint: "Você receberá uma notificação automática ao terminar.",
 
       //Tefilim tab
-      tefillinGuide: 'Guia de Tefilin',
-      tefillinDesc: 'Colocación e bênçãos passo a passo',
+      tabTefillin: 'Guia de Tefilin',
+      tabTefillinDesc: 'Colocación e bênçãos passo a passo',
 
       
     }
