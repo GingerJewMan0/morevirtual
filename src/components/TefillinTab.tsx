@@ -4,17 +4,15 @@ import { Info, BookOpen } from 'lucide-react';
 
 interface TefillinTabProps {
   activeLang: 'es' | 'en' | 'fr' | 'pt';
-  communityId: string; // Se mantiene por si se usa en otro lado, pero la imagen principal ahora es por idioma
+  communityId: string;
 }
 
 export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityId }) => {
   const isAshkenazi = communityId === 'ashkenazi';
 
-  // Función para obtener la imagen general del idioma con las 5 comunidades
+  // Ruta de la imagen por idioma (.png)
   const getImageByLanguage = (lang: string) => {
-    // Ejemplo de ruta donde guardas tus 5 imágenes generales por idioma:
-    // /assets/tefillin/tefillin_es.jpg, /assets/tefillin/tefillin_en.png, etc.
-    return `/assets/tefillin/tefillin_${lang}.png`
+    return `/assets/tefillin/tefillin_${lang}.png`;
   };
 
   return (
@@ -30,35 +28,32 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
         <p className="text-xs text-slate-600 dark:text-slate-400 max-w-lg mx-auto">
           {activeLang === 'en'
             ? 'Visual guide containing all community traditions.'
-            : activeLang === 'fr'
-            ? 'Guide visuel contenant toutes les traditions des communautés.'
-            : activeLang === 'pt'
-            ? 'Guia visual contendo todas as tradições das comunidades.'
             : 'Guía visual completa con las diferentes tradiciones de las comunidades.'}
         </p>
       </div>
 
-      {/* Tarjeta con la Infografía General del Idioma */}
+      {/* Tarjeta Principal */}
       <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md transition-colors space-y-5">
         
-        {/* Indicador superior del Idioma Activo */}
+        {/* Título de la sección */}
         <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
           <h3 className="text-base font-bold text-slate-800 dark:text-slate-100 capitalize">
-            {activeLang === 'en' ? 'General Guide by Community' : 'Guía General por Comunidad'}
+            {activeLang === 'en' ? 'General Guide by Community' : 'Guía General Por Comunidad'}
           </h3>
           <span className="text-xs font-semibold px-3 py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 uppercase">
             {activeLang}
           </span>
         </div>
 
-        {/* Contenedor de la Imagen General (Cambia según el idioma) */}
-        <div className="w-full bg-slate-100 dark:bg-slate-950/60 rounded-xl border border-slate-300 dark:border-slate-700 overflow-hidden flex items-center justify-center relative shadow-inner">
+        {/* 🖼️ CONTENEDOR DE LA IMAGEN (Asegúrate de que este bloque sí esté presente) */}
+        <div className="w-full bg-slate-100 dark:bg-slate-950/60 rounded-xl border border-slate-300 dark:border-slate-700 overflow-hidden flex items-center justify-center relative shadow-inner min-h-[300px]">
           <img
-            key={activeLang} // Recarga la imagen limpiamente al cambiar de idioma
+            key={activeLang}
             src={getImageByLanguage(activeLang)}
             alt={`Guía de Tefilín - ${activeLang}`}
             className="w-full h-auto max-h-[700px] object-contain p-2"
             onError={(e) => {
+              // Si la imagen falla en cargar, muestra el texto de respaldo abajo
               const target = e.target as HTMLElement;
               target.style.display = 'none';
               if (target.nextElementSibling) {
@@ -67,18 +62,16 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
             }}
           />
           <div className="absolute inset-0 hidden items-center justify-center text-slate-400 bg-slate-950/80 flex-col space-y-2 p-4 text-center">
-            <span className="text-xs font-mono text-amber-400">/assets/tefillin/tefillin_{activeLang}.jpg</span>
+            <span className="text-xs font-mono text-amber-400">/assets/tefillin/tefillin_{activeLang}.png</span>
             <p className="text-[11px] text-slate-300">
-              {activeLang === 'en' 
-                ? `Image for language ${activeLang} not found` 
-                : `Imagen general para el idioma ${activeLang} no encontrada`}
+              Imagen no encontrada en la carpeta public/assets/tefillin/
             </p>
           </div>
         </div>
 
-        {/* Sección de Bendiciones */}
+        {/* SECCIÓN DE BENDICIONES */}
         <div className="space-y-4 pt-2">
-          {/* Bendición de la Mano (Lehaniaj) */}
+          {/* Bendición de la Mano */}
           <div className="p-4 rounded-xl bg-amber-500/10 dark:bg-amber-950/30 border border-amber-500/40 space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wide">
