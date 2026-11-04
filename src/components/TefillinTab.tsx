@@ -166,15 +166,15 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
           </div>
         </div>
 
-        {/* ================= MODAL DE PANTALLA COMPLETA CON ZOOM INTERACTIVO ================= */}
+        {/* ================= MODAL DE PANTALLA COMPLETA OPTIMIZADO ================= */}
         {isModalOpen && (
           <div 
-            className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in overflow-hidden"
+            className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex flex-col items-center justify-center p-2 animate-fade-in overflow-hidden"
             onClick={handleCloseModal}
           >
-            {/* Barra de herramientas flotante superior */}
+            {/* Barra de herramientas superior flotante */}
             <div 
-              className="absolute top-4 right-4 left-4 flex items-center justify-between z-20 px-4 py-2 bg-slate-900/80 backdrop-blur-md rounded-2xl border border-white/10 max-w-md mx-auto"
+              className="absolute top-3 z-30 flex items-center justify-between gap-3 px-4 py-2 bg-slate-900/90 backdrop-blur-md rounded-2xl border border-white/10 shadow-xl"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center gap-1.5">
@@ -186,7 +186,7 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
                 >
                   <ZoomOut className="w-5 h-5" />
                 </button>
-                <span className="text-xs font-mono font-bold text-amber-400 px-2">
+                <span className="text-xs font-mono font-bold text-amber-400 px-2 min-w-[50px] text-center">
                   {Math.round(scale * 100)}%
                 </span>
                 <button
@@ -219,13 +219,13 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
               </button>
             </div>
 
-            {/* Contenedor desplazable con soporte de zoom */}
+            {/* Contenedor principal que maximiza el espacio de la imagen */}
             <div 
-              className="w-full h-full overflow-auto flex items-center justify-center pt-20 pb-6 px-2"
+              className="w-full h-full overflow-auto flex items-center justify-center pt-16 pb-4 px-2"
               onClick={(e) => e.stopPropagation()}
             >
               <div 
-                className="transition-transform duration-200 ease-out origin-center cursor-grab active:cursor-grabbing inline-block"
+                className="transition-transform duration-200 ease-out origin-center cursor-grab active:cursor-grabbing inline-flex items-center justify-center w-full h-full"
                 style={{ transform: `scale(${scale})` }}
                 onClick={() => {
                   setScale((prev) => (prev === 1 ? 2 : 1));
@@ -234,7 +234,7 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
                 <img 
                   src={currentImageSrc} 
                   alt="Tefilín Ampliado"
-                  className="max-w-full max-h-[80vh] object-contain rounded-xl shadow-2xl select-none mx-auto"
+                  className="w-full h-full max-w-full max-h-full object-contain select-none m-auto"
                   draggable={false}
                 />
               </div>
