@@ -166,7 +166,7 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
           </div>
         </div>
 
-        {/* ================= MODAL DE PANTALLA COMPLETA COMPACTO ================= */}
+        {/* ================= MODAL DE PANTALLA COMPLETA ANCHO COMPLETO ================= */}
         {isModalOpen && (
           <div 
             className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex flex-col items-center justify-center p-3 animate-fade-in"
@@ -219,7 +219,7 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
               </button>
             </div>
 
-            {/* Contenedor de la imagen con desplazamiento solo si se hace zoom */}
+            {/* Contenedor de la imagen optimizado para ancho completo */}
             <div 
               className="w-full h-full overflow-auto flex items-center justify-center p-2"
               onClick={(e) => e.stopPropagation()}
@@ -234,7 +234,7 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
                 <img 
                   src={currentImageSrc} 
                   alt="Tefilín Ampliado"
-                  className="w-full max-w-3xl max-h-[75vh] object-contain select-none mx-auto rounded-lg shadow-2xl block"
+                  className="w-[95vw] max-w-none max-h-[75vh] object-contain select-none mx-auto rounded-lg shadow-2xl block"
                   draggable={false}
                 />
               </div>
