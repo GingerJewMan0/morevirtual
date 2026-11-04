@@ -166,44 +166,44 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
           </div>
         </div>
 
-        {/* ================= MODAL DE PANTALLA COMPLETA CON ALTURA OPTIMIZADA ================= */}
+        {/* ================= MODAL DE PANTALLA COMPLETA COMPACTO ================= */}
         {isModalOpen && (
           <div 
-            className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center animate-fade-in overflow-auto p-4 pt-20"
+            className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex flex-col items-center justify-center p-3 animate-fade-in"
             onClick={handleCloseModal}
           >
-            {/* Barra de herramientas superior flotante fija */}
+            {/* Barra de herramientas superior flotante */}
             <div 
-              className="fixed top-4 left-1/2 -translate-x-1/2 z-30 flex items-center justify-between gap-3 px-4 py-2 bg-slate-900/90 backdrop-blur-md rounded-2xl border border-white/10 shadow-xl max-w-xs w-full mx-auto"
+              className="flex items-center justify-between gap-3 px-4 py-2 mb-3 bg-slate-900/90 backdrop-blur-md rounded-2xl border border-white/10 shadow-xl max-w-xs w-full shrink-0"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center gap-1.5 mx-auto">
                 <button
                   onClick={handleZoomOut}
                   disabled={scale <= 1}
-                  className="p-2 rounded-xl bg-white/10 hover:bg-white/20 disabled:opacity-40 text-white transition-colors cursor-pointer"
+                  className="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 disabled:opacity-40 text-white transition-colors cursor-pointer"
                   title="Alejar"
                 >
-                  <ZoomOut className="w-5 h-5" />
+                  <ZoomOut className="w-4 h-4" />
                 </button>
-                <span className="text-xs font-mono font-bold text-amber-400 px-2 min-w-[50px] text-center">
+                <span className="text-xs font-mono font-bold text-amber-400 px-2 min-w-[45px] text-center">
                   {Math.round(scale * 100)}%
                 </span>
                 <button
                   onClick={handleZoomIn}
                   disabled={scale >= 3}
-                  className="p-2 rounded-xl bg-white/10 hover:bg-white/20 disabled:opacity-40 text-white transition-colors cursor-pointer"
+                  className="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 disabled:opacity-40 text-white transition-colors cursor-pointer"
                   title="Acercar"
                 >
-                  <ZoomIn className="w-5 h-5" />
+                  <ZoomIn className="w-4 h-4" />
                 </button>
                 {scale > 1 && (
                   <button
                     onClick={handleResetZoom}
-                    className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-amber-400 transition-colors cursor-pointer ml-1"
+                    className="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-amber-400 transition-colors cursor-pointer ml-1"
                     title="Restablecer zoom"
                   >
-                    <RotateCcw className="w-4 h-4" />
+                    <RotateCcw className="w-3.5 h-3.5" />
                   </button>
                 )}
               </div>
@@ -211,21 +211,21 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
               {/* Botón de cierre */}
               <button 
                 onClick={handleCloseModal}
-                className="p-2 rounded-xl bg-red-500/20 hover:bg-red-500/40 text-red-300 transition-colors cursor-pointer shrink-0"
+                className="p-1.5 rounded-xl bg-red-500/20 hover:bg-red-500/40 text-red-300 transition-colors cursor-pointer shrink-0"
                 aria-label="Cerrar"
                 title="Cerrar"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
-            {/* Contenedor de la imagen con altura máxima controlada (max-h-[70vh]) */}
+            {/* Contenedor de la imagen con desplazamiento solo si se hace zoom */}
             <div 
-              className="w-full flex items-center justify-center my-auto"
+              className="w-full h-full overflow-auto flex items-center justify-center p-2"
               onClick={(e) => e.stopPropagation()}
             >
               <div 
-                className="transition-transform duration-200 ease-out origin-center cursor-grab active:cursor-grabbing inline-block"
+                className="transition-transform duration-200 ease-out origin-center cursor-grab active:cursor-grabbing inline-block m-auto"
                 style={{ transform: `scale(${scale})` }}
                 onClick={() => {
                   setScale((prev) => (prev === 1 ? 2 : 1));
@@ -234,7 +234,7 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
                 <img 
                   src={currentImageSrc} 
                   alt="Tefilín Ampliado"
-                  className="w-full max-w-4xl max-h-[70vh] object-contain select-none mx-auto rounded-lg shadow-2xl"
+                  className="w-full max-w-3xl max-h-[75vh] object-contain select-none mx-auto rounded-lg shadow-2xl block"
                   draggable={false}
                 />
               </div>
