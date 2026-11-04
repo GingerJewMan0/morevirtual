@@ -166,72 +166,80 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
           </div>
         </div>
 
-        {/* ================= MODAL DE PANTALLA COMPLETA PURA ================= */}
+        {/* ================= MODAL DE PANTALLA COMPLETA ROBUSTO CON ZOOM ================= */}
         {isModalOpen && (
           <div 
-            className="fixed inset-0 z-50 bg-black/95"
+            className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex flex-col"
             onClick={handleCloseModal}
           >
-            {/* Controles flotantes absolutamente posicionados (NO empujan la imagen) */}
-            <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[60] flex items-center gap-1.5 bg-slate-900/90 backdrop-blur-md rounded-2xl border border-white/10 shadow-xl px-4 py-2" onClick={e => e.stopPropagation()}>
-              <button
-                onClick={handleZoomOut}
-                disabled={scale <= 1}
-                className="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 disabled:opacity-40 text-white transition-colors cursor-pointer"
-                title="Alejar"
+            {/* Barra superior de controles fija */}
+            <div className="h-16 shrink-0 w-full flex items-center justify-center p-4 relative z-50 pointer-events-none">
+              <div 
+                className="flex items-center gap-1.5 bg-slate-900/90 backdrop-blur-md rounded-2xl border border-white/10 shadow-xl px-4 py-2 pointer-events-auto"
+                onClick={(e) => e.stopPropagation()}
               >
-                <ZoomOut className="w-4 h-4" />
-              </button>
-              <span className="text-xs font-mono font-bold text-amber-400 px-2 min-w-[45px] text-center">
-                {Math.round(scale * 100)}%
-              </span>
-              <button
-                onClick={handleZoomIn}
-                disabled={scale >= 3}
-                className="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 disabled:opacity-40 text-white transition-colors cursor-pointer"
-                title="Acercar"
-              >
-                <ZoomIn className="w-4 h-4" />
-              </button>
-              {scale > 1 && (
                 <button
-                  onClick={handleResetZoom}
-                  className="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-amber-400 transition-colors cursor-pointer ml-1"
-                  title="Restablecer zoom"
+                  onClick={handleZoomOut}
+                  disabled={scale <= 1}
+                  className="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 disabled:opacity-40 text-white transition-colors cursor-pointer"
+                  title="Alejar"
                 >
-                  <RotateCcw className="w-3.5 h-3.5" />
+                  <ZoomOut className="w-4 h-4" />
                 </button>
-              )}
-              
-              <div className="w-px h-5 bg-white/20 mx-1"></div>
+                <span className="text-xs font-mono font-bold text-amber-400 px-2 min-w-[45px] text-center">
+                  {Math.round(scale * 100)}%
+                </span>
+                <button
+                  onClick={handleZoomIn}
+                  disabled={scale >= 3}
+                  className="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 disabled:opacity-40 text-white transition-colors cursor-pointer"
+                  title="Acercar"
+                >
+                  <ZoomIn className="w-4 h-4" />
+                </button>
+                {scale > 1 && (
+                  <button
+                    onClick={handleResetZoom}
+                    className="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-amber-400 transition-colors cursor-pointer ml-1"
+                    title="Restablecer zoom"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" />
+                  </button>
+                )}
+                
+                <div className="w-px h-5 bg-white/20 mx-1"></div>
 
-              <button 
-                onClick={handleCloseModal}
-                className="p-1.5 rounded-xl bg-red-500/20 hover:bg-red-500/40 text-red-300 transition-colors cursor-pointer"
-                aria-label="Cerrar"
-                title="Cerrar"
-              >
-                <X className="w-4 h-4" />
-              </button>
+                <button 
+                  onClick={handleCloseModal}
+                  className="p-1.5 rounded-xl bg-red-500/20 hover:bg-red-500/40 text-red-300 transition-colors cursor-pointer"
+                  aria-label="Cerrar"
+                  title="Cerrar"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
             </div>
 
-            {/* Contenedor principal de la imagen sin márgenes ni padding */}
+            {/* Contenedor con scroll nativo y transform de escala funcional */}
             <div 
-              className="absolute inset-0 z-50 w-full h-full overflow-auto flex items-center justify-center"
-              onClick={(e) => e.stopPropagation()}
+              className="flex-1 w-full overflow-auto flex items-center justify-center p-4"
+              onClick={handleCloseModal}
             >
-              <img 
-                src={currentImageSrc} 
-                alt="Tefilín Ampliado"
-                className="object-contain transition-all duration-200"
-                style={{ 
-                  width: scale === 1 ? '100%' : `${scale * 100}vw`,
-                  height: scale === 1 ? '100%' : `${scale * 100}vh`,
-                  cursor: scale === 1 ? 'zoom-in' : 'zoom-out'
+              <div 
+                className="transition-transform duration-200 ease-out origin-center flex items-center justify-center"
+                style={{ transform: `scale(${scale})` }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setScale((prev) => (prev === 1 ? 2 : 1));
                 }}
-                onClick={() => setScale(prev => prev === 1 ? 2 : 1)}
-                draggable={false}
-              />
+              >
+                <img 
+                  src={currentImageSrc} 
+                  alt="Tefilín Ampliado"
+                  className="max-h-[82vh] w-auto object-contain select-none shadow-2xl rounded-lg block cursor-zoom-in"
+                  draggable={false}
+                />
+              </div>
             </div>
           </div>
         )}
