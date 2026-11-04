@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Timer, Bell, CheckCircle2, RotateCcw, Utensils } from 'lucide-react';
+import { scheduleMeatDairyAlert, cancelMeatDairyAlert } from '../utils/notifications';
 
 interface MeatDairyTabProps {
   t: (key: string, fallback: string) => string;
 }
 
-//const SIX_HOURS_MS = 6 * 60 * 60 * 1000; // 6 Horas en milisegundos
-const SIX_HOURS_MS = 60 * 1000; // 1 minuto
-
+// Para pruebas: 60 segundos. (Cambiar a 6 * 60 * 60 * 1000 para producción)
+const SIX_HOURS_MS = 60 * 1000;
 
 export function MeatDairyTab({ t }: MeatDairyTabProps) {
   const [startTime, setStartTime] = useState<number | null>(null);
@@ -23,7 +23,7 @@ export function MeatDairyTab({ t }: MeatDairyTabProps) {
     }
   }, []);
 
-  // Lógica del conteo regresivo
+  // Lógica del conteo regresivo en pantalla
   useEffect(() => {
     if (!startTime) {
       setTimeLeft(0);
@@ -39,7 +39,6 @@ export function MeatDairyTab({ t }: MeatDairyTabProps) {
       if (remaining <= 0) {
         setTimeLeft(0);
         setIsCompleted(true);
-        sendNotification();
       } else {
         setTimeLeft(remaining);
         setIsCompleted(false);
@@ -52,33 +51,27 @@ export function MeatDairyTab({ t }: MeatDairyTabProps) {
     return () => clearInterval(interval);
   }, [startTime]);
 
-  const requestNotificationPermission = async () => {
-    if ('Notification' in window && Notification.permission !== 'granted') {
-      await Notification.requestPermission();
-    }
-  };
-
-  const sendNotification = () => {
-    if ('Notification' in window && Notification.permission === 'granted') {
-      new Notification(t('timerNotifTitle', '¡Esperas de Carne concluidas! 🥛'), {
-        body: t('timerNotifBody', 'Ha transcurrido el tiempo estipulado (6 horas). Ya puedes consumir alimentos lácteos.'),
-        icon: '/pwa-192x192.png'
-      });
-    }
-  };
-
+  // Iniciar el temporizador y programar la notificación nativa en Android/iOS
   const startTimer = async () => {
-    await requestNotificationPermission();
     const now = Date.now();
     localStorage.setItem('meat_timer_start_time', now.toString());
     setStartTime(now);
+
+    await scheduleMeatDairyAlert(
+      SIX_HOURS_MS,
+      t('timerNotifTitle', '¡Esperas de Carne concluidas! 🥛'),
+      t('timerNotifBody', 'Ha transcurrido el tiempo estipulado (6 horas). Ya puedes consumir alimentos lácteos.')
+    );
   };
 
-  const resetTimer = () => {
+  // Reiniciar el temporizador y cancelar la notificación nativa programada
+  const resetTimer = async () => {
     localStorage.removeItem('meat_timer_start_time');
     setStartTime(null);
     setTimeLeft(0);
     setIsCompleted(false);
+
+    await cancelMeatDairyAlert();
   };
 
   const formatTime = (ms: number) => {
