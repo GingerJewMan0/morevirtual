@@ -80,7 +80,7 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
       en: 'For other communities: Said only if you spoke about irrelevant matters between the hand and head Tefillin.',
       fr: 'Pour les autres communautés : Dit uniquement si vous avez parlé de choses non pertinentes entre le téfilin de la main et celui de la tête.',
       pt: 'Para outras comunidades: Dito apenas se você falou sobre assuntos irrelevantes entre o tefilin da mão e o da cabeça.',
-      he: 'לשאר הקהילות: מברכים רק אם דיברת דברים שאינם קשורים بين תפילין של יד לשל ראש.'
+      he: 'לשאר הקהילות: מברכים רק אם דיברת דברים שאינם קשורים בין תפילין של יד לשל ראש.'
     }
   };
 
@@ -166,27 +166,29 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
           </div>
         </div>
 
-        {/* ================= MODAL DE PANTALLA COMPLETA 100% ANCHO ================= */}
+        {/* ================= MODAL DE PANTALLA COMPLETA 100% FUNCIONAL ================= */}
         {isModalOpen && (
           <div 
-            className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex flex-col items-center justify-center p-2 animate-fade-in overflow-hidden"
+            className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex flex-col items-center justify-center"
             onClick={handleCloseModal}
           >
-            {/* Barra de herramientas superior flotante */}
+            {/* Barra de herramientas fija en la parte superior */}
             <div 
-              className="absolute top-4 z-30 flex items-center justify-between gap-3 px-4 py-2 bg-slate-900/90 backdrop-blur-md rounded-2xl border border-white/10 shadow-xl max-w-xs w-full mx-auto"
-              onClick={(e) => e.stopPropagation()}
+              className="absolute top-4 left-0 w-full flex justify-center z-50 px-4 pointer-events-none"
             >
-              <div className="flex items-center gap-1.5 mx-auto">
+              <div 
+                className="flex items-center gap-2 bg-slate-900/90 backdrop-blur-md rounded-2xl border border-white/10 shadow-xl px-4 py-2 pointer-events-auto"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <button
                   onClick={handleZoomOut}
                   disabled={scale <= 1}
                   className="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 disabled:opacity-40 text-white transition-colors cursor-pointer"
                   title="Alejar"
                 >
-                  <ZoomOut className="w-4 h-4" />
+                  <ZoomOut className="w-5 h-5" />
                 </button>
-                <span className="text-xs font-mono font-bold text-amber-400 px-2 min-w-[45px] text-center">
+                <span className="text-xs font-mono font-bold text-amber-400 min-w-[3rem] text-center">
                   {Math.round(scale * 100)}%
                 </span>
                 <button
@@ -195,46 +197,49 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
                   className="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 disabled:opacity-40 text-white transition-colors cursor-pointer"
                   title="Acercar"
                 >
-                  <ZoomIn className="w-4 h-4" />
+                  <ZoomIn className="w-5 h-5" />
                 </button>
                 {scale > 1 && (
                   <button
                     onClick={handleResetZoom}
-                    className="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-amber-400 transition-colors cursor-pointer ml-1"
+                    className="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-amber-400 transition-colors cursor-pointer"
                     title="Restablecer zoom"
                   >
-                    <RotateCcw className="w-3.5 h-3.5" />
+                    <RotateCcw className="w-4 h-4" />
                   </button>
                 )}
-              </div>
+                
+                {/* Divisor vertical */}
+                <div className="w-px h-6 bg-white/20 mx-1"></div>
 
-              {/* Botón de cierre */}
-              <button 
-                onClick={handleCloseModal}
-                className="p-1.5 rounded-xl bg-red-500/20 hover:bg-red-500/40 text-red-300 transition-colors cursor-pointer shrink-0"
-                aria-label="Cerrar"
-                title="Cerrar"
-              >
-                <X className="w-4 h-4" />
-              </button>
+                <button 
+                  onClick={handleCloseModal}
+                  className="p-1.5 rounded-xl bg-red-500/20 hover:bg-red-500/40 text-red-300 transition-colors cursor-pointer"
+                  aria-label="Cerrar"
+                  title="Cerrar"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
             </div>
 
-            {/* Contenedor con ancho de pantalla completo y scroll horizontal/vertical */}
+            {/* Contenedor fluido para la imagen */}
             <div 
-              className="w-full h-full overflow-auto flex items-center justify-center p-2 pt-16"
+              className="w-full h-full overflow-auto flex items-center justify-center p-4 pt-24 pb-8"
               onClick={(e) => e.stopPropagation()}
             >
               <div 
-                className="transition-transform duration-200 ease-out origin-center cursor-grab active:cursor-grabbing inline-flex items-center justify-center m-auto"
+                className="transition-transform duration-200 ease-out origin-center cursor-grab active:cursor-grabbing flex items-center justify-center"
                 style={{ transform: `scale(${scale})` }}
                 onClick={() => {
                   setScale((prev) => (prev === 1 ? 2 : 1));
                 }}
               >
+                {/* IMAGEN CLAVE CON LÍMITES ESTRICTOS (max-w y max-h) */}
                 <img 
                   src={currentImageSrc} 
                   alt="Tefilín Ampliado"
-                  className="w-screen max-w-none h-auto object-contain select-none mx-auto block"
+                  className="w-auto h-auto max-w-[95vw] max-h-[85vh] object-contain select-none shadow-2xl rounded-xl block"
                   draggable={false}
                 />
               </div>
