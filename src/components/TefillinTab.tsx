@@ -20,7 +20,7 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
     }
   };
 
-  // Textos traducidos para toda la interfaz (incluyendo Hebreo)
+  // Textos traducidos para la interfaz
   const uiTexts = {
     title: {
       es: 'Cómo Colocarse los Tefilín',
@@ -75,7 +75,7 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
       {/* Tarjeta Principal */}
       <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md transition-colors space-y-5">
         
-        {/* Título de la sección traducido */}
+        {/* Título de la sección */}
         <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
           <h3 className="text-base font-bold text-slate-800 dark:text-slate-100 capitalize font-sans">
             {uiTexts.guideTitle[activeLang] || uiTexts.guideTitle.es}
@@ -108,7 +108,7 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
           </div>
         </div>
 
-        {/* SECCIÓN DE BENDICIONES (Mano y Cabeza) */}
+        {/* SECCIÓN DE BENDICIONES */}
         <div className="space-y-4 pt-2">
           
           {/* 1. Bendición de la Mano (Lehaniaj) */}
@@ -122,20 +122,24 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
               </span>
             </div>
 
-            <p className="text-lg text-right font-serif text-slate-900 dark:text-amber-200 leading-loose dir-rtl">
+            <p className="text-xl text-right font-serif text-slate-900 dark:text-amber-200 leading-loose dir-rtl py-1">
               {TEFILLIN_BLESSINGS.lehaniach.hebrew}
             </p>
 
-            <p className={`text-xs italic text-slate-600 dark:text-slate-300 border-t border-amber-500/20 pt-2 ${isHebrew ? 'text-right' : ''}`}>
-              "{isAshkenazi ? TEFILLIN_BLESSINGS.lehaniach.phonetic.ashkenazi : TEFILLIN_BLESSINGS.lehaniach.phonetic.sefardi}"
-            </p>
-
-            <p className={`text-xs text-slate-700 dark:text-slate-400 ${isHebrew ? 'text-right' : ''}`}>
-              {TEFILLIN_BLESSINGS.lehaniach.translation[activeLang === 'he' ? 'es' : activeLang] || TEFILLIN_BLESSINGS.lehaniach.translation.es}
-            </p>
+            {/* Solo se muestra si NO es hebreo */}
+            {!isHebrew && (
+              <>
+                <p className="text-xs italic text-slate-600 dark:text-slate-300 border-t border-amber-500/20 pt-2">
+                  "{isAshkenazi ? TEFILLIN_BLESSINGS.lehaniach.phonetic.ashkenazi : TEFILLIN_BLESSINGS.lehaniach.phonetic.sefardi}"
+                </p>
+                <p className="text-xs text-slate-700 dark:text-slate-400">
+                  {TEFILLIN_BLESSINGS.lehaniach.translation[activeLang] || TEFILLIN_BLESSINGS.lehaniach.translation.es}
+                </p>
+              </>
+            )}
           </div>
 
-          {/* 2. Bendición de la Cabeza (Al Mitzvat - Shel Rosh) */}
+          {/* 2. Bendición de la Cabeza (Al Mitzvat) */}
           <div className="p-4 rounded-xl bg-amber-500/10 dark:bg-amber-950/30 border border-amber-500/40 space-y-3">
             <div className={`flex items-center justify-between ${isHebrew ? 'flex-row-reverse' : ''}`}>
               <span className="text-xs font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wide">
@@ -146,23 +150,26 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
               </span>
             </div>
 
-            <p className="text-lg text-right font-serif text-slate-900 dark:text-amber-200 leading-loose dir-rtl">
+            <p className="text-xl text-right font-serif text-slate-900 dark:text-amber-200 leading-loose dir-rtl py-1">
               {TEFILLIN_BLESSINGS['al-mitzvat'].hebrew}
             </p>
 
-            <p className={`text-xs italic text-slate-600 dark:text-slate-300 border-t border-amber-500/20 pt-2 ${isHebrew ? 'text-right' : ''}`}>
-              "{isAshkenazi ? TEFILLIN_BLESSINGS['al-mitzvat'].phonetic.ashkenazi : TEFILLIN_BLESSINGS['al-mitzvat'].phonetic.sefardi}"
-            </p>
-
-            <p className={`text-xs text-slate-700 dark:text-slate-400 ${isHebrew ? 'text-right' : ''}`}>
-              {TEFILLIN_BLESSINGS['al-mitzvat'].translation[activeLang === 'he' ? 'es' : activeLang] || TEFILLIN_BLESSINGS['al-mitzvat'].translation.es}
-            </p>
-
-            {TEFILLIN_BLESSINGS['al-mitzvat'].note && (
-              <div className={`flex items-start gap-2 text-[11px] text-amber-700 dark:text-amber-300/90 pt-1 ${isHebrew ? 'flex-row-reverse text-right' : ''}`}>
-                <Info className="w-4 h-4 shrink-0 mt-0.5" />
-                <span>{TEFILLIN_BLESSINGS['al-mitzvat'].note[activeLang === 'he' ? 'es' : activeLang] || TEFILLIN_BLESSINGS['al-mitzvat'].note.es}</span>
-              </div>
+            {/* Solo se muestra si NO es hebreo */}
+            {!isHebrew && (
+              <>
+                <p className="text-xs italic text-slate-600 dark:text-slate-300 border-t border-amber-500/20 pt-2">
+                  "{isAshkenazi ? TEFILLIN_BLESSINGS['al-mitzvat'].phonetic.ashkenazi : TEFILLIN_BLESSINGS['al-mitzvat'].phonetic.sefardi}"
+                </p>
+                <p className="text-xs text-slate-700 dark:text-slate-400">
+                  {TEFILLIN_BLESSINGS['al-mitzvat'].translation[activeLang] || TEFILLIN_BLESSINGS['al-mitzvat'].translation.es}
+                </p>
+                {TEFILLIN_BLESSINGS['al-mitzvat'].note && (
+                  <div className="flex items-start gap-2 text-[11px] text-amber-700 dark:text-amber-300/90 pt-1">
+                    <Info className="w-4 h-4 shrink-0 mt-0.5" />
+                    <span>{TEFILLIN_BLESSINGS['al-mitzvat'].note[activeLang] || TEFILLIN_BLESSINGS['al-mitzvat'].note.es}</span>
+                  </div>
+                )}
+              </>
             )}
           </div>
 

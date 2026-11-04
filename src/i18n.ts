@@ -387,6 +387,10 @@ const resources = {
       timerNotifTitle: "¡Esperas de Carne concluidas! 🥛",
       timerNotifBody: "Ha transcurrido el tiempo estipulado (6 horas). Ya puedes consumir alimentos lácteos.",
       notifHint: "Recibirás una notificación automática al finalizar.",
+
+      //Tefilim tab
+      tefillinGuide: 'Guía de Tefilín',
+      tefillinDesc: 'Colocación y bendiciones paso a paso',
     }
   },
 
@@ -762,6 +766,10 @@ const resources = {
       timerNotifTitle: "הסתיימה ההמתנה לבשר! 🥛",
       timerNotifBody: "עברו 6 שעות. כעת ניתן לאכול מאכלי חלב.",
       notifHint: "תתקבל התראה אוטומטית בסיום.",
+
+      //Tefilim tab
+      tefillinGuide: 'מדריך תפילין',
+      tefillinDesc: 'הנחה וברכות שלב אחר שלב',
     }
   },
 
@@ -1136,6 +1144,11 @@ const resources = {
       timerNotifTitle: "Meat Waiting Period Over! 🥛",
       timerNotifBody: "6 hours have passed. You may now consume dairy products.",
       notifHint: "You will receive an automatic notification when finished.",
+
+      //Tefilim tab
+      tefillinGuide: 'Tefillin Guide',
+      tefillinDesc: 'Step-by-step placement and blessings',
+
     }
   },
 
@@ -1510,6 +1523,10 @@ const resources = {
       timerNotifTitle: "Attente Viande Terminée ! 🥛",
       timerNotifBody: "Les 6 heures sont écoulées. Vous pouvez consommer des produits laitiers.",
       notifHint: "Vous recevrez une notification automatique à la fin.",
+
+      //Tefilim tab
+      tefillinGuide: 'Guide des Tefilines',
+      tefillinDesc: 'Placement et bénédictions étape par étape',
     }
   },
 
@@ -1888,6 +1905,11 @@ const resources = {
       timerNotifTitle: "Espera da Carne Concluída! 🥛",
       timerNotifBody: "Passaram-se 6 horas. Você já pode consumir laticínios.",
       notifHint: "Você receberá uma notificação automática ao terminar.",
+
+      //Tefilim tab
+      tefillinGuide: 'Guia de Tefilin',
+      tefillinDesc: 'Colocación e bênçãos passo a passo',
+
       
     }
   }
