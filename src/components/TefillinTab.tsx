@@ -28,7 +28,7 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
       case 'ashkenazi':
         return '/assets/tefillin/ashkenazi.png'; // O la ruta de tu imagen de Ashkenazi
       case 'sefardi':
-        return '/assets/tefillin/sefaradi.png';
+        return '/assets/tefillin/sefaradi.jpg';
       case 'jabad':
         return '/assets/tefillin/jabad.png';
       case 'maguenDavid':
