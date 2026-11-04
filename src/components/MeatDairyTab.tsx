@@ -6,8 +6,7 @@ interface MeatDairyTabProps {
   t: (key: string, fallback: string) => string;
 }
 
-// Para pruebas: 60 segundos. (Cambiar a 6 * 60 * 60 * 1000 para producción)
-const SIX_HOURS_MS = 60 * 1000;
+const SIX_HOURS_MS = 6 * 60 * 60 * 1000; // 6 Horas en milisegundos
 
 export function MeatDairyTab({ t }: MeatDairyTabProps) {
   const [startTime, setStartTime] = useState<number | null>(null);
