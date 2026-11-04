@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { TEFILLIN_BLESSINGS } from '../data/sidur/tefillinData';
 import { Info, BookOpen, ZoomIn, X, ZoomOut, RotateCcw } from 'lucide-react';
 
@@ -84,6 +85,24 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
     }
   };
 
+  // Bloquear el scroll de la página mientras el visor está abierto.
+  useEffect(() => {
+    if (!isModalOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsModalOpen(false);
+        setScale(1);
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [isModalOpen]);
+
   const currentImageSrc = getImageByLanguage(activeLang);
 
   // Funciones de control de zoom
@@ -166,82 +185,58 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
           </div>
         </div>
 
-        {/* ================= MODAL DE PANTALLA COMPLETA ROBUSTO CON ZOOM ================= */}
-        {isModalOpen && (
-          <div 
-            className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex flex-col"
-            onClick={handleCloseModal}
+        {/* Portal: el modal se renderiza directamente en document.body,
+            no dentro de una tarjeta que podría limitar position: fixed. */}
+        {isModalOpen && createPortal(
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label={uiTexts.title[activeLang]}
+            className="fixed inset-0 z-[9999] flex flex-col bg-black/95"
+            style={{ width: '100vw', height: '100dvh' }}
           >
-            {/* Barra superior de controles fija */}
-            <div className="h-16 shrink-0 w-full flex items-center justify-center p-4 relative z-50 pointer-events-none">
-              <div 
-                className="flex items-center gap-1.5 bg-slate-900/90 backdrop-blur-md rounded-2xl border border-white/10 shadow-xl px-4 py-2 pointer-events-auto"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <button
-                  onClick={handleZoomOut}
-                  disabled={scale <= 1}
-                  className="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 disabled:opacity-40 text-white transition-colors cursor-pointer"
-                  title="Alejar"
-                >
-                  <ZoomOut className="w-4 h-4" />
+            <div className="h-16 shrink-0 flex items-center justify-center p-2">
+              <div className="flex items-center gap-2 rounded-2xl border border-white/10 bg-slate-900 px-4 py-2 shadow-xl">
+                <button type="button" onClick={handleZoomOut} disabled={scale <= 1}
+                  className="rounded-lg p-2 text-white hover:bg-white/20 disabled:opacity-40" aria-label="Alejar">
+                  <ZoomOut className="h-5 w-5" />
                 </button>
-                <span className="text-xs font-mono font-bold text-amber-400 px-2 min-w-[45px] text-center">
+                <span className="min-w-[48px] text-center font-mono text-sm font-bold text-amber-400">
                   {Math.round(scale * 100)}%
                 </span>
-                <button
-                  onClick={handleZoomIn}
-                  disabled={scale >= 3}
-                  className="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 disabled:opacity-40 text-white transition-colors cursor-pointer"
-                  title="Acercar"
-                >
-                  <ZoomIn className="w-4 h-4" />
+                <button type="button" onClick={handleZoomIn} disabled={scale >= 3}
+                  className="rounded-lg p-2 text-white hover:bg-white/20 disabled:opacity-40" aria-label="Ampliar">
+                  <ZoomIn className="h-5 w-5" />
                 </button>
-                {scale > 1 && (
-                  <button
-                    onClick={handleResetZoom}
-                    className="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-amber-400 transition-colors cursor-pointer ml-1"
-                    title="Restablecer zoom"
-                  >
-                    <RotateCcw className="w-3.5 h-3.5" />
-                  </button>
-                )}
-                
-                <div className="w-px h-5 bg-white/20 mx-1"></div>
-
-                <button 
-                  onClick={handleCloseModal}
-                  className="p-1.5 rounded-xl bg-red-500/20 hover:bg-red-500/40 text-red-300 transition-colors cursor-pointer"
-                  aria-label="Cerrar"
-                  title="Cerrar"
-                >
-                  <X className="w-4 h-4" />
+                <button type="button" onClick={handleResetZoom}
+                  className="rounded-lg p-2 text-amber-400 hover:bg-white/20" aria-label="Restablecer zoom">
+                  <RotateCcw className="h-4 w-4" />
+                </button>
+                <span className="mx-1 h-5 w-px bg-white/20" />
+                <button type="button" onClick={handleCloseModal}
+                  className="rounded-lg bg-red-500/20 p-2 text-red-300 hover:bg-red-500/40" aria-label="Cerrar">
+                  <X className="h-5 w-5" />
                 </button>
               </div>
             </div>
 
-            {/* Contenedor con scroll nativo y transform de escala funcional */}
-            <div 
-              className="flex-1 w-full overflow-auto flex items-center justify-center p-4"
-              onClick={handleCloseModal}
-            >
-              <div 
-                className="transition-transform duration-200 ease-out origin-center flex items-center justify-center"
-                style={{ transform: `scale(${scale})` }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setScale((prev) => (prev === 1 ? 2 : 1));
-                }}
-              >
-                <img 
-                  src={currentImageSrc} 
-                  alt="Tefilín Ampliado"
-                  className="max-h-[82vh] w-auto object-contain select-none shadow-2xl rounded-lg block cursor-zoom-in"
+            {/* Scroll real en ambos ejes. El tamaño cambia físicamente,
+                evitando recortes causados por transform: scale(). */}
+            <div className="min-h-0 flex-1 overflow-auto overscroll-contain p-4">
+              <div className="flex min-w-full w-max justify-center">
+                <img
+                  src={currentImageSrc}
+                  alt={`Infografía de tefilín - ${activeLang}`}
+                  className="block h-auto max-w-none select-none rounded-lg shadow-2xl"
+                  style={{
+                    width: `${1100 * scale}px`,
+                  }}
                   draggable={false}
                 />
               </div>
             </div>
-          </div>
+          </div>,
+          document.body
         )}
 
         {/* SECCIÓN DE BENDICIONES */}
