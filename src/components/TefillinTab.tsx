@@ -80,7 +80,7 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
       en: 'For other communities: Said only if you spoke about irrelevant matters between the hand and head Tefillin.',
       fr: 'Pour les autres communautés : Dit uniquement si vous avez parlé de choses non pertinentes entre le téfilin de la main et celui de la tête.',
       pt: 'Para outras comunidades: Dito apenas se você falou sobre assuntos irrelevantes entre o tefilin da mão e o da cabeça.',
-      he: 'לשאר הקהילות: מברכים רק אם דיברת דברים שאינם קשורים בין תפילין של יד לשל ראש.'
+      he: 'לשאר הקהילות: מברכים רק אם דיברת דברים שאינם קשורים بين תפילין של יד לשל ראש.'
     }
   };
 
@@ -166,7 +166,7 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
           </div>
         </div>
 
-        {/* ================= MODAL DE PANTALLA COMPLETA ANCHO COMPLETO ================= */}
+        {/* ================= MODAL DE PANTALLA COMPLETA AJUSTADO ================= */}
         {isModalOpen && (
           <div 
             className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex flex-col items-center justify-center p-3 animate-fade-in"
@@ -219,7 +219,7 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
               </button>
             </div>
 
-            {/* Contenedor de la imagen optimizado para ancho completo */}
+            {/* Contenedor de la imagen perfectamente contenido */}
             <div 
               className="w-full h-full overflow-auto flex items-center justify-center p-2"
               onClick={(e) => e.stopPropagation()}
@@ -234,7 +234,7 @@ export const TefillinTab: React.FC<TefillinTabProps> = ({ activeLang, communityI
                 <img 
                   src={currentImageSrc} 
                   alt="Tefilín Ampliado"
-                  className="w-[95vw] max-w-none max-h-[75vh] object-contain select-none mx-auto rounded-lg shadow-2xl block"
+                  className="max-w-full max-h-[80vh] w-auto h-auto object-contain select-none mx-auto rounded-lg shadow-2xl block"
                   draggable={false}
                 />
               </div>
