@@ -147,4 +147,29 @@ export async function scheduleChanukahNotifications(firstNightDate: Date) {
   }
 
   await LocalNotifications.schedule({ notifications });
+
+  //
 }
+const NOTIFICATION_TEXTS = {
+  shabat: {
+    es: { title: '¡Entrada de Shabat!', body: 'Shabat Shalom. Enciende tus velas a tiempo.' },
+    en: { title: 'Shabat Shalom!', body: 'Candle lighting time is approaching.' },
+    fr: { title: 'Entrée de Chabbat !', body: 'Chabbat Shalom. Allumez vos bougies à l\'heure.' },
+    pt: { title: 'Shabat Shalom!', body: 'A hora de acender as velas está chegando.' },
+    he: { title: 'כניסת שבת!', body: 'שבת שלום. הדלק את הנרות בזמן.' }
+  },
+  omer: {
+    es: (day: number) => ({ title: `Cuenta del Omer - Día ${day}`, body: `Es hora de contar el día ${day} del Omer.` }),
+    en: (day: number) => ({ title: `Omer Count - Day ${day}`, body: `It's time to count day ${day} of the Omer.` }),
+    fr: (day: number) => ({ title: `Compte du Omer - Jour ${day}`, body: `Il est temps de compter le jour ${day} du Omer.` }),
+    pt: (day: number) => ({ title: `Contagem do Omer - Dia ${day}`, body: `É hora de contar o dia ${day} do Omer.` }),
+    he: (day: number) => ({ title: `ספירת העומר - יום ${day}`, body: `הגיע הזמן לספור את היום ה-${day} לעומר.` })
+  },
+  chanukah: {
+    es: (candles: number) => ({ title: '¡Noche de Janucá!', body: `Esta noche encendemos ${candles} ${candles === 1 ? 'vela' : 'velas'}.` }),
+    en: (candles: number) => ({ title: 'Chanukah Night!', body: `Tonight we light ${candles} ${candles === 1 ? 'candle' : 'candles'}.` }),
+    fr: (candles: number) => ({ title: 'Nuit de Hanoucca !', body: `Ce soir, nous allumons ${candles} bougie(s).` }),
+    pt: (candles: number) => ({ title: 'Noite de Chanucá!', body: `Hoje à noite acendemos ${candles} vela(s).` }),
+    he: (candles: number) => ({ title: 'נר של חנוכה!', body: `הלילה מדליקים ${candles} נרות.` })
+  }
+};

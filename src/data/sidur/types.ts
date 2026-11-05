@@ -30,6 +30,7 @@ export interface BerajotDayStructure {
   alimentos: BerajaItem[];
   cuerpo: BerajaItem[];
   'antes_de_dormir'?: BerajaItem[];
+  'birkat-hamazon'?: BerajaItem[];
 }
 
 //integración tefilim:

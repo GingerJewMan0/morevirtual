@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BookOpen, Sun, Coffee, Shield, AlertTriangle } from 'lucide-react';
+import { BookOpen, Sun, Coffee, Shield, AlertTriangle, UtensilsCrossed, ScrollText } from 'lucide-react';
 
 import { maguenDavidSidur } from '../data/sidur/maguenDavid';
 import { monteSinaiSidur } from '../data/sidur/monteSinai';
@@ -16,7 +16,7 @@ interface BerajotTabProps {
 
 type Tradition = 'maguen-david' | 'monte-sinai' | 'ashkenazi' | 'sefaradi' | 'jabad';
 type ViewMode = 'hebrew' | 'phonetic' | 'translation';
-type BerajotCategory = 'despertar' | 'cuerpo' | 'alimentos';
+type BerajotCategory = 'despertar' | 'cuerpo' | 'alimentos' | 'birkat-hamazon' | 'berajot-ajronot';
 
 export function BerajotTab({ t, currentLang }: BerajotTabProps) {
   const [selectedTradition, setSelectedTradition] = useState<Tradition>('maguen-david');
@@ -84,7 +84,7 @@ export function BerajotTab({ t, currentLang }: BerajotTabProps) {
   ];
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-100 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 space-y-6 backdrop-blur-md transition-colors duration-300">
+    <div className="max-w-2xl mx-auto p-6 bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-100 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 space-y-6 backdrop-blur-md transition-colors duration-300">
       
       {/* Título de la pestaña */}
       <div className="flex items-center justify-center gap-2 text-amber-600 dark:text-amber-400">
@@ -113,38 +113,30 @@ export function BerajotTab({ t, currentLang }: BerajotTabProps) {
         </select>
       </div>
 
-      {/* Categorías */}
-      <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-        <button 
-          onClick={() => { setActiveCategory('despertar'); setCurrentIndex(0); }} 
-          className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap flex-1 justify-center transition-colors ${
-            activeCategory === 'despertar' 
-              ? 'bg-amber-500 text-slate-950 font-bold shadow-sm' 
-              : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 hover:text-slate-900 dark:hover:text-slate-200'
-          }`}
-        >
-          <Sun className="w-3.5 h-3.5" /> {t('berajotWake', isHebrewLang ? 'ברכות השחר' : 'Al Despertar')}
-        </button>
-        <button 
-          onClick={() => { setActiveCategory('cuerpo'); setCurrentIndex(0); }} 
-          className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap flex-1 justify-center transition-colors ${
-            activeCategory === 'cuerpo' 
-              ? 'bg-amber-500 text-slate-950 font-bold shadow-sm' 
-              : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 hover:text-slate-900 dark:hover:text-slate-200'
-          }`}
-        >
-          <Shield className="w-3.5 h-3.5" /> {t('berajotBody', isHebrewLang ? 'גוף' : 'Cuerpo')}
-        </button>
-        <button 
-          onClick={() => { setActiveCategory('alimentos'); setCurrentIndex(0); }} 
-          className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap flex-1 justify-center transition-colors ${
-            activeCategory === 'alimentos' 
-              ? 'bg-amber-500 text-slate-950 font-bold shadow-sm' 
-              : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 hover:text-slate-900 dark:hover:text-slate-200'
-          }`}
-        >
-          <Coffee className="w-3.5 h-3.5" /> {t('berajotFood', isHebrewLang ? 'מאכלים' : 'Alimentos')}
-        </button>
+      {/* Las cinco secciones, incluidas las bendiciones posteriores a la comida. */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+        {([
+          { id: 'despertar', icon: Sun, key: 'berajotWake', label: { es: 'Al despertar', en: 'Upon waking', fr: 'Au réveil', pt: 'Ao acordar', he: 'ברכות השחר' } },
+          { id: 'cuerpo', icon: Shield, key: 'berajotBody', label: { es: 'Cuerpo', en: 'Body', fr: 'Corps', pt: 'Corpo', he: 'גוף' } },
+          { id: 'alimentos', icon: Coffee, key: 'berajotFood', label: { es: 'Alimentos', en: 'Food', fr: 'Aliments', pt: 'Alimentos', he: 'מאכלים' } },
+          { id: 'birkat-hamazon', icon: UtensilsCrossed, key: 'berajotBirkatHamazon', label: { es: 'Birkat Hamazón', en: 'Birkat Hamazon', fr: 'Birkat Hamazon', pt: 'Birkat Hamazon', he: 'ברכת המזון' } },
+          { id: 'berajot-ajronot', icon: ScrollText, key: 'berajotAjronot', label: { es: 'Berajot Ajronot', en: 'After Blessings', fr: 'Bénédictions finales', pt: 'Bênçãos finais', he: 'ברכות אחרונות' } },
+        ] as const).map(({ id, icon: Icon, key, label }) => (
+          <button
+            key={id}
+            type="button"
+            aria-pressed={activeCategory === id}
+            onClick={() => { setActiveCategory(id); setCurrentIndex(0); }}
+            className={`flex items-center justify-center gap-1.5 px-2 py-2.5 rounded-xl text-[11px] font-semibold text-center transition-colors ${
+              activeCategory === id
+                ? 'bg-amber-500 text-slate-950 font-bold shadow-sm'
+                : 'bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 hover:text-slate-900 dark:hover:text-slate-200'
+            }`}
+          >
+            <Icon className="w-4 h-4 shrink-0" />
+            <span>{t(key, label[activeLang])}</span>
+          </button>
+        ))}
       </div>
 
       {/* Selector de Modos de visualización: Oculto si el idioma es Hebreo */}
@@ -170,7 +162,7 @@ export function BerajotTab({ t, currentLang }: BerajotTabProps) {
 <div className="p-5 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-4 shadow-inner transition-colors">
   
   {/* Encabezado con títulos */}
-  <div className="flex justify-between items-center">
+  <div className="flex flex-wrap justify-between items-center gap-2">
     <span className="text-[10px] bg-amber-500/10 text-amber-700 dark:text-amber-400 px-2 py-0.5 rounded-md font-bold uppercase tracking-wider">
       {currentItem.titleHebrew}
     </span>
@@ -191,19 +183,19 @@ export function BerajotTab({ t, currentLang }: BerajotTabProps) {
   </div>
 )}
 
-        <div className="min-h-[140px] flex items-center justify-center text-center">
+        <div className="min-h-[140px] max-h-[55vh] overflow-y-auto flex items-start justify-center text-center rounded-lg py-2">
           {effectiveViewMode === 'hebrew' && (
-            <p className="text-xl font-serif leading-relaxed text-right text-slate-900 dark:text-slate-100" dir="rtl">
+            <p className="w-full whitespace-pre-line text-xl font-serif leading-loose text-right text-slate-900 dark:text-slate-100" dir="rtl">
               {currentItem.hebrew}
             </p>
           )}
           {effectiveViewMode === 'phonetic' && (
-            <p className="text-sm font-sans italic text-slate-700 dark:text-slate-300 leading-relaxed px-2">
+            <p className="w-full whitespace-pre-line text-sm font-sans italic text-slate-700 dark:text-slate-300 leading-relaxed px-2">
               "{currentItem.phonetic}"
             </p>
           )}
           {effectiveViewMode === 'translation' && (
-            <p className="text-sm font-sans text-slate-800 dark:text-slate-200 leading-relaxed px-2">
+            <p className="w-full whitespace-pre-line text-sm font-sans text-slate-800 dark:text-slate-200 leading-relaxed px-2">
               {currentItem.translation[activeLang as keyof typeof currentItem.translation] || currentItem.translation.es}
             </p>
           )}
@@ -212,7 +204,8 @@ export function BerajotTab({ t, currentLang }: BerajotTabProps) {
         {/* Paginación */}
         <div className="flex justify-between items-center pt-2 border-t border-slate-200 dark:border-slate-800 text-xs">
           <button
-            onClick={() => setCurrentIndex((prev) => (prev > 0 ? prev - 1 : currentList.length - 1))}
+            onClick={() => setCurrentIndex((prev) => (currentList.length ? (prev > 0 ? prev - 1 : currentList.length - 1) : 0))}
+            disabled={currentList.length === 0}
             className="px-3 py-1 bg-slate-200 dark:bg-slate-800 hover:bg-amber-500 hover:text-slate-950 text-slate-700 dark:text-slate-200 rounded-lg font-medium transition-colors cursor-pointer"
           >
             {t('prev', isHebrewLang ? 'הקודם' : 'Anterior')}
@@ -227,7 +220,8 @@ export function BerajotTab({ t, currentLang }: BerajotTabProps) {
           )}
         </span>
           <button
-            onClick={() => setCurrentIndex((prev) => (prev < currentList.length - 1 ? prev + 1 : 0))}
+            onClick={() => setCurrentIndex((prev) => (currentList.length ? (prev < currentList.length - 1 ? prev + 1 : 0) : 0))}
+            disabled={currentList.length === 0}
             className="px-3 py-1 bg-slate-200 dark:bg-slate-800 hover:bg-amber-500 hover:text-slate-950 text-slate-700 dark:text-slate-200 rounded-lg font-medium transition-colors cursor-pointer"
           >
             {t('next', isHebrewLang ? 'הבא' : 'Siguiente')}
