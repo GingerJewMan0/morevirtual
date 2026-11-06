@@ -1,30 +1,19 @@
-// @ts-nocheck
-import * as sefaradiShajarit from './sefaradiShajarit';
-import * as ashkenaziShajarit from './ashkenaziShajarit';
-import * as chabadShajarit from './chabadShajarit';
+import { sefaradiShajarit } from './sefaradiShajarit';
+import { sefaradiMinja } from './sefaradiMinja';
+import { sefaradiArbit } from './sefaradiArbit';
+import { ashkenaziShajarit } from './ashkenaziShajarit';
+import { ashkenaziMinja } from './ashkenaziMinja';
+import { ashkenaziArbit } from './ashkenaziArbit';
+import { chabadShajarit } from './chabadShajarit';
+import { chabadMinja } from './chabadMinja';
+import { chabadArbit } from './chabadArbit';
+import type { TefilahItem } from '../../types';
 
-import * as sefaradiMinja from './sefaradiMinja';
-import * as ashkenaziMinja from './ashkenaziMinja';
-import * as chabadMinja from './chabadMinja';
+export type SupportedNusach = 'sefaradi' | 'ashkenazi' | 'chabad';
+export type SupportedPrayerTime = 'shajarit' | 'minja' | 'arbit';
 
-import * as sefaradiArbit from './sefaradiArbit';
-import * as ashkenaziArbit from './ashkenaziArbit';
-import * as chabadArbit from './chabadArbit';
-
-export const prayerRegistry: Record<string, any> = {
-  sefaradi: {
-    shajarit: sefaradiShajarit.sefaradiShajarit || sefaradiShajarit.default || sefaradiShajarit,
-    minja: sefaradiMinja.sefaradiMinja || sefaradiMinja.default || sefaradiMinja,
-    arbit: sefaradiArbit.sefaradiArbit || sefaradiArbit.default || sefaradiArbit,
-  },
-  ashkenazi: {
-    shajarit: ashkenaziShajarit.ashkenaziShajarit || ashkenaziShajarit.default || ashkenaziShajarit,
-    minja: ashkenaziMinja.ashkenaziMinja || ashkenaziMinja.default || ashkenaziMinja,
-    arbit: ashkenaziArbit.ashkenaziArbit || ashkenaziArbit.default || ashkenaziArbit,
-  },
-  chabad: {
-    shajarit: chabadShajarit.chabadShajarit || chabadShajarit.default || chabadShajarit,
-    minja: chabadMinja.chabadMinja || chabadMinja.default || chabadMinja,
-    arbit: chabadArbit.chabadArbit || chabadArbit.default || chabadArbit,
-  },
+export const prayerRegistry: Record<SupportedNusach, Record<SupportedPrayerTime, TefilahItem[]>> = {
+  sefaradi: { shajarit: sefaradiShajarit, minja: sefaradiMinja, arbit: sefaradiArbit },
+  ashkenazi: { shajarit: ashkenaziShajarit, minja: ashkenaziMinja, arbit: ashkenaziArbit },
+  chabad: { shajarit: chabadShajarit, minja: chabadMinja, arbit: chabadArbit },
 };

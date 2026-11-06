@@ -1,84 +1,135 @@
-import React, { useState } from 'react';
-import { prayerRegistry } from '../data/sidur/prayerRegistry';
-import { NusachType, PrayerTimeType, TefilahItem } from '../types'; // Apunta al types dentro de sidur
+import React, { useMemo, useState } from 'react';
+import { prayerRegistry, type SupportedNusach, type SupportedPrayerTime } from '../data/sidur/prayerRegistry';
+import { getSidurDayInfo } from '../data/sidur/sidurCalendar';
+import type { TefilahItem } from '../types';
+
+type Lang = 'es' | 'en' | 'fr' | 'pt';
+type View = 'all' | 'hebrew' | 'phonetic' | 'translation';
+
+const LANGS: {value: Lang; label: string}[] = [
+  { value: 'es', label: 'Español' },
+  { value: 'en', label: 'English' },
+  { value: 'fr', label: 'Français' },
+  { value: 'pt', label: 'Português (Brasil)' },
+];
+const NUSACH: SupportedNusach[] = ['sefaradi', 'ashkenazi', 'chabad'];
+const TIMES: SupportedPrayerTime[] = ['shajarit', 'minja', 'arbit'];
+const LABELS: Record<SupportedPrayerTime, string> = {
+  shajarit: 'Shajarit', minja: 'Minjá', arbit: 'Arbit',
+};
+
+// Señales de contenido incompleto: no equivalen a una revisión litúrgica.
+function hasEllipsis(value: string | undefined): boolean {
+  return /(?:\.\.\.|…)/u.test(value ?? '');
+}
+function isPossiblyIncomplete(item: TefilahItem): boolean {
+  return hasEllipsis(item.hebrew) || hasEllipsis(item.phonetic) ||
+    Object.values(item.translation || {}).some((v) => hasEllipsis(String(v)));
+}
+// Solo clasifica lo explícitamente marcado por nombre: nunca infiere requisitos halájicos.
+function needsMinyan(item: TefilahItem): boolean {
+  return /kaddish|kadish|קדיש|barkhu|bareju|ברכו|kedusha|kedushá|קדושה/i.test(
+    `${item.id} ${item.titleSpanish} ${item.titleHebrew}`
+  );
+}
 
 export const PrayerScreen: React.FC = () => {
-  // Estados para controlar el rito seleccionado y el tiempo de oración
-  const [selectedNusach, setSelectedNusach] = useState<NusachType>('sefaradi');
-  const [selectedTime, setSelectedTime] = useState<PrayerTimeType>('shajarit');
-  
-  // Idioma actual de la interfaz ('es' | 'en' | 'fr' | 'pt')
-  const [currentLang, setCurrentLang] = useState<'es' | 'en' | 'fr' | 'pt'>('es');
+  const [nusach, setNusach] = useState<SupportedNusach>('sefaradi');
+  const [time, setTime] = useState<SupportedPrayerTime>('shajarit');
+  const [lang, setLang] = useState<Lang>('es');
+  const [view, setView] = useState<View>('all');
+  const [query, setQuery] = useState('');
+  const [minyan, setMinyan] = useState(false);
+  const [showIncomplete, setShowIncomplete] = useState(true);
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+  const [size, setSize] = useState(26);
+  const [manualReview, setManualReview] = useState(false);
+  const dateInfo = getSidurDayInfo();
 
-  // Obtenemos la lista de rezos correspondiente
-  const currentPrayers: TefilahItem[] = prayerRegistry[selectedNusach][selectedTime];
+  const available = prayerRegistry[nusach]?.[time] ?? [];
+  const prayers = useMemo(() => available.filter((p) => {
+    if (!minyan && needsMinyan(p)) return false;
+    if (!showIncomplete && isPossiblyIncomplete(p)) return false;
+    const haystack = `${p.titleSpanish} ${p.titleHebrew} ${p.title?.[lang] ?? ''} ${p.phonetic}`.toLocaleLowerCase();
+    return haystack.includes(query.trim().toLocaleLowerCase());
+  }), [available, lang, query, minyan, showIncomplete]);
 
   return (
-    <div className="p-4 max-w-2xl mx-auto">
-      {/* 1. Selector de Rito (Nusach) */}
-      <div className="flex gap-2 mb-4 justify-center">
-        {(['sefaradi', 'ashkenazi', 'chabad'] as NusachType[]).map((nusach) => (
-          <button
-            key={nusach}
-            onClick={() => setSelectedNusach(nusach)}
-            className={`px-4 py-2 rounded-lg font-semibold capitalize transition-all ${
-              selectedNusach === nusach
-                ? 'bg-blue-600 text-white shadow-md'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
-          >
-            {nusach}
-          </button>
-        ))}
+    <main className="mx-auto max-w-4xl p-4 text-gray-900">
+      <h1 className="text-2xl font-bold">Sidur · Rabino Virtual</h1>
+      <p className="mt-1 text-sm text-gray-600">{dateInfo.hebrewDate} · {dateInfo.civilDate}</p>
+      <div className="my-4 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-950">
+        {dateInfo.isShabbat
+          ? 'Hoy es sábado civil. Este módulo no incluye servicios especiales de Shabat.'
+          : 'Sidur de días laborables. La fecha hebrea mostrada no sustituye un calendario halájico: el cambio de día ocurre al anochecer.'}
+        {' '}No se calculan automáticamente inserciones estacionales, Rosh Jodesh, festividades ni omisiones de Tajanún.
       </div>
-
-      {/* 2. Selector de Tiempo de Oración (Shajarit, Minja, Arbit) */}
-      <div className="flex gap-2 mb-6 justify-center">
-        {(['shajarit', 'minja', 'arbit'] as PrayerTimeType[]).map((time) => (
-          <button
-            key={time}
-            onClick={() => setSelectedTime(time)}
-            className={`px-4 py-2 rounded-md capitalize text-sm transition-all ${
-              selectedTime === time
-                ? 'bg-indigo-700 text-white'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-            }`}
-          >
-            {time}
-          </button>
-        ))}
+      <div className="grid gap-3 sm:grid-cols-2">
+        <label className="text-sm font-medium">Comunidad
+          <select aria-label="Comunidad" className="mt-1 w-full rounded border p-2" value={nusach}
+            onChange={(e) => setNusach(e.target.value as SupportedNusach)}>
+            {NUSACH.map((n) => <option key={n} value={n}>{n === 'chabad' ? 'Jabad' : n === 'sefaradi' ? 'Sefaradí' : 'Ashkenazi'}</option>)}
+          </select>
+        </label>
+        <label className="text-sm font-medium">Servicio
+          <select aria-label="Servicio" className="mt-1 w-full rounded border p-2" value={time}
+            onChange={(e) => setTime(e.target.value as SupportedPrayerTime)}>
+            {TIMES.map((t) => <option key={t} value={t}>{LABELS[t]}</option>)}
+          </select>
+        </label>
+        <label className="text-sm font-medium">Idioma
+          <select aria-label="Idioma" className="mt-1 w-full rounded border p-2" value={lang}
+            onChange={(e) => setLang(e.target.value as Lang)}>
+            {LANGS.map((l) => <option key={l.value} value={l.value}>{l.label}</option>)}
+          </select>
+        </label>
+        <label className="text-sm font-medium">Lectura
+          <select aria-label="Lectura" className="mt-1 w-full rounded border p-2" value={view}
+            onChange={(e) => setView(e.target.value as View)}>
+            <option value="all">Hebreo + fonética + traducción</option>
+            <option value="hebrew">Solo hebreo</option>
+            <option value="phonetic">Hebreo + fonética</option>
+            <option value="translation">Hebreo + traducción</option>
+          </select>
+        </label>
       </div>
-
-      {/* 3. Contenedor de las Tarjetas de Rezo */}
-      <div className="space-y-6">
-        {currentPrayers.map((item) => (
-          <div key={item.id} className="bg-white p-5 rounded-xl shadow-md border border-gray-100">
-            {/* Título de la sección */}
-            <h3 className="text-lg font-bold text-gray-800 mb-2">
-              {item.title[currentLang] || item.titleSpanish}
-            </h3>
-
-            {/* Texto en Hebreo con alineación RTL obligatoria */}
-            <div 
-              dir="rtl" 
-              className="text-2xl font-serif text-right my-3 text-gray-900 leading-relaxed"
-            >
-              {item.hebrew}
-            </div>
-
-            {/* Fonética (opcional / útil para lectura rápida) */}
-            <p className="text-sm italic text-gray-500 mb-2">
-              <span className="font-semibold not-italic text-gray-600">Fonética:</span> {item.phonetic}
-            </p>
-
-            {/* Traducción en el idioma seleccionado */}
-            <div className="text-sm text-gray-700 bg-gray-50 p-3 rounded-lg border-l-4 border-blue-500">
-              <span className="font-semibold block text-xs text-gray-500 uppercase mb-1">Traducción</span>
-              {item.translation[currentLang] || item.translation.es}
-            </div>
-          </div>
-        ))}
+      <div className="mt-4 flex flex-wrap items-center gap-4 text-sm">
+        <label className="inline-flex items-center gap-2"><input type="checkbox" checked={minyan} onChange={(e) => setMinyan(e.target.checked)}/>Estoy rezando con minián</label>
+        <label className="inline-flex items-center gap-2"><input type="checkbox" checked={showIncomplete} onChange={(e) => setShowIncomplete(e.target.checked)}/>Mostrar textos pendientes de revisión</label>
+        <label className="inline-flex items-center gap-2"><input type="checkbox" checked={manualReview} onChange={(e) => setManualReview(e.target.checked)}/>Mostrar recordatorio de calendario</label>
       </div>
-    </div>
+      {manualReview && <p role="status" className="mt-2 rounded border p-3 text-sm">Comprueba manualmente Tajanún, Rosh Jodesh, inserciones estacionales, ayunos y hora halájica local antes de rezar. La aplicación aún no determina esas variantes automáticamente.</p>}
+      <div className="mt-4 flex flex-wrap items-end gap-3">
+        <label className="min-w-44 flex-1 text-sm">Buscar oración
+          <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Shemá, Amidá, קדיש..." className="mt-1 w-full rounded border p-2"/>
+        </label>
+        <button type="button" className="rounded border px-3 py-2" onClick={() => setSize((v) => Math.max(18, v - 2))} aria-label="Reducir texto hebreo">A−</button>
+        <button type="button" className="rounded border px-3 py-2" onClick={() => setSize((v) => Math.min(42, v + 2))} aria-label="Aumentar texto hebreo">A+</button>
+      </div>
+      <p className="my-3 text-sm text-gray-500">{prayers.length} secciones visibles · {available.length} en el archivo actual</p>
+      {prayers.length === 0 && <p className="rounded border p-4">No hay oraciones que coincidan con los filtros.</p>}
+      <div className="space-y-4">
+        {prayers.map((p, index) => {
+          const key = `${nusach}-${time}-${p.id}-${index}`;
+          const incomplete = isPossiblyIncomplete(p);
+          const isExpanded = expanded[key] !== false;
+          return <section key={key} className="rounded-xl border bg-white p-4 shadow-sm">
+            <button type="button" className="flex w-full items-center justify-between gap-4 text-left" aria-expanded={isExpanded}
+              onClick={() => setExpanded((prev) => ({ ...prev, [key]: !isExpanded }))}>
+              <span className="font-semibold">{p.title?.[lang] || p.titleSpanish} <span lang="he" dir="rtl" className="font-normal text-gray-500">({p.titleHebrew})</span></span>
+              <span aria-hidden="true">{isExpanded ? '−' : '+'}</span>
+            </button>
+            {incomplete && <p className="mt-2 text-xs font-semibold text-amber-700">Texto o traducción incompletos: comprobar con el Sidur original.</p>}
+            {needsMinyan(p) && <p className="mt-2 text-xs text-blue-700">Sección marcada como asociada a minián; confirmar el contexto litúrgico.</p>}
+            {isExpanded && <div className="mt-4 space-y-4">
+              <div dir="rtl" lang="he" style={{ fontSize: `${size}px`, whiteSpace: 'pre-wrap', lineHeight: 1.9, unicodeBidi: 'plaintext' }} className="text-right font-serif">{p.hebrew}</div>
+              {(view === 'all' || view === 'phonetic') && <div className="whitespace-pre-wrap border-t pt-3 text-base italic text-gray-700"><strong className="not-italic">Fonética</strong><p className="mt-1">{p.phonetic}</p></div>}
+              {(view === 'all' || view === 'translation') && <div className="whitespace-pre-wrap rounded-lg bg-gray-50 p-3 text-base"><strong>Traducción</strong><p className="mt-1">{p.translation?.[lang] || p.translation?.es || 'Traducción no disponible'}</p></div>}
+            </div>}
+          </section>;
+        })}
+      </div>
+      <p className="mt-6 text-xs text-gray-500">Versión de desarrollo: las oraciones incompletas o las variantes de calendario no deben utilizarse como guía litúrgica definitiva.</p>
+    </main>
   );
 };
