@@ -73,6 +73,7 @@ import { CompassTab } from './components/CompassTab';
 import { BerajotTab } from './components/BerajotTab';
 import { MeatDairyTab } from './components/MeatDairyTab';
 import { TefillinTab } from './components/TefillinTab';
+import { PrayerScreen } from './components/PrayerScreen';
 
 const API_BASE_URL = 'https://rabvirtual.onrender.com';
 
@@ -250,7 +251,7 @@ export function App() {
   }, []);
 
   const [activeMainTab, setActiveMainTab] = useState<
-  'chat' | 'calendar' | 'parasha' | 'giluy_daat' | 'qa' | 'developer' | 'kosher' | 'settings' | 'hebrew_converter' | 'compass' | 'berajot' | 'meat_dairy' | 'tefillin'
+  'chat' | 'calendar' | 'parasha' | 'giluy_daat' | 'qa' | 'developer' | 'kosher' | 'settings' | 'hebrew_converter' | 'compass' | 'berajot' | 'meat_dairy' | 'tefillin' | 'sidur'
 >('chat');
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -973,6 +974,13 @@ export function App() {
       accentColor: 'text-amber-600',
     },
     {
+      id: 'sidur' as const,
+      label: t('tabSidur', 'Sidur Diario'),
+      icon: BookOpen,
+      desc: t('tabSidurDesc', 'Shajarit, Minja y Arbit (Sefaradí, Ashkenazi y Jabad)'),
+      accentColor: 'text-amber-600',
+    },
+    {
       id: 'berajot' as const,
       label: t('menuBerajotTitle', 'Berajot Cotidianas'),
       icon: BookOpen,
@@ -1351,6 +1359,8 @@ export function App() {
         {activeMainTab === 'meat_dairy' && <MeatDairyTab t={t} />}
         
         {activeMainTab === 'berajot' && <BerajotTab t={t} />}
+
+        {activeMainTab === 'sidur' && <PrayerScreen />}
 
         {activeMainTab === 'tefillin' && (
           <TefillinTab
