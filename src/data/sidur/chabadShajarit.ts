@@ -144,8 +144,8 @@ export const chabadShajarit: TefilahItem[] = [
       fr: 'L\'Amida de Shacharit (Nusach Ari)',
       pt: 'A Amidá de Shacharit (Nusach Ari)'
     },
-    hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ وَأֱלֹהֵי אֲבוֹתֵינוּ, אֱלֹהֵי אַבְרָהָם, אֱלֹהֵי יִצְחָק وَأֱלֹהֵי יַעֲקֹב...',
-    phonetic: 'Baruj atá Adonai Eloheinu veilohֵi avoteinu, Elohei Avraham, Elohei Yitzjak veiElohei Yaakov...',
+    hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ וֱֵלֹהֵי אֲבוֹתֵינוּ, אֱלֹהֵי אַבְרָהָם, אֱלֹהֵי יִצְחָק וֱֵלֹהֵי יַעֲקֹב...',
+    phonetic: 'Baruj atá Adonai Eloheinu veilohei avoteinu, Elohei Avraham, Elohei Yitzjak veiElohei Yaakov...',
     translation: {
       es: 'Bendito eres Tú, Eterno nuestro Dios y Dios de nuestros padres, Dios de Abraham, Dios de Isaac y Dios de Jacob...',
       en: 'Blessed are You, Adonai our God and God of our fathers, God of Abraham, God of Isaac, and God of Jacob...',

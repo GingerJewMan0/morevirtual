@@ -11,7 +11,7 @@ export const sefaradiArbit: TefilahItem[] = [
       fr: 'Kriat Shema et Bénédictions du Soir',
       pt: 'Kriat Shemá e Bênçãos da Noite'
     },
-    hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, אֲשֶׁר בִּדְBَرَوِ مַعْرِيب عَرَبִים...',
+    hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, אֲשֶׁר בִּדְבָרוֹ מַעֲרִיב עֲרָבִים...',
     phonetic: 'Baruj atá Adonai Eloheinu melej haolam, asher bidvar maariv aravim...',
     translation: {
       es: 'Bendito eres Tú, Eterno nuestro Dios, Rey del universo, que con Tu palabra haces llegar las tardes...',
@@ -49,7 +49,7 @@ export const sefaradiArbit: TefilahItem[] = [
       fr: 'Alenu Leshabea\'h',
       pt: 'Alenu Leshabeaj'
     },
-    hebrew: 'עָלֵינוּ לְשַׁבֵּחַ לَأَدُونَ هَكֹل...',
+    hebrew: 'עָלֵינוּ לְשַׁבֵּחַ לַאֲדוֹן הַכֹּל...',
     phonetic: 'Aleinu leshabeaj laadon hakol...',
     translation: {
       es: 'Nuestro deber es alabar al Señor de todo, exaltar al Creador del universo...',

@@ -11,7 +11,7 @@ export const chabadArbit: TefilahItem[] = [
       fr: 'Kriat Shema et Bénédictions du Soir (Nusach Ari)',
       pt: 'Kriat Shemá e Bênçãos da Noite (Nusach Ari)'
     },
-    hebrew: 'וְהוּא רَحُوم يُكَفِّر عَوُن وَلֹא يَرْشَح...',
+    hebrew: 'וְהוּא רַחוּם יְכַפֵּר עָוֹן וְלֹא יַשְׁחִית...',
     phonetic: 'Vehu rahum yecafér avon...',
     translation: {
       es: 'Y Él, misericordioso, perdona el pecado... (Nusach Ari)',
@@ -30,7 +30,7 @@ export const chabadArbit: TefilahItem[] = [
       fr: 'L\'Amida de Maariv (Nusach Ari)',
       pt: 'A Amidá de Arvit (Nusach Ari)'
     },
-    hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ وֵאלֹהֵי אֲבוֹתֵינוּ, אֱלֹהֵי אַבְרָהָם, אֱלֹהֵי יִצְחָק وֵאלֹהֵי יַעֲקֹב.',
+    hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ וֵאלֹהֵי אֲבוֹתֵינוּ, אֱלֹהֵי אַבְרָהָם, אֱלֹהֵי יִצְחָק וֵאלֹהֵי יַעֲקֹב.',
     phonetic: 'Baruj atá Adonai Eloheinu veilohēi avoteinu, Elohei Avraham, Elohei Yitzjak veiElohei Yaakov.',
     translation: {
       es: 'Bendito eres Tú, Eterno nuestro Dios y Dios de nuestros padres, Dios de Abraham, Dios de Isaac y Dios de Jacob (Nusach Ari)...',
@@ -49,7 +49,7 @@ export const chabadArbit: TefilahItem[] = [
       fr: 'Alenu Leshabea\'h',
       pt: 'Alenu Leshabeaj'
     },
-    hebrew: 'עָלֵינוּ לְשַׁבֵּחַ لَأَدُونَ هَكֹل...',
+    hebrew: 'עָלֵינוּ לְשַׁבֵּחַ לַאֲדוֹן הַכֹּל...',
     phonetic: 'Aleinu leshabeaj laadon hakol...',
     translation: {
       es: 'Nuestro deber es alabar al Señor de todo...',

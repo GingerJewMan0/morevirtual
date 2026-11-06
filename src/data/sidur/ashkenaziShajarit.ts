@@ -145,7 +145,7 @@ export const ashkenaziShajarit: TefilahItem[] = [
       pt: 'A Amidá de Shacharit'
     },
     hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ וֵאלֹהֵי אֲבוֹתֵינוּ, אֱלֹהֵי אַבְרָהָם, אֱלֹהֵי יִצְחָק וֵאלֹהֵי יַעֲקֹב.',
-    phonetic: 'Baruj atá Adonai Eloheinu veilohֵi avoteinu, Elohei Avraham, Elohei Yitzjak veiElohei Yaakov...',
+    phonetic: 'Baruj atá Adonai Eloheinu veilohei avoteinu, Elohei Avraham, Elohei Yitzjak veiElohei Yaakov...',
     translation: {
       es: 'Bendito eres Tú, Eterno nuestro Dios y Dios de nuestros padres, Dios de Abraham, Dios de Isaac y Dios de Jacob...',
       en: 'Blessed are You, Adonai our God and God of our fathers, God of Abraham, God of Isaac, and God of Jacob...',

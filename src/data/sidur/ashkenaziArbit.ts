@@ -3,7 +3,7 @@ import { TefilahItem } from '../../types';
 export const ashkenaziArbit: TefilahItem[] = [
   {
     id: 'shema-arbit',
-    titleHebrew: 'קריאת שמע وברכותיה (ערבית)',
+    titleHebrew: 'קריאת שמע וברכותיה (ערבית)',
     titleSpanish: 'Kriat Shemá y Berajot de la Noche (Ashkenaz)',
     title: {
       es: 'Kriat Shemá y Berajot de la Noche (Ashkenaz)',
@@ -11,7 +11,7 @@ export const ashkenaziArbit: TefilahItem[] = [
       fr: 'Kriat Shema et Bénédictions du Soir (Ashkenaz)',
       pt: 'Kriat Shemá e Bênçãos da Noite (Ashkenaz)'
     },
-    hebrew: 'وَهُو رَحُوم يُكَفِّر عَوْن وَلֹא يَرْشَح...',
+    hebrew: 'וְהוּא רַחוּם יְכַפֵּר עָוֹן וְלֹא יַשְׁחִית...',
     phonetic: 'Vehu rahum yecafér avon velo yashjit...',
     translation: {
       es: 'Y Él, misericordioso, perdona el pecado y no destruye...',
@@ -30,7 +30,7 @@ export const ashkenaziArbit: TefilahItem[] = [
       fr: 'L\'Amida de Maariv (Ashkenaz)',
       pt: 'A Amidá de Arvit (Ashkenaz)'
     },
-    hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ وֵאלֹהֵי אֲבוֹתֵינוּ, אֱלֹהֵי אַבְרָהָם, אֱלֹהֵי יִצְחָק وֵאלֹהֵי יַעֲקֹב.',
+    hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ וֵאלֹהֵי אֲבוֹתֵינוּ, אֱלֹהֵי אַבְרָהָם, אֱלֹהֵי יִצְחָק וֵאלֹהֵי יַעֲקֹב.',
     phonetic: 'Baruj atá Adonai Eloheinu veilohēi avoteinu, Elohei Avraham, Elohei Yitzjak veiElohei Yaakov.',
     translation: {
       es: 'Bendito eres Tú, Eterno nuestro Dios y Dios de nuestros padres, Dios de Abraham, Dios de Isaac y Dios de Jacob...',
@@ -49,7 +49,7 @@ export const ashkenaziArbit: TefilahItem[] = [
       fr: 'Alenu Leshabea\'h',
       pt: 'Alenu Leshabeaj'
     },
-    hebrew: 'עָלֵינוּ לְשַׁבֵּחַ לَأَدُونَ هَكֹل...',
+    hebrew: 'עָלֵינוּ לְשַׁבֵּחַ לַאֲדוֹן הַכֹּל...',
     phonetic: 'Aleinu leshabeaj laadon hakol...',
     translation: {
       es: 'Nuestro deber es alabar al Señor de todo...',

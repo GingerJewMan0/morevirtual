@@ -49,7 +49,7 @@ export const ashkenaziMinja: TefilahItem[] = [
       fr: 'Alenu Leshabea\'h',
       pt: 'Alenu Leshabeaj'
     },
-    hebrew: 'עָלֵינוּ לְשַׁבֵּחַ لَأَدُونَ هَكֹل...',
+    hebrew: 'עָלֵינוּ לְשַׁבֵּחַ לַאֲדוֹן הַכֹּל...',
     phonetic: 'Aleinu leshabeaj laadon hakol...',
     translation: {
       es: 'Nuestro deber es alabar al Señor de todo...',
