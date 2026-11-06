@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { prayerRegistry } from '../data/sidur/prayerRegistry'; // Sube una carpeta y entra a data/sidur
-import { NusachType, PrayerTimeType, TefilahItem } from '../data/sidur/types'; // Apunta al types dentro de sidur
+import { prayerRegistry } from '../data/prayerRegistry'; // Sube una carpeta y entra a data/sidur
+import { NusachType, PrayerTimeType, TefilahItem } from '../types'; // Apunta al types dentro de sidur
 
 export const PrayerScreen: React.FC = () => {
   // Estados para controlar el rito seleccionado y el tiempo de oración
