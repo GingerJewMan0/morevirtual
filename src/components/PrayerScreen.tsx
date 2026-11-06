@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { prayerRegistry } from '../data/Sidur/prayerRegistry';
+import { prayerRegistry } from '../data/prayerRegistry';
 import { NusachType, PrayerTimeType, TefilahItem } from '../types'; // Apunta al types dentro de sidur
 
 export const PrayerScreen: React.FC = () => {
