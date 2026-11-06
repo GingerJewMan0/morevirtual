@@ -55,36 +55,36 @@ export const PrayerScreen: React.FC = () => {
   }), [available, lang, query, minyan, showIncomplete]);
 
   return (
-    <main className="mx-auto max-w-4xl p-4 text-gray-900">
+    <main className="mx-auto min-h-screen max-w-4xl rounded-xl bg-white p-4 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
       <h1 className="text-2xl font-bold">Sidur · Rabino Virtual</h1>
-      <p className="mt-1 text-sm text-gray-600">{dateInfo.hebrewDate} · {dateInfo.civilDate}</p>
-      <div className="my-4 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-950">
+      <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{dateInfo.hebrewDate} · {dateInfo.civilDate}</p>
+      <div className="my-4 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-950 dark:border-amber-500/50 dark:bg-amber-950 dark:text-amber-100">
         {dateInfo.isShabbat
           ? 'Hoy es sábado civil. Este módulo no incluye servicios especiales de Shabat.'
           : 'Sidur de días laborables. La fecha hebrea mostrada no sustituye un calendario halájico: el cambio de día ocurre al anochecer.'}
         {' '}No se calculan automáticamente inserciones estacionales, Rosh Jodesh, festividades ni omisiones de Tajanún.
       </div>
       <div className="grid gap-3 sm:grid-cols-2">
-        <label className="text-sm font-medium">Comunidad
-          <select aria-label="Comunidad" className="mt-1 w-full rounded border p-2" value={nusach}
+        <label className="text-sm font-medium text-slate-800 dark:text-slate-200">Comunidad
+          <select aria-label="Comunidad" className="mt-1 block w-full rounded-lg border border-slate-300 bg-white p-2.5 text-slate-900 shadow-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:[color-scheme:dark]" value={nusach}
             onChange={(e) => setNusach(e.target.value as SupportedNusach)}>
             {NUSACH.map((n) => <option key={n} value={n}>{n === 'chabad' ? 'Jabad' : n === 'sefaradi' ? 'Sefaradí' : 'Ashkenazi'}</option>)}
           </select>
         </label>
-        <label className="text-sm font-medium">Servicio
-          <select aria-label="Servicio" className="mt-1 w-full rounded border p-2" value={time}
+        <label className="text-sm font-medium text-slate-800 dark:text-slate-200">Servicio
+          <select aria-label="Servicio" className="mt-1 block w-full rounded-lg border border-slate-300 bg-white p-2.5 text-slate-900 shadow-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:[color-scheme:dark]" value={time}
             onChange={(e) => setTime(e.target.value as SupportedPrayerTime)}>
             {TIMES.map((t) => <option key={t} value={t}>{LABELS[t]}</option>)}
           </select>
         </label>
-        <label className="text-sm font-medium">Idioma
-          <select aria-label="Idioma" className="mt-1 w-full rounded border p-2" value={lang}
+        <label className="text-sm font-medium text-slate-800 dark:text-slate-200">Idioma
+          <select aria-label="Idioma" className="mt-1 block w-full rounded-lg border border-slate-300 bg-white p-2.5 text-slate-900 shadow-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:[color-scheme:dark]" value={lang}
             onChange={(e) => setLang(e.target.value as Lang)}>
             {LANGS.map((l) => <option key={l.value} value={l.value}>{l.label}</option>)}
           </select>
         </label>
-        <label className="text-sm font-medium">Lectura
-          <select aria-label="Lectura" className="mt-1 w-full rounded border p-2" value={view}
+        <label className="text-sm font-medium text-slate-800 dark:text-slate-200">Lectura
+          <select aria-label="Lectura" className="mt-1 block w-full rounded-lg border border-slate-300 bg-white p-2.5 text-slate-900 shadow-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:[color-scheme:dark]" value={view}
             onChange={(e) => setView(e.target.value as View)}>
             <option value="all">Hebreo + fonética + traducción</option>
             <option value="hebrew">Solo hebreo</option>
@@ -93,43 +93,43 @@ export const PrayerScreen: React.FC = () => {
           </select>
         </label>
       </div>
-      <div className="mt-4 flex flex-wrap items-center gap-4 text-sm">
-        <label className="inline-flex items-center gap-2"><input type="checkbox" checked={minyan} onChange={(e) => setMinyan(e.target.checked)}/>Estoy rezando con minián</label>
-        <label className="inline-flex items-center gap-2"><input type="checkbox" checked={showIncomplete} onChange={(e) => setShowIncomplete(e.target.checked)}/>Mostrar textos pendientes de revisión</label>
-        <label className="inline-flex items-center gap-2"><input type="checkbox" checked={manualReview} onChange={(e) => setManualReview(e.target.checked)}/>Mostrar recordatorio de calendario</label>
+      <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-slate-800 dark:text-slate-200">
+        <label className="inline-flex items-center gap-2"><input type="checkbox" className="h-4 w-4 accent-blue-600 dark:accent-blue-400" checked={minyan} onChange={(e) => setMinyan(e.target.checked)}/>Estoy rezando con minián</label>
+        <label className="inline-flex items-center gap-2"><input type="checkbox" className="h-4 w-4 accent-blue-600 dark:accent-blue-400" checked={showIncomplete} onChange={(e) => setShowIncomplete(e.target.checked)}/>Mostrar textos pendientes de revisión</label>
+        <label className="inline-flex items-center gap-2"><input type="checkbox" className="h-4 w-4 accent-blue-600 dark:accent-blue-400" checked={manualReview} onChange={(e) => setManualReview(e.target.checked)}/>Mostrar recordatorio de calendario</label>
       </div>
-      {manualReview && <p role="status" className="mt-2 rounded border p-3 text-sm">Comprueba manualmente Tajanún, Rosh Jodesh, inserciones estacionales, ayunos y hora halájica local antes de rezar. La aplicación aún no determina esas variantes automáticamente.</p>}
+      {manualReview && <p role="status" className="mt-2 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-950 dark:border-amber-600/50 dark:bg-amber-950/70 dark:text-amber-100">Comprueba manualmente Tajanún, Rosh Jodesh, inserciones estacionales, ayunos y hora halájica local antes de rezar. La aplicación aún no determina esas variantes automáticamente.</p>}
       <div className="mt-4 flex flex-wrap items-end gap-3">
-        <label className="min-w-44 flex-1 text-sm">Buscar oración
-          <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Shemá, Amidá, קדיש..." className="mt-1 w-full rounded border p-2"/>
+        <label className="min-w-44 flex-1 text-sm text-slate-800 dark:text-slate-200">Buscar oración
+          <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Shemá, Amidá, קדיש..." className="mt-1 block w-full rounded-lg border border-slate-300 bg-white p-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-400"/>
         </label>
-        <button type="button" className="rounded border px-3 py-2" onClick={() => setSize((v) => Math.max(18, v - 2))} aria-label="Reducir texto hebreo">A−</button>
-        <button type="button" className="rounded border px-3 py-2" onClick={() => setSize((v) => Math.min(42, v + 2))} aria-label="Aumentar texto hebreo">A+</button>
+        <button type="button" className="rounded-lg border border-slate-300 bg-slate-100 px-3 py-2 font-medium text-slate-900 hover:bg-slate-200 focus-visible:ring-2 focus-visible:ring-blue-500 dark:border-slate-600 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700" onClick={() => setSize((v) => Math.max(18, v - 2))} aria-label="Reducir texto hebreo">A−</button>
+        <button type="button" className="rounded-lg border border-slate-300 bg-slate-100 px-3 py-2 font-medium text-slate-900 hover:bg-slate-200 focus-visible:ring-2 focus-visible:ring-blue-500 dark:border-slate-600 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700" onClick={() => setSize((v) => Math.min(42, v + 2))} aria-label="Aumentar texto hebreo">A+</button>
       </div>
-      <p className="my-3 text-sm text-gray-500">{prayers.length} secciones visibles · {available.length} en el archivo actual</p>
-      {prayers.length === 0 && <p className="rounded border p-4">No hay oraciones que coincidan con los filtros.</p>}
+      <p className="my-3 text-sm text-slate-500 dark:text-slate-400">{prayers.length} secciones visibles · {available.length} en el archivo actual</p>
+      {prayers.length === 0 && <p className="rounded-lg border border-slate-300 bg-slate-50 p-4 text-slate-800 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200">No hay oraciones que coincidan con los filtros.</p>}
       <div className="space-y-4">
         {prayers.map((p, index) => {
           const key = `${nusach}-${time}-${p.id}-${index}`;
           const incomplete = isPossiblyIncomplete(p);
           const isExpanded = expanded[key] !== false;
-          return <section key={key} className="rounded-xl border bg-white p-4 shadow-sm">
-            <button type="button" className="flex w-full items-center justify-between gap-4 text-left" aria-expanded={isExpanded}
+          return <section key={key} className="rounded-xl border border-slate-200 bg-white p-4 text-slate-900 shadow-sm dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
+            <button type="button" className="flex w-full items-center justify-between gap-4 rounded text-left text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:text-slate-100" aria-expanded={isExpanded}
               onClick={() => setExpanded((prev) => ({ ...prev, [key]: !isExpanded }))}>
-              <span className="font-semibold">{p.title?.[lang] || p.titleSpanish} <span lang="he" dir="rtl" className="font-normal text-gray-500">({p.titleHebrew})</span></span>
+              <span className="font-semibold">{p.title?.[lang] || p.titleSpanish} <span lang="he" dir="rtl" className="font-normal text-slate-500 dark:text-slate-400">({p.titleHebrew})</span></span>
               <span aria-hidden="true">{isExpanded ? '−' : '+'}</span>
             </button>
-            {incomplete && <p className="mt-2 text-xs font-semibold text-amber-700">Texto o traducción incompletos: comprobar con el Sidur original.</p>}
-            {needsMinyan(p) && <p className="mt-2 text-xs text-blue-700">Sección marcada como asociada a minián; confirmar el contexto litúrgico.</p>}
+            {incomplete && <p className="mt-2 text-xs font-semibold text-amber-700 dark:text-amber-300">Texto o traducción incompletos: comprobar con el Sidur original.</p>}
+            {needsMinyan(p) && <p className="mt-2 text-xs text-blue-700 dark:text-blue-300">Sección marcada como asociada a minián; confirmar el contexto litúrgico.</p>}
             {isExpanded && <div className="mt-4 space-y-4">
-              <div dir="rtl" lang="he" style={{ fontSize: `${size}px`, whiteSpace: 'pre-wrap', lineHeight: 1.9, unicodeBidi: 'plaintext' }} className="text-right font-serif">{p.hebrew}</div>
-              {(view === 'all' || view === 'phonetic') && <div className="whitespace-pre-wrap border-t pt-3 text-base italic text-gray-700"><strong className="not-italic">Fonética</strong><p className="mt-1">{p.phonetic}</p></div>}
-              {(view === 'all' || view === 'translation') && <div className="whitespace-pre-wrap rounded-lg bg-gray-50 p-3 text-base"><strong>Traducción</strong><p className="mt-1">{p.translation?.[lang] || p.translation?.es || 'Traducción no disponible'}</p></div>}
+              <div dir="rtl" lang="he" style={{ fontSize: `${size}px`, whiteSpace: 'pre-wrap', lineHeight: 1.9, unicodeBidi: 'plaintext' }} className="text-right font-serif text-slate-950 dark:text-slate-50">{p.hebrew}</div>
+              {(view === 'all' || view === 'phonetic') && <div className="whitespace-pre-wrap border-t border-slate-200 pt-3 text-base italic text-slate-700 dark:border-slate-700 dark:text-slate-200"><strong className="not-italic">Fonética</strong><p className="mt-1">{p.phonetic}</p></div>}
+              {(view === 'all' || view === 'translation') && <div className="whitespace-pre-wrap rounded-lg bg-slate-50 p-3 text-base text-slate-800 dark:bg-slate-800 dark:text-slate-100"><strong>Traducción</strong><p className="mt-1">{p.translation?.[lang] || p.translation?.es || 'Traducción no disponible'}</p></div>}
             </div>}
           </section>;
         })}
       </div>
-      <p className="mt-6 text-xs text-gray-500">Versión de desarrollo: las oraciones incompletas o las variantes de calendario no deben utilizarse como guía litúrgica definitiva.</p>
+      <p className="mt-6 text-xs text-slate-500 dark:text-slate-400">Versión de desarrollo: las oraciones incompletas o las variantes de calendario no deben utilizarse como guía litúrgica definitiva.</p>
     </main>
   );
 };
