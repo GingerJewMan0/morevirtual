@@ -1,4 +1,4 @@
-import { TefilahItem } from './types';
+import { TefilahItem } from '../../types';
 
 export const chabadArbit: TefilahItem[] = [
   {

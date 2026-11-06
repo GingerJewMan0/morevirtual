@@ -1,24 +1,24 @@
-import { BerajotDayStructure } from './types';
+import { BerajotDayStructure } from '../../types';
 
-export const jabadSidur: BerajotDayStructure & { 'berajot-ajronot': BerajotDayStructure['alimentos'] } = {
+export const sefaradiSidur: BerajotDayStructure & { 'berajot-ajronot': BerajotDayStructure['alimentos'] } = {
   despertar: [
     {
       id: 'mode-ani',
       titleHebrew: 'מודה אני',
-      titleSpanish: 'Modé Aní (Nusaj Ari / Jabad)',
+      titleSpanish: 'Modé Aní (Al Despertar)',
       title: {
       es: 'Modé Aní (Al Despertar)',
       en: 'Modeh Ani (Upon Waking)',
       fr: 'Modé Ani (Au Réveil)',
       pt: 'Modé Ani (Ao Acordar)'
     },
-      hebrew: 'מוֹדֶה (נָשִׁים: מוֹדָה) אֲנִי לְפָנֶיךָ מֶלֶךְ חַי וְקַיָּם, שֶׁהֶחֱזַרְתָּ בִּי נִשְׁמָתִי בְּחֶמְלָה. רַבָּה אֱמוּנָתֶךָ.',
-      phonetic: 'Modé aní (mujeres: Modá aní) lefanéja mélej jai vekayam, shehejezarta bi nishmatí bejemlá. Rabá emunateja.',
+      hebrew: 'מוֹדֶה (נָשִׁים: מוֹדָה) אֲנִי לְפָנֶיךָ מֶלֶךְ חַי וְקַיָּם, שֶׁהֶחֱזַרְתָּ בִּי נִשְׁמָתִי בְּחֶמְלָה, רַבָּה אֱמוּנָתֶךָ.',
+      phonetic: 'Modé aní (mujeres: Modá aní) lefanéja mélej jai vekayam, shehejezarta bi nishmatí bejemlá, rabá emunateja.',
       translation: {
-        es: 'Rindo gracias ante Ti (mujeres: Modá aní), oh Rey vivo y existente, que me has devuelto el alma con compasión. Grande es Tu fidelidad.',
-        en: 'I offer thanks before You, living and eternal King, for You have mercifully restored my soul within me. Great is Your faithfulness.',
-        fr: 'Je Te rends grâce, Roi vivant et éternel, de m\'avoir restitué mon âme avec compassion. Grande est Ta fidélité.',
-        pt: 'Rendo graças perante Ti, Rei vivo e existente, que me restituíste a alma com compaixão. Grande é a Tua fidelidade.'
+        es: 'Te doy gracias (mujeres: Modá aní), oh Eterno Rey viviente y eterno, porque me has devuelto mi alma con misericordia; grande es Tu fidelidad.',
+        en: 'I offer thanks before You, living and eternal King, for You have mercifully restored my soul within me; Your faithfulness is great.',
+        fr: 'Je Te rends grâce, Roi vivant et éternel, de m\'avoir restitué mon âme avec compassion ; grande est Ta fidélité.',
+        pt: 'Dou-Te graças, Rei vivo e eterno, porque restituíste a minha alma com misericórdia; grande é a Tua fidelidade.'
       }
     },
     {
@@ -32,7 +32,7 @@ export const jabadSidur: BerajotDayStructure & { 'berajot-ajronot': BerajotDaySt
       pt: 'Netilat Yadaim (Lavagem das Mãos)'
     },
       hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, אֲשֶׁר קִדְּשָׁנוּ בְּמִצְוֹתָיו, וְצִוָּנוּ עַל נְטִילַת יָדַיִם.',
-      phonetic: 'Baruj atá A-do-nai, Elo-henu melej haolam, asher kideshanu bemitzvotav, vetzivanu al netilat yadaim.',
+      phonetic: 'Baruj atá Adonai, Elohenu melej haolam, asher kideshanu bemitzvotav, vetzivanu al netilat yadaim.',
       translation: {
         es: 'Bendito eres Tú, oh Eterno nuestro Dios, Rey del universo, que nos santificó con Sus preceptos y nos ordenó el lavado de las manos.',
         en: 'Blessed are You, Lord our God, King of the universe, who has sanctified us with His commandments, and commanded us concerning the washing of the hands.',
@@ -53,14 +53,14 @@ export const jabadSidur: BerajotDayStructure & { 'berajot-ajronot': BerajotDaySt
       pt: 'Asher Yatzar (Depois de usar o banheiro)'
     },
       warning: {
-      es: '⚠️ Recitar fuera del baño y con las manos lavadas.',
-      en: '⚠️ Recite outside the bathroom after washing hands.',
-      fr: '⚠️ À réciter hors de la salle de bain et après lavage des mains.',
-      pt: '⚠️ Recitar fora do banheiro e com as mãos lavadas.',
-      he: '⚠️ יש לברך מחוץ לחדר הנוחיות ולאחר נטילת ידיים.'
-    },
+        es: '⚠️ Recitar fuera del baño y con las manos lavadas.',
+        en: '⚠️ Recite outside the bathroom after washing hands.',
+        fr: '⚠️ À réciter hors de la salle de bain et après lavage des mains.',
+        pt: '⚠️ Recitar fora do banheiro e com as mãos lavadas.',
+        he: '⚠️ יש לברך מחוץ לחדר הנוחיות ולאחר נטילת ידיים.'
+      },
       hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, אֲשֶׁר יָצַר אֶת הָאָדָם בְּחָכְמָה...',
-      phonetic: 'Baruj atá A-do-nai, Elo-henu melej haolam, asher yatzar et haadam bejojmá...',
+      phonetic: 'Baruj atá Adonai, Elohenu melej haolam, asher yatzar et haadam bejojmá...',
       translation: {
         es: 'Bendito eres Tú, oh Eterno nuestro Dios, Rey del universo, que formaste al hombre con sabiduría...',
         en: 'Blessed are You, Lord our God, King of the universe, who formed man with wisdom...',
@@ -119,7 +119,7 @@ export const jabadSidur: BerajotDayStructure & { 'berajot-ajronot': BerajotDaySt
       pt: 'Hamotzi Lechem (Sobre o Pão)'
     },
       hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, הַמוֹצִיא לֶחֶם מִן הָאָרֶץ.',
-      phonetic: 'Baruj atá A-do-nai, Elo-henu melej haolam, hamotzi lejem min haaretz.',
+      phonetic: 'Baruj atá Adonai, Elohenu melej haolam, hamotzi lejem min haaretz.',
       translation: {
         es: 'Bendito eres Tú, oh Eterno nuestro Dios, Rey del universo, que sacas el pan de la tierra.',
         en: 'Blessed are You, Lord our God, King of the universe, who brings forth bread from the earth.',
@@ -138,7 +138,7 @@ export const jabadSidur: BerajotDayStructure & { 'berajot-ajronot': BerajotDaySt
       pt: 'Shehakol Nihiyá Bidvaró (Bebidas e Geral)'
     },
       hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, שֶׁהַכֹּל נִהְיֶה בִּדְבָרוֹ.',
-      phonetic: 'Baruj atá A-do-nai, Elo-henu melej haolam, shehakol niheyá bidvaró.',
+      phonetic: 'Baruj atá Adonai, Elohenu melej haolam, shehakol niheyá bidvaró.',
       translation: {
         es: 'Bendito eres Tú, oh Eterno nuestro Dios, Rey del universo, por cuya palabra todo fue creado.',
         en: 'Blessed are You, Lord our God, King of the universe, through whose word everything comes to be.',
@@ -157,7 +157,7 @@ export const jabadSidur: BerajotDayStructure & { 'berajot-ajronot': BerajotDaySt
       pt: 'Boré Peri Haetz (Frutas da Árvore)'
     },
       hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, בּוֹרֵא פְּרִי הָעֵץ.',
-      phonetic: 'Baruj atá A-do-nai, Elo-henu melej haolam, boré peri haetz.',
+      phonetic: 'Baruj atá Adonai, Elohenu melej haolam, boré peri haetz.',
       translation: {
         es: 'Bendito eres Tú, oh Eterno nuestro Dios, Rey del universo, que creas el fruto del árbol.',
         en: 'Blessed are You, Lord our God, King of the universe, who creates the fruit of the tree.',
@@ -176,7 +176,7 @@ export const jabadSidur: BerajotDayStructure & { 'berajot-ajronot': BerajotDaySt
       pt: 'Boré Peri Haadamá (Vegetais e Frutos da Terra)'
     },
       hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, בּוֹרֵא פְּרִי הָאֲדָמָה.',
-      phonetic: 'Baruj atá A-do-nai, Elo-henu melej haolam, boré peri haadamá.',
+      phonetic: 'Baruj atá Adonai, Elohenu melej haolam, boré peri haadamá.',
       translation: {
         es: 'Bendito eres Tú, oh Eterno nuestro Dios, Rey del universo, que creas el fruto de la tierra.',
         en: 'Blessed are You, Lord our God, King of the universe, who creates the fruit of the earth.',
@@ -185,43 +185,43 @@ export const jabadSidur: BerajotDayStructure & { 'berajot-ajronot': BerajotDaySt
       }
     },
     {
-    id: 'mezonot',
-    titleHebrew: 'בּוֹרֵא מִינֵי מְזוֹנוֹת',
-    titleSpanish: 'Boré Miné Mezonot (Pastas y Harinas)',
-    title: {
-      es: 'Boré Miné Mezonot (Pastas y Harinas)',
-      en: 'Borei Minei Mezonot (Grains & Pastries)',
-      fr: 'Boré Miné Mezonot (Pâtisseries et Céréales)',
-      pt: 'Boré Miné Mezonot (Massas e Cereais)'
+      id: 'mezonot',
+      titleHebrew: 'בּוֹרֵא מִינֵי מְזוֹנוֹת',
+      titleSpanish: 'Boré Miné Mezonot (Pastas y Harinas)',
+      title: {
+        es: 'Boré Miné Mezonot (Pastas y Harinas)',
+        en: 'Borei Minei Mezonot (Grains & Pastries)',
+        fr: 'Boré Miné Mezonot (Pâtisseries et Céréales)',
+        pt: 'Boré Miné Mezonot (Massas e Cereais)'
+      },
+      hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, בּוֹרֵא מִינֵי מְזוֹנוֹת.',
+      phonetic: 'Baruj atá Adonai, Elohenu melej haolam, boré miné mezonot.',
+      translation: {
+        es: 'Bendito eres Tú, oh Eterno nuestro Dios, Rey del universo, que creas diversas especies de alimento.',
+        en: 'Blessed are You, Lord our God, King of the universe, Who creates various kinds of nourishment.',
+        fr: 'Béni soit Tu, Éternel notre Dieu, Roi de l\'univers, Qui créas diverses sortes de nourritures.',
+        pt: 'Bendito és Tu, Senhor nosso Deus, Rei do universo, que crias diversas espécies de alimento.'
+      }
     },
-    hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, בּוֹרֵא מִינֵי מְזוֹנוֹת.',
-    phonetic: 'Baruj atá Adonai, Elohenu melej haolam, boré miné mezonot.',
-    translation: {
-      es: 'Bendito eres Tú, oh Eterno nuestro Dios, Rey del universo, que creas diversas especies de alimento.',
-      en: 'Blessed are You, Lord our God, King of the universe, Who creates various kinds of nourishment.',
-      fr: 'Béni soit Tu, Éternel notre Dieu, Roi de l\'univers, Qui créas diverses sortes de nourritures.',
-      pt: 'Bendito és Tu, Senhor nosso Deus, Rei do universo, que crias diversas espécies de alimento.'
-    }
-  },
     {
       id: 'bore-hagefen',
       titleHebrew: 'בורא פרי הגפן',
       titleSpanish: 'Bore Peri Hagefen',
+      hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, בּוֹרֵא פְּרִי הַגָּפֶן.',
       title: {
       es: 'Boré Perí Hagefen (Sobre el Vino)',
       en: 'Borei Peri Hagefen (Over Wine)',
       fr: 'Boré Peri Hagefen (Sur le Vin)',
       pt: 'Boré Peri Hagefen (Sobre o Vinho)'
     },
-      hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, בּוֹרֵא פְּרִי הַגָּפֶן.',
-      phonetic: 'Baruj atá A-do-nai, Elo-henu melej haolam, boré peri hagefen.',
+      phonetic: 'Baruj atá Adonai, Elohenu melej haolam, boré peri hagefen.',
       translation: {
         es: 'Bendito eres Tú, oh Eterno nuestro Dios, Rey del universo, que creas el fruto de la vid.',
         en: 'Blessed are You, Lord our God, King of the universe, who creates the fruit of the vine.',
         fr: 'Béni soit Tu, Éternel notre Dieu, Roi de l’univers, qui crées le fruit de la vigne.',
         pt: 'Bendito és Tu, Senhor nosso Deus, Rei do universo, que crias o fruto da videira.'
       }
-    },
+    }
   ],
   antes_de_dormir: [],
   'birkat-hamazon': [
@@ -332,24 +332,24 @@ export const jabadSidur: BerajotDayStructure & { 'berajot-ajronot': BerajotDaySt
 ],
   'berajot-ajronot': [
 {
-    id: 'bore-nefashot',
-    titleHebrew: 'בּוֹרֵא נְפָשׁוֹת',
-    titleSpanish: 'Boré Nefashot (Nusaj Ari / Jabad)',
-    title: {
-      es: 'Boré Nefashot (Nusaj Ari / Jabad)',
-      en: 'Borei Nefashot (Nusach Ari / Chabad)',
-      fr: 'Boré Nefachot (Noussakh Ari / Habad)',
-      pt: 'Boré Nefashot (Nusach Ari / Chabad)'
+      id: 'bore-nefashot',
+      titleHebrew: 'בּוֹרֵא נְפָשׁוֹת',
+      titleSpanish: 'Boré Nefashot (Bendición Final General)',
+      title: {
+        es: 'Boré Nefashot (Bendición Final General)',
+        en: 'Borei Nefashot (After Blessing for General Food)',
+        fr: 'Boré Nefachot (Bénédiction Finale Générale)',
+        pt: 'Boré Nefashot (Bênção Final Geral)'
+      },
+      hebrew: 'בָּרוּךְ אַתָּה ה\' אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, בּוֹרֵא נְפָשׁוֹת רַבּוֹת וְחֶסְרוֹנָן, עַל כָּל מַה שֶׁבָּרָאתָ לְהַחֲיוֹת בָּהֶם נֶפֶשׁ כָּל חָי, בָּרוּךְ חֵי הָעוֹלָמִים.',
+      phonetic: 'Baruj atá Adonai, Elohenu melej haolam, boré nefashot rabot vejessronan, al kol ma shebarata lehajayot bahem nefesh kol jai, baruj jei haolamim.',
+      translation: {
+        es: 'Bendito eres Tú, oh Eterno nuestro Dios, Rey del universo, creador de numerosos seres vivos y de sus necesidades, por todo lo que creaste para mantener con ello la vida de todo ser viviente. Bendito es El que vive eternamente.',
+        en: 'Blessed are You, Lord our God, King of the universe, Creator of numerous living beings and their needs, for all that You have created to sustain the life of every living soul. Blessed is the Life of the worlds.',
+        fr: 'Béni soit Tu, Éternel notre Dieu, Roi de l\'univers, Créateur de nombreux êtres vivants et de leurs besoins, pour tout ce que Tu as créé afin de maintenir la vie de tout être vivant. Béni soit Le Vivant des mondes.',
+        pt: 'Bendito és Tu, Senhor nosso Deus, Rei do universo, Criador de numerosos seres vivos e de suas necessidades, por tudo o que criaste para sustentar a vida de todo ser vivo. Bendito seja Aquele que vive eternamente.'
+      }
     },
-    hebrew: 'בָּרוּךְ אַתָּה אֲדֹנָי אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם, בּוֹרֵא נְפָשׁוֹת רַבּוֹת וְחֶסְרוֹנָן, עַל כָּל מַה שֶׁבָּרָאתָ לְהַחֲיוֹת בָּהֶם נֶפֶשׁ כָּל חָי, בָּרוּךְ חֵי הָעוֹלָמִים.',
-    phonetic: 'Baruj atá Adonai, Elohenu melej haolam, boré nefashot rabot vejessronan, al kol ma shebarata lehajayot bahem nefesh kol jai, baruj jei haolamim.',
-    translation: {
-      es: 'Bendito eres Tú, Adonai Dios nuestro, Rey del universo, creador de numerosos seres vivos y de sus necesidades, por todo lo que creaste para mantener con ello la vida de todo ser viviente. Bendito es El que vive eternamente.',
-      en: 'Blessed are You, L-rd our G-d, King of the universe, Creator of numerous living beings and their needs, for all that You have created to sustain the life of every living soul. Blessed is the Life of the worlds.',
-      fr: 'Béni soit Tu, Éternel notre Dieu, Roi de l\'univers, Créateur de nombreux êtres vivants et de leurs besoins, pour tout ce que Tu as créé afin de maintenir la vie de tout être vivant. Béni soit Le Vivant des mondes.',
-      pt: 'Bendito és Tu, Senhor nosso Deus, Rei do universo, Criador de numerosos seres vivos e de suas necessidades, por tudo o que criaste para sustentar a vida de todo ser vivo. Bendito seja Aquele que vive eternamente.'
-    }
-  },
 
   {
     "id": "al-hamichya",

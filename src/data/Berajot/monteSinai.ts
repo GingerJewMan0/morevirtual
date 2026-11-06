@@ -1,4 +1,4 @@
-import { BerajotDayStructure } from './types';
+import { BerajotDayStructure } from '../../types';
 
 export const monteSinaiSidur: BerajotDayStructure & { 'berajot-ajronot': BerajotDayStructure['alimentos'] } = {
   despertar: [

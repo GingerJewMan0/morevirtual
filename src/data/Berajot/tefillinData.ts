@@ -1,4 +1,4 @@
-import { TefillinBlessing, TefillinStep } from './types';
+import { TefillinBlessing, TefillinStep } from '../../types';
 
 export const TEFILLIN_BLESSINGS: Record<string, TefillinBlessing> = {
   lehaniach: {

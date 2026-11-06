@@ -1,4 +1,5 @@
-import { TefilahItem } from './types';
+// Al inicio del archivo:
+import { TefilahItem } from '../../types';
 
 export const sefaradiShajarit: TefilahItem[] = [
   {
