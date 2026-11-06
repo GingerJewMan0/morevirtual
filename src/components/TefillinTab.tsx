@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { TEFILLIN_BLESSINGS } from '../data/sidur/tefillinData';
+import { TEFILLIN_BLESSINGS } from '../data/Berajot/tefillinData';
 import { Info, BookOpen, ZoomIn, X, ZoomOut, RotateCcw } from 'lucide-react';
 
 interface TefillinTabProps {

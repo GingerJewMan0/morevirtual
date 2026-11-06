@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { BookOpen, Sun, Coffee, Shield, AlertTriangle, UtensilsCrossed, ScrollText } from 'lucide-react';
 
-import { maguenDavidSidur } from '../data/sidur/maguenDavid';
-import { monteSinaiSidur } from '../data/sidur/monteSinai';
-import { sefaradiSidur } from '../data/sidur/sefaradi';
-import { ashkenaziSidur } from '../data/sidur/ashkenazi';
-import { jabadSidur } from '../data/sidur/jabad';
+import { maguenDavidSidur } from '../data/Berajot/maguenDavid';
+import { monteSinaiSidur } from '../data/Berajot/monteSinai';
+import { sefaradiSidur } from '../data/Berajot/sefaradi';
+import { ashkenaziSidur } from '../data/Berajot/ashkenazi';
+import { jabadSidur } from '../data/Berajot/jabad';
 
 type SupportedLang = 'es' | 'en' | 'fr' | 'pt' | 'he';
 
