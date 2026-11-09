@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest # Esto le pide a GitHub que use una Mac virtual gratuita
+    runs-on: macos-latest
 
     steps:
     - name: Checkout code
@@ -24,6 +24,4 @@ jobs:
       run: npm run build
 
     - name: Sync Capacitor
-      npx cap sync ios
-
-    # Aquí puedes añadir los pasos de compilación con Xcode en la nube
+      run: npx cap sync ios
