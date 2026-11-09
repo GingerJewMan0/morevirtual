@@ -15,5 +15,11 @@ workflows:
       - name: Sync Capacitor for iOS
         script: |
           npx cap sync ios
+      - name: Build iOS app (Xcode Archive)
+        script: |
+          cd ios/App
+          xcodebuild -workspace App.xcworkspace -scheme App -configuration Release -destination 'generic/platform=iOS' CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO archive -archivePath $HOME/app.xcarchive
+          xcodebuild -exportArchive -archivePath $HOME/app.xcarchive -exportPath $HOME/export -exportOptionsPlist ExportOptions.plist || true
     artifacts:
+      - $HOME/export/*.ipa
       - build/ios/app/*.ipa
