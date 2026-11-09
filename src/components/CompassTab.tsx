@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { MapPin, AlertCircle, Navigation, RefreshCw, Activity } from 'lucide-react';
 import { Geolocation } from '@capacitor/geolocation';
 
@@ -17,7 +17,9 @@ export function CompassTab({ t }: CompassTabProps) {
   const [permissionRequired, setPermissionRequired] = useState<boolean>(false);
   const [sensorStatus, setSensorStatus] = useState<string>('Buscando sensores...');
 
-  // Cálculo de dirección teórica hacia Jerusalén (Gran Círculo)
+  // Referencia para el suavizado de la brújula (Filtro Low-Pass para evitar saltos bruscos)
+  const smoothedHeadingRef = useRef<number | null>(null);
+
   const calculateDirection = (lat1: number, lon1: number) => {
     const lat1Rad = (lat1 * Math.PI) / 180;
     const lon1Rad = (lon1 * Math.PI) / 180;
@@ -46,21 +48,32 @@ export function CompassTab({ t }: CompassTabProps) {
   };
 
   const handleOrientation = (event: any) => {
-    let compassHeading: number | null = null;
+    let rawHeading: number | null = null;
 
     // 1. iOS (Safari / iPhone / iPad)
     if (event.webkitCompassHeading !== undefined && event.webkitCompassHeading !== null) {
-      compassHeading = event.webkitCompassHeading;
+      rawHeading = event.webkitCompassHeading;
       setSensorStatus('Sensor iOS Activo');
     } 
     // 2. Android (Absolute u Orientation estándar)
     else if (event.alpha !== null && event.alpha !== undefined) {
-      compassHeading = (360 - event.alpha) % 360;
+      rawHeading = (360 - event.alpha) % 360;
       setSensorStatus(event.absolute ? 'Sensor Android Absoluto Activo' : 'Sensor Android Relativo Activo');
     }
 
-    if (compassHeading !== null && !isNaN(compassHeading)) {
-      setHeading(Math.round(compassHeading));
+    if (rawHeading !== null && !isNaN(rawHeading)) {
+      // Aplicar filtro de suavizado (Low-Pass Filter) para evitar saltos de 0 a 360 grados bruscos
+      if (smoothedHeadingRef.current === null) {
+        smoothedHeadingRef.current = rawHeading;
+      } else {
+        let diff = rawHeading - smoothedHeadingRef.current;
+        // Manejar el salto circular de 360 grados
+        if (diff > 180) diff -= 360;
+        if (diff < -180) diff += 360;
+        smoothedHeadingRef.current = (smoothedHeadingRef.current + diff * 0.2 + 360) % 360;
+      }
+
+      setHeading(Math.round(smoothedHeadingRef.current));
     }
   };
 
@@ -83,7 +96,6 @@ export function CompassTab({ t }: CompassTabProps) {
   };
 
   const initSensors = () => {
-    // Nos suscribimos a ambos eventos simultáneamente para garantizar cobertura en Android
     if ('ondeviceorientationabsolute' in window) {
       (window as any).addEventListener('deviceorientationabsolute', handleOrientation as EventListener, true);
     }
@@ -98,14 +110,13 @@ export function CompassTab({ t }: CompassTabProps) {
         const coordinates = await Geolocation.getCurrentPosition({ timeout: 5000 });
         calculateDirection(coordinates.coords.latitude, coordinates.coords.longitude);
       } catch (e) {
-        setError(t('gpsError', 'No se pudo obtener la ubicación GPS precisa. Usando referencia estándar (CDMX).'));
-        calculateDirection(19.4326, -99.1332);
+        setError(t('gpsError', 'No se pudo obtener la ubicación GPS precisa. Usando referencia estándar.'));
+        calculateDirection(31.7767, 35.2345); // Coordenada base Jerusalén por defecto
       }
     };
 
     fetchLocation();
 
-    // Comprobar si requiere permiso previo (iOS)
     if (typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
       setPermissionRequired(true);
     } else {
@@ -145,7 +156,7 @@ export function CompassTab({ t }: CompassTabProps) {
         
         {/* Anillo de Orientación Norte */}
         <div 
-          className="absolute inset-0 w-full h-full rounded-full transition-transform duration-300 ease-out"
+          className="absolute inset-0 w-full h-full rounded-full transition-transform duration-150 ease-out"
           style={{ transform: `rotate(${- (heading || 0)}deg)` }}
         >
           <span className="absolute top-3 left-1/2 -translate-x-1/2 text-xs font-bold text-red-500">N</span>
@@ -158,7 +169,7 @@ export function CompassTab({ t }: CompassTabProps) {
 
         {/* Flecha hacia Jerusalén */}
         <div 
-          className="absolute inset-0 w-full h-full flex items-center justify-center transition-transform duration-300 ease-out z-10"
+          className="absolute inset-0 w-full h-full flex items-center justify-center transition-transform duration-150 ease-out z-10"
           style={{ transform: `rotate(${pointerRotation}deg)` }}
         >
           <div className="absolute flex flex-col items-center" style={{ bottom: '50%' }}>
@@ -201,7 +212,7 @@ export function CompassTab({ t }: CompassTabProps) {
         </div>
       </div>
 
-      {/* Diagnóstico en Vivo de la Tablet */}
+      {/* Diagnóstico en Vivo */}
       <div className="p-2.5 bg-slate-100 dark:bg-slate-900/90 rounded-xl border border-slate-200 dark:border-slate-800 text-[10px] font-mono text-left space-y-1">
         <div className="flex items-center gap-1.5 text-amber-500 font-bold">
           <Activity className="w-3 h-3" />
