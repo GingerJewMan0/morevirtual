@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { MapPin, AlertCircle, Navigation, RefreshCw, Activity, Compass } from 'lucide-react';
+import { MapPin, AlertCircle, Navigation, RefreshCw } from 'lucide-react';
 import { Geolocation } from '@capacitor/geolocation';
 
 const KOTEL_LAT = 31.7767;
@@ -15,8 +15,6 @@ export function CompassTab({ t }: CompassTabProps) {
   const [distance, setDistance] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [permissionRequired, setPermissionRequired] = useState<boolean>(false);
-  const [sensorStatus, setSensorStatus] = useState<string>('Buscando sensores...');
-  const [isDesktopDebug, setIsDesktopDebug] = useState<boolean>(false);
 
   const smoothedHeadingRef = useRef<number | null>(null);
 
@@ -52,27 +50,21 @@ export function CompassTab({ t }: CompassTabProps) {
 
     if (event.webkitCompassHeading !== undefined && event.webkitCompassHeading !== null) {
       rawHeading = event.webkitCompassHeading;
-      setSensorStatus('Sensor iOS Activo');
     } else if (event.alpha !== null && event.alpha !== undefined) {
       rawHeading = (360 - event.alpha) % 360;
-      setSensorStatus(event.absolute ? 'Sensor Android Absoluto Activo' : 'Sensor Android Relativo Activo');
     }
 
     if (rawHeading !== null && !isNaN(rawHeading)) {
-      applyHeadingSmoothing(rawHeading);
+      if (smoothedHeadingRef.current === null) {
+        smoothedHeadingRef.current = rawHeading;
+      } else {
+        let diff = rawHeading - smoothedHeadingRef.current;
+        if (diff > 180) diff -= 360;
+        if (diff < -180) diff += 360;
+        smoothedHeadingRef.current = (smoothedHeadingRef.current + diff * 0.2 + 360) % 360;
+      }
+      setHeading(Math.round(smoothedHeadingRef.current));
     }
-  };
-
-  const applyHeadingSmoothing = (rawHeading: number) => {
-    if (smoothedHeadingRef.current === null) {
-      smoothedHeadingRef.current = rawHeading;
-    } else {
-      let diff = rawHeading - smoothedHeadingRef.current;
-      if (diff > 180) diff -= 360;
-      if (diff < -180) diff += 360;
-      smoothedHeadingRef.current = (smoothedHeadingRef.current + diff * 0.2 + 360) % 360;
-    }
-    setHeading(Math.round(smoothedHeadingRef.current));
   };
 
   const requestCompassPermission = async () => {
@@ -94,31 +86,12 @@ export function CompassTab({ t }: CompassTabProps) {
   };
 
   const initSensors = () => {
-    let sensorReceived = false;
-
-    const orientationListener = (e: any) => {
-      if (e.alpha !== null || e.webkitCompassHeading !== undefined) {
-        sensorReceived = true;
-      }
-      handleOrientation(e);
-    };
-
     if ('ondeviceorientationabsolute' in window) {
-      window.addEventListener('deviceorientationabsolute', orientationListener as EventListener, true);
+      window.addEventListener('deviceorientationabsolute', handleOrientation as EventListener, true);
     }
     if ('DeviceOrientationEvent' in window) {
-      window.addEventListener('deviceorientation', orientationListener as EventListener, true);
+      window.addEventListener('deviceorientation', handleOrientation as EventListener, true);
     }
-
-    // Si pasan 2 segundos y no hay eventos, asumimos que estamos en PC sin sensores físicos
-    setTimeout(() => {
-      if (!sensorReceived && heading === null) {
-        setIsDesktopDebug(true);
-        setSensorStatus('Modo PC (Sin sensores físicos)');
-        setHeading(270); // Valor de prueba inicial igual al de tu teléfono
-        smoothedHeadingRef.current = 270;
-      }
-    }, 2000);
   };
 
   useEffect(() => {
@@ -127,7 +100,7 @@ export function CompassTab({ t }: CompassTabProps) {
         const coordinates = await Geolocation.getCurrentPosition({ timeout: 5000 });
         calculateDirection(coordinates.coords.latitude, coordinates.coords.longitude);
       } catch (e) {
-        setError(t('gpsError', 'Ubicación GPS por defecto (CDMX/Referencia).'));
+        setError(t('gpsError', 'No se pudo obtener la ubicación GPS precisa. Usando referencia estándar.'));
         calculateDirection(19.4326, -99.1332);
       }
     };
@@ -202,31 +175,6 @@ export function CompassTab({ t }: CompassTabProps) {
 
       </div>
 
-      {/* Panel de simulación para pruebas en PC */}
-      {isDesktopDebug && (
-        <div className="p-3 bg-amber-500/10 border border-amber-500/30 rounded-2xl space-y-2">
-          <span className="text-[11px] font-semibold text-amber-600 dark:text-amber-400 flex items-center justify-center gap-1">
-            <Compass className="w-3.5 h-3.5" /> Simulador de Orientación (PC)
-          </span>
-          <div className="flex items-center justify-center gap-2">
-            <button 
-              onClick={() => applyHeadingSmoothing(((heading || 0) - 15 + 360) % 360)}
-              className="px-3 py-1 bg-amber-500 text-slate-950 font-bold rounded-lg text-xs hover:bg-amber-400"
-            >
-              -15°
-            </button>
-            <span className="font-mono text-sm font-bold w-16">{heading}°</span>
-            <button 
-              onClick={() => applyHeadingSmoothing(((heading || 0) + 15) % 360)}
-              className="px-3 py-1 bg-amber-500 text-slate-950 font-bold rounded-lg text-xs hover:bg-amber-400"
-            >
-              +15°
-            </button>
-          </div>
-          <p className="text-[10px] text-slate-400">Usa los botones para simular el giro del teléfono en la PC.</p>
-        </div>
-      )}
-
       {permissionRequired && (
         <button
           onClick={requestCompassPermission}
@@ -254,18 +202,7 @@ export function CompassTab({ t }: CompassTabProps) {
         </div>
       </div>
 
-      {/* Diagnóstico en Vivo */}
-      <div className="p-2.5 bg-slate-100 dark:bg-slate-900/90 rounded-xl border border-slate-200 dark:border-slate-800 text-[10px] font-mono text-left space-y-1">
-        <div className="flex items-center gap-1.5 text-amber-500 font-bold">
-          <Activity className="w-3 h-3" />
-          <span>Diagnóstico de Sensores:</span>
-        </div>
-        <div>Sensor Giroscopio: <span className="text-amber-400">{heading !== null ? `${heading}°` : 'Sin lectura (NULL)'}</span></div>
-        <div>Estado del Evento: <span className="text-slate-400">{sensorStatus}</span></div>
-        <div>Protocolo: <span className="text-slate-400">{window.location.protocol}</span></div>
-      </div>
-
-      <div className="text-[11px] text-slate-500 dark:text-slate-400 italic flex items-center justify-center gap-1 font-serif">
+      <div className="text-[11px] text-slate-500 dark:text-slate-400 italic flex items-center justify-center gap-1 font-serif pt-2">
         <MapPin className="w-3.5 h-3.5 text-amber-600 dark:text-amber-500" />
         <span>{t('locationName', 'Jerusalén, Israel (מכותל המערבי)')}</span>
       </div>
