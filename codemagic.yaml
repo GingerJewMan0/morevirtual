@@ -3,7 +3,7 @@ workflows:
     name: iOS Build Workflow
     instance_type: mac_mini_m1
     environment:
-      node: 20.x
+      node: 20
       xcode: latest
     scripts:
       - name: Install dependencies
