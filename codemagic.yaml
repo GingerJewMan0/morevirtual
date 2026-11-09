@@ -29,7 +29,6 @@ workflows:
           echo "Usando workspace en: $WORKSPACE"
           echo "Usando esquema: $SCHEME"
           
-          xcodebuild -workspace "$WORKSPACE" -scheme "$SCHEME" -configuration Release -destination 'generic/platform=iOS' CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO archive -archivePath $HOME/app.xcarchive
-    artifacts:
+          xcodebuild -workspace "$WORKSPACE" -scheme "App" -configuration Release -destination 'generic/platform=iOS' CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO archive -archivePath $HOME/app.xcarchive
       - $HOME/app.xcarchive/**/*.ipa
       - ios/**/*.ipa
