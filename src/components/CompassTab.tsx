@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { MapPin, AlertCircle, Navigation, RefreshCw, Activity } from 'lucide-react';
+import { MapPin, AlertCircle, Navigation, RefreshCw, Activity, Compass } from 'lucide-react';
 import { Geolocation } from '@capacitor/geolocation';
 
 const KOTEL_LAT = 31.7767;
@@ -16,8 +16,8 @@ export function CompassTab({ t }: CompassTabProps) {
   const [error, setError] = useState<string | null>(null);
   const [permissionRequired, setPermissionRequired] = useState<boolean>(false);
   const [sensorStatus, setSensorStatus] = useState<string>('Buscando sensores...');
+  const [isDesktopDebug, setIsDesktopDebug] = useState<boolean>(false);
 
-  // Referencia para el suavizado de la brújula (Filtro Low-Pass para evitar saltos bruscos)
   const smoothedHeadingRef = useRef<number | null>(null);
 
   const calculateDirection = (lat1: number, lon1: number) => {
@@ -50,31 +50,29 @@ export function CompassTab({ t }: CompassTabProps) {
   const handleOrientation = (event: any) => {
     let rawHeading: number | null = null;
 
-    // 1. iOS (Safari / iPhone / iPad)
     if (event.webkitCompassHeading !== undefined && event.webkitCompassHeading !== null) {
       rawHeading = event.webkitCompassHeading;
       setSensorStatus('Sensor iOS Activo');
-    } 
-    // 2. Android (Absolute u Orientation estándar)
-    else if (event.alpha !== null && event.alpha !== undefined) {
+    } else if (event.alpha !== null && event.alpha !== undefined) {
       rawHeading = (360 - event.alpha) % 360;
       setSensorStatus(event.absolute ? 'Sensor Android Absoluto Activo' : 'Sensor Android Relativo Activo');
     }
 
     if (rawHeading !== null && !isNaN(rawHeading)) {
-      // Aplicar filtro de suavizado (Low-Pass Filter) para evitar saltos de 0 a 360 grados bruscos
-      if (smoothedHeadingRef.current === null) {
-        smoothedHeadingRef.current = rawHeading;
-      } else {
-        let diff = rawHeading - smoothedHeadingRef.current;
-        // Manejar el salto circular de 360 grados
-        if (diff > 180) diff -= 360;
-        if (diff < -180) diff += 360;
-        smoothedHeadingRef.current = (smoothedHeadingRef.current + diff * 0.2 + 360) % 360;
-      }
-
-      setHeading(Math.round(smoothedHeadingRef.current));
+      applyHeadingSmoothing(rawHeading);
     }
+  };
+
+  const applyHeadingSmoothing = (rawHeading: number) => {
+    if (smoothedHeadingRef.current === null) {
+      smoothedHeadingRef.current = rawHeading;
+    } else {
+      let diff = rawHeading - smoothedHeadingRef.current;
+      if (diff > 180) diff -= 360;
+      if (diff < -180) diff += 360;
+      smoothedHeadingRef.current = (smoothedHeadingRef.current + diff * 0.2 + 360) % 360;
+    }
+    setHeading(Math.round(smoothedHeadingRef.current));
   };
 
   const requestCompassPermission = async () => {
@@ -96,12 +94,31 @@ export function CompassTab({ t }: CompassTabProps) {
   };
 
   const initSensors = () => {
+    let sensorReceived = false;
+
+    const orientationListener = (e: any) => {
+      if (e.alpha !== null || e.webkitCompassHeading !== undefined) {
+        sensorReceived = true;
+      }
+      handleOrientation(e);
+    };
+
     if ('ondeviceorientationabsolute' in window) {
-      (window as any).addEventListener('deviceorientationabsolute', handleOrientation as EventListener, true);
+      window.addEventListener('deviceorientationabsolute', orientationListener as EventListener, true);
     }
     if ('DeviceOrientationEvent' in window) {
-      (window as any).addEventListener('deviceorientation', handleOrientation as EventListener, true);
+      window.addEventListener('deviceorientation', orientationListener as EventListener, true);
     }
+
+    // Si pasan 2 segundos y no hay eventos, asumimos que estamos en PC sin sensores físicos
+    setTimeout(() => {
+      if (!sensorReceived && heading === null) {
+        setIsDesktopDebug(true);
+        setSensorStatus('Modo PC (Sin sensores físicos)');
+        setHeading(270); // Valor de prueba inicial igual al de tu teléfono
+        smoothedHeadingRef.current = 270;
+      }
+    }, 2000);
   };
 
   useEffect(() => {
@@ -110,8 +127,8 @@ export function CompassTab({ t }: CompassTabProps) {
         const coordinates = await Geolocation.getCurrentPosition({ timeout: 5000 });
         calculateDirection(coordinates.coords.latitude, coordinates.coords.longitude);
       } catch (e) {
-        setError(t('gpsError', 'No se pudo obtener la ubicación GPS precisa. Usando referencia estándar.'));
-        calculateDirection(31.7767, 35.2345); // Coordenada base Jerusalén por defecto
+        setError(t('gpsError', 'Ubicación GPS por defecto (CDMX/Referencia).'));
+        calculateDirection(19.4326, -99.1332);
       }
     };
 
@@ -184,6 +201,31 @@ export function CompassTab({ t }: CompassTabProps) {
         </div>
 
       </div>
+
+      {/* Panel de simulación para pruebas en PC */}
+      {isDesktopDebug && (
+        <div className="p-3 bg-amber-500/10 border border-amber-500/30 rounded-2xl space-y-2">
+          <span className="text-[11px] font-semibold text-amber-600 dark:text-amber-400 flex items-center justify-center gap-1">
+            <Compass className="w-3.5 h-3.5" /> Simulador de Orientación (PC)
+          </span>
+          <div className="flex items-center justify-center gap-2">
+            <button 
+              onClick={() => applyHeadingSmoothing(((heading || 0) - 15 + 360) % 360)}
+              className="px-3 py-1 bg-amber-500 text-slate-950 font-bold rounded-lg text-xs hover:bg-amber-400"
+            >
+              -15°
+            </button>
+            <span className="font-mono text-sm font-bold w-16">{heading}°</span>
+            <button 
+              onClick={() => applyHeadingSmoothing(((heading || 0) + 15) % 360)}
+              className="px-3 py-1 bg-amber-500 text-slate-950 font-bold rounded-lg text-xs hover:bg-amber-400"
+            >
+              +15°
+            </button>
+          </div>
+          <p className="text-[10px] text-slate-400">Usa los botones para simular el giro del teléfono en la PC.</p>
+        </div>
+      )}
 
       {permissionRequired && (
         <button
