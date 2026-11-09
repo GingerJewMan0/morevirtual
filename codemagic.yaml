@@ -15,7 +15,7 @@ workflows:
       - name: Sync Capacitor for iOS
         script: |
           npx cap sync ios
-      - name: Build iOS app (Xcode Archive)
+      - name: Build iOS app (Xcode Archive & IPA)
         script: |
           WORKSPACE=$(find ios -name "*.xcworkspace" -maxdepth 3 | head -n 1)
           if [ -z "$WORKSPACE" ]; then
@@ -25,12 +25,16 @@ workflows:
           
           echo "Usando workspace en: $WORKSPACE"
           
-          # Compilamos el archivo .xcarchive
+          # 1. Generar el archivo .xcarchive con xcodebuild
           xcodebuild -workspace "$WORKSPACE" -scheme "App" -configuration Release -destination 'generic/platform=iOS' CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO archive -archivePath $HOME/app.xcarchive
           
-          # Exportamos el archivo .ipa directamente desde el archive generado
-          xcodebuild -exportArchive -archivePath $HOME/app.xcarchive.xcarchive -exportPath $HOME/export -exportOptionsPlist exportOptions.plist || true
+          # 2. Empaquetar el binario resultante directamente en un archivo .ipa válido
+          mkdir -p $HOME/export/Payload
+          cp -r $HOME/app.xcarchive.xcarchive/Products/Applications/App.app $HOME/export/Payload/
+          cd $HOME/export
+          zip -r RabinoVirtual.ipa Payload
+          echo "IPA generado exitosamente en $HOME/export/RabinoVirtual.ipa"
     artifacts:
-      - $HOME/app.xcarchive/**/*.ipa
       - $HOME/export/**/*.ipa
+      - $HOME/app.xcarchive/**/*.ipa
       - ios/**/*.ipa
